@@ -1,49 +1,65 @@
 from django.db import models
-from lerny.models import Lerny, Resource, MicroLerny
-#from django.contrib.auth.models import AbstractUser
-#from django.contrib.auth.base_user import AbstractBaseUser
+
+from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager)
 # Create your models here.
 
 
-class User(models.Model):
+class MyUserManager(BaseUserManager):
+    def create_user(self, user_name, user_surname, country, city, passw, cellphone_number, mail):
+
+        if not cellphone_number:
+            raise ValueError("debe ingresar numero de celular")
+        user = self.model(
+            user_name=user_name,
+            mail=self.normalize_email(mail),
+            user_surname=user_surname,
+            country=country,
+            city=city,
+            cellphone_number=cellphone_number)
+        user.set_password(passw)
+        user.save()
+        return user
+    def create_superuser(self,user_name,user_surname,country,city,password,cellphone_number,mail):
+        user=self.create_user(user_name=user_name,
+            user_surname=user_surname,
+            country=country,
+            city=city,
+            passw = password,
+            cellphone_number=cellphone_number,
+            mail=mail)
+        user.admin_user=True
+        user.save()
+        return user
+
+
+class User(AbstractBaseUser):
     user_name = models.CharField('user name', max_length=50, null=False)
     user_surname = models.CharField('user surname', max_length=50, null=False)
     country = models.CharField('country', max_length=20, null=False)
     city = models.CharField('city', max_length=20, null=False)
     passw = models.CharField('passw', max_length=20, null=False)
-    cellphone_number = models.CharField('cellphone number', max_length=20, null=False)
-    mail = models.CharField('mail', max_length=20, null=True)
+    cellphone_number = models.CharField('cellphone number',unique=True, max_length=20, null=False)
+    mail = models.CharField('mail', max_length=100,unique=True,blank=True, null=True)
     notification = models.BooleanField(default=True)
     last_view_date = models.DateTimeField('last view date', null=True)
-    points = models.FloatField('points', null=False)
+    points = models.FloatField('points', default=0.0, null=False)
     creation_date = models.DateTimeField('creation date', auto_now_add=True)
+    active_user = models.BooleanField(default = True)
+    admin_user= models.BooleanField(default = False)
+    objects=MyUserManager()
+
+    USERNAME_FIELD = "cellphone_number"
+    REQUIRED_FIELDS =  ["user_name","user_surname","country","city","mail"]
+
+    def __str__(self):
+        return f'{self.user_name},{self.user_surname},{self.country},{self.city}'
+    def has_perm(self,perm,obj = None):
+        return True
+
+    def has_module_perms(self,app_label):
+        return True
+    @property
+    def is_staff(self):
+        return self.admin_user
 
 
-class User_Lerny(models.Model):
-    lerny_id = models.ForeignKey(Lerny, on_delete=models.CASCADE, null = False)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, null = False)
-    lerny_points = models.FloatField('lerny points', null=False)
-    opinion = models.CharField('opinion', max_length=300, null=True)
-    opinion_points = models.FloatField('opinion points', null=False)
-    valor = models.FloatField('valor', null=False)
-    bill_state = models.BooleanField(default=False)
-    reference = models.CharField('reference', max_length=20, null=False)
-    pay_date = models.DateTimeField(null=True)
-    last_view_date = models.DateTimeField('last view date', null=True)
-    creation_date = models.DateTimeField('creation date', auto_now_add=True)
-
-class User_Resource(models.Model):
-    resource_id = models.ForeignKey(Resource, on_delete=models.CASCADE,null = False)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, null = False)
-    done = models.BooleanField(default=False)
-    user_response = models.CharField('user response', max_length=300, null=True)
-    response_date = models.DateTimeField('response date', null=True)
-    last_view_date = models.DateTimeField('last view date', null=True)
-    done_date = models.DateTimeField('done date', auto_now_add=True)
-
-
-class User_Micro_Lerny(models.Model):
-    lerny_id = models.ForeignKey(MicroLerny, on_delete=models.CASCADE, null = False)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, null = False)
-    user_microlerny_points = models.FloatField('user microlerny points', null=False)
-    last_view_date = models.DateTimeField('last view date', null=True)

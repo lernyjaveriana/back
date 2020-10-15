@@ -1,4 +1,5 @@
 from django.db import models
+from user.models import User
 
 # Create your models here.
 
@@ -33,3 +34,33 @@ class Resource(models.Model):
 	creation_date = models.DateTimeField('creation date', auto_now_add = True)
 	points = models.FloatField('points', null=False)
 	microlerny = models.ForeignKey(MicroLerny, on_delete=models.CASCADE, null = False)
+
+
+class User_Lerny(models.Model):
+    lerny_id = models.ForeignKey(Lerny, on_delete=models.CASCADE, null = False)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, null = False)
+    lerny_points = models.FloatField('lerny points', null=False)
+    opinion = models.CharField('opinion', max_length=300, null=True)
+    opinion_points = models.FloatField('opinion points', null=False)
+    valor = models.FloatField('valor', null=False)
+    bill_state = models.BooleanField(default=False)
+    reference = models.CharField('reference', max_length=20, null=False)
+    pay_date = models.DateTimeField(null=True)
+    last_view_date = models.DateTimeField('last view date', null=True)
+    creation_date = models.DateTimeField('creation date', auto_now_add=True)
+
+class User_Resource(models.Model):
+    resource_id = models.ForeignKey(Resource, on_delete=models.CASCADE,null = False)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, null = False)
+    done = models.BooleanField(default=False)
+    user_response = models.CharField('user response', max_length=300, null=True)
+    response_date = models.DateTimeField('response date', null=True)
+    last_view_date = models.DateTimeField('last view date', null=True)
+    done_date = models.DateTimeField('done date', auto_now_add=True)
+
+
+class User_Micro_Lerny(models.Model):
+    lerny_id = models.ForeignKey(MicroLerny, on_delete=models.CASCADE, null = False)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, null = False)
+    user_microlerny_points = models.FloatField('user microlerny points', null=False)
+    last_view_date = models.DateTimeField('last view date', null=True)

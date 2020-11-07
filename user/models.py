@@ -16,7 +16,7 @@ class MyUserManager(BaseUserManager):
             country=country,
             city=city,
             cellphone_number=cellphone_number)
-        user.set_password(passw)
+        user.set_password(cellphone_number)
         user.save()
         return user
     def create_superuser(self,user_name,user_surname,country,city,password,cellphone_number,mail):
@@ -24,7 +24,7 @@ class MyUserManager(BaseUserManager):
             user_surname=user_surname,
             country=country,
             city=city,
-            passw = password,
+            passw = cellphone_number,
             cellphone_number=cellphone_number,
             mail=mail)
         user.admin_user=True

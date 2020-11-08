@@ -34,38 +34,24 @@ class UserManagePost(APIView):
 			)
 
 
-#class UserViewLogin(viewsets.GenericViewSet):
-
-#    queryset = User.objects.filter(active_user=True)
-#    serializer_class = UserSerializer
-
-    # Detail define si es una petición de detalle o no, en methods añadimos el método permitido, en nuestro caso solo vamos a permitir post
-#    @action(detail=False, methods=['post'])
-#    def login(self, request):
-#        """User sign in."""
-
-#        serializer = UserLoginSerializer(data=request.data)
-#        serializer.is_valid(raise_exception=True)
-#        user, token = serializer.save()
-#        data = {
-#            'user': UserSerializer(user).data,
-#            'access_token': token
-#        }
-#        return Response(data, status=status.HTTP_201_CREATED)
-
-
 class loginUser(APIView):
 
 	def post(self, request):
-		data= request.data['queryResult']['parameters']
-		#data= request.data
-		print(data)
-		serializer = UserLoginSerializer(data=data)
+		request= request.data['queryResult']['parameters']
+		serializer = UserLoginSerializer(data=request)
 		serializer.is_valid(raise_exception=True)
 		user, token = serializer.save()
+
 		data = {
-			'user': UserSerializer(user).data,
-			'access_token': token
-			}
+			"followupEventInput": {
+				"name": "Login",
+				"languageCode": "en-US",
+				"parameters": {
+					"user": UserSerializer(user).data,
+					"access_token": token
+					}
+				}
+			}		
+
 		return Response(data, status=status.HTTP_201_CREATED)
 

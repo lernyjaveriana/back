@@ -41,7 +41,7 @@ class loginUser(APIView):
 		serializer = UserLoginSerializer(data=request)
 		serializer.is_valid(raise_exception=True)
 		user, token = serializer.save()
-
+		print()
 		data = {
 			"followupEventInput": {
 				"name": "Login",
@@ -52,6 +52,6 @@ class loginUser(APIView):
 					}
 				}
 			}		
-
+		print(Response(data, status=status.HTTP_201_CREATED))
 		return Response(data, status=status.HTTP_201_CREATED)
 

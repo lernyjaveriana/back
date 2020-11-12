@@ -46,7 +46,7 @@ class User(AbstractBaseUser):
     creation_date = models.DateTimeField('creation date', auto_now_add=True)
     active_user = models.BooleanField(default = True)
     admin_user= models.BooleanField(default = False)
-    identification = models.CharField('identification',unique=True, max_length=20, null=False)
+    identification = models.CharField('identification',unique=True, max_length=20)
     objects=MyUserManager()
 
     USERNAME_FIELD = "identification"

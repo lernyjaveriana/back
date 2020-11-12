@@ -39,7 +39,7 @@ class ApiManager(APIView):
 	def post(self, request):
 		request= request.data['queryResult']['parameters']
 		key = request['LERNY_INTENT']
-		if (key="LOGIN_USER"):
+		if (key=="LOGIN_USER"):
 			serializer = UserLoginSerializer(data=request)
 			serializer.is_valid(raise_exception=True)
 			user, token = serializer.save()
@@ -54,7 +54,7 @@ class ApiManager(APIView):
 						}
 					}
 				}
-		else if(key="api2"):
+		else if(key=="api2"):
 			data = {
 				"followupEventInput": {
 					"name": "Login",

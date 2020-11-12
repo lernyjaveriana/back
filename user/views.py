@@ -54,7 +54,7 @@ class ApiManager(APIView):
 						}
 					}
 				}
-		else if(key=="api2"):
+		elif(key=="api2"):
 			data = {
 				"followupEventInput": {
 					"name": "Login",

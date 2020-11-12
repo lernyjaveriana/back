@@ -37,7 +37,7 @@ class User(AbstractBaseUser):
     user_surname = models.CharField('user surname', max_length=50, null=False)
     country = models.CharField('country', max_length=20, null=False)
     city = models.CharField('city', max_length=20, null=False)
-    passw = models.CharField('passw', max_length=20, null=False)
+    #passw = models.CharField('passw', max_length=20, null=False)
     cellphone_number = models.CharField('cellphone number',unique=True, max_length=20, null=False)
     mail = models.CharField('mail', max_length=100,unique=True,blank=True, null=True)
     notification = models.BooleanField(default=True)
@@ -46,9 +46,10 @@ class User(AbstractBaseUser):
     creation_date = models.DateTimeField('creation date', auto_now_add=True)
     active_user = models.BooleanField(default = True)
     admin_user= models.BooleanField(default = False)
+    identification = models.CharField('identification',unique=True, max_length=20, null=False)
     objects=MyUserManager()
 
-    USERNAME_FIELD = "cellphone_number"
+    USERNAME_FIELD = "identification"
     REQUIRED_FIELDS =  ["user_name","user_surname","country","city","mail"]
 
     def __str__(self):

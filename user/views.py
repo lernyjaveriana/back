@@ -34,24 +34,39 @@ class UserManagePost(APIView):
 			)
 
 
-class loginUser(APIView):
+class ApiManager(APIView):
 
 	def post(self, request):
 		request= request.data['queryResult']['parameters']
-		serializer = UserLoginSerializer(data=request)
-		serializer.is_valid(raise_exception=True)
-		user, token = serializer.save()
+		key = request['LERNY_INTENT']
+		if (key="LOGIN_USER"):
+			serializer = UserLoginSerializer(data=request)
+			serializer.is_valid(raise_exception=True)
+			user, token = serializer.save()
 
-		data = {
-			"followupEventInput": {
-				"name": "Login",
-				"languageCode": "en-US",
-				"parameters": {
-					"user": UserSerializer(user).data,
-					"access_token": token
+			data = {
+				"followupEventInput": {
+					"name": "Login",
+					"languageCode": "en-US",
+					"parameters": {
+						"user": UserSerializer(user).data,
+						"access_token": token
+						}
 					}
 				}
-			}		
+		else if(key="api2"):
+			data = {
+				"followupEventInput": {
+					"name": "Login",
+					"languageCode": "en-US",
+					"parameters": {
+						"user": "",
+						"access_token": ""
+						}
+					}
+				}
+		else:
+			data = {}
 
 		return Response(data, status=status.HTTP_201_CREATED)
 

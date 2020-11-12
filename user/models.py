@@ -5,9 +5,9 @@ from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager)
 
 
 class MyUserManager(BaseUserManager):
-    def create_user(self, user_name, user_surname, country, city, passw, cellphone_number, mail):
+    def create_user(self, user_name, user_surname, country, city, passw, identification_number, mail):
 
-        if not cellphone_number:
+        if not identification_number:
             raise ValueError("debe ingresar numero de celular")
         user = self.model(
             user_name=user_name,
@@ -15,17 +15,17 @@ class MyUserManager(BaseUserManager):
             user_surname=user_surname,
             country=country,
             city=city,
-            cellphone_number=cellphone_number)
-        user.set_password(cellphone_number)
+            identification_number=identification_number)
+        user.set_password(identification_number)
         user.save()
         return user
-    def create_superuser(self,user_name,user_surname,country,city,password,cellphone_number,mail):
+    def create_superuser(self,user_name,user_surname,country,city,password,identification_number,mail):
         user=self.create_user(user_name=user_name,
             user_surname=user_surname,
             country=country,
             city=city,
-            passw = cellphone_number,
-            cellphone_number=cellphone_number,
+            passw = identification_number,
+            identification_number=identification_number,
             mail=mail)
         user.admin_user=True
         user.save()
@@ -38,7 +38,7 @@ class User(AbstractBaseUser):
     country = models.CharField('country', max_length=20, null=False)
     city = models.CharField('city', max_length=20, null=False)
     passw = models.CharField('passw', max_length=20, null=False)
-    cellphone_number = models.CharField('cellphone number',unique=True, max_length=20, null=False)
+    identification_number = models.CharField('identification number',unique=True, max_length=20, null=False)
     mail = models.CharField('mail', max_length=100,unique=True,blank=True, null=True)
     notification = models.BooleanField(default=True)
     last_view_date = models.DateTimeField('last view date', null=True)
@@ -48,7 +48,7 @@ class User(AbstractBaseUser):
     admin_user= models.BooleanField(default = False)
     objects=MyUserManager()
 
-    USERNAME_FIELD = "cellphone_number"
+    USERNAME_FIELD = "identification_number"
     REQUIRED_FIELDS =  ["user_name","user_surname","country","city","mail"]
 
     def __str__(self):

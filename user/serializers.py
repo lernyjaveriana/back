@@ -42,15 +42,16 @@ class UserSerializer(serializers.ModelSerializer):
 class UserLoginSerializer(serializers.Serializer):
 
     # Campos que vamos a requerir
-    identification = serializers.CharField(min_length=6, max_length=64)
-    password = serializers.CharField(min_length=8, max_length=64)
+    user_document_id = serializers.CharField(min_length=4, max_length=64)
+    user_document_id.original = serializers.CharField(min_length=8, max_length=64)
 
     # Primero validamos los datos
     def validate(self, data):
 
         # authenticate recibe las credenciales, si son válidas devuelve el objeto del usuario
-        user = authenticate(username=data['identification'], password=data['password'])
+        user = authenticate(username=data['user_document_id'], password=data['user_document_id'])
         if not user:
+            print("no son validas")
             raise serializers.ValidationError('Las credenciales no son válidas')
 
         # Guardamos el usuario en el contexto para posteriormente en create recuperar el token

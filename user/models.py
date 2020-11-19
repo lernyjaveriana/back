@@ -5,9 +5,9 @@ from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager)
 
 
 class MyUserManager(BaseUserManager):
-    def create_user(self, user_name, user_surname, country, city, mail,identification):
+    def create_user(self, user_name, user_surname, country, city, mail,identifications):
 
-        if not identification:
+        if not identifications:
             raise ValueError("debe ingresar numero de identificacion")
         user = self.model(
             user_name=user_name,
@@ -15,17 +15,17 @@ class MyUserManager(BaseUserManager):
             user_surname=user_surname,
             country=country,
             city=city,
-            identification=identification)
-        user.set_password(identification)
+            identifications=identifications)
+        user.set_password(identifications)
         user.save()
         return user
-    def create_superuser(self,user_name,user_surname,country,city,password,mail,identification):
+    def create_superuser(self,user_name,user_surname,country,city,password,mail,identifications):
         user=self.create_user(user_name=user_name,
             user_surname=user_surname,
             country=country,
             city=city,
             mail=mail,
-            identification=identification)
+            identifications=identifications)
         user.admin_user=True
         user.save()
         return user
@@ -44,10 +44,10 @@ class User(AbstractBaseUser):
     creation_date = models.DateTimeField('creation date', auto_now_add=True)
     active_user = models.BooleanField(default = True)
     admin_user= models.BooleanField(default = False)
-    identification = models.CharField('identification',unique=True, max_length=20, default = "12345")
+    identifications = models.CharField('identifications',unique=True, max_length=20, default = "12345")
     objects=MyUserManager()
 
-    USERNAME_FIELD = "identification"
+    USERNAME_FIELD = "identifications"
     REQUIRED_FIELDS =  ["user_name","user_surname","country","city","mail"]
 
     def __str__(self):

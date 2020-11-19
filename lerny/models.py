@@ -60,7 +60,15 @@ class User_Resource(models.Model):
 
 
 class User_Micro_Lerny(models.Model):
-    lerny_id = models.ForeignKey(MicroLerny, on_delete=models.CASCADE, null = False)
+    micro_lerny_id = models.ForeignKey(MicroLerny, on_delete=models.CASCADE, null = False)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, null = False)
     user_microlerny_points = models.FloatField('user microlerny points', null=False)
+    last_view_date = models.DateTimeField('last view date', null=True)
+
+
+class User_State(models.Model):
+    lerny_id = models.ForeignKey(Lerny, on_delete=models.CASCADE, null = False)
+    micro_lerny_id = models.ForeignKey(MicroLerny, on_delete=models.CASCADE, null = False)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, null = False)
+    resource_id = models.ForeignKey(Resource, on_delete=models.CASCADE,null = False)
     last_view_date = models.DateTimeField('last view date', null=True)

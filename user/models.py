@@ -5,28 +5,27 @@ from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager)
 
 
 class MyUserManager(BaseUserManager):
-    def create_user(self, user_name, user_surname, country, city, passw, cellphone_number, mail):
+    def create_user(self, user_name, user_surname, country, city, mail,identification):
 
-        if not cellphone_number:
-            raise ValueError("debe ingresar numero de celular")
+        if not identification:
+            raise ValueError("debe ingresar numero de identificacion")
         user = self.model(
             user_name=user_name,
             mail=self.normalize_email(mail),
             user_surname=user_surname,
             country=country,
             city=city,
-            cellphone_number=cellphone_number)
-        user.set_password(cellphone_number)
+            identification=identification)
+        user.set_password(identification)
         user.save()
         return user
-    def create_superuser(self,user_name,user_surname,country,city,password,cellphone_number,mail):
+    def create_superuser(self,user_name,user_surname,country,city,password,mail,identification):
         user=self.create_user(user_name=user_name,
             user_surname=user_surname,
             country=country,
             city=city,
-            passw = cellphone_number,
-            cellphone_number=cellphone_number,
-            mail=mail)
+            mail=mail,
+            identification=identification)
         user.admin_user=True
         user.save()
         return user
@@ -38,7 +37,6 @@ class User(AbstractBaseUser):
     country = models.CharField('country', max_length=20, null=False)
     city = models.CharField('city', max_length=20, null=False)
     #passw = models.CharField('passw', max_length=20, null=False)
-    cellphone_number = models.CharField('cellphone number',unique=True, max_length=20, null=False)
     mail = models.CharField('mail', max_length=100,unique=True,blank=True, null=True)
     notification = models.BooleanField(default=True)
     last_view_date = models.DateTimeField('last view date', null=True)

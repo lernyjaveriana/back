@@ -6,8 +6,8 @@ from .serializers import UserSerializer, UserLoginSerializer
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from .models import User
-
-
+from lerny.models import *
+from lerny.serializers import LernySerializer, MicroLernySerializer
 
 class UserManageGet(APIView):
 
@@ -39,7 +39,8 @@ class ApiManager(APIView):
 	def post(self, request):
 		print(request.data['queryResult']['parameters'])
 		request= request.data['queryResult']['parameters']
-		key = request['LERNY_INTENT']
+		#key = request['LERNY_INTENT']
+		key = "api2"
 		if (key=="LOGIN_USER"):
 			serializer = UserLoginSerializer(data=request)
 			serializer.is_valid(raise_exception=True)
@@ -107,7 +108,13 @@ class ApiManager(APIView):
 			# 		}
 			# 	}
 		elif(key=="api2"):
-			data = {
+			#lerny = request['LERNY_INTENT']
+			lerny = 1
+			serializers_class = MicroLernySerializer
+			micro_lerny = MicroLerny.objects.filter(lerny = lerny)
+			data = MicroLernySerializer(micro_lerny, many=True).data
+			"""
+			data1 = {
 				{
 					"fulfillmentMessages": [
 						{
@@ -158,7 +165,7 @@ class ApiManager(APIView):
 						}
 					]
 				}
-			}
+			}"""
 		else:
 			data = {}
 

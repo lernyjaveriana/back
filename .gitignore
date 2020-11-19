@@ -1,0 +1,8 @@
+# created by virtualenv automatically
+backend_django
+.vscode
+api
+include
+Lib
+Scripts
+static

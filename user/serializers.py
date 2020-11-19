@@ -43,7 +43,7 @@ class UserLoginSerializer(serializers.Serializer):
 
     # Campos que vamos a requerir
     user_document_id = serializers.CharField(min_length=4, max_length=64)
-    user_document_id.original = serializers.CharField(min_length=8, max_length=64)
+    #user_document_id.original = serializers.CharField(min_length=8, max_length=64)
     
 
     # Primero validamos los datos
@@ -52,7 +52,6 @@ class UserLoginSerializer(serializers.Serializer):
         # authenticate recibe las credenciales, si son válidas devuelve el objeto del usuario
         user = authenticate(username=data['user_document_id'], password=data['user_document_id'])
         if not user:
-            print(data['user_document_id'] )
             print(data['user_document_id'] )
             raise serializers.ValidationError('Las credenciales no son válidas')
 

@@ -50,7 +50,7 @@ class UserLoginSerializer(serializers.Serializer):
     def validate(self, data):
 
         # authenticate recibe las credenciales, si son válidas devuelve el objeto del usuario
-        user = authenticate(username=int(data['user_document_id']), password=int(data['user_document_id']))
+        user = authenticate(username=int(float(data['user_document_id'])), password=int(float(data['user_document_id'])))
         if not user:
             print("prueba con el dato identificacion: "+data['user_document_id'] )
             raise serializers.ValidationError('Las credenciales no son válidas')

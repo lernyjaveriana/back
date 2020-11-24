@@ -72,19 +72,14 @@ class ApiManager(APIView):
 												[
 													{
 														"type": "postback",
-														"title": "Comprar curso",
-														"payload": "comprar_curso"
+														"title": "Continuar lerny",
+														"payload": "continuar_curso"
 													},
 													{
 														"type": "postback",
-														"title": "Iniciar sesión",
-														"payload": "iniciar_sesion"
+														"title": "ver microlernys",
+														"payload": "ver_microlernys"
 													},
-													{
-														"type": "postback",
-														"title": "Información de contacto",
-														"payload": "info_contacto"
-													}
 												]
 											}
 										]

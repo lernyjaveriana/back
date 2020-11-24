@@ -123,15 +123,15 @@ class ApiManager(APIView):
 											"elements": 
 											[
 												{
-													"title": "Desde El Back",
+													"title": "Lista de microlernys",
 													"image_url": "https://www.dropbox.com/s/ha2re0473e67eqo/LOGO%20LERNY%20NUEVO%20_Mesa%20de%20trabajo%201%20copia%207.png",
-													"subtitle": "Para comenzar por favor selecciona una opción.",
+													"subtitle": "Elige el microlerny que deseas estudiar",
 													"buttons": 
 													[
 														{
 															"type": "postback",
-															"title": "Comprar curso",
-															"payload": "comprar_curso"
+															"title": "Comprar c",
+															"payload": "cargar_curso"
 														},
 														{
 															"type": "postback",

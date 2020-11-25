@@ -39,8 +39,8 @@ class ApiManager(APIView):
 	def post(self, request):
 		print(request.data['queryResult']['parameters'])
 		request= request.data['queryResult']['parameters']
-		#key = request['LERNY_INTENT']
-		key = "api3"
+		key = request['LERNY_INTENT']
+
 		if (key=="LOGIN_USER"):
 			serializer = UserLoginSerializer(data=request)
 			serializer.is_valid(raise_exception=True)
@@ -51,7 +51,7 @@ class ApiManager(APIView):
 					{
 						"text": {
 							"text": [
-								"Bienvenido a lerny back"
+								"Bienvenido a lerny"
 							]
 						}
 					},
@@ -66,26 +66,21 @@ class ApiManager(APIView):
 										"elements": 
 										[
 											{
-												"title":"Hola "+ UserSerializer(user).data["user_surname"] + ", un gusto volver a verte!",
+												"title":"Hola "+ UserSerializer(user).data["user_name"] + ", un gusto volver a verte!",
 												"image_url": "https://www.dropbox.com/s/ha2re0473e67eqo/LOGO%20LERNY%20NUEVO%20_Mesa%20de%20trabajo%201%20copia%207.png",
 												"subtitle": "Para comenzar por favor selecciona una opción.",
 												"buttons": 
 												[
 													{
 														"type": "postback",
-														"title": "Comprar curso",
-														"payload": "comprar_curso"
+														"title": "Continuar lerny",
+														"payload": "continuar_curso"
 													},
 													{
 														"type": "postback",
-														"title": "Iniciar sesión",
-														"payload": "iniciar_sesion"
+														"title": "ver microlernys",
+														"payload": "LIST_MICROLERNYS"
 													},
-													{
-														"type": "postback",
-														"title": "Información de contacto",
-														"payload": "info_contacto"
-													}
 												]
 											}
 										]
@@ -107,65 +102,58 @@ class ApiManager(APIView):
 			# 			}
 			# 		}
 			# 	}
-		elif(key=="api2"):
+		elif(key=="LIST_MICROLERNYS"):
 			#lerny = request['LERNY_INTENT']
-			lerny = 1
 			serializers_class = MicroLernySerializer
-			micro_lerny = MicroLerny.objects.filter(lerny = lerny)
+			micro_lerny = MicroLerny.objects.all()
 			data = MicroLernySerializer(micro_lerny, many=True).data
-			"""
-			data1 = {
-				{
-					"fulfillmentMessages": [
-						{
-							"text": {
-								"text": [
-									"Bienvenido a lerny back"
-								]
-							}
-						},
-						{
-							"payload": {
-								"facebook": {
-									"attachment": {
-										"type": "template",
-										"payload": 
-										{
-											"template_type": "generic",
-											"elements": 
-											[
-												{
-													"title": "Desde El Back",
-													"image_url": "https://www.dropbox.com/s/ha2re0473e67eqo/LOGO%20LERNY%20NUEVO%20_Mesa%20de%20trabajo%201%20copia%207.png",
-													"subtitle": "Para comenzar por favor selecciona una opción.",
-													"buttons": 
-													[
-														{
-															"type": "postback",
-															"title": "Comprar curso",
-															"payload": "comprar_curso"
-														},
-														{
-															"type": "postback",
-															"title": "Iniciar sesión",
-															"payload": "iniciar_sesion"
-														},
-														{
-															"type": "postback",
-															"title": "Información de contacto",
-															"payload": "info_contacto"
-														}
-													]
-												}
-											]
-										}
+			i=0
+			temp=[]
+			#print(json.dumps(data))
+			while(i<len(data)):
+				temp.append({
+						"type": "postback",
+						"title": data[i]['micro_lerny_title'],
+						"payload": data[i]['id']
+					},)
+				
+				i+=1
+
+			data = {
+				"fulfillmentMessages": [
+					{
+						"text": {
+							"text": [
+								"Lista de Microlernys"
+							]
+						}
+					},
+					{
+						"payload": {
+							"facebook": {
+								"attachment": {
+									"type": "template",
+									"payload": 
+									{
+										"template_type": "generic",
+										"elements": 
+										[
+											{
+												"title":"Microlernys disponibles",
+												"image_url": "https://www.dropbox.com/s/ha2re0473e67eqo/LOGO%20LERNY%20NUEVO%20_Mesa%20de%20trabajo%201%20copia%207.png",
+												"subtitle": "Para comenzar por favor selecciona una opción.",
+												"buttons": 
+												temp
+											}
+										]
 									}
 								}
 							}
 						}
-					]
-				}
-			}"""
+					}
+				]
+			}
+		
 		elif(key=="api3"):
 			user_id = 1
 			serializers_class = ResourceSerializer
@@ -207,6 +195,7 @@ class ApiManager(APIView):
 				user_state.resource_id = resourse
 				user_state.save()
 				data = ResourceSerializer(resourse).data
+
 		else:
 			data = {
 

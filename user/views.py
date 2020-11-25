@@ -6,8 +6,8 @@ from .serializers import UserSerializer, UserLoginSerializer
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from .models import User
-
-
+from lerny.models import *
+from lerny.serializers import LernySerializer, MicroLernySerializer
 
 class UserManageGet(APIView):
 
@@ -50,7 +50,7 @@ class ApiManager(APIView):
 					{
 						"text": {
 							"text": [
-								"Bienvenido a lerny back"
+								"Bienvenido a lerny"
 							]
 						}
 					},
@@ -65,7 +65,7 @@ class ApiManager(APIView):
 										"elements": 
 										[
 											{
-												"title":"Hola "+ UserSerializer(user).data["user_surname"] + ", un gusto volver a verte!",
+												"title":"Hola "+ UserSerializer(user).data["user_name"] + ", un gusto volver a verte!",
 												"image_url": "https://www.dropbox.com/s/ha2re0473e67eqo/LOGO%20LERNY%20NUEVO%20_Mesa%20de%20trabajo%201%20copia%207.png",
 												"subtitle": "Para comenzar por favor selecciona una opción.",
 												"buttons": 
@@ -78,7 +78,7 @@ class ApiManager(APIView):
 													{
 														"type": "postback",
 														"title": "ver microlernys",
-														"payload": "ver_microlernys"
+														"payload": "LIST_MICROLERNYS"
 													},
 												]
 											}
@@ -101,58 +101,56 @@ class ApiManager(APIView):
 			# 			}
 			# 		}
 			# 	}
-		elif(key=="api2"):
+		elif(key=="LIST_MICROLERNYS"):
+			#lerny = request['LERNY_INTENT']
+			serializers_class = MicroLernySerializer
+			micro_lerny = MicroLerny.objects.all()
+			data = MicroLernySerializer(micro_lerny, many=True).data
+			i=0
+			temp=[]
+			#print(json.dumps(data))
+			while(i<len(data)):
+				temp.append({
+						"type": "postback",
+						"title": data[i]['micro_lerny_title'],
+						"payload": data[i]['id']
+					},)
+				
+				i+=1
+
 			data = {
-				{
-					"fulfillmentMessages": [
-						{
-							"text": {
-								"text": [
-									"Bienvenido a lerny back"
-								]
-							}
-						},
-						{
-							"payload": {
-								"facebook": {
-									"attachment": {
-										"type": "template",
-										"payload": 
-										{
-											"template_type": "generic",
-											"elements": 
-											[
-												{
-													"title": "Lista de microlernys",
-													"image_url": "https://www.dropbox.com/s/ha2re0473e67eqo/LOGO%20LERNY%20NUEVO%20_Mesa%20de%20trabajo%201%20copia%207.png",
-													"subtitle": "Elige el microlerny que deseas estudiar",
-													"buttons": 
-													[
-														{
-															"type": "postback",
-															"title": "Comprar c",
-															"payload": "cargar_curso"
-														},
-														{
-															"type": "postback",
-															"title": "Iniciar sesión",
-															"payload": "iniciar_sesion"
-														},
-														{
-															"type": "postback",
-															"title": "Información de contacto",
-															"payload": "info_contacto"
-														}
-													]
-												}
-											]
-										}
+				"fulfillmentMessages": [
+					{
+						"text": {
+							"text": [
+								"Lista de Microlernys"
+							]
+						}
+					},
+					{
+						"payload": {
+							"facebook": {
+								"attachment": {
+									"type": "template",
+									"payload": 
+									{
+										"template_type": "generic",
+										"elements": 
+										[
+											{
+												"title":"Microlernys disponibles",
+												"image_url": "https://www.dropbox.com/s/ha2re0473e67eqo/LOGO%20LERNY%20NUEVO%20_Mesa%20de%20trabajo%201%20copia%207.png",
+												"subtitle": "Para comenzar por favor selecciona una opción.",
+												"buttons": 
+												temp
+											}
+										]
 									}
 								}
 							}
 						}
-					]
-				}
+					}
+				]
 			}
 		else:
 			data = {}

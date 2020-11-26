@@ -111,14 +111,11 @@ class ApiManager(APIView):
             temp = []
             # print(json.dumps(data))
             while(i < len(data)):
-
-                                		"title": data[i]['micro_lerny_title'],
-                		"payload": data[i]['id']
                 temp.append({
                         "text": {
                             "text": [
-                                 (data[i]['id'],") ",data[i]['micro_lerny_title'])
-                            ]},)
+                                str(data[i]['id'])+") "+data[i]['micro_lerny_title']
+                            ]}},)
 
                 i += 1
 
@@ -131,34 +128,41 @@ class ApiManager(APIView):
                             ]
                         }
                     },
-                    temp
-                    {
-                        "payload": {
-                            "facebook": {
-                                "attachment": {
-                                    "type": "template",
-                                    "payload": {
-                                        "template_type": "button",
-                                        "text": "¿Deseas seleccionar un micro lerny?",
-                                        "buttons": [
-                                            {
-                                                "type": "postback",
-                                                "title": "Si",
-                                                "payload": "CONTINUAR_SELECCION"
-                                            },
-                                            {
-                                                "type": "postback",
-                                                "title": "No",
-                                                "payload": "lerny_farewell"
-                                            }
-                                        ]
-                                    }
+                ]
+            }
+            j=0
+            while(j<len(temp)):
+                data["fulfillmentMessages"].append(temp[j])
+                j+=1
+            
+            data["fulfillmentMessages"].append(
+                {
+                    "payload": {
+                        "facebook": {
+                            "attachment": {
+                                "type": "template",
+                                "payload": {
+                                    "template_type": "button",
+                                    "text": "¿Deseas seleccionar un micro lerny?",
+                                    "buttons": [
+                                        {
+                                            "type": "postback",
+                                            "title": "Si",
+                                            "payload": "CONTINUAR_SELECCION"
+                                        },
+                                        {
+                                            "type": "postback",
+                                            "title": "No",
+                                            "payload": "lerny_farewell"
+                                        }
+                                    ]
                                 }
                             }
                         }
                     }
-                ]
-            }
+                }
+            )
+
         else:
             data = {}
 

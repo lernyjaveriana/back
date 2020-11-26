@@ -111,11 +111,14 @@ class ApiManager(APIView):
             temp = []
             # print(json.dumps(data))
             while(i < len(data)):
-                # temp.append({
-                # 		"type": "postback",
-                # 		"title": data[i]['micro_lerny_title'],
-                # 		"payload": data[i]['id']
-                # 	},)
+
+                                		"title": data[i]['micro_lerny_title'],
+                		"payload": data[i]['id']
+                temp.append({
+                        "text": {
+                            "text": [
+                                 (data[i]['id'],") ",data[i]['micro_lerny_title'])
+                            ]},)
 
                 i += 1
 
@@ -128,30 +131,7 @@ class ApiManager(APIView):
                             ]
                         }
                     },
-                    {
-                        "payload": {
-                            "facebook": {
-                                "attachment": {
-                                    "type": "template",
-                                    "payload":
-                                            {
-                                                "template_type": "generic",
-                                                "elements":
-                                                [
-                                                    {
-                                                        "title": "Microlernys disponibles",
-                                                        "image_url": "https://www.dropbox.com/s/ha2re0473e67eqo/LOGO%20LERNY%20NUEVO%20_Mesa%20de%20trabajo%201%20copia%207.png",
-                                                        "subtitle": "Para comenzar por favor selecciona una opción.",
-                                                        "buttons":
-                                                        temp
-                                                    }
-                                                ]
-                                            }
-                                }
-
-                            }
-                        }
-                    },
+                    temp
                     {
                         "payload": {
                             "facebook": {
@@ -164,7 +144,7 @@ class ApiManager(APIView):
                                             {
                                                 "type": "postback",
                                                 "title": "Si",
-                                                "payload": "menu_inicial"
+                                                "payload": "CONTINUAR_SELECCION"
                                             },
                                             {
                                                 "type": "postback",

@@ -38,7 +38,10 @@ class UserManagePost(APIView):
 class ApiManager(APIView):
 
     def post(self, request):
+        print("Parameters")
         print(request.data['queryResult']['parameters'])
+        print("OutputContexts")
+        print(request.data['queryResult']['outputContexts']["parameters"])
         request = request.data['queryResult']['parameters']
         key = request['LERNY_INTENT']
         if (key == "LOGIN_USER"):

@@ -42,15 +42,16 @@ class ApiManager(APIView):
         print(request.data['queryResult']['parameters'])
         print("OutputContexts")
 
-        x=0
-        #Identifico el user_document_id independientemente de donde se encuentre en el json
-        OutputContexts=''
-        while((x<len(request.data['queryResult']['outputContexts']))):
-            OCUserId=(request.data['queryResult']['outputContexts'][x].get('parameters').get('user_document_id'))
-            if((request.data['queryResult']['outputContexts'][x].get('parameters').get('user_document_id'))!=None):
+        x = 0
+        # Identifico el user_document_id independientemente de donde se encuentre en el json
+        OutputContexts = ''
+        while((x < len(request.data['queryResult']['outputContexts']))):
+            user_id = (request.data['queryResult']['outputContexts'][x].get(
+                'parameters').get('user_document_id'))
+            if((request.data['queryResult']['outputContexts'][x].get('parameters').get('user_document_id')) != None):
                 break
-            x+=1
-        print(OCUserId)
+            x += 1
+        user_id=(str(int(float(user_id))))
 
         request = request.data['queryResult']['parameters']
         key = request['LERNY_INTENT']
@@ -125,9 +126,10 @@ class ApiManager(APIView):
             # print(json.dumps(data))
             while(i < len(data)):
                 temp.append({
-                        "text": {
+                    "text": {
                             "text": [
-                                str(data[i]['id'])+") "+data[i]['micro_lerny_title']
+                                str(data[i]['id'])+") " +
+                                data[i]['micro_lerny_title']
                             ]}},)
 
                 i += 1
@@ -143,11 +145,11 @@ class ApiManager(APIView):
                     },
                 ]
             }
-            j=0
-            while(j<len(temp)):
+            j = 0
+            while(j < len(temp)):
                 data["fulfillmentMessages"].append(temp[j])
-                j+=1
-            
+                j += 1
+
             data["fulfillmentMessages"].append(
                 {
                     "payload": {
@@ -175,47 +177,67 @@ class ApiManager(APIView):
                     }
                 }
             )
-        elif(key=="api3"):
-			user_id = 1
-			serializers_class = ResourceSerializer
-			user_state = User_State.objects.filter(user_id=user_id)
-			if(user_state):
-				user_state = user_state.first()
-				phase = user_state.resource_id.phase
-				if(phase == 'pre'):
-					resourse = Resource.objects.get(microlerny = user_state.micro_lerny_id, phase='dur')
-					user_state.resource_id = resourse
-					user_state.save()
-					data = ResourceSerializer(resourse).data
-				elif(phase == 'dur'):
-					resourse = Resource.objects.get(microlerny = user_state.micro_lerny_id, phase='pos')
-					user_state.resource_id = resourse
-					user_state.save()
-					data = ResourceSerializer(resourse).data
-				elif(phase == 'pos'):
-					try:
-						son = TreeMicroLerny.objects.filter(dady_micro_lerny__pk=user_state.micro_lerny_id).values_list('son_micro_lerny_id', flat=True)
-						microlerny_son = MicroLerny.objects.filter(pk__in = son).first()
-						resourse = Resource.objects.get(microlerny = microlerny_son.id, phase='pre')
-						user_state.resource_id = resourse.id
-						user_state.micro_lerny_id = microlerny_son.id
-						user_state.save()
-						data = ResourceSerializer(resourse).data
-					except:
-						data = None
-				else:
-					data = None
-			else:
-				lerny_id = 1
-				micro_lerny = MicroLerny.objects.filter(lerny__pk=lerny_id).order_by('pk').first()
-				resourse = Resourse.objects.get(micro_lerny_id = micro_lerny.id, phase='pre')
-				user_state = User_State()
-				user_state.lerny_id = lerny_id
-				user_state.micro_lerny_id = micro_lerny
-				user_state.user_id = user_id
-				user_state.resource_id = resourse
-				user_state.save()
-				data = ResourceSerializer(resourse).data
+        elif(key == "api3"):
+            serializers_class = ResourceSerializer
+            user_id_obj = User.objects.get(
+                    identification=user_id)
+            user_state = User_State.objects.filter(user_id=user_id_obj)
+            
+            if(user_state):
+                user_state = user_state.first()
+                phase = user_state.resource_id.phase
+                if(phase == 'pre'):
+                    resourse = Resource.objects.get(
+                        microlerny=user_state.micro_lerny_id, phase='dur')
+                    user_state.resource_id = resourse
+                    user_state.save()
+                    data = ResourceSerializer(resourse).data
+                elif(phase == 'dur'):
+                    resourse = Resource.objects.get(
+                        microlerny=user_state.micro_lerny_id, phase='pos')
+                    user_state.resource_id = resourse
+                    user_state.save()
+                    data = ResourceSerializer(resourse).data
+                elif(phase == 'pos'):
+                    try:
+                        micro_lerny_id_obj = MicroLerny.objects.get(
+                            id=user_state.micro_lerny_id.id)
+                        son = TreeMicroLerny.objects.filter(
+                            dady_micro_lerny=micro_lerny_id_obj).values_list('son_micro_lerny_id', flat=True)
+
+                        microlerny_son = MicroLerny.objects.filter(
+                            pk__in=son).first()
+
+                        micro_lerny_son_obj = MicroLerny.objects.get(
+                            id=microlerny_son.id)
+                        resourse = Resource.objects.get(
+                            microlerny=micro_lerny_son_obj, phase='pre')
+
+                        user_state.resource_id = resourse
+                        user_state.micro_lerny_id = microlerny_son
+                        user_state.save()
+                        data = ResourceSerializer(resourse).data
+                    except:
+                        data = None
+                else:
+                    data = None
+            else:
+                lerny_id = Lerny.objects.all().first()
+                
+                micro_lerny = MicroLerny.objects.all().order_by('pk').first()
+                resourse = Resource.objects.get(
+                    microlerny=micro_lerny.id, phase='pre')
+                    
+                user_id_obj = User.objects.get(
+                    identification=user_id)
+
+                user_state = User_State()
+                user_state.lerny_id = lerny_id
+                user_state.micro_lerny_id = micro_lerny
+                user_state.user_id = user_id_obj
+                user_state.resource_id = resourse
+                user_state.save()
+                data = ResourceSerializer(resourse).data
         else:
             data = {}
 

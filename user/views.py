@@ -41,7 +41,7 @@ class ApiManager(APIView):
         print("Parameters")
         print(request.data['queryResult']['parameters'])
         print("OutputContexts")
-        print(request.data['queryResult']['outputContexts']["parameters"])
+        print(request.data)
         request = request.data['queryResult']['parameters']
         key = request['LERNY_INTENT']
         if (key == "LOGIN_USER"):
@@ -165,7 +165,6 @@ class ApiManager(APIView):
                     }
                 }
             )
-
         else:
             data = {}
 

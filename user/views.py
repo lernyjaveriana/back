@@ -41,7 +41,17 @@ class ApiManager(APIView):
         print("Parameters")
         print(request.data['queryResult']['parameters'])
         print("OutputContexts")
-        print(request.data)
+
+        x=0
+        #Identifico el user_document_id independientemente de donde se encuentre en el json
+        OutputContexts=''
+        while((x<len(request.data['queryResult']['outputContexts']))):
+            OCUserId=(request.data['queryResult']['outputContexts'][x].get('parameters').get('user_document_id'))
+            if((request.data['queryResult']['outputContexts'][x].get('parameters').get('user_document_id'))!=None):
+                break
+            x+=1
+        print(OCUserId)
+
         request = request.data['queryResult']['parameters']
         key = request['LERNY_INTENT']
         if (key == "LOGIN_USER"):

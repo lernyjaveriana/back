@@ -7,7 +7,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from .models import User
 from lerny.models import *
-from lerny.serializers import LernySerializer, MicroLernySerializer
+from lerny.serializers import LernySerializer, MicroLernySerializer, ResourceSerializer
 
 
 class UserManageGet(APIView):
@@ -175,6 +175,47 @@ class ApiManager(APIView):
                     }
                 }
             )
+        elif(key=="api3"):
+			user_id = 1
+			serializers_class = ResourceSerializer
+			user_state = User_State.objects.filter(user_id=user_id)
+			if(user_state):
+				user_state = user_state.first()
+				phase = user_state.resource_id.phase
+				if(phase == 'pre'):
+					resourse = Resource.objects.get(microlerny = user_state.micro_lerny_id, phase='dur')
+					user_state.resource_id = resourse
+					user_state.save()
+					data = ResourceSerializer(resourse).data
+				elif(phase == 'dur'):
+					resourse = Resource.objects.get(microlerny = user_state.micro_lerny_id, phase='pos')
+					user_state.resource_id = resourse
+					user_state.save()
+					data = ResourceSerializer(resourse).data
+				elif(phase == 'pos'):
+					try:
+						son = TreeMicroLerny.objects.filter(dady_micro_lerny__pk=user_state.micro_lerny_id).values_list('son_micro_lerny_id', flat=True)
+						microlerny_son = MicroLerny.objects.filter(pk__in = son).first()
+						resourse = Resource.objects.get(microlerny = microlerny_son.id, phase='pre')
+						user_state.resource_id = resourse.id
+						user_state.micro_lerny_id = microlerny_son.id
+						user_state.save()
+						data = ResourceSerializer(resourse).data
+					except:
+						data = None
+				else:
+					data = None
+			else:
+				lerny_id = 1
+				micro_lerny = MicroLerny.objects.filter(lerny__pk=lerny_id).order_by('pk').first()
+				resourse = Resourse.objects.get(micro_lerny_id = micro_lerny.id, phase='pre')
+				user_state = User_State()
+				user_state.lerny_id = lerny_id
+				user_state.micro_lerny_id = micro_lerny
+				user_state.user_id = user_id
+				user_state.resource_id = resourse
+				user_state.save()
+				data = ResourceSerializer(resourse).data
         else:
             data = {}
 

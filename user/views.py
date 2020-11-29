@@ -177,7 +177,7 @@ class ApiManager(APIView):
                     }
                 }
             )
-        elif(key == "api3"):
+        elif(key == "CONTINUAR_CURSO"):
             serializers_class = ResourceSerializer
             user_id_obj = User.objects.get(
                     identification=user_id)
@@ -238,6 +238,44 @@ class ApiManager(APIView):
                 user_state.resource_id = resourse
                 user_state.save()
                 data = ResourceSerializer(resourse).data
+            data={
+            "facebook": {
+                "attachment": {
+                    "type": "template",
+                    "payload": {
+                        "template_type": "generic",
+                        "elements": [
+                            {
+                                "title": data["title"],
+                                "image_url": "https://i.ibb.co/HPxYfTv/icono-1024x1024-Mesa-de-trabajo-1.jpg",
+                                "subtitle": data["description"],
+                                "buttons": [
+                                    {
+                                        "type": "web_url",
+                                        "url": data["content_url"],
+                                        "title": "Ver curso ahora"
+                                    },
+                                    {
+                                        "type": "postback",
+                                        "title": "Mostrar siguiente recurso",
+                                        "payload": "CONTINUAR_CURSO"
+                                    },
+                                    {
+                                        "type": "postback",
+                                        "title": "Salir",
+                                        "payload": "lerny_farewell"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+
+
+
+
         else:
             data = {}
 

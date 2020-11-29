@@ -10,3 +10,10 @@ class MicroLernySerializer(serializers.ModelSerializer):
 	class Meta:
 		model = MicroLerny
 		fields = ['micro_lerny_title','id']
+
+
+class ResourceSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Resource
+		fields = '__all__'
+

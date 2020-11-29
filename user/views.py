@@ -240,36 +240,38 @@ class ApiManager(APIView):
                 data = ResourceSerializer(resourse).data
             data={
             "fulfillmentMessages": [
-                "payload": {
-                    "facebook": {
-                        "attachment": {     
-                            "type": "template",
-                            "payload": {
-                                "template_type": "generic",
-                                "elements": [
-                                    {
-                                        "title": data["title"],
-                                        "image_url": "https://i.ibb.co/HPxYfTv/icono-1024x1024-Mesa-de-trabajo-1.jpg",
-                                        "subtitle": data["description"],
-                                        "buttons": [
-                                            {
-                                                "type": "web_url",
-                                                "url": data["content_url"],
-                                                "title": "Ver curso ahora"
-                                            },
-                                            {
-                                                "type": "postback",
-                                                "title": "Mostrar siguiente recurso",
-                                                "payload": "CONTINUAR_CURSO"
-                                            },
-                                            {
-                                                "type": "postback",
-                                                "title": "Salir",
-                                                "payload": "lerny_farewell"
-                                            }
-                                        ]
-                                    }
-                                ]
+                {
+                    "payload": {
+                        "facebook": {
+                            "attachment": {     
+                                "type": "template",
+                                "payload": {
+                                    "template_type": "generic",
+                                    "elements": [
+                                        {
+                                            "title": data["title"],
+                                            "image_url": "https://i.ibb.co/HPxYfTv/icono-1024x1024-Mesa-de-trabajo-1.jpg",
+                                            "subtitle": data["description"],
+                                            "buttons": [
+                                                {
+                                                    "type": "web_url",
+                                                    "url": data["content_url"],
+                                                    "title": "Ver curso ahora"
+                                                },
+                                                {
+                                                    "type": "postback",
+                                                    "title": "Mostrar siguiente recurso",
+                                                    "payload": "CONTINUAR_CURSO"
+                                                },
+                                                {
+                                                    "type": "postback",
+                                                    "title": "Salir",
+                                                    "payload": "lerny_farewell"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
                             }
                         }
                     }

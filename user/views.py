@@ -87,7 +87,7 @@ class ApiManager(APIView):
                                                             {
                                                                 "type": "postback",
                                                                 "title": "Continuar lerny",
-                                                                "payload": "continuar_curso"
+                                                                "payload": "CONTINUAR_CURSO"
                                                             },
                                                             {
                                                                 "type": "postback",

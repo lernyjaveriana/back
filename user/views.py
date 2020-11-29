@@ -280,8 +280,6 @@ class ApiManager(APIView):
         }
 
 
-
-
         else:
             data = {}
 

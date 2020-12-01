@@ -300,12 +300,7 @@ class ApiManager(APIView):
                                                         {
                                                             "type": "web_url",
                                                             "url": data["content_url"],
-                                                            "title": "Ver actividad calificable"
-                                                        },
-                                                        {
-                                                            "type": "postback",
-                                                            "title": "Cargar actividad",
-                                                            "payload": "CARGAR_ARCHIVO"
+                                                            "title": "Ver curso ahora"
                                                         },
                                                         {
                                                             "type": "postback",

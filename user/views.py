@@ -41,7 +41,7 @@ class ApiManager(APIView):
         print("Parameters")
         print(request.data['queryResult']['parameters'])
         print("OutputContexts")
-
+        print(request.data['queryResult']['outputContexts'])
         x = 0
         # Identifico el user_document_id independientemente de donde se encuentre en el json
         OutputContexts = ''
@@ -370,5 +370,5 @@ class ApiManager(APIView):
 
         else:
             data = {}
-
+        print(data)
         return Response(data, status=status.HTTP_201_CREATED)

@@ -304,15 +304,14 @@ class ApiManager(APIView):
                                                         },
                                                         {
                                                             "type": "postback",
-                                                            "title": "Cargar url de la actividad",
-                                                            "payload": "CARGAR_ARCHIVO"
-                                                        }
-                                                        {
-                                                            "type": "postback",
                                                             "title": "Mostrar siguiente recurso",
                                                             "payload": "CONTINUAR_CURSO"
                                                         },
-
+                                                        {
+                                                            "type": "postback",
+                                                            "title": "Cargar url de la actividad",
+                                                            "payload": "CARGAR_ARCHIVO"
+                                                        }
                                                     ]
                                                 }
                                             ]

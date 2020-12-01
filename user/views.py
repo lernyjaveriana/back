@@ -51,7 +51,7 @@ class ApiManager(APIView):
             if((request.data['queryResult']['outputContexts'][x].get('parameters').get('user_document_id')) != None):
                 break
             x += 1
-        user_id=(str(int(float(user_id))))
+        user_id = (str(int(float(user_id))))
 
         request = request.data['queryResult']['parameters']
         key = request['LERNY_INTENT']
@@ -180,9 +180,9 @@ class ApiManager(APIView):
         elif(key == "CONTINUAR_CURSO"):
             serializers_class = ResourceSerializer
             user_id_obj = User.objects.get(
-                    identification=user_id)
+                identification=user_id)
             user_state = User_State.objects.filter(user_id=user_id_obj)
-            
+
             if(user_state):
                 user_state = user_state.first()
                 phase = user_state.resource_id.phase
@@ -223,11 +223,11 @@ class ApiManager(APIView):
                     data = None
             else:
                 lerny_id = Lerny.objects.all().first()
-                
+
                 micro_lerny = MicroLerny.objects.all().order_by('pk').first()
                 resourse = Resource.objects.get(
                     microlerny=micro_lerny.id, phase='pre')
-                    
+
                 user_id_obj = User.objects.get(
                     identification=user_id)
 
@@ -238,83 +238,96 @@ class ApiManager(APIView):
                 user_state.resource_id = resourse
                 user_state.save()
                 data = ResourceSerializer(resourse).data
-            
-            if(data["phase"]!="pos"):
-                data={
-                    "facebook": {
-                        "attachment": {
-                            "type": "template",
+
+            if(data["phase"] != "pos"):
+                data = {
+                    "fulfillmentMessages": [
+                        {
                             "payload": {
-                                "template_type": "generic",
-                                "elements": [
-                                    {
-                                        "title": data["title"],
-                                        "image_url": "https://i.ibb.co/HPxYfTv/icono-1024x1024-Mesa-de-trabajo-1.jpg",
-                                        "subtitle": data["description"],
-                                        "buttons": [
-                                            {
-                                                "type": "web_url",
-                                                "url": data["content_url"],
-                                                "title": "Ver curso ahora"
-                                            },
-                                            {
-                                                "type": "postback",
-                                                "title": "Mostrar siguiente recurso",
-                                                "payload": "CONTINUAR_CURSO"
-                                            },
-                                            {
-                                                "type": "postback",
-                                                "title": "Salir",
-                                                "payload": "lerny_farewell"
-                                            }
-                                        ]
+                                "facebook": {
+                                    "attachment": {
+                                        "type": "template",
+                                        "payload": {
+                                            "template_type": "generic",
+                                            "elements": [
+                                                {
+                                                    "title": data["title"],
+                                                    "image_url": "https://i.ibb.co/HPxYfTv/icono-1024x1024-Mesa-de-trabajo-1.jpg",
+                                                    "subtitle": data["description"],
+                                                    "buttons": [
+                                                        {
+                                                            "type": "web_url",
+                                                            "url": data["content_url"],
+                                                            "title": "Ver curso ahora"
+                                                        },
+                                                        {
+                                                            "type": "postback",
+                                                            "title": "Mostrar siguiente recurso",
+                                                            "payload": "CONTINUAR_CURSO"
+                                                        },
+                                                        {
+                                                            "type": "postback",
+                                                            "title": "Salir",
+                                                            "payload": "lerny_farewell"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
                                     }
-                                ]
+                                }
                             }
                         }
-                    }
+                    ]
                 }
+
             else:
-                data={
-                    "facebook": {
-                        "attachment": {
-                            "type": "template",
+                data = {
+                    "fulfillmentMessages": [
+                        {
                             "payload": {
-                                "template_type": "generic",
-                                "elements": [
-                                    {
-                                        "title": data["title"],
-                                        "image_url": "https://i.ibb.co/HPxYfTv/icono-1024x1024-Mesa-de-trabajo-1.jpg",
-                                        "subtitle": data["description"],
-                                        "buttons": [
-                                            {
-                                                "type": "web_url",
-                                                "url": data["content_url"],
-                                                "title": "Ver curso ahora"
-                                            },
-                                            {
-                                                "type": "postback",
-                                                "title": "Cargar actividad",
-                                                "payload": "CARGAR_ARCHIVO"
-                                            },
-                                            {
-                                                "type": "postback",
-                                                "title": "Mostrar siguiente recurso",
-                                                "payload": "CONTINUAR_CURSO"
-                                            },
-                                            {
-                                                "type": "postback",
-                                                "title": "Salir",
-                                                "payload": "lerny_farewell"
-                                            }
-                                        ]
+                                "facebook": {
+                                    "attachment": {
+                                        "type": "template",
+                                        "payload": {
+                                            "template_type": "generic",
+                                            "elements": [
+                                                {
+                                                    "title": data["title"],
+                                                    "image_url": "https://i.ibb.co/HPxYfTv/icono-1024x1024-Mesa-de-trabajo-1.jpg",
+                                                    "subtitle": data["description"],
+                                                    "buttons": [
+                                                        {
+                                                            "type": "web_url",
+                                                            "url": data["content_url"],
+                                                            "title": "Ver actividad calificable"
+                                                        },
+                                                        {
+                                                            "type": "postback",
+                                                            "title": "Cargar actividad",
+                                                            "payload": "CARGAR_ARCHIVO"
+                                                        },
+                                                        {
+                                                            "type": "postback",
+                                                            "title": "Mostrar siguiente recurso",
+                                                            "payload": "CONTINUAR_CURSO"
+                                                        },
+                                                        {
+                                                            "type": "postback",
+                                                            "title": "Salir",
+                                                            "payload": "lerny_farewell"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
                                     }
-                                ]
+                                }
                             }
                         }
-                    }
+                    ]
                 }
-        elif (key == "CARGAR_ARCHIVO"):
+        elif(key == "CARGAR_ARCHIVO"):
             file_url = request["file_url"]
             data = {
                 "fulfillmentMessages": [
@@ -354,8 +367,6 @@ class ApiManager(APIView):
                     }
                 ]
             }
-
-
 
         else:
             data = {}

@@ -88,7 +88,7 @@ class ApiManager(APIView):
                                                             {
                                                                 "type": "postback",
                                                                 "title": "Continuar lerny",
-                                                                "payload": "CONTINUAR_CURSO"
+                                                                "payload": "continuar_curso"
                                                             },
                                                             {
                                                                 "type": "postback",
@@ -238,46 +238,123 @@ class ApiManager(APIView):
                 user_state.resource_id = resourse
                 user_state.save()
                 data = ResourceSerializer(resourse).data
-            data={
-            "fulfillmentMessages": [
-                {
-                    "payload": {
-                        "facebook": {
-                            "attachment": {     
-                                "type": "template",
-                                "payload": {
-                                    "template_type": "generic",
-                                    "elements": [
-                                        {
-                                            "title": data["title"],
-                                            "image_url": "https://i.ibb.co/HPxYfTv/icono-1024x1024-Mesa-de-trabajo-1.jpg",
-                                            "subtitle": data["description"],
-                                            "buttons": [
-                                                {
-                                                    "type": "web_url",
-                                                    "url": data["content_url"],
-                                                    "title": "Ver curso ahora"
-                                                },
-                                                {
-                                                    "type": "postback",
-                                                    "title": "Mostrar siguiente recurso",
-                                                    "payload": "CONTINUAR_CURSO"
-                                                },
-                                                {
-                                                    "type": "postback",
-                                                    "title": "Salir",
-                                                    "payload": "lerny_farewell"
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                }
+            
+            if(data["phase"]!="pos"):
+                data={
+                    "facebook": {
+                        "attachment": {
+                            "type": "template",
+                            "payload": {
+                                "template_type": "generic",
+                                "elements": [
+                                    {
+                                        "title": data["title"],
+                                        "image_url": "https://i.ibb.co/HPxYfTv/icono-1024x1024-Mesa-de-trabajo-1.jpg",
+                                        "subtitle": data["description"],
+                                        "buttons": [
+                                            {
+                                                "type": "web_url",
+                                                "url": data["content_url"],
+                                                "title": "Ver curso ahora"
+                                            },
+                                            {
+                                                "type": "postback",
+                                                "title": "Mostrar siguiente recurso",
+                                                "payload": "CONTINUAR_CURSO"
+                                            },
+                                            {
+                                                "type": "postback",
+                                                "title": "Salir",
+                                                "payload": "lerny_farewell"
+                                            }
+                                        ]
+                                    }
+                                ]
                             }
                         }
                     }
                 }
-            ]
-        }
+            else:
+                data={
+                    "facebook": {
+                        "attachment": {
+                            "type": "template",
+                            "payload": {
+                                "template_type": "generic",
+                                "elements": [
+                                    {
+                                        "title": data["title"],
+                                        "image_url": "https://i.ibb.co/HPxYfTv/icono-1024x1024-Mesa-de-trabajo-1.jpg",
+                                        "subtitle": data["description"],
+                                        "buttons": [
+                                            {
+                                                "type": "web_url",
+                                                "url": data["content_url"],
+                                                "title": "Ver curso ahora"
+                                            },
+                                            {
+                                                "type": "postback",
+                                                "title": "Cargar actividad",
+                                                "payload": "CARGAR_ARCHIVO"
+                                            },
+                                            {
+                                                "type": "postback",
+                                                "title": "Mostrar siguiente recurso",
+                                                "payload": "CONTINUAR_CURSO"
+                                            },
+                                            {
+                                                "type": "postback",
+                                                "title": "Salir",
+                                                "payload": "lerny_farewell"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+        elif (key == "CARGAR_ARCHIVO"):
+            file_url = request["file_url"]
+            data = {
+                "fulfillmentMessages": [
+                    {
+                        "payload": {
+                            "facebook": {
+                                "attachment": {
+                                    "type": "template",
+                                    "payload":
+                                    {
+                                        "template_type": "generic",
+                                        "elements":
+                                        [
+                                            {
+                                                "title": "Tu archivo ha sido cargado exitosamente! Deseas hacer algo más?",
+                                                "image_url": "https://www.dropbox.com/s/ha2re0473e67eqo/LOGO%20LERNY%20NUEVO%20_Mesa%20de%20trabajo%201%20copia%207.png",
+                                                "subtitle": "Para continuar, por favor selecciona una opción.",
+                                                "buttons":
+                                                [
+                                                    {
+                                                        "type": "postback",
+                                                        "title": "Continuar lerny",
+                                                        "payload": "continuar_curso"
+                                                    },
+                                                    {
+                                                        "type": "postback",
+                                                        "title": "ver microlernys",
+                                                        "payload": "LIST_MICROLERNYS"
+                                                    },
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+
 
 
         else:

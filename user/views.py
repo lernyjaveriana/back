@@ -281,7 +281,7 @@ class ApiManager(APIView):
                     ]
                 }
 
-            else:
+            elif(data["phase"] == "pos"):
                 data = {
                     "fulfillmentMessages": [
                         {

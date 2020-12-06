@@ -7,7 +7,8 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from .models import User
 from lerny.models import *
-from lerny.serializers import LernySerializer, MicroLernySerializer, ResourceSerializer
+from lerny.serializers import *
+from datetime import datetime
 
 
 class UserManageGet(APIView):
@@ -33,7 +34,6 @@ class UserManagePost(APIView):
             return Response(
                 serializers.errors, status=status.HTTP_400_BAD_REQUEST
             )
-
 
 class ApiManager(APIView):
 
@@ -367,8 +367,25 @@ class ApiManager(APIView):
                     }
                 ]
             }
-
-        else:
-            data = {}
+		elif(key=="send_task"):
+			lerny_id = 1
+			url_task = "https://drive.google.com/file/d/0B-kjlg3hzpzYdnUzYllyTGxjVDFjZFhOUDh1QnJEdTk2b2g0/view?usp=sharing"
+			user_id = 1
+			user_state = User_State.objects.filter(user_id=user_id)
+			serializers_class = UserResourceSerializer
+			if(user_state):
+				user_state = user_state.first()
+				u_resource = User_Resource()
+				u_resource.resource_id = user_state.resource_id
+				u_resource.user_id = user_state.user_id
+				u_resource.user_response = url_task
+				u_resource.response_date = datetime.now()
+				u_resource.last_view_date = datetime.now()
+				u_resource.save()
+				data = UserResourceSerializer(u_resource).data
+			else:
+				data = {"message": "el usuario no tiene tareas pendientes"} 
+		else:
+			data = {}
 
         return Response(data, status=status.HTTP_201_CREATED)

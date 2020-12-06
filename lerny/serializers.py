@@ -17,3 +17,7 @@ class ResourceSerializer(serializers.ModelSerializer):
 		model = Resource
 		fields = '__all__'
 
+class UserResourceSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = User_Resource
+		fields = '__all__'

@@ -81,7 +81,7 @@ class ApiManager(APIView):
                                                 [
                                                     {
                                                         "title": "Hola " + UserSerializer(user).data["user_name"] + ", un gusto volver a verte!",
-                                                        "image_url": "https://www.dropbox.com/s/ha2re0473e67eqo/LOGO%20LERNY%20NUEVO%20_Mesa%20de%20trabajo%201%20copia%207.png",
+                                                        "image_url": "https://lerny.co/wp-content/uploads/2020/12/ruta_curso1.jpg",
                                                         "subtitle": "Para comenzar por favor selecciona una opción.",
                                                         "buttons":
                                                         [
@@ -252,7 +252,7 @@ class ApiManager(APIView):
                                             "elements": [
                                                 {
                                                     "title": data["title"],
-                                                    "image_url": "https://i.ibb.co/HPxYfTv/icono-1024x1024-Mesa-de-trabajo-1.jpg",
+                                                    "image_url": "https://lerny.co/wp-content/uploads/2020/12/titulo_curso.jpg",
                                                     "subtitle": data["description"],
                                                     "buttons": [
                                                         {
@@ -294,7 +294,7 @@ class ApiManager(APIView):
                                             "elements": [
                                                 {
                                                     "title": data["title"],
-                                                    "image_url": "https://i.ibb.co/HPxYfTv/icono-1024x1024-Mesa-de-trabajo-1.jpg",
+                                                    "image_url": "https://lerny.co/wp-content/uploads/2020/12/titulo_curso.jpg",
                                                     "subtitle": data["description"],
                                                     "buttons": [
                                                         {
@@ -338,7 +338,7 @@ class ApiManager(APIView):
                                         [
                                             {
                                                 "title": "Tu archivo ha sido cargado exitosamente! Deseas hacer algo más?",
-                                                "image_url": "https://www.dropbox.com/s/ha2re0473e67eqo/LOGO%20LERNY%20NUEVO%20_Mesa%20de%20trabajo%201%20copia%207.png",
+                                                "image_url": "https://lerny.co/wp-content/uploads/2020/12/marca_lerny.jpg",
                                                 "subtitle": "Para continuar, por favor selecciona una opción.",
                                                 "buttons":
                                                 [

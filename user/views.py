@@ -4,10 +4,11 @@ from rest_framework import status, viewsets
 from rest_framework import serializers
 from .serializers import UserSerializer, UserLoginSerializer
 from rest_framework.decorators import action
-from rest_framework.response import Response
 from .models import User
 from lerny.models import *
-from lerny.serializers import LernySerializer, MicroLernySerializer, ResourceSerializer
+from lerny.serializers import *
+from datetime import datetime
+import requests
 
 
 class UserManageGet(APIView):
@@ -373,3 +374,73 @@ class ApiManager(APIView):
             data = {}
         print(data)
         return Response(data, status=status.HTTP_201_CREATED)
+
+
+class GetPayInformation(APIView):
+
+    def get(self, request, tipoDocumento, numeroDocumento, format=None):
+#        url = "http://replica.javerianacali.edu.co:8100/ServiciosSF/rs/consultarDeuda?tipoDocumento="+tipoDocumento+"&numeroDocumento="+numeroDocumento
+#        response = requests.get(url)
+#        information = response.json()
+        serializers_class = UserLernySerializer
+        data = {}
+
+        information = {
+            "result":[
+                {
+                    "nationalId":"1107073062",
+                    "commonId":"00008956081",
+                    "invoiceId":"PRE-EDU-00010176410000",
+                    "valorPagar":"970000",
+                    "valorPagado":"0",
+                    "accountTypeSF":"CEC"
+                }
+            ]
+        }
+
+        try:
+            information["result"]
+            result = True
+        except:
+            result = False
+
+        if(result):
+            lerny = Lerny.objects.all().first()
+            user = User.objects.get(identification=numeroDocumento)
+            pay = False
+            for i in information["result"]:
+                user_lerny = User_Lerny.objects.filter(lerny_id =lerny.id, user_id__identification=i["nationalId"])
+                if(i["valorPagar"]==i["valorPagado"]):
+                    pay = True
+                else:
+                    pay = False
+
+                if(user_lerny):
+                    user_lerny = user_lerny.first()
+                    user_lerny.valor = i["valorPagado"]
+                    user_lerny.bill_state = pay
+                    user_lerny.reference = i["invoiceId"]
+                    user_lerny.pay_date = datetime.now()
+                    user_lerny.save()
+                    data = UserLernySerializer(user_lerny).data
+                
+                else:
+                    user_lerny = User_Lerny()
+                    user_lerny.lerny_id = lerny
+                    user_lerny.user_id = user
+                    user_lerny.valor = i["valorPagado"]
+                    user_lerny.bill_state = pay
+                    user_lerny.reference = i["invoiceId"]
+                    user_lerny.pay_date = datetime.now()
+                    user_lerny.lerny_points = 0
+                    user_lerny.opinion_points = 0
+                    user_lerny.save()
+                    data = UserLernySerializer(user_lerny).data
+        else:
+            information={
+                "codError": "CE_CONSULTA_DEUDA",
+                "exceptionMessage": "Error consultando las deudas de la persona"
+            }
+            data = information
+
+        return Response(data)

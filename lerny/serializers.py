@@ -21,3 +21,9 @@ class UserResourceSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = User_Resource
 		fields = '__all__'
+
+class UserLernySerializer(serializers.ModelSerializer):
+	class Meta:
+		model = User_Lerny
+		fields = '__all__'
+

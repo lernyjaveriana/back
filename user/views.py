@@ -38,21 +38,21 @@ class UserManagePost(APIView):
 
 class ApiManager(APIView):
 
-    def post(self, request):
-        print("Parameters")
-        print(request.data['queryResult']['parameters'])
-        print("OutputContexts")
-        print(request.data['queryResult']['outputContexts'])
-        x = 0
-        # Identifico el user_document_id independientemente de donde se encuentre en el json
-        OutputContexts = ''
-        while((x < len(request.data['queryResult']['outputContexts']))):
-            user_id = (request.data['queryResult']['outputContexts'][x].get(
-                'parameters').get('user_document_id'))
-            if((request.data['queryResult']['outputContexts'][x].get('parameters').get('user_document_id')) != None):
-                break
-            x += 1
-        user_id = (str(int(float(user_id))))
+	def post(self, request):
+		print("Parameters")
+		print(request.data['queryResult']['parameters'])
+		print("OutputContexts")
+		print(request.data['queryResult']['outputContexts'])
+		x = 0
+		# Identifico el user_document_id independientemente de donde se encuentre en el json
+		OutputContexts = ''
+		while((x < len(request.data['queryResult']['outputContexts']))):
+			user_id = (request.data['queryResult']['outputContexts'][x].get(
+				'parameters').get('user_document_id'))
+			if((request.data['queryResult']['outputContexts'][x].get('parameters').get('user_document_id')) != None):
+				break
+			x += 1
+		user_id = (str(int(float(user_id))))
 
 		request = request.data['queryResult']['parameters']
 		key = request['LERNY_INTENT']
@@ -61,51 +61,51 @@ class ApiManager(APIView):
 			serializer.is_valid(raise_exception=True)
 			user, token = serializer.save()
 
-            data = {
-                "fulfillmentMessages": [
-                    {
-                        "text": {
-                            "text": [
-                                "Bienvenido a lerny"
-                            ]
-                        }
-                    },
-                    {
-                        "payload": {
-                            "facebook": {
-                                "attachment": {
-                                    "type": "template",
-                                    "payload":
-                                            {
-                                                "template_type": "generic",
-                                                "elements":
-                                                [
-                                                    {
-                                                        "title": "Hola " + UserSerializer(user).data["user_name"] + ", un gusto volver a verte!",
-                                                        "image_url": "https://lerny.co/wp-content/uploads/2020/12/ruta_curso1.jpg",
-                                                        "subtitle": "Para comenzar por favor selecciona una opción.",
-                                                        "buttons":
-                                                        [
-                                                            {
-                                                                "type": "postback",
-                                                                "title": "Continuar lerny",
-                                                                "payload": "CONTINUAR_CURSO"
-                                                            },
-                                                            {
-                                                                "type": "postback",
-                                                                "title": "ver microlernys",
-                                                                "payload": "LIST_MICROLERNYS"
-                                                            },
-                                                        ]
-                                                    }
-                                                ]
-                                            }
-                                }
-                            }
-                        }
-                    }
-                ]
-            }
+			data = {
+				"fulfillmentMessages": [
+					{
+						"text": {
+							"text": [
+								"Bienvenido a lerny"
+							]
+						}
+					},
+					{
+						"payload": {
+							"facebook": {
+								"attachment": {
+									"type": "template",
+									"payload":
+											{
+												"template_type": "generic",
+												"elements":
+												[
+													{
+														"title": "Hola " + UserSerializer(user).data["user_name"] + ", un gusto volver a verte!",
+														"image_url": "https://lerny.co/wp-content/uploads/2020/12/ruta_curso1.jpg",
+														"subtitle": "Para comenzar por favor selecciona una opción.",
+														"buttons":
+														[
+															{
+																"type": "postback",
+																"title": "Continuar lerny",
+																"payload": "CONTINUAR_CURSO"
+															},
+															{
+																"type": "postback",
+																"title": "ver microlernys",
+																"payload": "LIST_MICROLERNYS"
+															},
+														]
+													}
+												]
+											}
+								}
+							}
+						}
+					}
+				]
+			}
 
 			# data = {
 			# 	"followupEventInput": {
@@ -240,89 +240,89 @@ class ApiManager(APIView):
 				user_state.save()
 				data = ResourceSerializer(resourse).data
 
-            if(data["phase"] != "pos"):
-                data = {
-                    "fulfillmentMessages": [
-                        {
-                            "payload": {
-                                "facebook": {
-                                    "attachment": {
-                                        "type": "template",
-                                        "payload": {
-                                            "template_type": "generic",
-                                            "elements": [
-                                                {
-                                                    "title": data["title"],
-                                                    "image_url": "https://lerny.co/wp-content/uploads/2020/12/titulo_curso.jpg",
-                                                    "subtitle": data["description"],
-                                                    "buttons": [
-                                                        {
-                                                            "type": "web_url",
-                                                            "url": data["content_url"],
-                                                            "title": "Ver curso ahora"
-                                                        },
-                                                        {
-                                                            "type": "postback",
-                                                            "title": "Mostrar siguiente recurso",
-                                                            "payload": "CONTINUAR_CURSO"
-                                                        },
-                                                        {
-                                                            "type": "postback",
-                                                            "title": "Salir",
-                                                            "payload": "lerny_farewell"
-                                                        }
-                                                    ]
-                                                }
-                                            ]
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    ]
-                }
+			if(data["phase"] != "pos"):
+				data = {
+					"fulfillmentMessages": [
+						{
+							"payload": {
+								"facebook": {
+									"attachment": {
+										"type": "template",
+										"payload": {
+											"template_type": "generic",
+											"elements": [
+												{
+													"title": data["title"],
+													"image_url": "https://lerny.co/wp-content/uploads/2020/12/titulo_curso.jpg",
+													"subtitle": data["description"],
+													"buttons": [
+														{
+															"type": "web_url",
+															"url": data["content_url"],
+															"title": "Ver curso ahora"
+														},
+														{
+															"type": "postback",
+															"title": "Mostrar siguiente recurso",
+															"payload": "CONTINUAR_CURSO"
+														},
+														{
+															"type": "postback",
+															"title": "Salir",
+															"payload": "lerny_farewell"
+														}
+													]
+												}
+											]
+										}
+									}
+								}
+							}
+						}
+					]
+				}
 
-            elif(data["phase"] == "pos"):
-                data = {
-                    "fulfillmentMessages": [
-                        {
-                            "payload": {
-                                "facebook": {
-                                    "attachment": {
-                                        "type": "template",
-                                        "payload": {
-                                            "template_type": "generic",
-                                            "elements": [
-                                                {
-                                                    "title": data["title"],
-                                                    "image_url": "https://lerny.co/wp-content/uploads/2020/12/titulo_curso.jpg",
-                                                    "subtitle": data["description"],
-                                                    "buttons": [
-                                                        {
-                                                            "type": "web_url",
-                                                            "url": data["content_url"],
-                                                            "title": "Ver curso ahora"
-                                                        },
-                                                        {
-                                                            "type": "postback",
-                                                            "title": "Mostrar siguiente recurso",
-                                                            "payload": "CONTINUAR_CURSO"
-                                                        },
-                                                        {
-                                                            "type": "postback",
-                                                            "title": "Cargar url de la actividad",
-                                                            "payload": "CARGAR_ARCHIVO"
-                                                        }
-                                                    ]
-                                                }
-                                            ]
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    ]
-                }
+			elif(data["phase"] == "pos"):
+				data = {
+					"fulfillmentMessages": [
+						{
+							"payload": {
+								"facebook": {
+									"attachment": {
+										"type": "template",
+										"payload": {
+											"template_type": "generic",
+											"elements": [
+												{
+													"title": data["title"],
+													"image_url": "https://lerny.co/wp-content/uploads/2020/12/titulo_curso.jpg",
+													"subtitle": data["description"],
+													"buttons": [
+														{
+															"type": "web_url",
+															"url": data["content_url"],
+															"title": "Ver curso ahora"
+														},
+														{
+															"type": "postback",
+															"title": "Mostrar siguiente recurso",
+															"payload": "CONTINUAR_CURSO"
+														},
+														{
+															"type": "postback",
+															"title": "Cargar url de la actividad",
+															"payload": "CARGAR_ARCHIVO"
+														}
+													]
+												}
+											]
+										}
+									}
+								}
+							}
+						}
+					]
+				}
 		elif(key == "CARGAR_ARCHIVO"):
 			file_url = request["file_url"]
 			url_task = file_url
@@ -379,7 +379,7 @@ class ApiManager(APIView):
 				]
 			}
 
-        else:
-            data = {}
-        print(data)
-        return Response(data, status=status.HTTP_201_CREATED)
+		else:
+			data = {}
+		print(data)
+		return Response(data, status=status.HTTP_201_CREATED)

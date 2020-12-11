@@ -6,4 +6,4 @@ include
 Lib
 Scripts
 static
-backend_django/settings.py
+backend_django

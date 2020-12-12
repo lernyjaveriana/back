@@ -225,41 +225,6 @@ class ApiManager(APIView):
 					else:
 						#variable que indica que es o no el ultimo microlerny dle curso
 						is_last = True
-						data = {
-							"fulfillmentMessages": [
-								{
-									"payload": {
-										"facebook": {
-											"attachment": {
-												"type": "template",
-												"payload": {
-													"template_type": "generic",
-													"elements": [
-														{
-															"title": "Felicidades! has terminado los microlernys asociados al lerny! deseas volver al menú principal?",
-															"image_url": "https://lerny.co/wp-content/uploads/2020/12/titulo_curso.jpg",
-															"subtitle": "selecciona una opcion para continuar",
-															"buttons": [
-																{
-																	"type": "postback",
-																	"title": "Listar Microlernys",
-																	"payload": "LIST_MICROLERNYS"
-																},
-																{
-																	"type": "postback",
-																	"title": "Salir",
-																	"payload": "lerny_farewell"
-																}
-															]
-														}
-													]
-												}
-											}
-										}
-									}
-								}
-							]
-						}
 				else:
 					data = None
 			else:
@@ -279,8 +244,44 @@ class ApiManager(APIView):
 				user_state.resource_id = resourse
 				user_state.save()
 				data = ResourceSerializer(resourse).data
+			if(is_last):
 
-			if(data["phase"] != "pos"):
+				data = {
+					"fulfillmentMessages": [
+						{
+							"payload": {
+								"facebook": {
+									"attachment": {
+										"type": "template",
+										"payload": {
+											"template_type": "generic",
+											"elements": [
+												{
+													"title": "Felicidades! has terminado los microlernys asociados al lerny! deseas volver al menú principal?",
+													"image_url": "https://lerny.co/wp-content/uploads/2020/12/titulo_curso.jpg",
+													"subtitle": "selecciona una opcion para continuar",
+													"buttons": [
+														{
+															"type": "postback",
+															"title": "Listar Microlernys",
+															"payload": "LIST_MICROLERNYS"
+														},
+														{
+															"type": "postback",
+															"title": "Salir",
+															"payload": "lerny_farewell"
+														}
+													]
+												}
+											]
+										}
+									}
+								}
+							}
+						}
+					]
+				}
+			elif(data["phase"] != "pos" and not is_last):
 				data = {
 					"fulfillmentMessages": [
 						{
@@ -322,7 +323,7 @@ class ApiManager(APIView):
 					]
 				}
 
-			elif(data["phase"] == "pos"):
+			elif(data["phase"] == "pos" and not is_last):
 				data = {
 					"fulfillmentMessages": [
 						{
@@ -363,12 +364,17 @@ class ApiManager(APIView):
 						}
 					]
 				}
+
+
 		elif(key == "CARGAR_ARCHIVO"):
 			file_url = request["file_url"]
 			url_task = file_url
-			user_state = User_State.objects.filter(user_id=user_id)
+			user_id_obj = User.objects.get(
+				identification=user_id)
+			user_state = User_State.objects.filter(user_id=user_id_obj)
 			serializers_class = UserResourceSerializer
 			if(user_state):
+				print("GUARDAR ARCHIVO")
 				user_state = user_state.first()
 				u_resource = User_Resource()
 				u_resource.resource_id = user_state.resource_id

@@ -47,9 +47,9 @@ class User_Resource(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, null = False)
     done = models.BooleanField(default=False)
     user_response = models.CharField('user response', max_length=300, null=True)
-    # response_date = models.DateTimeField('response date', null=True)
-    #last_view_date = models.DateTimeField('last view date', null=True)
-    #done_date = models.DateTimeField('done date', auto_now_add=True)
+    response_date = models.DateTimeField('response date', null=True)
+    last_view_date = models.DateTimeField('last view date', null=True)
+    done_date = models.DateTimeField('done date', auto_now_add=True)
 
 class User_Micro_Lerny(models.Model):
     micro_lerny_id = models.ForeignKey(MicroLerny, on_delete=models.CASCADE, null = False)

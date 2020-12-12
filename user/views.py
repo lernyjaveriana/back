@@ -179,6 +179,7 @@ class ApiManager(APIView):
 				}
 			)
 		elif(key == "CONTINUAR_CURSO"):
+			is_last = False
 			serializers_class = ResourceSerializer
 			user_id_obj = User.objects.get(
 				identification=user_id)
@@ -200,17 +201,20 @@ class ApiManager(APIView):
 					user_state.save()
 					data = ResourceSerializer(resourse).data
 				elif(phase == 'pos'):
-					try:
-						micro_lerny_id_obj = MicroLerny.objects.get(
-							id=user_state.micro_lerny_id.id)
-						son = TreeMicroLerny.objects.filter(
-							dady_micro_lerny=micro_lerny_id_obj).values_list('son_micro_lerny_id', flat=True)
+					micro_lerny_id_obj = MicroLerny.objects.get(
+						id=user_state.micro_lerny_id.id)
+					son = TreeMicroLerny.objects.filter(
+						dady_micro_lerny=micro_lerny_id_obj)
+
+					if(son.count() > 0):
+						s = son.values_list('son_micro_lerny_id', flat=True)
 
 						microlerny_son = MicroLerny.objects.filter(
-							pk__in=son).first()
+							pk__in=s).first()
 
 						micro_lerny_son_obj = MicroLerny.objects.get(
 							id=microlerny_son.id)
+
 						resourse = Resource.objects.get(
 							microlerny=micro_lerny_son_obj, phase='pre')
 
@@ -218,8 +222,44 @@ class ApiManager(APIView):
 						user_state.micro_lerny_id = microlerny_son
 						user_state.save()
 						data = ResourceSerializer(resourse).data
-					except:
-						data = None
+					else:
+						#variable que indica que es o no el ultimo microlerny dle curso
+						is_last = True
+						data = {
+							"fulfillmentMessages": [
+								{
+									"payload": {
+										"facebook": {
+											"attachment": {
+												"type": "template",
+												"payload": {
+													"template_type": "generic",
+													"elements": [
+														{
+															"title": "Felicidades! has terminado los microlernys asociados al lerny! deseas volver al menú principal?",
+															"image_url": "https://lerny.co/wp-content/uploads/2020/12/titulo_curso.jpg",
+															"subtitle": "selecciona una opcion para continuar",
+															"buttons": [
+																{
+																	"type": "postback",
+																	"title": "Listar Microlernys",
+																	"payload": "LIST_MICROLERNYS"
+																},
+																{
+																	"type": "postback",
+																	"title": "Salir",
+																	"payload": "lerny_farewell"
+																}
+															]
+														}
+													]
+												}
+											}
+										}
+									}
+								}
+							]
+						}
 				else:
 					data = None
 			else:

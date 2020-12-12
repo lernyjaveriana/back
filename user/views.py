@@ -387,9 +387,14 @@ class ApiManager(APIView):
 			if(user_state):
 				user_state = user_state.first()
 				lerny_id = Lerny.objects.all().first()
-				micro_lerny = MicroLerny.objects.all().order_by('pk').first()
+				micro_lerny = MicroLerny.objects.all().order_by('pk')[microlerny-1]
 				resourse = Resource.objects.get(
 					microlerny=micro_lerny.id, phase='pre')
+
+				user_state.resource_id = resourse
+				user_state.micro_lerny_id = micro_lerny
+				user_state.save()
+				data = ResourceSerializer(resourse).data
 
 			else:
 				lerny_id = Lerny.objects.all().first()

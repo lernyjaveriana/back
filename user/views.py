@@ -53,7 +53,7 @@ class ApiManager(APIView):
 				break
 			x += 1
 		user_id = (str(int(float(user_id))))
-
+		print("USER_ID "+user_id)
 		request = request.data['queryResult']['parameters']
 		key = request['LERNY_INTENT']
 		if (key == "LOGIN_USER"):

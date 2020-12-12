@@ -322,74 +322,78 @@ class ApiManager(APIView):
                         }
                     ]
                 }
-			elif(key == "CARGAR_REQ_MICROLERNY"):
-				microlerny = (int(float(request["microlerny_num"])))
-				serializers_class = ResourceSerializer
-				user_id_obj = User.objects.get(
-					identification=user_id)
-				user_state = User_State.objects.filter(user_id=user_id_obj)
-				if(user_state):
-					user_state = user_state.first()
-					lerny_id = Lerny.objects.all().first()
-					micro_lerny = MicroLerny.objects.all().order_by('pk').first()
-					resourse = Resource.objects.get(
-						microlerny=micro_lerny.id, phase='pre')
+		elif(key == "CARGAR_REQ_MICROLERNY"):
+			microlerny = (int(float(request["microlerny_num"])))
+			serializers_class = ResourceSerializer
+			user_id_obj = User.objects.get(
+				identification=user_id)
+			user_state = User_State.objects.filter(user_id=user_id_obj)
+			if(user_state):
+				user_state = user_state.first()
+				lerny_id = Lerny.objects.all().first()
+				micro_lerny = MicroLerny.objects.all().order_by('pk')[microlerny-1]
+				resourse = Resource.objects.get(
+					microlerny=micro_lerny.id, phase='pre')
 
-				else:
-					lerny_id = Lerny.objects.all().first()
-					micro_lerny = MicroLerny.objects.all().order_by('pk')[microlerny-1]
-					resourse = Resource.objects.get(
-						microlerny=micro_lerny.id, phase='pre')
+				user_state.resource_id = resourse
+				user_state.micro_lerny_id = micro_lerny
+				user_state.save()
+				data = ResourceSerializer(resourse).data
 
-					user_state = User_State()
-					user_state.lerny_id = lerny_id
-					user_state.micro_lerny_id = micro_lerny
-					user_state.user_id = user_id_obj
-					user_state.resource_id = resourse
-					user_state.save()
-					data = ResourceSerializer(resourse).data
+			else:
+				lerny_id = Lerny.objects.all().first()
+				micro_lerny = MicroLerny.objects.all().order_by('pk')[microlerny-1]
+				resourse = Resource.objects.get(
+					microlerny=micro_lerny.id, phase='pre')
 
-				data = {
-					"fulfillmentMessages": [
-						{
-							"payload": {
-								"facebook": {
-									"attachment": {
-										"type": "template",
-										"payload": {
-											"template_type": "generic",
-											"elements": [
-												{
-													"title": data["title"],
-													"image_url": "https://lerny.co/wp-content/uploads/2020/12/titulo_curso.jpg",
-													"subtitle": data["description"],
-													"buttons": [
-														{
-															"type": "web_url",
-															"url": data["content_url"],
-															"title": "Ver curso ahora"
-														},
-														{
-															"type": "postback",
-															"title": "Mostrar siguiente recurso",
-															"payload": "CONTINUAR_CURSO"
-														},
-														{
-															"type": "postback",
-															"title": "Salir",
-															"payload": "lerny_farewell"
-														}
-													]
-												}
-											]
-										}
+				user_state = User_State()
+				user_state.lerny_id = lerny_id
+				user_state.micro_lerny_id = micro_lerny
+				user_state.user_id = user_id_obj
+				user_state.resource_id = resourse
+				user_state.save()
+				data = ResourceSerializer(resourse).data
+
+			data = {
+				"fulfillmentMessages": [
+					{
+						"payload": {
+							"facebook": {
+								"attachment": {
+									"type": "template",
+									"payload": {
+										"template_type": "generic",
+										"elements": [
+											{
+												"title": data["title"],
+												"image_url": "https://lerny.co/wp-content/uploads/2020/12/titulo_curso.jpg",
+												"subtitle": data["description"],
+												"buttons": [
+													{
+														"type": "web_url",
+														"url": data["content_url"],
+														"title": "Ver curso ahora"
+													},
+													{
+														"type": "postback",
+														"title": "Mostrar siguiente recurso",
+														"payload": "CONTINUAR_CURSO"
+													},
+													{
+														"type": "postback",
+														"title": "Salir",
+														"payload": "lerny_farewell"
+													}
+												]
+											}
+										]
 									}
 								}
 							}
 						}
-					]
-				}
-
+					}
+				]
+			}
         elif(key == "CARGAR_ARCHIVO"):
             file_url = request["file_url"]
             data = {

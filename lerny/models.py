@@ -42,6 +42,7 @@ class User_Lerny(models.Model):
     pay_date = models.DateTimeField(null=True)
     last_view_date = models.DateTimeField('last view date', null=True)
     creation_date = models.DateTimeField('creation date', auto_now_add=True)
+
 class User_Resource(models.Model):
     resource_id = models.ForeignKey(Resource, on_delete=models.CASCADE,null = False)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, null = False)

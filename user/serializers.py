@@ -51,17 +51,17 @@ class UserLoginSerializer(serializers.Serializer):
 
         # authenticate recibe las credenciales, si son válidas devuelve el objeto del usuario
         #user = authenticate(username=int(float(data['user_document_id'])), password=int(float(data['user_document_id'])))
-        user = authenticate(username=data['user_document_id'], password=data['user_document_id'])
+        user = authenticate(username=int(float(data['user_document_id'])), password=int(float(data['user_document_id'])))
         if not user:
             try:
-                user = User.objects.get(identification=data['user_document_id'])
+                user = User.objects.get(identification=int(float(data['user_document_id'])))
                 if user.identification == user.password:
                     self.context['user'] = user
                 else:
-                    print("prueba con el dato identificacion: "+data['user_document_id'])
+                    print("prueba con el dato identificacion: "+int(float(data['user_document_id'])))
                     raise serializers.ValidationError('Las credenciales no son válidas')
             except:
-                print("prueba con el dato identificacion: "+data['user_document_id'])
+                print("prueba con el dato identificacion: "+int(float(data['user_document_id'])))
                 raise serializers.ValidationError('El usuario no existe')
 
         # Guardamos el usuario en el contexto para posteriormente en create recuperar el token

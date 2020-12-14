@@ -257,7 +257,7 @@ class ApiManager(APIView):
 											"template_type": "generic",
 											"elements": [
 												{
-													"title": "Felicidades! has terminado los microlernys asociados al lerny! deseas volver al menú principal?",
+													"title": "Has terminado los microlernys asociados al lerny!",
 													"image_url": "https://lerny.co/wp-content/uploads/2020/12/titulo_curso.jpg",
 													"subtitle": "selecciona una opcion para continuar",
 													"buttons": [
@@ -304,7 +304,7 @@ class ApiManager(APIView):
 														},
 														{
 															"type": "postback",
-															"title": "Mostrar siguiente recurso",
+															"title": "Siguiente recurso",
 															"payload": "CONTINUAR_CURSO"
 														},
 														{
@@ -346,7 +346,7 @@ class ApiManager(APIView):
 														},
 														{
 															"type": "postback",
-															"title": "Mostrar siguiente recurso",
+															"title": "Siguiente recurso",
 															"payload": "CONTINUAR_CURSO"
 														},
 														{
@@ -478,7 +478,7 @@ class ApiManager(APIView):
 													},
 													{
 														"type": "postback",
-														"title": "Mostrar siguiente recurso",
+														"title": "Siguiente recurso",
 														"payload": "CONTINUAR_CURSO"
 													},
 													{

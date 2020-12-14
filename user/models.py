@@ -6,7 +6,6 @@ from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager)
 
 class MyUserManager(BaseUserManager):
     def create_user(self, user_name, user_surname, country, city, mail,identification):
-
         if not identification:
             raise ValueError("debe ingresar numero de identificacion")
         user = self.model(

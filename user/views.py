@@ -8,7 +8,7 @@ from .models import User
 from lerny.models import *
 from lerny.serializers import *
 from datetime import datetime
-import requests
+
 
 
 class UserManageGet(APIView):

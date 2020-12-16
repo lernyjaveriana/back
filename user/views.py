@@ -82,18 +82,18 @@ class ApiManager(APIView):
 												[
 													{
 														"title": "Hola " + UserSerializer(user).data["user_name"] + ", un gusto volver a verte!",
-														"image_url": "https://lerny.co/wp-content/uploads/2020/12/ruta_curso1.jpg",
+														"image_url": "https://lerny.co/wp-content/uploads/2020/12/titulo_curso.jpg",
 														"subtitle": "Para comenzar por favor selecciona una opción.",
 														"buttons":
 														[
 															{
 																"type": "postback",
-																"title": "Continuar lerny",
+																"title": "Continuar Lerny",
 																"payload": "CONTINUAR_CURSO"
 															},
 															{
 																"type": "postback",
-																"title": "ver microlernys",
+																"title": "ver Micro Lernys",
 																"payload": "LIST_MICROLERNYS"
 															},
 														]
@@ -140,7 +140,7 @@ class ApiManager(APIView):
 					{
 						"text": {
 							"text": [
-								"Lista de Microlernys"
+								"Los Micro Lernys de tu curso Mercadeo Digital: Alcanzando el éxito de tu negocio, son:"
 							]
 						}
 					},
@@ -159,7 +159,7 @@ class ApiManager(APIView):
 								"type": "template",
 								"payload": {
 									"template_type": "button",
-									"text": "¿Deseas seleccionar un micro lerny?",
+									"text": "¿Deseas seleccionar un Micro Lerny?",
 									"buttons": [
 										{
 											"type": "postback",
@@ -258,7 +258,7 @@ class ApiManager(APIView):
 											"elements": [
 												{
 													"title": "Has terminado los microlernys asociados al lerny!",
-													"image_url": "https://lerny.co/wp-content/uploads/2020/12/titulo_curso.jpg",
+													"image_url": "https://lerny.co/wp-content/uploads/2020/12/ruta_curso1.jpg",
 													"subtitle": "selecciona una opcion para continuar",
 													"buttons": [
 														{
@@ -294,7 +294,7 @@ class ApiManager(APIView):
 											"elements": [
 												{
 													"title": data["title"],
-													"image_url": "https://lerny.co/wp-content/uploads/2020/12/titulo_curso.jpg",
+													"image_url": "https://lerny.co/wp-content/uploads/2020/12/ruta_curso1.jpg",
 													"subtitle": data["description"],
 													"buttons": [
 														{
@@ -336,7 +336,7 @@ class ApiManager(APIView):
 											"elements": [
 												{
 													"title": data["title"],
-													"image_url": "https://lerny.co/wp-content/uploads/2020/12/titulo_curso.jpg",
+													"image_url": "https://lerny.co/wp-content/uploads/2020/12/ruta_curso1.jpg",
 													"subtitle": data["description"],
 													"buttons": [
 														{
@@ -400,7 +400,7 @@ class ApiManager(APIView):
 										[
 											{
 												"title": "Tu archivo ha sido cargado exitosamente! Deseas hacer algo más?",
-												"image_url": "https://www.dropbox.com/s/ha2re0473e67eqo/LOGO%20LERNY%20NUEVO%20_Mesa%20de%20trabajo%201%20copia%207.png",
+												"image_url": "https://lerny.co/wp-content/uploads/2020/12/ruta_curso1.jpg",
 												"subtitle": "Para continuar, por favor selecciona una opción.",
 												"buttons":
 												[
@@ -468,7 +468,7 @@ class ApiManager(APIView):
 										"elements": [
 											{
 												"title": data["title"],
-												"image_url": "https://lerny.co/wp-content/uploads/2020/12/titulo_curso.jpg",
+												"image_url": "https://lerny.co/wp-content/uploads/2020/12/ruta_curso1.jpg",
 												"subtitle": data["description"],
 												"buttons": [
 													{

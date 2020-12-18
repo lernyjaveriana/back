@@ -194,12 +194,28 @@ class ApiManager(APIView):
 					user_state.resource_id = resourse
 					user_state.save()
 					data = ResourceSerializer(resourse).data
+					
 				elif(phase == 'dur'):
-					resourse = Resource.objects.get(
-						microlerny=user_state.micro_lerny_id, phase='pos')
-					user_state.resource_id = resourse
+					resourse = Resource.objects.filter(
+						microlerny=user_state.micro_lerny_id, phase='pt2')
+					if(resourse):
+						print("recurso pt2 ")
+					else:
+						print("recurso pos ")
+						resourse = Resource.objects.filter(
+							microlerny=user_state.micro_lerny_id, phase='pos')
+					
+					user_state.resource_id = resourse.first()
 					user_state.save()
-					data = ResourceSerializer(resourse).data
+					data = ResourceSerializer(resourse.first()).data
+
+				elif(phase == 'pt2'):
+					resourse = Resource.objects.filter(
+						microlerny=user_state.micro_lerny_id, phase='pos')
+					user_state.resource_id = resourse.first()
+					user_state.save()
+					data = ResourceSerializer(resourse.first()).data
+
 				elif(phase == 'pos'):
 					micro_lerny_id_obj = MicroLerny.objects.get(
 						id=user_state.micro_lerny_id.id)

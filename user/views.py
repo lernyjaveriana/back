@@ -298,7 +298,7 @@ class ApiManager(APIView):
 					]
 				}
 			elif(data["phase"] != "pos" and not is_last):
-				
+
 				data = {
 					"fulfillmentMessages": [
 						{
@@ -307,7 +307,7 @@ class ApiManager(APIView):
 									"attachment": {
 										"type": "video",
 										"payload": {
-											"url":"https://drive.google.com/file/d/0B_HHW9XfjtkAQ2NocHBTVFR1WWs/view?usp=sharing", 
+											"url":"https://lerny.co/wp-content/uploads/2021/03/Snapchat-942124455.mp4", 
 											"is_reusable":True
 										}
 									}

@@ -304,33 +304,10 @@ class ApiManager(APIView):
 							"payload": {
 								"facebook": {
 									"attachment": {
-										"type": "template",
+										"type": "image",
 										"payload": {
-											"template_type": "generic",
-											"elements": [
-												{
-													"title": data["title"],
-													"image_url": "https://lerny.co/wp-content/uploads/2020/12/ruta_curso1.jpg",
-													"subtitle": data["description"],
-													"buttons": [
-														{
-															"type": "web_url",
-															"url": data["content_url"],
-															"title": "Ver curso ahora"
-														},
-														{
-															"type": "postback",
-															"title": "Siguiente recurso",
-															"payload": "CONTINUAR_CURSO"
-														},
-														{
-															"type": "postback",
-															"title": "Salir",
-															"payload": "lerny_farewell"
-														}
-													]
-												}
-											]
+											"url":"https://media.sproutsocial.com/uploads/2017/02/10x-featured-social-media-image-size.png", 
+											"is_reusable":True
 										}
 									}
 								}

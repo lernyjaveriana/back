@@ -304,9 +304,9 @@ class ApiManager(APIView):
 							"payload": {
 								"facebook": {
 									"attachment": {
-										"type": "image",
+										"type": "video",
 										"payload": {
-											"url":"https://media.sproutsocial.com/uploads/2017/02/10x-featured-social-media-image-size.png", 
+											"url":"https://www.youtube.com/watch?v=SDStvSoX7BY", 
 											"is_reusable":True
 										}
 									}

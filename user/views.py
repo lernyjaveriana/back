@@ -298,6 +298,7 @@ class ApiManager(APIView):
 					]
 				}
 			elif(data["phase"] != "pos" and not is_last):
+				
 				data = {
 					"fulfillmentMessages": [
 						{

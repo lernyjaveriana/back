@@ -306,7 +306,7 @@ class ApiManager(APIView):
 									"attachment": {
 										"type": "video",
 										"payload": {
-											"url":"https://www.youtube.com/watch?v=SDStvSoX7BY", 
+											"url":"https://drive.google.com/file/d/0B_HHW9XfjtkAQ2NocHBTVFR1WWs/view?usp=sharing", 
 											"is_reusable":True
 										}
 									}

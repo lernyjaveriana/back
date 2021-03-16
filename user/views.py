@@ -307,8 +307,7 @@ class ApiManager(APIView):
 									"attachment": {
 										"type": "video",
 										"payload": {
-											"url":"https://lerny.co/wp-content/uploads/2021/03/Snapchat-942124455.mp4", 
-											"is_reusable":True
+											"url":"https://lerny.co/wp-content/uploads/2021/03/Snapchat-942124455.mp4"
 										}
 									}
 								}

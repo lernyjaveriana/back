@@ -298,16 +298,51 @@ class ApiManager(APIView):
 					]
 				}
 			elif(data["phase"] != "pos" and not is_last):
-
 				data = {
 					"fulfillmentMessages": [
 						{
 							"payload": {
 								"facebook": {
 									"attachment": {
+										"type": "template",
+										"payload": {
+											"template_type": "generic",
+											"elements": [
+												{
+													"title": data["title"],
+													"image_url": "https://lerny.co/wp-content/uploads/2020/12/ruta_curso1.jpg",
+													"subtitle": data["description"],
+													"buttons": [
+														{
+															"type": "web_url",
+															"url": data["content_url"],
+															"title": "Ver curso ahora"
+														},
+														{
+															"type": "postback",
+															"title": "Siguiente recurso",
+															"payload": "CONTINUAR_CURSO"
+														},
+														{
+															"type": "postback",
+															"title": "Salir",
+															"payload": "lerny_farewell"
+														}
+													]
+												}
+											]
+										}
+									}
+								}
+							}
+						},
+						{
+							"payload": {
+								"facebook": {
+									"attachment": {
 										"type": "video",
 										"payload": {
-											"url":"https://lerny.co/wp-content/uploads/2021/03/Snapchat-942124455.mp4"
+											"url":"https://lerny.co/Videoslerny1/Microlerny%201/AI-PODCAST(2).mp4"
 										}
 									}
 								}

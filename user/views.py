@@ -304,6 +304,18 @@ class ApiManager(APIView):
 							"payload": {
 								"facebook": {
 									"attachment": {
+										"type": "video",
+										"payload": {
+											"url":"https://lerny.co/Videoslerny1/Microlerny%201/AI-PODCAST(2).mp4"
+										}
+									}
+								}
+							}
+						},
+						{
+							"payload": {
+								"facebook": {
+									"attachment": {
 										"type": "template",
 										"payload": {
 											"template_type": "generic",
@@ -335,19 +347,8 @@ class ApiManager(APIView):
 									}
 								}
 							}
-						},
-						{
-							"payload": {
-								"facebook": {
-									"attachment": {
-										"type": "video",
-										"payload": {
-											"url":"https://lerny.co/Videoslerny1/Microlerny%201/AI-PODCAST(2).mp4"
-										}
-									}
-								}
-							}
 						}
+
 					]
 				}
 

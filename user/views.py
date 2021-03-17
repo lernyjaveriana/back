@@ -306,7 +306,7 @@ class ApiManager(APIView):
 									"attachment": {
 										"type": "video",
 										"payload": {
-											"url":"https://lerny.co/Videoslerny1/Microlerny%201/AI-PODCAST(2).mp4"
+											"url":data["content_url"]
 										}
 									}
 								}
@@ -487,6 +487,18 @@ class ApiManager(APIView):
 
 			data = {
 				"fulfillmentMessages": [
+					{
+						"payload": {
+							"facebook": {
+								"attachment": {
+									"type": "video",
+									"payload": {
+										"url":data["content_url"]
+									}
+								}
+							}
+						}
+					},
 					{
 						"payload": {
 							"facebook": {

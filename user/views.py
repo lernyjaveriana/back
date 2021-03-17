@@ -301,6 +301,13 @@ class ApiManager(APIView):
 				data = {
 					"fulfillmentMessages": [
 						{
+							"text": {
+								"text": [
+									"Estamos cargando tu contenido :)"
+								]
+							}
+						},
+						{
 							"payload": {
 								"facebook": {
 									"attachment": {
@@ -487,6 +494,13 @@ class ApiManager(APIView):
 
 			data = {
 				"fulfillmentMessages": [
+					{
+						"text": {
+							"text": [
+								"Estamos cargando tu contenido :)"
+							]
+						}
+					},
 					{
 						"payload": {
 							"facebook": {

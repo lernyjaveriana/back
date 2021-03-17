@@ -311,7 +311,7 @@ class ApiManager(APIView):
 							"payload": {
 								"facebook": {
 									"attachment": {
-										"type": "video",
+										"type": "file",
 										"payload": {
 											"url":data["content_url"]
 										}
@@ -505,7 +505,7 @@ class ApiManager(APIView):
 						"payload": {
 							"facebook": {
 								"attachment": {
-									"type": "video",
+									"type": "file",
 									"payload": {
 										"url":data["content_url"]
 									}

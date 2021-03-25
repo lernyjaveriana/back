@@ -298,6 +298,13 @@ class ApiManager(APIView):
 					]
 				}
 			elif(data["phase"] != "pos" and not is_last):
+				if(data["Description"]=="Infografía"):
+					media = "image"
+				elif(data["Description"]=="Práctica"):
+					media = "file"
+				else:
+					media = "video"
+
 				data = {
 					"fulfillmentMessages": [
 						{
@@ -311,7 +318,7 @@ class ApiManager(APIView):
 							"payload": {
 								"facebook": {
 									"attachment": {
-										"type": "video",
+										"type": media,
 										"payload": {
 											"url":data["content_url"]
 										}
@@ -491,7 +498,12 @@ class ApiManager(APIView):
 				user_state.resource_id = resourse
 				user_state.save()
 				data = ResourceSerializer(resourse).data
-
+				if(data["Description"]=="Infografía"):
+					media = "image"
+				elif(data["Description"]=="Práctica"):
+					media = "file"
+				else:
+					media = "video"
 			data = {
 				"fulfillmentMessages": [
 					{
@@ -505,7 +517,7 @@ class ApiManager(APIView):
 						"payload": {
 							"facebook": {
 								"attachment": {
-									"type": "video",
+									"type": media,
 									"payload": {
 										"url":data["content_url"]
 									}

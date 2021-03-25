@@ -39,7 +39,7 @@ class UserManagePost(APIView):
 class ApiManager(APIView):
 
 	def post(self, request):
-		global media
+		media = "video"
 		print("Parameters")
 		print(request.data['queryResult']['parameters'])
 		print("OutputContexts")
@@ -303,8 +303,7 @@ class ApiManager(APIView):
 					media = "image"
 				elif(data["Description"]=="Práctica"):
 					media = "file"
-				else:
-					media = "video"
+
 
 				data = {
 					"fulfillmentMessages": [
@@ -503,8 +502,6 @@ class ApiManager(APIView):
 					media = "image"
 				elif(data["Description"]=="Práctica"):
 					media = "file"
-				else:
-					media = "video"
 			data = {
 				"fulfillmentMessages": [
 					{

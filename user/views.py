@@ -299,9 +299,9 @@ class ApiManager(APIView):
 					]
 				}
 			elif(data["phase"] != "pos" and not is_last):
-				if(data["Description"]=="Infografía"):
+				if(data["description"]=="Infografía"):
 					media = "image"
-				elif(data["Description"]=="Práctica"):
+				elif(data["description"]=="Práctica"):
 					media = "file"
 
 
@@ -498,9 +498,9 @@ class ApiManager(APIView):
 				user_state.resource_id = resourse
 				user_state.save()
 				data = ResourceSerializer(resourse).data
-				if(data["Description"]=="Infografía"):
+				if(data["description"]=="Infografía"):
 					media = "image"
-				elif(data["Description"]=="Práctica"):
+				elif(data["description"]=="Práctica"):
 					media = "file"
 			data = {
 				"fulfillmentMessages": [

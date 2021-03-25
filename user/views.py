@@ -367,8 +367,31 @@ class ApiManager(APIView):
 				}
 
 			elif(data["phase"] == "pos" and not is_last):
+				if(data["description"]=="Infografía"):
+					media = "image"
+				elif(data["description"]=="Práctica"):
+					media = "file"
 				data = {
 					"fulfillmentMessages": [
+												{
+							"text": {
+								"text": [
+									"Estamos cargando tu contenido :)"
+								]
+							}
+						},
+						{
+							"payload": {
+								"facebook": {
+									"attachment": {
+										"type": media,
+										"payload": {
+											"url":data["content_url"]
+										}
+									}
+								}
+							}
+						},
 						{
 							"payload": {
 								"facebook": {

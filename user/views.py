@@ -39,6 +39,7 @@ class UserManagePost(APIView):
 class ApiManager(APIView):
 
 	def post(self, request):
+		global media
 		print("Parameters")
 		print(request.data['queryResult']['parameters'])
 		print("OutputContexts")

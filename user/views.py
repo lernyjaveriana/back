@@ -299,6 +299,7 @@ class ApiManager(APIView):
 					]
 				}
 			elif(data["phase"] != "pos" and not is_last):
+				print("Data, description: "+data["description"])
 				if(data["description"]=="Infografía"):
 					media = "image"
 				elif(data["description"]=="Práctica"):

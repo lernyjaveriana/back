@@ -523,11 +523,11 @@ class ApiManager(APIView):
 				user_state.resource_id = resourse
 				user_state.save()
 				data = ResourceSerializer(resourse).data
-				print("Data, description: "+data["description"])
-				if(data["description"]=="Infografía"):
-					media = "image"
-				elif(data["description"]=="Práctica"):
-					media = "file"
+			print("Data, description: "+data["description"])
+			if(data["description"]=="Infografía"):
+				media = "image"
+			elif(data["description"]=="Práctica"):
+				media = "file"
 			data = {
 				"fulfillmentMessages": [
 					{

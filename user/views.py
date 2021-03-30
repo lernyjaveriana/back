@@ -368,6 +368,7 @@ class ApiManager(APIView):
 				}
 
 			elif(data["phase"] == "pos" and not is_last):
+				print("Data, description: "+data["description"])
 				if(data["description"]=="Infografía"):
 					media = "image"
 				elif(data["description"]=="Práctica"):
@@ -522,6 +523,7 @@ class ApiManager(APIView):
 				user_state.resource_id = resourse
 				user_state.save()
 				data = ResourceSerializer(resourse).data
+				print("Data, description: "+data["description"])
 				if(data["description"]=="Infografía"):
 					media = "image"
 				elif(data["description"]=="Práctica"):

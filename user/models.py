@@ -50,7 +50,8 @@ class User(AbstractBaseUser):
     USERNAME_FIELD = "identification"
     REQUIRED_FIELDS =  ["user_name","user_surname","country","city","mail"]
 
-
+    def __str__(self):
+        return f'{self.user_name},{self.user_surname},{self.country},{self.city}'
     def has_perm(self,perm,obj = None):
         return True
 
@@ -60,8 +61,7 @@ class User(AbstractBaseUser):
     def is_staff(self):
         return self.admin_user
 
-    list_display = ("user_name", "user_surname")
-    class Meta:
-        ordering = ("user_name", "user_surname")
 
 
+
+    

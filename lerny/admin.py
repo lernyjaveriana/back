@@ -16,7 +16,7 @@ class ResourceAdmin(admin.ModelAdmin):
 
 
 class User_ResourceAdmin(admin.ModelAdmin):
-    list_filter=("user_id")
+    list_filter=("user_id",)
     list_display = ("user_id","resource_id")
 
 admin.site.register(Lerny,LernyAdmin)

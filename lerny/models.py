@@ -9,6 +9,7 @@ class Lerny(models.Model):
 	category = models.CharField('category', max_length = 100)
 	price = models.FloatField('price', null = False)
 	creation_date = models.DateTimeField('creation date', auto_now_add = True)
+	REQUIRED_FIELDS =  ["lerny_name"]
 
 	def __str__(self):
 		return f'{self.lerny_name}'

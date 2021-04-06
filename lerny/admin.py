@@ -4,7 +4,7 @@ from .models import Lerny, MicroLerny, TreeMicroLerny, Resource, User_State, Use
 # Register your models here
 
 class LernyAdmin(admin.ModelAdmin):
-    list_display = ('lerny_name')
+    list_display = ("lerny_name", "price")
 
 admin.site.register(Lerny,LernyAdmin)
 admin.site.register(MicroLerny)

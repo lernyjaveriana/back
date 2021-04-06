@@ -4,11 +4,17 @@ from .models import Lerny, MicroLerny, TreeMicroLerny, Resource, User_State, Use
 # Register your models here
 
 class LernyAdmin(admin.ModelAdmin):
-    list_display = ("lerny_name", "price")
+    list_display = ("lerny_name","description", "price")
+
+class MicroLernyAdmin(admin.ModelAdmin):
+    list_display = ("micro_lerny_subtitle","micro_lerny_title")
+
+class ResourceAdmin(admin.ModelAdmin):
+    list_display = ("title","phase", "microlerny")
 
 admin.site.register(Lerny,LernyAdmin)
-admin.site.register(MicroLerny)
+admin.site.register(MicroLerny,MicroLernyAdmin)
 admin.site.register(TreeMicroLerny)
-admin.site.register(Resource)
+admin.site.register(Resource,ResourceAdmin)
 admin.site.register(User_State)
 admin.site.register(User_Resource)

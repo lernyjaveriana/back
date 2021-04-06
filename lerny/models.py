@@ -35,7 +35,7 @@ class Resource(models.Model):
 	points = models.FloatField('points', null=False)
 	microlerny = models.ForeignKey(MicroLerny, on_delete=models.CASCADE, null = False)
 	def __str__(self):
-		return f'{self.title},{self.son_micro_lerny}'
+		return f'{self.title}'
 class User_Lerny(models.Model):
 	lerny_id = models.ForeignKey(Lerny, on_delete=models.CASCADE, null = False)
 	user_id = models.ForeignKey(User, on_delete=models.CASCADE, null = False)

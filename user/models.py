@@ -60,5 +60,7 @@ class User(AbstractBaseUser):
     @property
     def is_staff(self):
         return self.admin_user
+    class Meta:
+        ordering = ("user_name", "user_surname")
 
 

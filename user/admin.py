@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import User
 # Register your models here.
 class UserAdmin(admin.ModelAdmin):
-    list_display = ("user_name", "user_surname")
+    list_display = ("user_name", "user_surname", "identification")
 
 admin.site.register(User, UserAdmin)
 #@admin.register(User)

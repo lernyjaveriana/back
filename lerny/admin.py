@@ -7,12 +7,17 @@ class LernyAdmin(admin.ModelAdmin):
     list_display = ("lerny_name","description", "price")
 
 class MicroLernyAdmin(admin.ModelAdmin):
-    list_filter=("micro_lerny_subtitle","lerny")
+    list_filter=("lerny",)
     list_display = ("micro_lerny_title","micro_lerny_subtitle","lerny")
 
 class ResourceAdmin(admin.ModelAdmin):
     list_filter=("phase", "microlerny")
     list_display = ("title","phase", "microlerny")
+
+
+class User_ResourceAdmin(admin.ModelAdmin):
+    list_filter=("user_id")
+    list_display = ("user_id","resource_id")
 
 admin.site.register(Lerny,LernyAdmin)
 admin.site.register(MicroLerny,MicroLernyAdmin)

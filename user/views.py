@@ -311,7 +311,7 @@ class ApiManager(APIView):
 						{
 							"text": {
 								"text": [
-									"Estamos cargando tu contenido :)"
+									"Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"
 								]
 							}
 						},
@@ -378,7 +378,7 @@ class ApiManager(APIView):
 												{
 							"text": {
 								"text": [
-									"Estamos cargando tu contenido :)"
+									"Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"
 								]
 							}
 						},
@@ -533,7 +533,7 @@ class ApiManager(APIView):
 					{
 						"text": {
 							"text": [
-								"Estamos cargando tu contenido :)"
+								"Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"
 							]
 						}
 					},

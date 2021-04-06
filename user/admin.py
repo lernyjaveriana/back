@@ -4,7 +4,7 @@ from .models import User
 
 admin.site.register(User)
 @admin.register(User)
-class User(admin.ModelAdmin):
+class UserAdmin(admin.ModelAdmin):
     list_display = ("user_name", "user_surname")
 
 

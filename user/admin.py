@@ -5,7 +5,7 @@ from .models import User
 admin.site.register(User)
 @admin.register(User)
 class User(admin.ModelAdmin):
-    list_display = ("last_name", "first_name")
+    list_display = ("user_name", "user_surname")
 
 
 #@admin.register(User)

@@ -3,7 +3,7 @@ from .models import User
 # Register your models here.
 class UserAdmin(admin.ModelAdmin):
     list_display = ("user_name", "user_surname", "identification")
-    list_filter=("identification",)
+    search_fields =("identification",)
 admin.site.register(User, UserAdmin)
 #@admin.register(User)
 #class UserAdmin(admin.ModelAdmin):

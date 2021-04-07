@@ -341,11 +341,6 @@ class ApiManager(APIView):
 													"subtitle": data["description"],
 													"buttons": [
 														{
-															"type": "web_url",
-															"url": data["content_url"],
-															"title": "Ver curso ahora"
-														},
-														{
 															"type": "postback",
 															"title": "Siguiente recurso",
 															"payload": "CONTINUAR_CURSO"
@@ -407,11 +402,6 @@ class ApiManager(APIView):
 													"image_url": "https://lerny.co/wp-content/uploads/2020/12/ruta_curso1.jpg",
 													"subtitle": data["description"],
 													"buttons": [
-														{
-															"type": "web_url",
-															"url": data["content_url"],
-															"title": "Ver curso ahora"
-														},
 														{
 															"type": "postback",
 															"title": "Siguiente recurso",
@@ -562,11 +552,6 @@ class ApiManager(APIView):
 												"image_url": "https://lerny.co/wp-content/uploads/2020/12/ruta_curso1.jpg",
 												"subtitle": data["description"],
 												"buttons": [
-													{
-														"type": "web_url",
-														"url": data["content_url"],
-														"title": "Ver curso ahora"
-													},
 													{
 														"type": "postback",
 														"title": "Siguiente recurso",

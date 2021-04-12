@@ -39,6 +39,7 @@ class UserManagePost(APIView):
 class ApiManager(APIView):
 
 	def post(self, request):
+		media = "video"
 		print("Parameters")
 		print(request.data['queryResult']['parameters'])
 		print("OutputContexts")
@@ -194,8 +195,8 @@ class ApiManager(APIView):
 						microlerny=user_state.micro_lerny_id, phase='dur')
 					user_state.resource_id = resourse.first()
 					user_state.save()
-					data = ResourceSerializer(resourse.first()).data
-
+					data = ResourceSerializer(resourse).data
+					
 				elif(phase == 'dur'):
 					resourse = Resource.objects.filter(
 						microlerny=user_state.micro_lerny_id, phase='pt2')
@@ -299,8 +300,34 @@ class ApiManager(APIView):
 					]
 				}
 			elif(data["phase"] != "pos" and not is_last):
+				print("Data, description: "+data["description"])
+				if(data["description"]=="Infografía"):
+					media = "image"
+				elif(data["description"]=="Práctica"):
+					media = "file"
+
+
 				data = {
 					"fulfillmentMessages": [
+						{
+							"text": {
+								"text": [
+									"Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"
+								]
+							}
+						},
+						{
+							"payload": {
+								"facebook": {
+									"attachment": {
+										"type": media,
+										"payload": {
+											"url":data["content_url"]
+										}
+									}
+								}
+							}
+						},
 						{
 							"payload": {
 								"facebook": {
@@ -314,11 +341,6 @@ class ApiManager(APIView):
 													"image_url": "https://lerny.co/wp-content/uploads/2020/12/ruta_curso1.jpg",
 													"subtitle": data["description"],
 													"buttons": [
-														{
-															"type": "web_url",
-															"url": data["content_url"],
-															"title": "Ver curso ahora"
-														},
 														{
 															"type": "postback",
 															"title": "Siguiente recurso",
@@ -337,12 +359,37 @@ class ApiManager(APIView):
 								}
 							}
 						}
+
 					]
 				}
 
 			elif(data["phase"] == "pos" and not is_last):
+				print("Data, description: "+data["description"])
+				if(data["description"]=="Infografía"):
+					media = "image"
+				elif(data["description"]=="Práctica"):
+					media = "file"
 				data = {
 					"fulfillmentMessages": [
+												{
+							"text": {
+								"text": [
+									"Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"
+								]
+							}
+						},
+						{
+							"payload": {
+								"facebook": {
+									"attachment": {
+										"type": media,
+										"payload": {
+											"url":data["content_url"]
+										}
+									}
+								}
+							}
+						},
 						{
 							"payload": {
 								"facebook": {
@@ -356,11 +403,6 @@ class ApiManager(APIView):
 													"image_url": "https://lerny.co/wp-content/uploads/2020/12/ruta_curso1.jpg",
 													"subtitle": data["description"],
 													"buttons": [
-														{
-															"type": "web_url",
-															"url": data["content_url"],
-															"title": "Ver curso ahora"
-														},
 														{
 															"type": "postback",
 															"title": "Siguiente recurso",
@@ -472,9 +514,32 @@ class ApiManager(APIView):
 				user_state.resource_id = resourse
 				user_state.save()
 				data = ResourceSerializer(resourse).data
-
+			print("Data, description: "+data["description"])
+			if(data["description"]=="Infografía"):
+				media = "image"
+			elif(data["description"]=="Práctica"):
+				media = "file"
 			data = {
 				"fulfillmentMessages": [
+					{
+						"text": {
+							"text": [
+								"Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"
+							]
+						}
+					},
+					{
+						"payload": {
+							"facebook": {
+								"attachment": {
+									"type": media,
+									"payload": {
+										"url":data["content_url"]
+									}
+								}
+							}
+						}
+					},
 					{
 						"payload": {
 							"facebook": {
@@ -488,11 +553,6 @@ class ApiManager(APIView):
 												"image_url": "https://lerny.co/wp-content/uploads/2020/12/ruta_curso1.jpg",
 												"subtitle": data["description"],
 												"buttons": [
-													{
-														"type": "web_url",
-														"url": data["content_url"],
-														"title": "Ver curso ahora"
-													},
 													{
 														"type": "postback",
 														"title": "Siguiente recurso",

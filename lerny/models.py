@@ -35,7 +35,7 @@ class Resource(models.Model):
 	creation_date = models.DateTimeField('creation date', auto_now_add = True)
 	points = models.FloatField('points', null=False)
 	microlerny = models.ForeignKey(MicroLerny, on_delete=models.CASCADE, null = False)
-	image = models.CharField('image', max_length = 200, null=False)
+	image_url = models.CharField('image_url', max_length = 200, null=False)
 	def __str__(self):
 		return f'{self.title,self.phase}'
 class User_Lerny(models.Model):

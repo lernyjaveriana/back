@@ -7,3 +7,4 @@ Scripts
 static
 backend_django/settings.py
 backend_django/urls.py
+backend_django/settings.py

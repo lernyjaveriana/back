@@ -31,7 +31,7 @@ class Resource(models.Model):
 	description = models.CharField('description', max_length = 300)
 	content_url = models.CharField('content_url', max_length = 100, null=False)
 	content_type = models.CharField('microlerny title', max_length = 200, null=False)
-	image_url = models.CharField('image url', max_length = 200, null=False)
+	image = models.CharField('image', max_length = 200, null=False)
 	phase = models.CharField('phase', max_length = 3, null=False)
 	creation_date = models.DateTimeField('creation date', auto_now_add = True)
 	points = models.FloatField('points', null=False)

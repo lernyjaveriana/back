@@ -48,7 +48,6 @@ class Migration(migrations.Migration):
                 ('phase', models.CharField(max_length=3, verbose_name='phase')),
                 ('creation_date', models.DateTimeField(auto_now_add=True, verbose_name='creation date')),
                 ('points', models.FloatField(verbose_name='points')),
-                ('image_url', models.CharField(max_length=200, verbose_name='image url')),
                 ('microlerny', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='lerny.microlerny')),
             ],
         ),

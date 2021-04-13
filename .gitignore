@@ -1,9 +1,10 @@
 # created by virtualenv automatically
-backend_django/**
 .vscode
 api
 include
 Lib
 Scripts
 static
-backend_django
+backend_django/settings.py
+backend_django/urls.py
+

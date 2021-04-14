@@ -57,6 +57,7 @@ class ApiManager(APIView):
 		print("USER_ID "+user_id)
 		request = request.data['queryResult']['parameters']
 		key = request['LERNY_INTENT']
+		# LOGIN
 		if (key == "LOGIN_USER"):
 			serializer = UserLoginSerializer(data=request)
 			serializer.is_valid(raise_exception=True)
@@ -107,7 +108,7 @@ class ApiManager(APIView):
 					}
 				]
 			}
-
+		# LOGIN
 			# data = {
 			# 	"followupEventInput": {
 			# 		"name": "Login",
@@ -118,6 +119,7 @@ class ApiManager(APIView):
 			# 			}
 			# 		}
 			# 	}
+		# LISTAR MICROLERNYS
 		elif(key == "LIST_MICROLERNYS"):
 			# lerny = request['LERNY_INTENT']
 			serializers_class = MicroLernySerializer
@@ -179,6 +181,7 @@ class ApiManager(APIView):
 					}
 				}
 			)
+		# CONTINUAR CURSO
 		elif(key == "CONTINUAR_CURSO"):
 			is_last = False
 			serializers_class = ResourceSerializer
@@ -337,7 +340,7 @@ class ApiManager(APIView):
 											"elements": [
 												{
 													"title": data["title"],
-													"image_url": "https://lerny.co/wp-content/uploads/2020/12/ruta_curso1.jpg",
+													"image_url": data["image_url"],
 													"subtitle": data["description"],
 													"buttons": [
 														{
@@ -399,7 +402,7 @@ class ApiManager(APIView):
 											"elements": [
 												{
 													"title": data["title"],
-													"image_url": "https://lerny.co/wp-content/uploads/2020/12/ruta_curso1.jpg",
+													"image_url": data["image_url"],
 													"subtitle": data["description"],
 													"buttons": [
 														{
@@ -423,7 +426,7 @@ class ApiManager(APIView):
 					]
 				}
 
-
+		# CARGAR ARCHIVO
 		elif(key == "CARGAR_ARCHIVO"):
 			file_url = request["file_url"]
 			url_task = file_url
@@ -482,6 +485,7 @@ class ApiManager(APIView):
 					}
 				]
 			}
+		# CARGAR_REQ_MICROLERNY
 		elif(key == "CARGAR_REQ_MICROLERNY"):
 			microlerny = (int(float(request["microlerny_num"])))
 			serializers_class = ResourceSerializer
@@ -549,7 +553,7 @@ class ApiManager(APIView):
 										"elements": [
 											{
 												"title": data["title"],
-												"image_url": "https://lerny.co/wp-content/uploads/2020/12/ruta_curso1.jpg",
+												"image_url": data["image_url"],
 												"subtitle": data["description"],
 												"buttons": [
 													{

@@ -533,12 +533,15 @@ class ApiManager(APIView):
 				media = "image"
 			elif(data["description"]=="Práctica"):
 				media = "file"
+			previous_text = data["previous_text"]
+			if(previous_text==""):
+				previous_text="Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"
 			data = {
 				"fulfillmentMessages": [
 					{
 						"text": {
 							"text": [
-								"Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"
+								previous_text
 							]
 						}
 					},

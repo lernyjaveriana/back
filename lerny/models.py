@@ -16,6 +16,7 @@ class Lerny(models.Model):
 class MicroLerny(models.Model):
 	micro_lerny_title = models.CharField('microlerny title', max_length = 200, null=False)
 	micro_lerny_subtitle = models.CharField('microlerny subtitle', max_length = 300, null=False)
+	microlerny_image_url = models.CharField('microlerny image url', max_length = 300, null=True)
 	update_date = models.DateTimeField('update date', auto_now = True)
 	creation_date = models.DateTimeField('creation date', auto_now_add = True)
 	lerny = models.ForeignKey(Lerny, on_delete=models.CASCADE, null = False)

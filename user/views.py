@@ -127,14 +127,14 @@ class ApiManager(APIView):
 			data = MicroLernySerializer(micro_lerny, many=True).data
 			i = 0
 			temp = []
-			# print(json.dumps(data))
+			print("dums: "json.dumps(data))
 
 			while(i < len(data)):
 				print("IMPRESION LISTAR LERNY: "+ str(data[i]['id'])+") " + data[i]['micro_lerny_title'])
 				temp.append(
 					{
 						"subtitle": data[i]['micro_lerny_subtitle'],
-						"image_url": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
+						"image_url": data[i]['microlerny_image_url'],
 						"title": data[i]['micro_lerny_title'],
 						"buttons": [
 						{

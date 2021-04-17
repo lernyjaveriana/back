@@ -165,8 +165,8 @@ class ApiManager(APIView):
 								}
 							}
 						}
-					}]
-				}
+					}
+				}]
 			}
 			# j = 0
 			# while(j < len(temp)):

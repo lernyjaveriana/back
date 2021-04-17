@@ -128,6 +128,7 @@ class ApiManager(APIView):
 			i = 0
 			temp = []
 			# print(json.dumps(data))
+			print("IMPRESION LISTAR LERNY: " str(data[i]['id'])+") " + data[i]['micro_lerny_title'])
 			while(i < len(data)):
 				temp.append({
 					"text": {

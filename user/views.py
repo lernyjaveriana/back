@@ -128,28 +128,29 @@ class ApiManager(APIView):
 			i = 0
 			temp = []
 			# print(json.dumps(data))
-			print("IMPRESION LISTAR LERNY: "+ str(data[i]['id'])+") " + data[i]['micro_lerny_title'])
+			
 			while(i < len(data)):
+				print("IMPRESION LISTAR LERNY: "+ str(data[i]['id'])+") " + data[i]['micro_lerny_title'])
 				temp.append(
+				{
 					{
+						"subtitle": "We have the right hat for everyone.",
+						"image_url": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
+						"title": data[i]['micro_lerny_title'],
+						"buttons": [
 						{
-							"subtitle": "We have the right hat for everyone.",
-							"image_url": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
-							"title": str(data[i]['id'])+") " + data[i]['micro_lerny_title'],
-							"buttons": [
-							{
-								"payload": "cargar recurso "+str(data[i]['id']),
-								"title": "Seleccionar",
-								"type": "postback"
-							}
-							],
-							"default_action": {
-							"url": "https://www.google.com/",
-							"type": "web_url",
-							"webview_height_ratio": "tall"
-							}
+							"payload": "cargar recurso "+str(data[i]['id']),
+							"title": "Seleccionar",
+							"type": "postback"
 						}
-					},)
+						],
+						"default_action": {
+						"url": "https://www.google.com/",
+						"type": "web_url",
+						"webview_height_ratio": "tall"
+						}
+					}
+				},)
 
 				i += 1
 
@@ -317,7 +318,7 @@ class ApiManager(APIView):
 					]
 				}
 			elif(data["phase"] != "pos" and not is_last):
-				print("Data, description: "+data["description"])
+				# print("Data, description: "+data["description"])
 				if(data["description"]=="Infografía"):
 					media = "image"
 				elif(data["description"]=="Práctica"):

@@ -488,7 +488,7 @@ class ApiManager(APIView):
 			}
 		# CARGAR_REQ_MICROLERNY
 		elif(key == "CARGAR_REQ_MICROLERNY"):
-			microlerny = (int(float(request["microlerny_num"])))
+			microlerny = (int(request["microlerny_num"]))
 			serializers_class = ResourceSerializer
 			user_id_obj = User.objects.get(
 				identification=user_id)

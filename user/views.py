@@ -133,22 +133,20 @@ class ApiManager(APIView):
 				print("IMPRESION LISTAR LERNY: "+ str(data[i]['id'])+") " + data[i]['micro_lerny_title'])
 				temp.append(
 				{
+					"subtitle": "We have the right hat for everyone.",
+					"image_url": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
+					"title": data[i]['micro_lerny_title'],
+					"buttons": [
 					{
-						"subtitle": "We have the right hat for everyone.",
-						"image_url": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
-						"title": data[i]['micro_lerny_title'],
-						"buttons": [
-						{
-							"payload": "cargar recurso ",
-							"title": "Seleccionar",
-							"type": "postback"
-						}
-						],
-						"default_action": {
-						"url": "https://www.google.com/",
-						"type": "web_url",
-						"webview_height_ratio": "tall"
-						}
+						"payload": "cargar recurso ",
+						"title": "Seleccionar",
+						"type": "postback"
+					}
+					],
+					"default_action": {
+					"url": "https://www.google.com/",
+					"type": "web_url",
+					"webview_height_ratio": "tall"
 					}
 				},)
 

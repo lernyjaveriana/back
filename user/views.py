@@ -138,7 +138,7 @@ class ApiManager(APIView):
 					"title": data[i]['micro_lerny_title'],
 					"buttons": [
 					{
-						"payload": "cargar recurso ",
+						"payload": "cargar recurso",
 						"title": "Seleccionar",
 						"type": "postback"
 					}

@@ -134,7 +134,7 @@ class ApiManager(APIView):
 				temp.append(
 					{
 						"subtitle": data[i]['micro_lerny_subtitle'],
-						"image_url": data[i]['microlerny_image_url'],
+						"image_url": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
 						"title": data[i]['micro_lerny_title'],
 						"buttons": [
 						{

@@ -131,7 +131,7 @@ class ApiManager(APIView):
 				print("IMPRESION LISTAR LERNY: "+ str(data[i]['id'])+") " + data[i]['micro_lerny_title'])
 				temp.append(
 					{
-						"subtitle": "micro_lerny_subtitle",
+						"subtitle": data[i]['micro_lerny_subtitle'],
 						"image_url": data[i]['microlerny_image_url'],
 						"title": data[i]['micro_lerny_title'],
 						"buttons": [

@@ -127,7 +127,7 @@ class ApiManager(APIView):
 			data = MicroLernySerializer(micro_lerny, many=True).data
 			i = 0
 			temp = []
-			print("dums: "json.dumps(data))
+			print("dums: "+json.dumps(data))
 
 			while(i < len(data)):
 				print("IMPRESION LISTAR LERNY: "+ str(data[i]['id'])+") " + data[i]['micro_lerny_title'])

@@ -130,30 +130,44 @@ class ApiManager(APIView):
 			# print(json.dumps(data))
 			print("IMPRESION LISTAR LERNY: "+ str(data[i]['id'])+") " + data[i]['micro_lerny_title'])
 			while(i < len(data)):
-				temp.append({
-					"text": {
-							"text": [
-								str(data[i]['id'])+") " +
-								data[i]['micro_lerny_title']
-							]}},)
+				temp.append(
+					{
+						{
+							"subtitle": "We have the right hat for everyone.",
+							"image_url": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
+							"title": str(data[i]['id'])+") " + data[i]['micro_lerny_title'],
+							"buttons": [
+							{
+								"payload": "cargar recurso "+str(data[i]['id']),
+								"title": "Seleccionar",
+								"type": "postback"
+							}
+							],
+							"default_action": {
+							"url": "https://www.google.com/",
+							"type": "web_url",
+							"webview_height_ratio": "tall"
+							}
+						}
+					},)
 
 				i += 1
 
 			data = {
-				"fulfillmentMessages": [
-					{
-						"text": {
-							"text": [
-								"Los Micro Lernys de tu curso Mercadeo Digital: Alcanzando el éxito de tu negocio, son:"
-							]
+					"facebook": {
+						"attachment": {
+						"type": "template",
+						"payload": {
+							"template_type": "generic",
+							"elements": temp
 						}
-					},
-				]
+					}
+				}
 			}
-			j = 0
-			while(j < len(temp)):
-				data["fulfillmentMessages"].append(temp[j])
-				j += 1
+			# j = 0
+			# while(j < len(temp)):
+			# 	data["fulfillmentMessages"].append(temp[j])
+			# 	j += 1
 
 			# data["fulfillmentMessages"].append(
 			# 	{

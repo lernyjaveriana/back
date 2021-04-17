@@ -128,10 +128,7 @@ class ApiManager(APIView):
 			i = 0
 			temp = []
 			# print(json.dumps(data))
-			
-			while(i < len(data)):
-				print("IMPRESION LISTAR LERNY: "+ str(data[i]['id'])+") " + data[i]['micro_lerny_title'])
-				temp.append(
+			temp.append(
 				{
 					"subtitle": "We have the right hat for everyone.",
 					"image_url": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
@@ -148,7 +145,10 @@ class ApiManager(APIView):
 					"type": "web_url",
 					"webview_height_ratio": "tall"
 					}
-				},)
+			},)
+			while(i < len(data)):
+				print("IMPRESION LISTAR LERNY: "+ str(data[i]['id'])+") " + data[i]['micro_lerny_title'])
+
 
 				i += 1
 

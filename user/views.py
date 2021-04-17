@@ -145,7 +145,7 @@ class ApiManager(APIView):
 					"type": "web_url",
 					"webview_height_ratio": "tall"
 					}
-			},)
+				},)
 			while(i < len(data)):
 				print("IMPRESION LISTAR LERNY: "+ str(data[i]['id'])+") " + data[i]['micro_lerny_title'])
 
@@ -153,14 +153,19 @@ class ApiManager(APIView):
 				i += 1
 
 			data = {
-					"facebook": {
-						"attachment": {
-						"type": "template",
-						"payload": {
-							"template_type": "generic",
-							"elements": temp
+				"fulfillmentMessages": [
+				{
+					"payload": {
+						"facebook": {
+							"attachment": {
+								"type": "template",
+								"payload": {
+									"template_type": "generic",
+									"elements": temp
+								}
+							}
 						}
-					}
+					}]
 				}
 			}
 			# j = 0

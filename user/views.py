@@ -138,16 +138,11 @@ class ApiManager(APIView):
 						"title": data[i]['micro_lerny_title'],
 						"buttons": [
 						{
-							"payload": "cargar recurso",
+							"payload": "cargar recurso "+str(data[i]['id'])+") " ,
 							"title": "Seleccionar",
 							"type": "postback"
 						}
-						],
-						"default_action": {
-						"url": "https://www.google.com/",
-						"type": "web_url",
-						"webview_height_ratio": "tall"
-						}
+						]
 					},)
 				i += 1
 

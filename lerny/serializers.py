@@ -9,7 +9,7 @@ class LernySerializer(serializers.ModelSerializer):
 class MicroLernySerializer(serializers.ModelSerializer):
 	class Meta:
 		model = MicroLerny
-		fields = ['micro_lerny_title','id']
+		fields = ['micro_lerny_title','id', 'micro_lerny_subtitle', 'microlerny_image_url']
 
 
 class ResourceSerializer(serializers.ModelSerializer):

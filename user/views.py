@@ -154,33 +154,33 @@ class ApiManager(APIView):
 				data["fulfillmentMessages"].append(temp[j])
 				j += 1
 
-			data["fulfillmentMessages"].append(
-				{
-					"payload": {
-						"facebook": {
-							"attachment": {
-								"type": "template",
-								"payload": {
-									"template_type": "button",
-									"text": "¿Deseas seleccionar un Micro Lerny?",
-									"buttons": [
-										{
-											"type": "postback",
-											"title": "Si",
-											"payload": "CONTINUAR_SELECCION"
-										},
-										{
-											"type": "postback",
-											"title": "No",
-											"payload": "lerny_farewell"
-										}
-									]
-								}
-							}
-						}
-					}
-				}
-			)
+			# data["fulfillmentMessages"].append(
+			# 	{
+			# 		"payload": {
+			# 			"facebook": {
+			# 				"attachment": {
+			# 					"type": "template",
+			# 					"payload": {
+			# 						"template_type": "button",
+			# 						"text": "¿Deseas seleccionar un Micro Lerny?",
+			# 						"buttons": [
+			# 							{
+			# 								"type": "postback",
+			# 								"title": "Si",
+			# 								"payload": "CONTINUAR_SELECCION"
+			# 							},
+			# 							{
+			# 								"type": "postback",
+			# 								"title": "No",
+			# 								"payload": "lerny_farewell"
+			# 							}
+			# 						]
+			# 					}
+			# 				}
+			# 			}
+			# 		}
+			# 	}
+			# )
 		# CONTINUAR CURSO
 		elif(key == "CONTINUAR_CURSO"):
 			is_last = False

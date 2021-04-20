@@ -329,19 +329,7 @@ class ApiManager(APIView):
 								]
 							}
 						},
-						{
-							"payload": {
-								"facebook": {
-									"attachment": {
-										"type": media,
-										"payload": {
-											"url":data["content_url"]
-										}
-									}
-								}
-							}
-						},
-						{
+						{ 
 							"payload": {
 								"facebook": {
 									"attachment": {
@@ -371,6 +359,18 @@ class ApiManager(APIView):
 									}
 								}
 							}
+						},
+						{
+							"payload": {
+								"facebook": {
+									"attachment": {
+										"type": media,
+										"payload": {
+											"url":data["content_url"]
+										}
+									}
+								}
+							}
 						}
 
 					]
@@ -389,18 +389,6 @@ class ApiManager(APIView):
 								"text": [
 									"Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"
 								]
-							}
-						},
-						{
-							"payload": {
-								"facebook": {
-									"attachment": {
-										"type": media,
-										"payload": {
-											"url":data["content_url"]
-										}
-									}
-								}
 							}
 						},
 						{
@@ -433,7 +421,19 @@ class ApiManager(APIView):
 									}
 								}
 							}
-						}
+						},
+						{
+							"payload": {
+								"facebook": {
+									"attachment": {
+										"type": media,
+										"payload": {
+											"url":data["content_url"]
+										}
+									}
+								}
+							}
+						},
 					]
 				}
 
@@ -549,18 +549,6 @@ class ApiManager(APIView):
 						"payload": {
 							"facebook": {
 								"attachment": {
-									"type": media,
-									"payload": {
-										"url":data["content_url"]
-									}
-								}
-							}
-						}
-					},
-					{
-						"payload": {
-							"facebook": {
-								"attachment": {
 									"type": "template",
 									"payload": {
 										"template_type": "generic",
@@ -583,6 +571,18 @@ class ApiManager(APIView):
 												]
 											}
 										]
+									}
+								}
+							}
+						}
+					},
+					{
+						"payload": {
+							"facebook": {
+								"attachment": {
+									"type": media,
+									"payload": {
+										"url":data["content_url"]
 									}
 								}
 							}

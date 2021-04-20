@@ -352,7 +352,7 @@ class ApiManager(APIView):
 											"elements": [
 												{
 													"title": data["title"],
-													"image_url": data["image_url"],
+
 													"subtitle": data["description"],
 													"buttons": [
 														{
@@ -416,7 +416,7 @@ class ApiManager(APIView):
 											"elements": [
 												{
 													"title": data["title"],
-													"image_url": data["image_url"],
+
 													"subtitle": data["description"],
 													"buttons": [
 														{
@@ -570,7 +570,7 @@ class ApiManager(APIView):
 										"elements": [
 											{
 												"title": data["title"],
-												"image_url": data["image_url"],
+
 												"subtitle": data["description"],
 												"buttons": [
 													{

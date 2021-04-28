@@ -40,6 +40,8 @@ class ApiManager(APIView):
 
 	def post(self, request):
 		media = "video"
+		print("request.data")
+		print(request.data)	
 		print("Parameters")
 		print(request.data['queryResult']['parameters'])
 		print("OutputContexts")
@@ -109,16 +111,7 @@ class ApiManager(APIView):
 				]
 			}
 		# LOGIN
-			# data = {
-			# 	"followupEventInput": {
-			# 		"name": "Login",
-			# 		"languageCode": "en-US",
-			# 		"parameters": {
-			# 			"user": UserSerializer(user).data,
-			# 			"access_token": token
-			# 			}
-			# 		}
-			# 	}
+
 		# LISTAR MICROLERNYS
 		elif(key == "LIST_MICROLERNYS"):
 			# lerny = request['LERNY_INTENT']
@@ -160,38 +153,6 @@ class ApiManager(APIView):
 					}
 				}]
 			}
-			# j = 0
-			# while(j < len(temp)):
-			# 	data["fulfillmentMessages"].append(temp[j])
-			# 	j += 1
-
-			# data["fulfillmentMessages"].append(
-			# 	{
-			# 		"payload": {
-			# 			"facebook": {
-			# 				"attachment": {
-			# 					"type": "template",
-			# 					"payload": {
-			# 						"template_type": "button",
-			# 						"text": "¿Deseas seleccionar un Micro Lerny?",
-			# 						"buttons": [
-			# 							{
-			# 								"type": "postback",
-			# 								"title": "Si",
-			# 								"payload": "CONTINUAR_SELECCION"
-			# 							},
-			# 							{
-			# 								"type": "postback",
-			# 								"title": "No",
-			# 								"payload": "lerny_farewell"
-			# 							}
-			# 						]
-			# 					}
-			# 				}
-			# 			}
-			# 		}
-			# 	}
-			# )
 		# CONTINUAR CURSO
 		elif(key == "CONTINUAR_CURSO"):
 			is_last = False

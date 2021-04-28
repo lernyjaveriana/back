@@ -40,6 +40,8 @@ class ApiManager(APIView):
 
 	def post(self, request):
 		media = "video"
+		print("request")
+		print(request)	
 		print("request.data")
 		print(request.data)	
 		print("Parameters")
@@ -59,6 +61,7 @@ class ApiManager(APIView):
 		print("USER_ID "+user_id)
 		request = request.data['queryResult']['parameters']
 		key = request['LERNY_INTENT']
+		request.data
 		# LOGIN
 		if (key == "LOGIN_USER"):
 			serializer = UserLoginSerializer(data=request)

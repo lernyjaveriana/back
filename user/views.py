@@ -562,7 +562,8 @@ class ApiManager(APIView):
 				]
 			}
 		elif(key == "LernyDefaultFallback"):
-			if(not(request.data['queryResult']['queryText'] is None)):
+			text = request.data['queryResult'].get('queryText')
+			if(queryText):
 				data = {
 					"fulfillmentMessages": [
 						{

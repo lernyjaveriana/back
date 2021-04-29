@@ -61,7 +61,8 @@ class ApiManager(APIView):
 			user_id = (str(int(float(user_id))))
 			print("USER_ID "+user_id)
 		request = request.data['queryResult']['parameters']
-		key = request['LERNY_INTENT']
+		if(not(request is None)):
+			key = request['LERNY_INTENT']
 		if(x is None or x == ""):
 			key = request.data['queryResult']['intent']['displayName']
 		# LOGIN

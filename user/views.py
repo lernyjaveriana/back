@@ -61,10 +61,10 @@ class ApiManager(APIView):
 			user_id = (str(int(float(user_id))))
 			print("USER_ID "+user_id)
 		request = request.data['queryResult']['parameters']
-		if(not(request is None)):
+		if(request.data['queryResult']['intent']['displayName']=="LernyDefaultFallback")
+			key = "LernyDefaultFallback"
+		else:
 			key = request['LERNY_INTENT']
-		if(x is None or x == ""):
-			key = request.data['queryResult']['intent']['displayName']
 		# LOGIN
 		if (key == "LOGIN_USER"):
 			serializer = UserLoginSerializer(data=request)

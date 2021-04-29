@@ -57,8 +57,9 @@ class ApiManager(APIView):
 			if((request.data['queryResult']['outputContexts'][x].get('parameters').get('user_document_id')) != None):
 				break
 			x += 1
-		user_id = (str(int(float(user_id))))
-		print("USER_ID "+user_id)
+		if(not(user_id is None)):
+			user_id = (str(int(float(user_id))))
+			print("USER_ID "+user_id)
 		request = request.data['queryResult']['parameters']
 		key = request['LERNY_INTENT']
 		if(x is None or x == ""):

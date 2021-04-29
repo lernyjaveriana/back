@@ -40,10 +40,10 @@ class ApiManager(APIView):
 
 	def post(self, request):
 		media = "video"
-		print("request")
-		print(request)	
 		print("request.data")
-		print(request.data)	
+		print(request)	
+		print("request.data.intent.displayname")
+		print(request.data['queryResult']['intent']['displayName'])	
 		print("Parameters")
 		print(request.data['queryResult']['parameters'])
 		print("OutputContexts")

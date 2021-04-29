@@ -61,7 +61,7 @@ class ApiManager(APIView):
 			user_id = (str(int(float(user_id))))
 			print("USER_ID "+user_id)
 		request = request.data['queryResult']['parameters']
-		if(request.data['queryResult']['intent']['displayName']=="LernyDefaultFallback")
+		if(request.data['queryResult']['intent']['displayName']=="LernyDefaultFallback"):
 			key = "LernyDefaultFallback"
 		else:
 			key = request['LERNY_INTENT']

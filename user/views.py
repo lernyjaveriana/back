@@ -48,22 +48,23 @@ class ApiManager(APIView):
 		print(request.data['queryResult']['parameters'])
 		print("OutputContexts")
 		print(request.data['queryResult']['outputContexts'])
-		x = 0
-		# Identifico el user_document_id independientemente de donde se encuentre en el json
-		OutputContexts = ''
-		while((x < len(request.data['queryResult']['outputContexts']))):
-			user_id = (request.data['queryResult']['outputContexts'][x].get(
-				'parameters').get('user_document_id'))
-			if((request.data['queryResult']['outputContexts'][x].get('parameters').get('user_document_id')) != None):
-				break
-			x += 1
-		if(not(user_id is None)):
-			user_id = (str(int(float(user_id))))
-			print("USER_ID "+user_id)
 		
 		if(request.data['queryResult']['intent']['displayName']=="LernyDefaultFallback"):
 			key = "LernyDefaultFallback"
+			text = request.data['queryResult'].get('queryText')
 		else:
+			x = 0
+			# Identifico el user_document_id independientemente de donde se encuentre en el json
+			while(x < len(request.data['queryResult']['outputContexts'])):
+				user_id = (request.data['queryResult']['outputContexts'][x].get(
+					'parameters').get('user_document_id'))
+				if((request.data['queryResult']['outputContexts'][x].get('parameters').get('user_document_id')) != None):
+					break
+				x += 1
+			if(not(user_id is None)):
+				user_id = (str(int(float(user_id))))
+				print("USER_ID "+user_id)
+
 			request = request.data['queryResult']['parameters']
 			key = request['LERNY_INTENT']
 		# LOGIN
@@ -562,7 +563,6 @@ class ApiManager(APIView):
 				]
 			}
 		elif(key == "LernyDefaultFallback"):
-			text = request.data['queryResult'].get('queryText')
 			if(text):
 				data = {
 					"fulfillmentMessages": [

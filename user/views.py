@@ -61,7 +61,8 @@ class ApiManager(APIView):
 		print("USER_ID "+user_id)
 		request = request.data['queryResult']['parameters']
 		key = request['LERNY_INTENT']
-		request.data
+		if(x is None or x == ""):
+			key = request.data['queryResult']['intent']['displayName']
 		# LOGIN
 		if (key == "LOGIN_USER"):
 			serializer = UserLoginSerializer(data=request)
@@ -557,6 +558,41 @@ class ApiManager(APIView):
 					}
 				]
 			}
+		elif(key == "LernyDefaultFallback"):
+			if(not(request.data['queryResult']['queryText'] is None)):
+				data = {
+					"fulfillmentMessages": [
+						{
+							"payload": {
+								"facebook": {
+									"attachment": {
+										"type": "template",
+										"payload": {
+											"template_type": "button",
+											"buttons": [
+											{
+												"type": "web_url",
+												"title": "Enviar email",
+												"url": "https://mail.google.com/mail/u/0/?fs=1&tf=cm&source=mailto&to=lernyjaveriana@gmail.com"
+											},
+											{
+												"type": "postback",
+												"payload": "menu_inicial",
+												"title": "Ver menú inicial"
+											}
+											],
+											"text": "Hola, no hemos podido interpretar tu petición, si tienes una consulta importante, por favor escríbenos al correo: *lernyjaveriana@gmail.com*"
+										}
+									}
+								}
+							}
+						}
+					
+					]
+				}
+			else:
+				data = {}
+
 		else:
 			data = {}
 		print(data)

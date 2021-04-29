@@ -42,7 +42,7 @@ class ApiManager(APIView):
 		media = "video"
 		print("request.data")
 		print(request)	
-		print("request.data.queryResult")
+		print("request.data.intent.displayname")
 		print(request.data['queryResult'])	
 		print("Parameters")
 		print(request.data['queryResult']['parameters'])
@@ -563,7 +563,7 @@ class ApiManager(APIView):
 			}
 		elif(key == "LernyDefaultFallback"):
 			text = request.data['queryResult'].get('queryText')
-			if(queryText):
+			if(text):
 				data = {
 					"fulfillmentMessages": [
 						{

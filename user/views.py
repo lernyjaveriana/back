@@ -60,10 +60,11 @@ class ApiManager(APIView):
 		if(not(user_id is None)):
 			user_id = (str(int(float(user_id))))
 			print("USER_ID "+user_id)
-		request = request.data['queryResult']['parameters']
+		
 		if(request.data['queryResult']['intent']['displayName']=="LernyDefaultFallback"):
 			key = "LernyDefaultFallback"
 		else:
+			request = request.data['queryResult']['parameters']
 			key = request['LERNY_INTENT']
 		# LOGIN
 		if (key == "LOGIN_USER"):

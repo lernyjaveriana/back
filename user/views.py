@@ -305,8 +305,7 @@ class ApiManager(APIView):
 									"attachment": {
 										"type": media,
 										"payload": {
-											"url":data["content_url"],
-											"is_reusable":true
+											"attachment_id": "191743639431353"
 										}
 									}
 								}
@@ -370,8 +369,7 @@ class ApiManager(APIView):
 									"attachment": {
 										"type": media,
 										"payload": {
-											"url":data["content_url"],
-											"is_reusable":true
+											"attachment_id": "191743639431353"
 										}
 									}
 								}

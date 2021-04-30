@@ -305,7 +305,8 @@ class ApiManager(APIView):
 									"attachment": {
 										"type": media,
 										"payload": {
-											"url":data["content_url"]
+											"url":data["content_url"],
+											"is_reusable":true
 										}
 									}
 								}

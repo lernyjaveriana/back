@@ -108,6 +108,11 @@ class ApiManager(APIView):
 																"title": "ver Micro Lernys",
 																"payload": "LIST_MICROLERNYS"
 															},
+															{
+																"type": "postback",
+																"title": "Cargar actividades",
+																"payload": "CARGAR_ARCHIVO"
+															}
 														]
 													}
 												]
@@ -392,12 +397,8 @@ class ApiManager(APIView):
 															"type": "postback",
 															"title": "Siguiente recurso",
 															"payload": "CONTINUAR_CURSO"
-														},
-														{
-															"type": "postback",
-															"title": "Cargar url de la actividad",
-															"payload": "CARGAR_ARCHIVO"
 														}
+														
 													]
 												}
 											]
@@ -467,6 +468,47 @@ class ApiManager(APIView):
 						}
 					}
 				]
+			}
+		# CARGAR ARCHIVO
+		elif(key == "LISTAR_LERNYS"):
+			# lerny = request['LERNY_INTENT']
+			serializers_class = LernySerializer
+			lerny = Lerny.objects.all()
+			data = LernySerializer(lerny, many=True).data
+			i = 0
+			temp = []
+			while(i < len(data)):
+				print("IMPRESION LISTAR LERNY: "+ str(data[i]['id'])+") " + data[i]['lerny_name'])
+				temp.append(
+					{
+						"subtitle": data[i]['description'],
+						"image_url": data[i]['url_image'],
+						"title": data[i]['lerny_name'],
+						"buttons": [
+						{
+							"payload": "CARGAR_ARCHIVO" ,
+							"title": "Cargar actividad",
+							"type": "postback"
+						}
+						]
+					},)
+				i += 1
+
+			data = {
+				"fulfillmentMessages": [
+				{
+					"payload": {
+						"facebook": {
+							"attachment": {
+								"type": "template",
+								"payload": {
+									"template_type": "generic",
+									"elements": temp
+								}
+							}
+						}
+					}
+				}]
 			}
 		# CARGAR_REQ_MICROLERNY
 		elif(key == "CARGAR_REQ_MICROLERNY"):

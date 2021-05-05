@@ -637,7 +637,37 @@ class ApiManager(APIView):
 					]
 				}
 			else:
-				data = {}
+				data = {
+						"fulfillmentMessages": [
+						{
+							"payload": {
+								"facebook": {
+									"attachment": {
+										"type": "template",
+										"payload": {
+											"template_type": "button",
+											"buttons": [
+											{
+												"type": "postback",
+												"title": "Continuar Lerny",
+												"payload": "CONTINUAR_CURSO"
+											},
+											{
+												"type": "postback",
+												"payload": "menu_inicial",
+												"title": "Ver menú inicial"
+											}
+											],
+											"text": "Hemos recibido tu actividad entregable!"
+										}
+									}
+								}
+							}
+						}
+					
+					]
+				}
+				}
 
 		else:
 			data = {}

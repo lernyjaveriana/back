@@ -651,11 +651,6 @@ class ApiManager(APIView):
 												"type": "postback",
 												"title": "Continuar Lerny",
 												"payload": "CONTINUAR_CURSO"
-											},
-											{
-												"type": "postback",
-												"payload": "menu_inicial",
-												"title": "Ver menú inicial"
 											}
 											],
 											"text": "Hemos recibido tu actividad entregable!"

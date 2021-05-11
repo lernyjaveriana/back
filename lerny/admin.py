@@ -24,6 +24,7 @@ class User_ResourceAdmin(admin.ModelAdmin):
     list_display = ("user_id","resource_id")
 
 admin.site.register(Lerny,LernyAdmin)
+admin.site.register(User_Lerny,UserLernyAdmin)
 admin.site.register(MicroLerny,MicroLernyAdmin)
 admin.site.register(TreeMicroLerny)
 admin.site.register(Resource,ResourceAdmin)

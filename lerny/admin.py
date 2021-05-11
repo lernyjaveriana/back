@@ -1,7 +1,11 @@
 from django.contrib import admin
-from .models import Lerny, MicroLerny, TreeMicroLerny, Resource, User_State, User_Resource
+from .models import Lerny, MicroLerny, TreeMicroLerny, Resource, User_State, User_Resource, User_Lerny
 
 # Register your models here
+
+class UserLernyAdmin(admin.ModelAdmin):
+    list_display = ("lerny_id","user_id")
+    list_filter=("user_id","lerny_id")
 
 class LernyAdmin(admin.ModelAdmin):
     list_display = ("lerny_name","description", "price")

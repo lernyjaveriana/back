@@ -36,6 +36,7 @@ class User(AbstractBaseUser):
     user_surname = models.CharField('user surname', max_length=50, null=False)
     country = models.CharField('country', max_length=20, null=False)
     city = models.CharField('city', max_length=20, null=False)
+    uid = models.CharField('uid', max_length=100, default="")
     #passw = models.CharField('passw', max_length=20, null=False)
     mail = models.CharField('mail', max_length=100,unique=True,blank=True, null=True)
     notification = models.BooleanField(default=True)

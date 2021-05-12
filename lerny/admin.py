@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Lerny, MicroLerny, TreeMicroLerny, Resource, User_State, User_Resource, User_Lerny
+from .models import Faqs, Faqs_Lerny, Lerny, MicroLerny, TreeMicroLerny, Resource, User_State, User_Resource, User_Lerny
 
 # Register your models here
 
@@ -23,6 +23,10 @@ class User_ResourceAdmin(admin.ModelAdmin):
     list_filter=("user_id",)
     list_display = ("user_id","resource_id")
 
+class Faqs_Lerny_ResourceAdmin(admin.ModelAdmin):
+    list_filter=("lerny_id",)
+    list_display = ("lerny_id","intent_name")
+
 admin.site.register(Lerny,LernyAdmin)
 admin.site.register(User_Lerny,UserLernyAdmin)
 admin.site.register(MicroLerny,MicroLernyAdmin)
@@ -30,3 +34,5 @@ admin.site.register(TreeMicroLerny)
 admin.site.register(Resource,ResourceAdmin)
 admin.site.register(User_State)
 admin.site.register(User_Resource,User_ResourceAdmin)
+admin.site.register(Faqs)
+admin.site.register(Faqs_Lerny,Faqs_Lerny_ResourceAdmin)

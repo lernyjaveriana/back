@@ -79,3 +79,22 @@ class User_State(models.Model):
 	last_view_date = models.DateTimeField('last view date', null=True)
 	def __str__(self):
 		return f'{self.lerny_id},{self.micro_lerny_id},{self.user_id},{self.resource_id}'
+class Faqs_Lerny(models.Model):
+	lerny_id = models.ForeignKey(Lerny, on_delete=models.CASCADE, null = False)
+	intent_name = models.CharField('intent_name', max_length=50, null=False)
+	response  = models.CharField('response ', max_length=300, null=False)
+	url  = models.CharField('url', max_length=300, null=True)
+	response_type  = models.CharField('response_type', max_length=30, null=True)
+	title   = models.CharField('title', max_length=50, null=True)
+	subtitle    = models.CharField('subtitle', max_length=100, null=True)
+	but_name    = models.CharField('but_name', max_length=30, null=True)
+	def __str__(self):
+		return f'{self.intent_name},{self.lerny_id}'
+
+
+class Faqs(models.Model):
+	intent_name = models.CharField('intent_name', max_length=50, null=False)
+	response  = models.CharField('response ', max_length=300, null=False)
+	response_type  = models.CharField('response_type', max_length=30, null=True)
+	def __str__(self):
+		return f'{self.intent_name}'

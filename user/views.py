@@ -668,7 +668,7 @@ class ApiManager(APIView):
 			question = request['QUESTION']
 			faq_id_obj = Faqs.objects.get(
 				intent_name=question)
-			data = ResourceSerializer(faq_id_obj).data
+			data = FaqsSerializer(faq_id_obj).data
 			response=data["response"]
 			response_type=data["response_type"]
 			if(response_type=="text"):

@@ -664,9 +664,10 @@ class ApiManager(APIView):
 					]
 				}
 		# CARGAR_REQ_MICROLERNY
-		elif(key == "PREGUNTA_CHATBOT"):
+		elif(key == "PREGUNTA_GENERAL"):
+			question = request['QUESTION']
 			faq_id_obj = Faqs.objects.get(
-				intent_name=key)
+				intent_name=question)
 			data = ResourceSerializer(faq_id_obj).data
 			response=data["response"]
 			response_type=data["response_type"]

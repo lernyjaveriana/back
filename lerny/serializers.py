@@ -6,6 +6,11 @@ class LernySerializer(serializers.ModelSerializer):
 		model = Lerny
 		fields = '__all__'
 
+class FaqsSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Faqs
+		fields = '__all__'
+
 class MicroLernySerializer(serializers.ModelSerializer):
 	class Meta:
 		model = MicroLerny

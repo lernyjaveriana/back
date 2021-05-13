@@ -604,6 +604,7 @@ class ApiManager(APIView):
 					}
 				]
 			}
+		# CARGAR_REQ_MICROLERNY
 		elif(key == "LernyDefaultFallback"):
 			if(text):
 				data = {
@@ -662,8 +663,26 @@ class ApiManager(APIView):
 					
 					]
 				}
-				
-
+		# CARGAR_REQ_MICROLERNY
+		elif(key == "PREGUNTA_CHATBOT"):
+			faq_id_obj = Faqs.objects.get(
+				intent_name=key)
+			data = ResourceSerializer(faq_id_obj).data
+			response=data["response"]
+			response_type=data["response_type"]
+			if(response_type=="text"):
+				data = {
+					"fulfillmentMessages": [
+						{
+							"text": {
+								"text": [
+									response
+								]
+							}
+						},
+					]
+				}
+			
 		else:
 			data = {}
 		print(data)

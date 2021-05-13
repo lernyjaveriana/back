@@ -94,7 +94,7 @@ class Faqs_Lerny(models.Model):
 
 class Faqs(models.Model):
 	intent_name = models.CharField('intent_name', max_length=50, null=False)
-	response  = models.CharField('response ', max_length=300, null=False)
+	response  = models.CharField('response ', max_length=600, null=False)
 	response_type  = models.CharField('response_type', max_length=30, null=True)
 	def __str__(self):
 		return f'{self.intent_name}'

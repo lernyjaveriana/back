@@ -71,6 +71,7 @@ class ApiManager(APIView):
 				user_id_obj = User.objects.get(uid=str(sender_id))
 				user_id=UserSerializer(user_id_obj).data['identification']
 
+
 			request = request.data['queryResult']['parameters']
 			key = request['LERNY_INTENT']
 		# LOGIN
@@ -79,11 +80,7 @@ class ApiManager(APIView):
 			serializer.is_valid(raise_exception=True)
 			user, token = serializer.save()
 			# se guarda el user id
-			user_save = User.objects.filter(identification=user_id)
-			user_save.first()
-			user_save.uid = str(sender_id)
-			user_save.save()	
-
+			User.objects.filter(identification=user_id).update(uid=sender_id)
 
 			data = {
 				"fulfillmentMessages": [

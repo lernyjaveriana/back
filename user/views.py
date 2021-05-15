@@ -52,12 +52,6 @@ class ApiManager(APIView):
 		sender_id=request.data['originalDetectIntentRequest']['payload']['data']['sender']['id']
 		print(sender_id)
 
-		user_id_obj = User.objects.get(uid=str(sender_id))
-		print("identification")
-		print(UserSerializer(user_id_obj).data['identification'])
-
-		
-
 		if(request.data['queryResult']['intent']['displayName']=="LernyDefaultFallback"):
 			key = "LernyDefaultFallback"
 			text = request.data['queryResult'].get('queryText')
@@ -72,7 +66,9 @@ class ApiManager(APIView):
 				x += 1
 			if(not(user_id is None)):
 				user_id = (str(int(float(user_id))))
-				print("USER_ID "+user_id)
+			else:
+				user_id_obj = User.objects.get(uid=str(sender_id))
+				user_id=UserSerializer(user_id_obj).data['identification']
 
 			request = request.data['queryResult']['parameters']
 			key = request['LERNY_INTENT']
@@ -81,7 +77,10 @@ class ApiManager(APIView):
 			serializer = UserLoginSerializer(data=request)
 			serializer.is_valid(raise_exception=True)
 			user, token = serializer.save()
-
+			userSave=UserSerializer(user).data
+			userSave["uid"] = sender_id
+			userSave.save()
+			
 			data = {
 				"fulfillmentMessages": [
 					{
@@ -132,6 +131,7 @@ class ApiManager(APIView):
 					}
 				]
 			}
+			
 		# LOGIN
 
 		# LISTAR MICROLERNYS

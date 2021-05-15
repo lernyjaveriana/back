@@ -54,7 +54,7 @@ class ApiManager(APIView):
 
 		user_id_obj = User.objects.get(uid=str(sender_id))
 		print("identification")
-		print(UserSerializer(user_id_obj)['identification'])
+		print(UserSerializer(user_id_obj).data['identification'])
 
 		
 

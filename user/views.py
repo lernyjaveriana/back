@@ -41,15 +41,14 @@ class ApiManager(APIView):
 	def post(self, request):
 		media = "video"
 		print("request.data")
-		print(request)	
+		print(request.data)	
 		print("request.data.intent.displayname")
 		print(request.data['queryResult'])	
 		print("Parameters")
 		print(request.data['queryResult']['parameters'])
 		print("OutputContexts")
 		print(request.data['queryResult']['outputContexts'])
-		print("SenderId")
-		print(request.data['sender']['id'])
+
 		
 		if(request.data['queryResult']['intent']['displayName']=="LernyDefaultFallback"):
 			key = "LernyDefaultFallback"

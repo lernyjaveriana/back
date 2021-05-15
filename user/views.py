@@ -128,10 +128,7 @@ class ApiManager(APIView):
 					}
 				]
 			}
-			user_save = User.objects.filter(identification=user_id)
-			user_save.first()
-			user_save.uid = str(sender_id)
-			user_save.save()
+
 		# LOGIN
 
 		# LISTAR MICROLERNYS

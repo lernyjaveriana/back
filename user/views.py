@@ -48,6 +48,8 @@ class ApiManager(APIView):
 		print(request.data['queryResult']['parameters'])
 		print("OutputContexts")
 		print(request.data['queryResult']['outputContexts'])
+		print("senderId")
+		print(request.data['originalDetectIntentRequest']['payload']['data']['sender']['id'])
 
 		
 		if(request.data['queryResult']['intent']['displayName']=="LernyDefaultFallback"):

@@ -77,12 +77,7 @@ class ApiManager(APIView):
 			serializer = UserLoginSerializer(data=request)
 			serializer.is_valid(raise_exception=True)
 			user, token = serializer.save()
-			user_save = User.objects.filter(identification=user_id)
-			user_save.first()
-			user_save.uid = str(sender_id)
-			user_save.save()
-
-
+			# se guarda el user id
 			data = {
 				"fulfillmentMessages": [
 					{
@@ -133,7 +128,10 @@ class ApiManager(APIView):
 					}
 				]
 			}
-			
+			user_save = User.objects.filter(identification=user_id)
+			user_save.first()
+			user_save.uid = str(sender_id)
+			user_save.save()
 		# LOGIN
 
 		# LISTAR MICROLERNYS

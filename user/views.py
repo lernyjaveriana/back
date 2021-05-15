@@ -49,9 +49,15 @@ class ApiManager(APIView):
 		print("OutputContexts")
 		print(request.data['queryResult']['outputContexts'])
 		print("senderId")
-		print(request.data['originalDetectIntentRequest']['payload']['data']['sender']['id'])
+		sender_id=request.data['originalDetectIntentRequest']['payload']['data']['sender']['id']
+		print(sender_id)
+
+		user_id_obj = User.objects.get(uid=str(sender_id))
+		print("identification")
+		print(UserSerializer(user_id_obj)['identification'])
 
 		
+
 		if(request.data['queryResult']['intent']['displayName']=="LernyDefaultFallback"):
 			key = "LernyDefaultFallback"
 			text = request.data['queryResult'].get('queryText')

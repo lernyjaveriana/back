@@ -119,8 +119,8 @@ class ApiManager(APIView):
 															},
 															{
 																"type": "postback",
-																"title": "Cargar actividades",
-																"payload": "CARGAR_ARCHIVO"
+																"title": "Listar Lernys",
+																"payload": "LISTAR_LERNYS"
 															}
 														]
 													}
@@ -496,8 +496,8 @@ class ApiManager(APIView):
 						"title": data[i]['lerny_name'],
 						"buttons": [
 						{
-							"payload": "CARGAR_ARCHIVO" ,
-							"title": "Cargar actividad",
+							"payload": "continuar_curso" ,
+							"title": "Continuar Lerny",
 							"type": "postback"
 						}
 						]

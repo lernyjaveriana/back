@@ -407,6 +407,11 @@ class ApiManager(APIView):
 															"type": "postback",
 															"title": "Siguiente recurso",
 															"payload": "CONTINUAR_CURSO"
+														},
+														{
+															"payload": "CARGAR_ARCHIVO" ,
+															"title": "Cargar actividad",
+															"type": "postback"
 														}
 														
 													]

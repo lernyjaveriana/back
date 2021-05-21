@@ -47,7 +47,7 @@ class User_Lerny(models.Model):
 	opinion = models.CharField('opinion', max_length=300, null=True)
 	opinion_points = models.FloatField('opinion points', null=False)
 	valor = models.FloatField('valor', null=False)
-	bill_state = models.BooleanField(default=False)
+	active = models.BooleanField(default=False)
 	reference = models.CharField('reference', max_length=20, null=False)
 	pay_date = models.DateTimeField(null=True)
 	last_view_date = models.DateTimeField('last view date', null=True)

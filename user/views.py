@@ -492,7 +492,7 @@ class ApiManager(APIView):
 			user_lernys = User_Lerny.objects.filter(user_id=user_id_obj)
 
 			lernys_ids = user_lernys.values_list('lerny_id', flat=True)
-			lernys = User_Lerny.objects.filter(
+			lernys = Lerny.objects.filter(
 				pk__in=lernys_ids)
 
 			data = LernySerializer(lernys, many=True).data

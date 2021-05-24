@@ -193,7 +193,7 @@ class ApiManager(APIView):
 					user_state.resource_id = resourse
 					user_state.save()
 					data = ResourceSerializer(resourse).data
-					
+
 				elif(phase == 'dur'):
 					resourse = Resource.objects.filter(
 						microlerny=user_state.micro_lerny_id, phase='pt2')
@@ -488,8 +488,14 @@ class ApiManager(APIView):
 		elif(key == "LISTAR_LERNYS"):
 			# lerny = request['LERNY_INTENT']
 			serializers_class = LernySerializer
-			lerny = Lerny.objects.all()
-			data = LernySerializer(lerny, many=True).data
+			user_id_obj = User.objects.get(uid=str(sender_id))
+			user_lernys = User_Lerny.objects.filter(user_id=user_id_obj)
+
+			lernys_ids = user_lernys.values_list('lerny_id', flat=True)
+			lernys = User_Lerny.objects.filter(
+				pk__in=lernys_ids)
+
+			data = LernySerializer(lernys, many=True).data
 			i = 0
 			temp = []
 			while(i < len(data)):

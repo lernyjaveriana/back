@@ -140,8 +140,7 @@ class ApiManager(APIView):
 			# lerny = request['LERNY_INTENT']
 			serializers_class = MicroLernySerializer
 			lerny_active = User_Lerny.objects.filter(active=True).first()
-			print("userlerny serializer: "+str(UserLernySerializer(lerny_active).data["lerny_id"]))
-			micro_lerny = MicroLerny.objects.filter(lerny=lerny_active)
+			micro_lerny = MicroLerny.objects.filter(lerny=lerny_active.lerny_id)
 			data = MicroLernySerializer(micro_lerny, many=True).data
 			i = 0
 			temp = []

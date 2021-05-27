@@ -139,7 +139,8 @@ class ApiManager(APIView):
 		elif(key == "LIST_MICROLERNYS"):
 			# lerny = request['LERNY_INTENT']
 			serializers_class = MicroLernySerializer
-			micro_lerny = MicroLerny.objects.all()
+			lerny_active = User_Lerny.objects.filter(active=True).first()
+			micro_lerny = MicroLerny.objects.filter(lerny=lerny_active)
 			data = MicroLernySerializer(micro_lerny, many=True).data
 			i = 0
 			temp = []
@@ -179,10 +180,14 @@ class ApiManager(APIView):
 		# CONTINUAR CURSO
 		elif(key == "CONTINUAR_CURSO"):
 			is_last = False
+			if(not((int(request["lerny_num"])) is None)):
+				lerny_num=int(request["lerny_num"])
+				print("lerny num: "+lerny_num)
 			serializers_class = ResourceSerializer
 			user_id_obj = User.objects.get(
 				identification=user_id)
-			user_state = User_State.objects.filter(user_id=user_id_obj)
+			lerny_active = User_Lerny.objects.filter(active=True).first()
+			user_state = User_State.objects.filter(user_id=user_id_obj, lerny_id =lerny_active)
 
 			if(user_state):
 				user_state = user_state.first()
@@ -243,9 +248,10 @@ class ApiManager(APIView):
 				else:
 					data = None
 			else:
-				lerny_id = Lerny.objects.all().first()
+				
+				lerny_id = lerny_active
 
-				micro_lerny = MicroLerny.objects.all().order_by('pk').first()
+				micro_lerny = MicroLerny.objects.filter(lerny=lerny_id).order_by('pk').first()
 				resourse = Resource.objects.get(
 					microlerny=micro_lerny.id, phase='pre')
 
@@ -537,11 +543,13 @@ class ApiManager(APIView):
 			serializers_class = ResourceSerializer
 			user_id_obj = User.objects.get(
 				identification=user_id)
-			user_state = User_State.objects.filter(user_id=user_id_obj)
+			lerny_active = User_Lerny.objects.filter(active=True).first()
+			user_state = User_State.objects.filter(user_id=user_id_obj, lerny_id =lerny_active)
+
 			if(user_state):
 				user_state = user_state.first()
-				lerny_id = Lerny.objects.all().first()
-				micro_lerny = MicroLerny.objects.all().order_by('pk')[microlerny-1]
+				lerny_id = user_state.lerny_id
+				micro_lerny = MicroLerny.objects.filter(lerny=lerny_id).order_by('pk')[microlerny-1]
 				resourse = Resource.objects.get(
 					microlerny=micro_lerny.id, phase='pre')
 
@@ -551,8 +559,8 @@ class ApiManager(APIView):
 				data = ResourceSerializer(resourse).data
 
 			else:
-				lerny_id = Lerny.objects.all().first()
-				micro_lerny = MicroLerny.objects.all().order_by('pk')[microlerny-1]
+				lerny_id = user_state.lerny_id
+				micro_lerny = MicroLerny.objects.filter(lerny=lerny_id).order_by('pk')[microlerny-1]
 				resourse = Resource.objects.get(
 					microlerny=micro_lerny.id, phase='pre')
 
@@ -825,7 +833,7 @@ class ApiManager(APIView):
 			data = {}
 		print(data)
 		return Response(data, status=status.HTTP_201_CREATED)
-		
+		 
 class GetPayInformation(APIView):
 
     def get(self, request, tipoDocumento, numeroDocumento, format=None):

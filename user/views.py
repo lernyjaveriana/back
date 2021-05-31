@@ -36,8 +36,254 @@ class UserManagePost(APIView):
 			)
 
 
-class ApiManager(APIView):
+def  continueLerny(lerny_active,user_id_obj):
+	user_state = User_State.objects.filter(user_id=user_id_obj, lerny_id =lerny_active)
+	is_last = False
+	if(user_state):
+		user_state = user_state.first()
+		phase = user_state.resource_id.phase
+		if(phase == 'pre'):
+			resourse = Resource.objects.get(
+				microlerny=user_state.micro_lerny_id, phase='dur')
+			user_state.resource_id = resourse
+			user_state.save()
+			data = ResourceSerializer(resourse).data
 
+		elif(phase == 'dur'):
+			resourse = Resource.objects.filter(
+				microlerny=user_state.micro_lerny_id, phase='pt2')
+			if(resourse):
+				print("recurso pt2 ")
+			else:
+				print("recurso pos ")
+				resourse = Resource.objects.filter(
+					microlerny=user_state.micro_lerny_id, phase='pos')
+			
+			user_state.resource_id = resourse.first()
+			user_state.save()
+			data = ResourceSerializer(resourse.first()).data
+
+		elif(phase == 'pt2'):
+			resourse = Resource.objects.filter(
+				microlerny=user_state.micro_lerny_id, phase='pos')
+			user_state.resource_id = resourse.first()
+			user_state.save()
+			data = ResourceSerializer(resourse.first()).data
+
+		elif(phase == 'pos'):
+			micro_lerny_id_obj = MicroLerny.objects.get(
+				id=user_state.micro_lerny_id.id)
+			son = TreeMicroLerny.objects.filter(
+				dady_micro_lerny=micro_lerny_id_obj)
+
+			if(son.count() > 0):
+				s = son.values_list('son_micro_lerny_id', flat=True)
+
+				microlerny_son = MicroLerny.objects.filter(
+					pk__in=s).first()
+
+				micro_lerny_son_obj = MicroLerny.objects.get(
+					id=microlerny_son.id)
+
+				resourse = Resource.objects.get(
+					microlerny=micro_lerny_son_obj, phase='pre')
+
+				user_state.resource_id = resourse
+				user_state.micro_lerny_id = microlerny_son
+				user_state.save()
+				data = ResourceSerializer(resourse).data
+			else:
+				#variable que indica que es o no el ultimo microlerny dle curso
+				is_last = True
+		else:
+			data = None
+	else:
+		
+		lerny_id = lerny_active
+
+		micro_lerny = MicroLerny.objects.filter(lerny=lerny_id).order_by('pk').first()
+		resourse = Resource.objects.get(
+			microlerny=micro_lerny.id, phase='pre')
+
+		user_id_obj = User.objects.get(
+			identification=user_id)
+
+		user_state = User_State()
+		user_state.lerny_id = lerny_id
+		user_state.micro_lerny_id = micro_lerny
+		user_state.user_id = user_id_obj
+		user_state.resource_id = resourse
+		user_state.save()
+		data = ResourceSerializer(resourse).data
+	if(is_last):
+
+		data = {
+			"fulfillmentMessages": [
+				{
+					"payload": {
+						"facebook": {
+							"attachment": {
+								"type": "template",
+								"payload": {
+									"template_type": "generic",
+									"elements": [
+										{
+											"title": "Has terminado los microlernys asociados al lerny!",
+											"image_url": "https://lerny.co/wp-content/uploads/2020/12/ruta_curso1.jpg",
+											"subtitle": "selecciona una opcion para continuar",
+											"buttons": [
+												{
+													"type": "postback",
+													"title": "Listar Microlernys",
+													"payload": "LIST_MICROLERNYS"
+												},
+												{
+													"type": "postback",
+													"title": "Salir",
+													"payload": "lerny_farewell"
+												}
+											]
+										}
+									]
+								}
+							}
+						}
+					}
+				}
+			]
+		}
+	elif(data["phase"] != "pos" and not is_last):
+		# print("Data, description: "+data["description"])
+		if(data["description"]=="Infografía"):
+			media = "image"
+		elif(data["description"]=="Práctica"):
+			media = "file"
+		previous_text = data["previous_text"]
+		if(previous_text==None):
+			previous_text="Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"
+		data = {
+			"fulfillmentMessages": [
+				{
+					"text": {
+						"text": [
+							previous_text
+						]
+					}
+				},
+				{
+					"payload": {
+						"facebook": {
+							"attachment": {
+								"type": media,
+								"payload": {
+									"attachment_id":data["content_url"]
+								}
+							}
+						}
+					}
+				},
+				{
+					"payload": {
+						"facebook": {
+							"attachment": {
+								"type": "template",
+								"payload": {
+									"template_type": "generic",
+									"elements": [
+										{
+											"title": data["title"],
+											"image_url": data["image_url"],
+											"subtitle": data["description"],
+											"buttons": [
+												{
+													"type": "postback",
+													"title": "Siguiente recurso",
+													"payload": "CONTINUAR_CURSO"
+												},
+												{
+													"type": "postback",
+													"title": "Salir",
+													"payload": "lerny_farewell"
+												}
+											]
+										}
+									]
+								}
+							}
+						}
+					}
+				}
+			]
+		}
+
+	elif(data["phase"] == "pos" and not is_last):
+		print("Data, description: "+data["description"])
+		if(data["description"]=="Infografía"):
+			media = "image"
+		elif(data["description"]=="Práctica"):
+			media = "file"
+		previous_text = data["previous_text"]
+		if(previous_text==None):
+			previous_text="Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"
+		data = {
+			"fulfillmentMessages": [
+				{
+					"text": {
+						"text": [
+							previous_text
+						]
+					}
+				},
+				{
+					"payload": {
+						"facebook": {
+							"attachment": {
+								"type": media,
+								"payload": {
+									"attachment_id":data["content_url"]
+								}
+							}
+						}
+					}
+				},
+				{
+					"payload": {
+						"facebook": {
+							"attachment": {
+								"type": "template",
+								"payload": {
+									"template_type": "generic",
+									"elements": [
+										{
+											"title": data["title"],
+											"image_url": data["image_url"],
+											"subtitle": data["description"],
+											"buttons": [
+												{
+													"type": "postback",
+													"title": "Siguiente recurso",
+													"payload": "CONTINUAR_CURSO"
+												},
+												{
+													"payload": "CARGAR_ARCHIVO" ,
+													"title": "Cargar actividad",
+													"type": "postback"
+												}
+												
+											]
+										}
+									]
+								}
+							}
+						}
+					}
+				}
+			]
+		}
+	return data
+
+class ApiManager(APIView):
+	
 	def post(self, request):
 		media = "video"
 		print("request.data")
@@ -179,256 +425,12 @@ class ApiManager(APIView):
 			}
 		# CONTINUAR CURSO
 		elif(key == "CONTINUAR_CURSO"):
-			is_last = False
-			if(not((int(request["lerny_num"])) is None)):
-				lerny_num=int(request["lerny_num"])
-				print("lerny num: "+lerny_num)
+			
 			user_id_obj = User.objects.get(
 				identification=user_id)
 			lerny_active = User_Lerny.objects.filter(active=True).first()
-			user_state = User_State.objects.filter(user_id=user_id_obj, lerny_id =lerny_active)
 
-			if(user_state):
-				user_state = user_state.first()
-				phase = user_state.resource_id.phase
-				if(phase == 'pre'):
-					resourse = Resource.objects.get(
-						microlerny=user_state.micro_lerny_id, phase='dur')
-					user_state.resource_id = resourse
-					user_state.save()
-					data = ResourceSerializer(resourse).data
-
-				elif(phase == 'dur'):
-					resourse = Resource.objects.filter(
-						microlerny=user_state.micro_lerny_id, phase='pt2')
-					if(resourse):
-						print("recurso pt2 ")
-					else:
-						print("recurso pos ")
-						resourse = Resource.objects.filter(
-							microlerny=user_state.micro_lerny_id, phase='pos')
-					
-					user_state.resource_id = resourse.first()
-					user_state.save()
-					data = ResourceSerializer(resourse.first()).data
-
-				elif(phase == 'pt2'):
-					resourse = Resource.objects.filter(
-						microlerny=user_state.micro_lerny_id, phase='pos')
-					user_state.resource_id = resourse.first()
-					user_state.save()
-					data = ResourceSerializer(resourse.first()).data
-
-				elif(phase == 'pos'):
-					micro_lerny_id_obj = MicroLerny.objects.get(
-						id=user_state.micro_lerny_id.id)
-					son = TreeMicroLerny.objects.filter(
-						dady_micro_lerny=micro_lerny_id_obj)
-
-					if(son.count() > 0):
-						s = son.values_list('son_micro_lerny_id', flat=True)
-
-						microlerny_son = MicroLerny.objects.filter(
-							pk__in=s).first()
-
-						micro_lerny_son_obj = MicroLerny.objects.get(
-							id=microlerny_son.id)
-
-						resourse = Resource.objects.get(
-							microlerny=micro_lerny_son_obj, phase='pre')
-
-						user_state.resource_id = resourse
-						user_state.micro_lerny_id = microlerny_son
-						user_state.save()
-						data = ResourceSerializer(resourse).data
-					else:
-						#variable que indica que es o no el ultimo microlerny dle curso
-						is_last = True
-				else:
-					data = None
-			else:
-				
-				lerny_id = lerny_active
-
-				micro_lerny = MicroLerny.objects.filter(lerny=lerny_id).order_by('pk').first()
-				resourse = Resource.objects.get(
-					microlerny=micro_lerny.id, phase='pre')
-
-				user_id_obj = User.objects.get(
-					identification=user_id)
-
-				user_state = User_State()
-				user_state.lerny_id = lerny_id
-				user_state.micro_lerny_id = micro_lerny
-				user_state.user_id = user_id_obj
-				user_state.resource_id = resourse
-				user_state.save()
-				data = ResourceSerializer(resourse).data
-			if(is_last):
-
-				data = {
-					"fulfillmentMessages": [
-						{
-							"payload": {
-								"facebook": {
-									"attachment": {
-										"type": "template",
-										"payload": {
-											"template_type": "generic",
-											"elements": [
-												{
-													"title": "Has terminado los microlernys asociados al lerny!",
-													"image_url": "https://lerny.co/wp-content/uploads/2020/12/ruta_curso1.jpg",
-													"subtitle": "selecciona una opcion para continuar",
-													"buttons": [
-														{
-															"type": "postback",
-															"title": "Listar Microlernys",
-															"payload": "LIST_MICROLERNYS"
-														},
-														{
-															"type": "postback",
-															"title": "Salir",
-															"payload": "lerny_farewell"
-														}
-													]
-												}
-											]
-										}
-									}
-								}
-							}
-						}
-					]
-				}
-			elif(data["phase"] != "pos" and not is_last):
-				# print("Data, description: "+data["description"])
-				if(data["description"]=="Infografía"):
-					media = "image"
-				elif(data["description"]=="Práctica"):
-					media = "file"
-				previous_text = data["previous_text"]
-				if(previous_text==None):
-					previous_text="Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"
-				data = {
-					"fulfillmentMessages": [
-						{
-							"text": {
-								"text": [
-									previous_text
-								]
-							}
-						},
-						{
-							"payload": {
-								"facebook": {
-									"attachment": {
-										"type": media,
-										"payload": {
-											"attachment_id":data["content_url"]
-										}
-									}
-								}
-							}
-						},
-						{
-							"payload": {
-								"facebook": {
-									"attachment": {
-										"type": "template",
-										"payload": {
-											"template_type": "generic",
-											"elements": [
-												{
-													"title": data["title"],
-													"image_url": data["image_url"],
-													"subtitle": data["description"],
-													"buttons": [
-														{
-															"type": "postback",
-															"title": "Siguiente recurso",
-															"payload": "CONTINUAR_CURSO"
-														},
-														{
-															"type": "postback",
-															"title": "Salir",
-															"payload": "lerny_farewell"
-														}
-													]
-												}
-											]
-										}
-									}
-								}
-							}
-						}
-					]
-				}
-
-			elif(data["phase"] == "pos" and not is_last):
-				print("Data, description: "+data["description"])
-				if(data["description"]=="Infografía"):
-					media = "image"
-				elif(data["description"]=="Práctica"):
-					media = "file"
-				previous_text = data["previous_text"]
-				if(previous_text==None):
-					previous_text="Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"
-				data = {
-					"fulfillmentMessages": [
-						{
-							"text": {
-								"text": [
-									previous_text
-								]
-							}
-						},
-						{
-							"payload": {
-								"facebook": {
-									"attachment": {
-										"type": media,
-										"payload": {
-											"attachment_id":data["content_url"]
-										}
-									}
-								}
-							}
-						},
-						{
-							"payload": {
-								"facebook": {
-									"attachment": {
-										"type": "template",
-										"payload": {
-											"template_type": "generic",
-											"elements": [
-												{
-													"title": data["title"],
-													"image_url": data["image_url"],
-													"subtitle": data["description"],
-													"buttons": [
-														{
-															"type": "postback",
-															"title": "Siguiente recurso",
-															"payload": "CONTINUAR_CURSO"
-														},
-														{
-															"payload": "CARGAR_ARCHIVO" ,
-															"title": "Cargar actividad",
-															"type": "postback"
-														}
-														
-													]
-												}
-											]
-										}
-									}
-								}
-							}
-						}
-					]
-				}
+			data=continueLerny(lerny_active,user_id_obj)
 
 		# CARGAR ARCHIVO
 		elif(key == "CARGAR_ARCHIVO"):
@@ -640,7 +642,9 @@ class ApiManager(APIView):
 			User_Lerny.objects.filter(active=True,user_id=user_id_obj).update(active=False)
 			lerny_next = Lerny.objects.filter(pk=lerny_pk).first()
 			User_Lerny.objects.filter(active=False,user_id=user_id_obj, lerny_id =lerny_next).update(active=True)
-			data = {}
+			
+
+
 		# CARGAR_REQ_MICROLERNY
 		elif(key == "LernyDefaultFallback"):
 			if(text):

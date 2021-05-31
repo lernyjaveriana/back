@@ -644,7 +644,7 @@ class ApiManager(APIView):
 			if(user_state):
 				user_state = user_state.first()
 				lerny_id = user_state.lerny_id
-				micro_lerny = MicroLerny.objects.filter(lerny=lerny_id).order_by('pk')[microlerny-1]
+				micro_lerny = MicroLerny.objects.filter(lerny=lerny_id,pk=microlerny)
 				resourse = Resource.objects.get(
 					microlerny=micro_lerny.id, phase='pre')
 

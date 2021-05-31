@@ -430,7 +430,7 @@ class ApiManager(APIView):
 				identification=user_id)
 			lerny_active = User_Lerny.objects.filter(active=True).first()
 
-			data=continueLerny(lerny_active,user_id_obj)
+			data=continueLerny(lerny_active.lerny_id,user_id_obj)
 
 		# CARGAR ARCHIVO
 		elif(key == "CARGAR_ARCHIVO"):
@@ -633,7 +633,7 @@ class ApiManager(APIView):
 					}
 				]
 			}
-		# CARGAR_REQ_MICROLERNY
+		# CARGAR_CONTINUAR_LERNY
 		elif(key == "CARGAR_CONTINUAR_LERNY"):
 			print("CARGAR_CONTINUAR_LERNY")
 			lerny_pk = (int(request["lerny_num"]))
@@ -645,8 +645,7 @@ class ApiManager(APIView):
 
 			lerny_active = User_Lerny.objects.filter(active=True).first()
 
-			data=continueLerny(lerny_active,user_id_obj)
-
+			data=continueLerny(lerny_active.lerny_id,user_id_obj)
 		# CARGAR_REQ_MICROLERNY
 		elif(key == "LernyDefaultFallback"):
 			if(text):

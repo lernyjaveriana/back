@@ -36,7 +36,7 @@ class UserManagePost(APIView):
 			)
 
 
-def  continueLerny(lerny_active,user_id_obj):
+def  continueLerny(lerny_active,user_id_obj,user_id):
 	user_state = User_State.objects.filter(user_id=user_id_obj, lerny_id =lerny_active)
 	is_last = False
 	if(user_state):
@@ -645,7 +645,7 @@ class ApiManager(APIView):
 
 			lerny_active = User_Lerny.objects.filter(active=True).first()
 
-			data=continueLerny(lerny_active.lerny_id,user_id_obj)
+			data=continueLerny(lerny_active.lerny_id,user_id_obj,user_id)
 		# CARGAR_REQ_MICROLERNY
 		elif(key == "LernyDefaultFallback"):
 			if(text):

@@ -638,7 +638,7 @@ class ApiManager(APIView):
 			user_id_obj = User.objects.get(
 				identification=user_id)
 			User_Lerny.objects.filter(active=True,user_id=user_id_obj).update(active=False)
-			lerny_next = Lerny.objects.filter(pk=lerny_pk)
+			lerny_next = Lerny.objects.filter(pk=lerny_pk).first()
 			User_Lerny.objects.filter(active=False,user_id=user_id_obj, lerny_id =lerny_next).update(active=True)
 
 		# CARGAR_REQ_MICROLERNY

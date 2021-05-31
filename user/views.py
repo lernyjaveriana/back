@@ -550,7 +550,7 @@ class ApiManager(APIView):
 				lerny_id = user_state.lerny_id
 				micro_lerny = MicroLerny.objects.filter(lerny=lerny_id,id=microlerny)
 				resourse = Resource.objects.get(
-					microlerny=micro_lerny.id, phase='pre')
+					microlerny=micro_lerny.pk, phase='pre')
 
 				user_state.resource_id = resourse
 				user_state.micro_lerny_id = micro_lerny

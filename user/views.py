@@ -37,6 +37,7 @@ class UserManagePost(APIView):
 
 
 def  continueLerny(lerny_active,user_id_obj,user_id):
+	media = "video"
 	user_state = User_State.objects.filter(user_id=user_id_obj, lerny_id =lerny_active)
 	is_last = False
 	if(user_state):

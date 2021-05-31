@@ -431,7 +431,7 @@ class ApiManager(APIView):
 				identification=user_id)
 			lerny_active = User_Lerny.objects.filter(active=True).first()
 
-			data=continueLerny(lerny_active.lerny_id,user_id_obj)
+			data=continueLerny(lerny_active.lerny_id,user_id_obj,user_id)
 
 		# CARGAR ARCHIVO
 		elif(key == "CARGAR_ARCHIVO"):

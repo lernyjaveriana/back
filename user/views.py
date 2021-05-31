@@ -641,7 +641,7 @@ class ApiManager(APIView):
 			lerny_active = User_Lerny.objects.filter(active=True).first().update(active=False)
 			##PONER AQUÍ EL 
 			user_state = User_State.objects.filter(user_id=user_id_obj, lerny_id =lerny_active)
- 			if(user_state):
+			if(user_state):
 				user_state = user_state.first()
 				lerny_id = user_state.lerny_id
 				micro_lerny = MicroLerny.objects.filter(lerny=lerny_id).order_by('pk')[microlerny-1]

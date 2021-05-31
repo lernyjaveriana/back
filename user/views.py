@@ -540,7 +540,6 @@ class ApiManager(APIView):
 		# CARGAR_REQ_MICROLERNY
 		elif(key == "CARGAR_REQ_MICROLERNY"):
 			microlerny = (int(request["microlerny_num"]))
-			serializers_class = ResourceSerializer
 			user_id_obj = User.objects.get(
 				identification=user_id)
 			lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()
@@ -549,7 +548,7 @@ class ApiManager(APIView):
 			if(user_state):
 				user_state = user_state.first()
 				lerny_id = user_state.lerny_id
-				micro_lerny = MicroLerny.objects.filter(lerny=lerny_id,pk=microlerny)
+				micro_lerny = MicroLerny.objects.filter(lerny=lerny_id,id=microlerny)
 				resourse = Resource.objects.get(
 					microlerny=micro_lerny.id, phase='pre')
 

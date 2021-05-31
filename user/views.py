@@ -183,7 +183,6 @@ class ApiManager(APIView):
 			if(not((int(request["lerny_num"])) is None)):
 				lerny_num=int(request["lerny_num"])
 				print("lerny num: "+lerny_num)
-			serializers_class = ResourceSerializer
 			user_id_obj = User.objects.get(
 				identification=user_id)
 			lerny_active = User_Lerny.objects.filter(active=True).first()
@@ -634,6 +633,7 @@ class ApiManager(APIView):
 			}
 		# CARGAR_REQ_MICROLERNY
 		elif(key == "CARGAR_CONTINUAR_LERNY"):
+			print("CARGAR_CONTINUAR_LERNY")
 			lerny_pk = (int(request["lerny_num"]))
 			user_id_obj = User.objects.get(
 				identification=user_id)

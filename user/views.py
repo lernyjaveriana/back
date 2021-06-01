@@ -795,18 +795,6 @@ class ApiManager(APIView):
 							}
 						},
 						{
-							"payload": {
-								"facebook": {
-									"attachment": {
-										"type": media,
-										"payload": {
-											"attachment_id":data["content_url"]
-										}
-									}
-								}
-							}
-						},
-						{
 							"payload":{
 								"facebook": 
 								{

@@ -315,8 +315,11 @@ class ApiManager(APIView):
 			if(not(user_id is None)):
 				user_id = (str(int(float(user_id))))
 			else:
-				user_id_obj = User.objects.get(uid=str(sender_id))
-				user_id=UserSerializer(user_id_obj).data['identification']
+				try:
+					user_id_obj = User.objects.get(uid=str(sender_id))
+					user_id=UserSerializer(user_id_obj).data['identification']
+				except:
+  					print("An error occurred obteniendo el user id obj")
 
 
 			request = request.data['queryResult']['parameters']

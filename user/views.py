@@ -37,7 +37,7 @@ class UserManagePost(APIView):
 
 
 def  continueLerny(lerny_active,user_id_obj,user_id):
-	media = "video"
+
 	user_state = User_State.objects.filter(user_id=user_id_obj, lerny_id =lerny_active)
 	is_last = False
 	if(user_state):
@@ -155,10 +155,7 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 		}
 	elif(data["phase"] != "pos" and not is_last):
 		# print("Data, description: "+data["description"])
-		if(data["description"]=="Infografía"):
-			media = "image"
-		elif(data["description"]=="Práctica"):
-			media = "file"
+		media = data["media_type"]
 		previous_text = data["previous_text"]
 		if(previous_text==None):
 			previous_text="Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"
@@ -219,10 +216,7 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 
 	elif(data["phase"] == "pos" and not is_last):
 		print("Data, description: "+data["description"])
-		if(data["description"]=="Infografía"):
-			media = "image"
-		elif(data["description"]=="Práctica"):
-			media = "file"
+		media = data["media_type"]
 		previous_text = data["previous_text"]
 		if(previous_text==None):
 			previous_text="Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"
@@ -286,7 +280,6 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 class ApiManager(APIView):
 	
 	def post(self, request):
-		media = "video"
 		print("request.data")
 		print(request.data)	
 		print("request.data.intent.displayname")
@@ -576,10 +569,7 @@ class ApiManager(APIView):
 				user_state.save()
 				data = ResourceSerializer(resourse).data
 			print("Data, description: "+data["description"])
-			if(data["description"]=="Infografía"):
-				media = "image"
-			elif(data["description"]=="Práctica"):
-				media = "file"
+			media = data["media_type"]
 			previous_text = data["previous_text"]
 			if(previous_text==None):
 				previous_text="Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"

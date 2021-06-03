@@ -38,6 +38,7 @@ class Resource(models.Model):
 	points = models.FloatField('points', null=False)
 	microlerny = models.ForeignKey(MicroLerny, on_delete=models.CASCADE, null = False)
 	image_url = models.CharField('image url', max_length = 200, null=False)
+	media_type = models.CharField('media type', max_length = 200, null=False)
 	def __str__(self):
 		return f'{self.title,self.phase}'
 class User_Lerny(models.Model):

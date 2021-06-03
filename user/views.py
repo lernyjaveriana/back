@@ -662,7 +662,7 @@ class ApiManager(APIView):
 											},
 											{
 												"type": "postback",
-												"payload": "menu_inicial",
+												"payload": "hola lerny",
 												"title": "Ver menú inicial"
 											}
 											],

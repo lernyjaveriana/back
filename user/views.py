@@ -311,8 +311,10 @@ class ApiManager(APIView):
 				try:
 					user_id_obj = User.objects.get(uid=str(sender_id))
 					user_id=UserSerializer(user_id_obj).data['identification']
-				except AssertionError as error:
-  					print("An error occurred obteniendo el user id obj: "+ error)
+				except:
+  					print("An error occurred obteniendo el user id obj")
+				# except AssertionError as error:
+  				# 	print("An error occurred obteniendo el user id obj: "+ error)
 
 
 			request = request.data['queryResult']['parameters']

@@ -174,7 +174,7 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 							"attachment": {
 								"type": media,
 								"payload": {
-									"url":data["content_url"]
+									"attachment_id":data["content_url"]
 								}
 							}
 						}
@@ -235,7 +235,7 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 							"attachment": {
 								"type": media,
 								"payload": {
-									"url":data["content_url"]
+									"attachment_id":data["content_url"]
 								}
 							}
 						}
@@ -588,7 +588,7 @@ class ApiManager(APIView):
 								"attachment": {
 									"type": media,
 									"payload": {
-										"url":data["content_url"]
+										"attachment_id":data["content_url"]
 									}
 								}
 							}
@@ -656,7 +656,7 @@ class ApiManager(APIView):
 											{
 												"type": "web_url",
 												"title": "Enviar email",
-												"url": "https://mail.google.com/mail/u/0/?fs=1&tf=cm&source=mailto&to=lernyjaveriana@gmail.com"
+												"attachment_id": "https://mail.google.com/mail/u/0/?fs=1&tf=cm&source=mailto&to=lernyjaveriana@gmail.com"
 											},
 											{
 												"type": "postback",

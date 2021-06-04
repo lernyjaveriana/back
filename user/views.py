@@ -277,6 +277,111 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 		}
 	return data
 
+def bienvenidaLerny(user_id):
+	if(user_id):
+		user = User.objects.get(
+		identification=user_id)
+		data = {
+			"fulfillmentMessages": [
+				{
+					"text": {
+						"text": [
+							"Bienvenido a lerny"
+						]
+					}
+				},
+				{
+					"payload": {
+						"facebook": {
+							"attachment": {
+								"type": "template",
+								"payload":
+										{
+											"template_type": "generic",
+											"elements":
+											[
+												{
+													"title": "Hola " + UserSerializer(user).data["user_name"] + ", un gusto volver a verte!",
+													"image_url": "https://lerny.co/wp-content/uploads/2020/12/titulo_curso.jpg",
+													"subtitle": "Para comenzar por favor selecciona una opción.",
+													"buttons":
+													[
+														{
+															"type": "postback",
+															"title": "Continuar Lerny",
+															"payload": "CONTINUAR_CURSO"
+														},
+														{
+															"type": "postback",
+															"title": "ver Micro Lernys",
+															"payload": "LIST_MICROLERNYS"
+														},
+														{
+															"type": "postback",
+															"title": "Listar Lernys",
+															"payload": "LISTAR_LERNYS"
+														}
+													]
+												}
+											]
+										}
+							}
+						}
+					}
+				}
+			]
+		}
+	else:
+		data = {
+			"fulfillmentMessages": [
+				{
+					"text": {
+						"text": [
+							"Hola!, te damos la bienvenida a Lerny, una plataforma de educación en facebook messenger, pensada para quienes construimos futuro trabajando."
+						]
+					}
+				},
+				{
+					"payload":{
+						"facebook": 
+						{
+							"attachment": 
+							{
+							"type": "template",
+							"payload": {
+								"template_type": "generic",
+								"elements": [
+								{
+									"image_url": "https://lerny.co/wp-content/uploads/2020/12/marca_lerny.jpg",
+									"buttons": [
+									{
+										"title": "Comprar curso",
+										"payload": "comprar_curso",
+										"type": "postback"
+									},
+									{
+										"payload": "iniciar_sesion",
+										"title": "Iniciar sesión",
+										"type": "postback"
+									},
+									{
+										"payload": "info_contacto",
+										"title": "Más información",
+										"type": "postback"
+									}
+									],
+									"title": "Menú Principal",
+									"subtitle": "Para comenzar por favor selecciona una opción."
+								}
+								]
+							}
+							}
+						}
+						}
+				}
+			]
+		}
+	return data
 class ApiManager(APIView):
 	
 	def post(self, request):
@@ -300,6 +405,7 @@ class ApiManager(APIView):
 			x = 0
 			# Identifico el user_document_id independientemente de donde se encuentre en el json
 			while(x < len(request.data['queryResult']['outputContexts'])):
+				
 				user_id = (request.data['queryResult']['outputContexts'][x].get(
 					'parameters').get('user_document_id'))
 				if((request.data['queryResult']['outputContexts'][x].get('parameters').get('user_document_id')) != None):
@@ -383,54 +489,58 @@ class ApiManager(APIView):
 		# LISTAR MICROLERNYS
 		elif(key == "LIST_MICROLERNYS"):
 			# lerny = request['LERNY_INTENT']
-			serializers_class = MicroLernySerializer
-			lerny_active = User_Lerny.objects.filter(active=True).first()
-			micro_lerny = MicroLerny.objects.filter(lerny=lerny_active.lerny_id)
-			data = MicroLernySerializer(micro_lerny, many=True).data
-			i = 0
-			temp = []
-			while(i < len(data)):
-				print("IMPRESION LISTAR LERNY: "+ str(data[i]['id'])+") " + data[i]['micro_lerny_title'])
-				temp.append(
-					{
-						"subtitle": data[i]['micro_lerny_subtitle'],
-						"image_url": data[i]['microlerny_image_url'],
-						"title": data[i]['micro_lerny_title'],
-						"buttons": [
+			if(user_id is None):
+				data=bienvenidaLerny(user_id)
+			else:
+				serializers_class = MicroLernySerializer
+				lerny_active = User_Lerny.objects.filter(active=True).first()
+				micro_lerny = MicroLerny.objects.filter(lerny=lerny_active.lerny_id)
+				data = MicroLernySerializer(micro_lerny, many=True).data
+				i = 0
+				temp = []
+				while(i < len(data)):
+					print("IMPRESION LISTAR LERNY: "+ str(data[i]['id'])+") " + data[i]['micro_lerny_title'])
+					temp.append(
 						{
-							"payload": "cargar recurso "+str(data[i]['id']) ,
-							"title": "Seleccionar",
-							"type": "postback"
-						}
-						]
-					},)
-				i += 1
+							"subtitle": data[i]['micro_lerny_subtitle'],
+							"image_url": data[i]['microlerny_image_url'],
+							"title": data[i]['micro_lerny_title'],
+							"buttons": [
+							{
+								"payload": "cargar recurso "+str(data[i]['id']) ,
+								"title": "Seleccionar",
+								"type": "postback"
+							}
+							]
+						},)
+					i += 1
 
-			data = {
-				"fulfillmentMessages": [
-				{
-					"payload": {
-						"facebook": {
-							"attachment": {
-								"type": "template",
-								"payload": {
-									"template_type": "generic",
-									"elements": temp
+				data = {
+					"fulfillmentMessages": [
+					{
+						"payload": {
+							"facebook": {
+								"attachment": {
+									"type": "template",
+									"payload": {
+										"template_type": "generic",
+										"elements": temp
+									}
 								}
 							}
 						}
-					}
-				}]
-			}
+					}]
+				}
 		# CONTINUAR CURSO
 		elif(key == "CONTINUAR_CURSO"):
-			
-			user_id_obj = User.objects.get(
-				identification=user_id)
-			lerny_active = User_Lerny.objects.filter(active=True).first()
 
-			data=continueLerny(lerny_active.lerny_id,user_id_obj,user_id)
-
+			if(user_id is None):
+				data=bienvenidaLerny(user_id)
+			else:
+				user_id_obj = User.objects.get(
+					identification=user_id)
+				lerny_active = User_Lerny.objects.filter(active=True).first()
+				data=continueLerny(lerny_active.lerny_id,user_id_obj,user_id)
 		# CARGAR ARCHIVO
 		elif(key == "CARGAR_ARCHIVO"):
 			file_url = request["file_url"]
@@ -492,51 +602,52 @@ class ApiManager(APIView):
 			}
 		# CARGAR ARCHIVO
 		elif(key == "LISTAR_LERNYS"):
-			# lerny = request['LERNY_INTENT']
-			serializers_class = LernySerializer
-			user_id_obj = User.objects.get(uid=str(sender_id))
-			user_lernys = User_Lerny.objects.filter(user_id=user_id_obj)
+			if(user_id is None):
+				data=bienvenidaLerny(user_id)
+			else:
+				user_id_obj = User.objects.get(uid=str(sender_id))
+				user_lernys = User_Lerny.objects.filter(user_id=user_id_obj)
 
-			lernys_ids = user_lernys.values_list('lerny_id', flat=True)
-			lernys = Lerny.objects.filter(
-				pk__in=lernys_ids)
+				lernys_ids = user_lernys.values_list('lerny_id', flat=True)
+				lernys = Lerny.objects.filter(
+					pk__in=lernys_ids)
 
-			data = LernySerializer(lernys, many=True).data
-			i = 0
-			temp = []
-			while(i < len(data)):
-				print("IMPRESION LISTAR LERNY: "+ str(data[i]['id'])+") " + data[i]['lerny_name'])
-				temp.append(
-					{
-						"subtitle": data[i]['description'],
-						"image_url": data[i]['url_image'],
-						"title": data[i]['lerny_name'],
-						"buttons": [
+				data = LernySerializer(lernys, many=True).data
+				i = 0
+				temp = []
+				while(i < len(data)):
+					print("IMPRESION LISTAR LERNY: "+ str(data[i]['id'])+") " + data[i]['lerny_name'])
+					temp.append(
 						{
-							"payload": "cargar lerny "+str(data[i]['id']),
-							"title": "Continuar Lerny",
-							"type": "postback"
-						}
-						]
-					},)
-				i += 1
+							"subtitle": data[i]['description'],
+							"image_url": data[i]['url_image'],
+							"title": data[i]['lerny_name'],
+							"buttons": [
+							{
+								"payload": "cargar lerny "+str(data[i]['id']),
+								"title": "Continuar Lerny",
+								"type": "postback"
+							}
+							]
+						},)
+					i += 1
 
-			data = {
-				"fulfillmentMessages": [
-				{
-					"payload": {
-						"facebook": {
-							"attachment": {
-								"type": "template",
-								"payload": {
-									"template_type": "generic",
-									"elements": temp
+				data = {
+					"fulfillmentMessages": [
+					{
+						"payload": {
+							"facebook": {
+								"attachment": {
+									"type": "template",
+									"payload": {
+										"template_type": "generic",
+										"elements": temp
+									}
 								}
 							}
 						}
-					}
-				}]
-			}
+					}]
+				}
 		# CARGAR_REQ_MICROLERNY
 		elif(key == "CARGAR_REQ_MICROLERNY"):
 			microlerny = (int(request["microlerny_num"]))
@@ -723,109 +834,7 @@ class ApiManager(APIView):
 				}
 		# BIENVENIDO_LERNY
 		elif(key == "BIENVENIDO_LERNY"):
-			if(user_id):
-				user = User.objects.get(
-				identification=user_id)
-				data = {
-					"fulfillmentMessages": [
-						{
-							"text": {
-								"text": [
-									"Bienvenido a lerny"
-								]
-							}
-						},
-						{
-							"payload": {
-								"facebook": {
-									"attachment": {
-										"type": "template",
-										"payload":
-												{
-													"template_type": "generic",
-													"elements":
-													[
-														{
-															"title": "Hola " + UserSerializer(user).data["user_name"] + ", un gusto volver a verte!",
-															"image_url": "https://lerny.co/wp-content/uploads/2020/12/titulo_curso.jpg",
-															"subtitle": "Para comenzar por favor selecciona una opción.",
-															"buttons":
-															[
-																{
-																	"type": "postback",
-																	"title": "Continuar Lerny",
-																	"payload": "CONTINUAR_CURSO"
-																},
-																{
-																	"type": "postback",
-																	"title": "ver Micro Lernys",
-																	"payload": "LIST_MICROLERNYS"
-																},
-																{
-																	"type": "postback",
-																	"title": "Listar Lernys",
-																	"payload": "LISTAR_LERNYS"
-																}
-															]
-														}
-													]
-												}
-									}
-								}
-							}
-						}
-					]
-				}
-			else:
-				data = {
-					"fulfillmentMessages": [
-						{
-							"text": {
-								"text": [
-									"Hola!, te damos la bienvenida a Lerny, una plataforma de educación en facebook messenger, pensada para quienes construimos futuro trabajando."
-								]
-							}
-						},
-						{
-							"payload":{
-								"facebook": 
-								{
-									"attachment": 
-									{
-									"type": "template",
-									"payload": {
-										"template_type": "generic",
-										"elements": [
-										{
-											"image_url": "https://lerny.co/wp-content/uploads/2020/12/marca_lerny.jpg",
-											"buttons": [
-											{
-												"title": "Comprar curso",
-												"payload": "comprar_curso",
-												"type": "postback"
-											},
-											{
-												"payload": "iniciar_sesion",
-												"title": "Iniciar sesión",
-												"type": "postback"
-											},
-											{
-												"payload": "info_contacto",
-												"title": "Más información",
-												"type": "postback"
-											}
-											],
-											"title": "Menú Principal",
-											"subtitle": "Para comenzar por favor selecciona una opción."
-										}
-										]
-									}
-									}
-								}
-								}
-						}
-					]
-				}
+			data=bienvenidaLerny(user_id)
 		else:
 			data = {}
 		print(data)

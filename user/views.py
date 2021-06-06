@@ -554,7 +554,6 @@ class ApiManager(APIView):
 					User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).update(user_response=data['user_response']+' '+response)
 				else:
 					print("GUARDAR ARCHIVO")
-					user_state = user_state.first()
 					u_resource = User_Resource()
 					u_resource.resource_id = user_state.resource_id
 					u_resource.user_id = user_state.user_id

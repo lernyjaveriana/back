@@ -483,16 +483,13 @@ class ApiManager(APIView):
 					}
 				]
 			}
-			
 		# LOGIN
-
 		# LISTAR MICROLERNYS
 		elif(key == "LIST_MICROLERNYS"):
-			# lerny = request['LERNY_INTENT']
+			
 			if(user_id is None):
 				data=bienvenidaLerny(user_id)
 			else:
-				serializers_class = MicroLernySerializer
 				lerny_active = User_Lerny.objects.filter(active=True).first()
 				micro_lerny = MicroLerny.objects.filter(lerny=lerny_active.lerny_id)
 				data = MicroLernySerializer(micro_lerny, many=True).data
@@ -533,7 +530,6 @@ class ApiManager(APIView):
 				}
 		# CONTINUAR CURSO
 		elif(key == "CONTINUAR_CURSO"):
-
 			if(user_id is None):
 				data=bienvenidaLerny(user_id)
 			else:
@@ -543,63 +539,69 @@ class ApiManager(APIView):
 				data=continueLerny(lerny_active.lerny_id,user_id_obj,user_id)
 		# CARGAR ARCHIVO
 		elif(key == "CARGAR_ARCHIVO"):
-			file_url = request["file_url"]
-			url_task = file_url
-			user_id_obj = User.objects.get(
-				identification=user_id)
-			user_state = User_State.objects.filter(user_id=user_id_obj)
-			serializers_class = UserResourceSerializer
-			if(user_state):
-				print("GUARDAR ARCHIVO")
-				user_state = user_state.first()
-				u_resource = User_Resource()
-				u_resource.resource_id = user_state.resource_id
-				u_resource.user_id = user_state.user_id
-				u_resource.user_response = url_task
-				u_resource.response_date = datetime.now()
-				u_resource.last_view_date = datetime.now()
-				u_resource.save()
-				data = UserResourceSerializer(u_resource).data
+			if(user_id is None):
+				data=bienvenidaLerny(user_id)
 			else:
-				data = {"message": "el usuario no tiene tareas pendientes"}
-			data = {
-				"fulfillmentMessages": [
-					{
-						"payload": {
-							"facebook": {
-								"attachment": {
-									"type": "template",
-									"payload":
-									{
-										"template_type": "generic",
-										"elements":
-										[
-											{
-												"title": "Tu archivo ha sido cargado exitosamente! Deseas hacer algo más?",
-												"image_url": "https://lerny.co/wp-content/uploads/2020/12/ruta_curso1.jpg",
-												"subtitle": "Para continuar, por favor selecciona una opción.",
-												"buttons":
-												[
-													{
-														"type": "postback",
-														"title": "Continuar lerny",
-														"payload": "continuar_curso"
-													},
-													{
-														"type": "postback",
-														"title": "ver microlernys",
-														"payload": "LIST_MICROLERNYS"
-													},
-												]
-											}
-										]
+				response = request["response"]
+				user_id_obj = User.objects.get(
+					identification=user_id)
+				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()
+				user_state = User_State.objects.filter(user_id=user_id_obj,lerny_id=lerny_active.lerny_id).first()
+				u_resource = User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id)
+
+				if(user_state):
+					data = UserResourceSerializer(u_resource).data
+					u_resource.update(user_response=data['user_response']+' '+response)
+				else:
+					print("GUARDAR ARCHIVO")
+					user_state = user_state.first()
+					u_resource = User_Resource()
+					u_resource.resource_id = user_state.resource_id
+					u_resource.user_id = user_state.user_id
+					u_resource.user_response = response
+					u_resource.response_date = datetime.now()
+					u_resource.last_view_date = datetime.now()
+					u_resource.save()
+					
+
+				data = {
+					"fulfillmentMessages": [
+						{
+							"payload": {
+								"facebook": {
+									"attachment": {
+										"type": "template",
+										"payload":
+										{
+											"template_type": "generic",
+											"elements":
+											[
+												{
+													"title": "Tu archivo ha sido cargado exitosamente! Deseas hacer algo más?",
+													"image_url": "https://lerny.co/wp-content/uploads/2020/12/ruta_curso1.jpg",
+													"subtitle": "Para continuar, por favor selecciona una opción.",
+													"buttons":
+													[
+														{
+															"type": "postback",
+															"title": "Continuar lerny",
+															"payload": "continuar_curso"
+														},
+														{
+															"type": "postback",
+															"title": "ver microlernys",
+															"payload": "LIST_MICROLERNYS"
+														},
+													]
+												}
+											]
+										}
 									}
 								}
 							}
 						}
-					}
-				]
-			}
+					]
+				}
 		# CARGAR ARCHIVO
 		elif(key == "LISTAR_LERNYS"):
 			if(user_id is None):
@@ -846,7 +848,7 @@ class GetPayInformation(APIView):
 #        url = "http://replica.javerianacali.edu.co:8100/ServiciosSF/rs/consultarDeuda?tipoDocumento="+tipoDocumento+"&numeroDocumento="+numeroDocumento
 #        response = requests.get(url)
 #        information = response.json()
-        serializers_class = UserLernySerializer
+
         data = {}
 
         information = {

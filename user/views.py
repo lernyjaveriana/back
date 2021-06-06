@@ -576,11 +576,16 @@ class ApiManager(APIView):
 											"elements":
 											[
 												{
-													"title": "Tu archivo ha sido cargado exitosamente! Deseas hacer algo más?",
+													"title": "Tu respuesta ha sido cargado exitosamente! Deseas hacer algo más?",
 													"image_url": "https://lerny.co/wp-content/uploads/2020/12/ruta_curso1.jpg",
 													"subtitle": "Para continuar, por favor selecciona una opción.",
 													"buttons":
 													[
+														{
+															"type": "postback",
+															"title": "Complementar respuesta",
+															"payload": "CARGAR_ARCHIVO"
+														},
 														{
 															"type": "postback",
 															"title": "Continuar lerny",

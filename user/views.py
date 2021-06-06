@@ -549,7 +549,7 @@ class ApiManager(APIView):
 				user_state = User_State.objects.filter(user_id=user_id_obj,lerny_id=lerny_active.lerny_id).first()
 				u_resource = User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).first()
 
-				if(user_state):
+				if(u_resource):
 					data = UserResourceSerializer(u_resource).data
 					User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).update(user_response=data['user_response']+' '+response)
 				else:

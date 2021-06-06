@@ -551,7 +551,7 @@ class ApiManager(APIView):
 
 				if(user_state):
 					data = UserResourceSerializer(u_resource).data
-					u_resource.update(user_response=data['user_response']+' '+response)
+					User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).update(user_response=data['user_response']+' '+response)
 				else:
 					print("GUARDAR ARCHIVO")
 					user_state = user_state.first()

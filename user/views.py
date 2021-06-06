@@ -428,6 +428,8 @@ def bienvenidaLerny(user_id):
 class ApiManager(APIView):
 	
 	def post(self, request):
+		print("request")
+		print(request)	
 		print("request.data")
 		print(request.data)	
 		print("request.data.intent.displayname")

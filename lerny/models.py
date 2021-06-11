@@ -35,10 +35,11 @@ class Resource(models.Model):
 	previous_text = models.CharField('previous text', max_length = 200, null=True)
 	phase = models.CharField('phase', max_length = 3, null=False)
 	creation_date = models.DateTimeField('creation date', auto_now_add = True)
-	points = models.FloatField('points', null=False)
+	points = models.FloatField('points',  null=True)
 	microlerny = models.ForeignKey(MicroLerny, on_delete=models.CASCADE, null = False)
 	image_url = models.CharField('image url', max_length = 200, null=False)
 	media_type = models.CharField('media type', max_length = 200, null=False)
+	resource_type = models.CharField('media type', max_length = 200, null=False)
 	def __str__(self):
 		return f'{self.title,self.phase}'
 class User_Lerny(models.Model):

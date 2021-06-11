@@ -34,7 +34,7 @@ class UserManagePost(APIView):
 			return Response(
 				serializers.errors, status=status.HTTP_400_BAD_REQUEST
 			)
-
+# After upload an activitie, it should shows you a menu
 cargarActividad={
 					"fulfillmentMessages": [
 						{

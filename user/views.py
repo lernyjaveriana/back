@@ -86,35 +86,18 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 	if(user_state):
 		user_state = user_state.first()
 		phase = user_state.resource_id.phase
-		if(phase == 'pre'):
-			resourse = Resource.objects.get(
-				microlerny=user_state.micro_lerny_id, phase='dur')
-			user_state.resource_id = resourse
-			user_state.save()
-			data = ResourceSerializer(resourse).data
+		resourses = Resource.objects.filter(
+				microlerny=user_state.micro_lerny_id)
 
-		elif(phase == 'dur'):
+		
+		if(resourses.count() > int(phase)):
 			resourse = Resource.objects.filter(
-				microlerny=user_state.micro_lerny_id, phase='pt2')
-			if(resourse):
-				print("recurso pt2 ")
-			else:
-				print("recurso pos ")
-				resourse = Resource.objects.filter(
-					microlerny=user_state.micro_lerny_id, phase='pos')
-			
+				microlerny=user_state.micro_lerny_id, phase=str(int(phase)+1))
 			user_state.resource_id = resourse.first()
 			user_state.save()
 			data = ResourceSerializer(resourse.first()).data
 
-		elif(phase == 'pt2'):
-			resourse = Resource.objects.filter(
-				microlerny=user_state.micro_lerny_id, phase='pos')
-			user_state.resource_id = resourse.first()
-			user_state.save()
-			data = ResourceSerializer(resourse.first()).data
-
-		elif(phase == 'pos'):
+		elif(resourses.count() == int(phase)):
 			micro_lerny_id_obj = MicroLerny.objects.get(
 				id=user_state.micro_lerny_id.id)
 			son = TreeMicroLerny.objects.filter(
@@ -130,7 +113,7 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 					id=microlerny_son.id)
 
 				resourse = Resource.objects.get(
-					microlerny=micro_lerny_son_obj, phase='pre')
+					microlerny=micro_lerny_son_obj, phase='1')
 
 				user_state.resource_id = resourse
 				user_state.micro_lerny_id = microlerny_son
@@ -147,7 +130,7 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 
 		micro_lerny = MicroLerny.objects.filter(lerny=lerny_id).order_by('pk').first()
 		resourse = Resource.objects.get(
-			microlerny=micro_lerny.id, phase='pre')
+			microlerny=micro_lerny.id, phase='1')
 
 		user_id_obj = User.objects.get(
 			identification=user_id)
@@ -196,7 +179,7 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 				}
 			]
 		}
-	elif(data["phase"] != "pos" and not is_last):
+	elif(data["resource_type"] != "consumable" and not is_last):
 		# print("Data, description: "+data["description"])
 		media = data["media_type"]
 		previous_text = data["previous_text"]
@@ -257,7 +240,7 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 			]
 		}
 
-	elif(data["phase"] == "pos" and not is_last):
+	elif(data["resource_type"] == "practical" and not is_last):
 		print("Data, description: "+data["description"])
 		media = data["media_type"]
 		previous_text = data["previous_text"]
@@ -670,7 +653,7 @@ class ApiManager(APIView):
 				lerny_id = user_state.lerny_id
 				micro_lerny = MicroLerny.objects.filter(lerny=lerny_id,id=microlerny).first()
 				resourse = Resource.objects.get(
-					microlerny=micro_lerny, phase='pre')
+					microlerny=micro_lerny, phase='1')
 
 				user_state.resource_id = resourse
 				user_state.micro_lerny_id = micro_lerny
@@ -681,7 +664,7 @@ class ApiManager(APIView):
 				lerny_id = user_state.lerny_id
 				micro_lerny = MicroLerny.objects.filter(lerny=lerny_id,pk=microlerny)
 				resourse = Resource.objects.get(
-					microlerny=micro_lerny.id, phase='pre')
+					microlerny=micro_lerny.id, phase='1')
 
 				user_state = User_State()
 				user_state.lerny_id = lerny_id

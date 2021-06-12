@@ -179,7 +179,7 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 				}
 			]
 		}
-	elif(data["resource_type"] != "consumable" and not is_last):
+	elif(data["resource_type"] == "consumable" and not is_last):
 		# print("Data, description: "+data["description"])
 		media = data["media_type"]
 		previous_text = data["previous_text"]

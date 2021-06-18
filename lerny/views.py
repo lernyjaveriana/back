@@ -4,6 +4,7 @@ from rest_framework import status
 from rest_framework import serializers
 from .serializers import *
 from .models import *
+#from django.contrib.auth.decorators import login_required
 
 
 class LernyManageGet(APIView):
@@ -46,5 +47,23 @@ class MicroLernyDadAndSon(APIView):
 		
 		return Response ({'dad': dad_data, 'son': son_data })
 
-		
 
+#@login_required(login_url='/accounts/login/')	
+#def UserState(response):
+#	user = request.user
+#	if (user.groups.filter(name="Colaborador").exists()):
+#		company = user.company
+#		if company:
+#			lernys = Lerny.objects.filter(lerny_company__company_id=company.pk).values_list("pk", flat=True)
+#			users_states = User_State.objects.filter(lerny_id__in=lernys)
+#			for i in users_states:
+#				data[''] = 
+#				data[''] = 
+#				data[''] = 
+#				data[''] = 
+#				data[''] = 
+#				data[''] = 
+#		else:
+#			response("el usuario no tiene asociada ninguna empresa")
+#	else:
+#		response("no tiene permisos para ingresar")

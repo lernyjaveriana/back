@@ -1,6 +1,9 @@
 from django.db import models
+#from lerny.models import Company
 
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager)
+from django.contrib.auth.models import Group
+
 # Create your models here.
 
 
@@ -46,6 +49,8 @@ class User(AbstractBaseUser):
     active_user = models.BooleanField(default = True)
     admin_user= models.BooleanField(default = False)
     identification = models.CharField('identification',unique=True, max_length=20, default = "12345")
+    company = models.ForeignKey('lerny.Company', on_delete=models.CASCADE, null=True)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, null = True)
     objects=MyUserManager()
 
     USERNAME_FIELD = "identification"

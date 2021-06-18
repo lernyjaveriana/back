@@ -100,3 +100,24 @@ class Faqs(models.Model):
 	response_type  = models.CharField('response_type', max_length=30, null=True)
 	def __str__(self):
 		return f'{self.intent_name}'
+
+class Company(models.Model):
+	nit = models.CharField('nit', max_length=50, null=False)
+	name = models.CharField('name', max_length=50, null=False)
+	country = models.CharField('country', max_length=50, null=True)
+	region = models.CharField('region', max_length=50, null=True)
+	city = models.CharField('city', max_length=50, null=True)
+	direction = models.CharField('direction', max_length=100, null=True)
+	phone = models.CharField('phone', max_length=50, null=True)
+	email = models.CharField('email', max_length=50, null=True)
+	web = models.CharField('web', max_length=50, null=True)
+	creation_date = models.DateTimeField('creation date', auto_now_add = True)
+	def __str__(self):
+		return f'{self.nit},{self.name}'
+
+class Lerny_Company(models.Model):
+	lerny_id = models.ForeignKey(Lerny, on_delete=models.CASCADE, null = False)
+	company_id = models.ForeignKey(Company, on_delete=models.CASCADE, null = False)
+	date = models.DateTimeField('date', auto_now_add = True)
+	def __str__(self):
+		return f'{self.lerny_id},{self.company_id}'

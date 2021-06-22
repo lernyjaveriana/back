@@ -32,7 +32,7 @@ class Resource(models.Model):
 	description = models.CharField('description', max_length = 300)
 	content_url = models.CharField('content_url', max_length = 100, null=False)
 	content_type = models.CharField('microlerny title', max_length = 200, null=False)
-	previous_text = models.CharField('previous text', max_length = 200, null=True)
+	previous_text = models.CharField('previous text', max_length = 200, blank=True)
 	phase = models.CharField('phase', max_length = 3, null=False)
 	creation_date = models.DateTimeField('creation date', auto_now_add = True)
 	points = models.FloatField('points',  null=True)
@@ -40,15 +40,15 @@ class Resource(models.Model):
 	image_url = models.CharField('image url', max_length = 200, null=False)
 	media_type = models.CharField('media type', max_length = 200, null=False)
 	resource_type = models.CharField('resource type', max_length = 200, null=False)
-	first_button= models.CharField('resource type', max_length = 200, blank=True)
-	second_button= models.CharField('resource type', max_length = 200, blank=True)
+	first_button= models.CharField('first button', max_length = 200, blank=True)
+	second_button= models.CharField('second button', max_length = 200, blank=True)
 	def __str__(self):
 		return f'{self.title,self.phase}'
 class User_Lerny(models.Model):
 	lerny_id = models.ForeignKey(Lerny, on_delete=models.CASCADE, null = False)
 	user_id = models.ForeignKey(User, on_delete=models.CASCADE, null = False)
 	lerny_points = models.FloatField('lerny points', null=False)
-	opinion = models.CharField('opinion', max_length=300, null=True)
+	opinion = models.CharField('opinion', max_length=300,blank=True)
 	opinion_points = models.FloatField('opinion points', null=False)
 	valor = models.FloatField('valor', null=False)
 	active = models.BooleanField(default=False)
@@ -89,9 +89,9 @@ class Faqs_Lerny(models.Model):
 	response  = models.CharField('response ', max_length=300, null=False)
 	url  = models.CharField('url', max_length=300, null=True)
 	response_type  = models.CharField('response_type', max_length=30, null=True)
-	title   = models.CharField('title', max_length=50, null=True)
-	subtitle    = models.CharField('subtitle', max_length=100, null=True)
-	but_name    = models.CharField('but_name', max_length=30, null=True)
+	title   = models.CharField('title', max_length=50, blank=True)
+	subtitle    = models.CharField('subtitle', max_length=100, blank=True)
+	but_name    = models.CharField('but_name', max_length=30, blank=True)
 	def __str__(self):
 		return f'{self.intent_name},{self.lerny_id}'
 
@@ -99,6 +99,6 @@ class Faqs_Lerny(models.Model):
 class Faqs(models.Model):
 	intent_name = models.CharField('intent_name', max_length=50, null=False)
 	response  = models.CharField('response ', max_length=600, null=False)
-	response_type  = models.CharField('response_type', max_length=30, null=True)
+	response_type  = models.CharField('response_type', max_length=30, blank=True)
 	def __str__(self):
 		return f'{self.intent_name}'

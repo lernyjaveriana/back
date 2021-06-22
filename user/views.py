@@ -301,6 +301,59 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 				}
 			]
 		}
+	elif(data["resource_type"] == "multiple" and not is_last):
+		print("Data, description: "+data["description"])
+
+		previous_text = data["previous_text"]
+		if(previous_text==None):
+			previous_text=""
+		data = {
+			"fulfillmentMessages": [
+				{
+					"text": {
+						"text": [
+							previous_text
+						]
+					}
+				},
+				{
+					"payload": {
+						"facebook": {
+							"attachment": {
+								"type": "template",
+								"payload": {
+									"template_type": "generic",
+									"elements": [
+										{
+											"title": "title",
+											"image_url": "image_url",
+											"subtitle": "description",
+											"buttons": [
+												{
+													"type": "postback",
+													"title": "first_button",
+													"payload": "CONTINUAR_CURSO"
+												},
+												{
+													"type": "postback",
+													"title": "second_button",
+													"payload": "CONTINUAR_CURSO"
+												},
+												{
+													"type": "postback",
+													"title": "third_button",
+													"payload": "CONTINUAR_CURSO"
+												}
+											]
+										}
+									]
+								}
+							}
+						}
+					}
+				}
+			]
+		}
 	return data
 
 def bienvenidaLerny(user_id):

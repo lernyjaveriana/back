@@ -306,7 +306,7 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 
 		previous_text = data["previous_text"]
 		if(previous_text==None):
-			previous_text=""
+			previous_text="Responde la siguiente pregunta por favor"
 		data = {
 			"fulfillmentMessages": [
 				{

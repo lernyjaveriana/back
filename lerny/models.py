@@ -40,6 +40,8 @@ class Resource(models.Model):
 	image_url = models.CharField('image url', max_length = 200, null=False)
 	media_type = models.CharField('media type', max_length = 200, null=False)
 	resource_type = models.CharField('resource type', max_length = 200, null=False)
+	first_button= models.CharField('resource type', max_length = 200, blank=True)
+	second_button= models.CharField('resource type', max_length = 200, blank=True)
 	def __str__(self):
 		return f'{self.title,self.phase}'
 class User_Lerny(models.Model):

@@ -313,7 +313,7 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 				{
 					"type": "postback",
 					"title": dataDB["first_button"],
-					"payload": "CARGAR_ARCHIVO "+dataDB["first_button"]
+					"payload": "CARGAR_MULTIPLE "+dataDB["first_button"]
 				},
 			)
 		
@@ -322,7 +322,7 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 				{
 					"type": "postback",
 					"title": dataDB["second_button"],
-					"payload": "CARGAR_ARCHIVO "+ dataDB["second_button"]
+					"payload": "CARGAR_MULTIPLE "+ dataDB["second_button"]
 				},
 			)
 		
@@ -331,7 +331,7 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 				{
 					"type": "postback",
 					"title": dataDB["third_button"],
-					"payload": "CARGAR_ARCHIVO "+dataDB["third_button"]
+					"payload": "CARGAR_MULTIPLE "+dataDB["third_button"]
 				}
 			)
 		
@@ -860,6 +860,36 @@ class ApiManager(APIView):
 		# BIENVENIDO_LERNY
 		elif(key == "BIENVENIDO_LERNY"):
 			data=bienvenidaLerny(user_id)
+		elif(key == "CARGAR_MULTIPLE"):
+			if(user_id is None):
+				data=bienvenidaLerny(user_id)
+			else:
+				response = request["response"]
+				user_id_obj = User.objects.get(
+					identification=user_id)
+				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()
+				user_state = User_State.objects.filter(user_id=user_id_obj,lerny_id=lerny_active.lerny_id).first()
+				u_resource = User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).first()
+
+				if(u_resource):
+					data = UserResourceSerializer(u_resource).data
+					User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).update(user_response=data['user_response']+' '+response)
+				else:
+					print("GUARDAR ARCHIVO")
+					u_resource = User_Resource()
+					u_resource.resource_id = user_state.resource_id
+					u_resource.user_id = user_state.user_id
+					u_resource.user_response = response
+					u_resource.response_date = datetime.now()
+					u_resource.last_view_date = datetime.now()
+					u_resource.save()
+					
+				user_id_obj = User.objects.get(
+					identification=user_id)
+				lerny_active = User_Lerny.objects.filter(active=True).first()
+				data=continueLerny(lerny_active.lerny_id,user_id_obj,user_id)
+
+				
 		else:
 			data = {}
 		print(data)

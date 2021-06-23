@@ -310,13 +310,6 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 		data = {
 			"fulfillmentMessages": [
 				{
-					"text": {
-						"text": [
-							previous_text
-						]
-					}
-				},
-				{
 					"payload": {
 						"facebook": {
 							"attachment": {
@@ -326,7 +319,7 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 									"elements": [
 										{
 											"title": "title",
-											"image_url": "image_url",
+											"image_url": data["image_url"],
 											"subtitle": "description",
 											"buttons": [
 												{

@@ -325,17 +325,17 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 												{
 													"type": "postback",
 													"title": data["first_button"],
-													"payload": "CARGAR_ARCHIVO "+data["first_button"] ,
+													"payload": "CARGAR_ARCHIVO "+data["first_button"]
 												},
 												{
 													"type": "postback",
 													"title": data["second_button"],
-													"payload": "CARGAR_ARCHIVO "+data["second_button"] ,
+													"payload": "CARGAR_ARCHIVO "+data["second_button"]
 												},
 												{
 													"type": "postback",
 													"title": data["third_button"],
-													"payload": "CARGAR_ARCHIVO "+data["third_button"] ,
+													"payload": "CARGAR_ARCHIVO "+data["third_button"]
 												}
 											]
 										}

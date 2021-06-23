@@ -318,23 +318,23 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 									"template_type": "generic",
 									"elements": [
 										{
-											"title": "title",
+											"title": data["title"],
 											"image_url": data["image_url"],
-											"subtitle": "description",
+											"subtitle": data["description"],
 											"buttons": [
 												{
 													"type": "postback",
-													"title": "first_button",
+													"title": data["first_button"],
 													"payload": "CONTINUAR_CURSO"
 												},
 												{
 													"type": "postback",
-													"title": "second_button",
+													"title": data["second_button"],
 													"payload": "CONTINUAR_CURSO"
 												},
 												{
 													"type": "postback",
-													"title": "third_button",
+													"title": data["third_button"],
 													"payload": "CONTINUAR_CURSO"
 												}
 											]

@@ -861,6 +861,7 @@ class ApiManager(APIView):
 		elif(key == "BIENVENIDO_LERNY"):
 			data=bienvenidaLerny(user_id)
 		elif(key == "CARGAR_MULTIPLE"):
+			print('CARGAR_MULTIPLE')
 			if(user_id is None):
 				data=bienvenidaLerny(user_id)
 			else:

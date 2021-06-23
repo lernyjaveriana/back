@@ -805,7 +805,7 @@ class ApiManager(APIView):
 											{
 												"type": "web_url",
 												"title": "Enviar email",
-												"attachment_id": "https://mail.google.com/mail/u/0/?fs=1&tf=cm&source=mailto&to=lernyjaveriana@gmail.com"
+												"url": "https://mail.google.com/mail/u/0/?fs=1&tf=cm&source=mailto&to=lernyjaveriana@gmail.com"
 											},
 											{
 												"type": "postback",

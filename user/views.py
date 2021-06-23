@@ -310,6 +310,13 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 		data = {
 			"fulfillmentMessages": [
 				{
+					"text": {
+						"text": [
+							previous_text
+						]
+					}
+				},
+				{
 					"payload": {
 						"facebook": {
 							"attachment": {

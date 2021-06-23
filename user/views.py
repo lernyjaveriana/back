@@ -95,7 +95,7 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 				microlerny=user_state.micro_lerny_id, phase=str(int(phase)+1))
 			user_state.resource_id = resourse.first()
 			user_state.save()
-			data = ResourceSerializer(resourse.first()).data
+			dataDB = ResourceSerializer(resourse.first()).data
 
 		elif(resourses.count() == int(phase)):
 			micro_lerny_id_obj = MicroLerny.objects.get(
@@ -118,7 +118,7 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 				user_state.resource_id = resourse
 				user_state.micro_lerny_id = microlerny_son
 				user_state.save()
-				data = ResourceSerializer(resourse).data
+				dataDB = ResourceSerializer(resourse).data
 			else:
 				#variable que indica que es o no el ultimo microlerny dle curso
 				is_last = True
@@ -141,7 +141,7 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 		user_state.user_id = user_id_obj
 		user_state.resource_id = resourse
 		user_state.save()
-		data = ResourceSerializer(resourse).data
+		dataDB = ResourceSerializer(resourse).data
 	if(is_last):
 
 		data = {
@@ -179,10 +179,10 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 				}
 			]
 		}
-	elif(data["resource_type"] == "consumable" and not is_last):
-		# print("Data, description: "+data["description"])
-		media = data["media_type"]
-		previous_text = data["previous_text"]
+	elif(dataDB["resource_type"] == "consumable" and not is_last):
+		# print("Data, description: "+dataDB["description"])
+		media = dataDB["media_type"]
+		previous_text = dataDB["previous_text"]
 		if(previous_text==None):
 			previous_text="Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"
 		data = {
@@ -200,7 +200,7 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 							"attachment": {
 								"type": media,
 								"payload": {
-									"attachment_id":data["content_url"]
+									"attachment_id":dataDB["content_url"]
 								}
 							}
 						}
@@ -215,9 +215,9 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 									"template_type": "generic",
 									"elements": [
 										{
-											"title": data["title"],
-											"image_url": data["image_url"],
-											"subtitle": data["description"],
+											"title": dataDB["title"],
+											"image_url": dataDB["image_url"],
+											"subtitle": dataDB["description"],
 											"buttons": [
 												{
 													"type": "postback",
@@ -240,10 +240,10 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 			]
 		}
 
-	elif(data["resource_type"] == "practical" and not is_last):
-		print("Data, description: "+data["description"])
-		media = data["media_type"]
-		previous_text = data["previous_text"]
+	elif(dataDB["resource_type"] == "practical" and not is_last):
+		print("Data, description: "+dataDB["description"])
+		media = dataDB["media_type"]
+		previous_text = dataDB["previous_text"]
 		if(previous_text==None):
 			previous_text="Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"
 		data = {
@@ -261,7 +261,7 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 							"attachment": {
 								"type": media,
 								"payload": {
-									"attachment_id":data["content_url"]
+									"attachment_id":dataDB["content_url"]
 								}
 							}
 						}
@@ -276,9 +276,9 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 									"template_type": "generic",
 									"elements": [
 										{
-											"title": data["title"],
-											"image_url": data["image_url"],
-											"subtitle": data["description"],
+											"title": dataDB["title"],
+											"image_url": dataDB["image_url"],
+											"subtitle": dataDB["description"],
 											"buttons": [
 												{
 													"type": "postback",
@@ -301,12 +301,41 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 				}
 			]
 		}
-	elif(data["resource_type"] == "multiple" and not is_last):
-		print("Data, description: "+data["description"])
-
-		previous_text = data["previous_text"]
+	elif(dataDB["resource_type"] == "multiple" and not is_last):
+		print("Data, description: "+dataDB["description"])
+		temp=[]
+		previous_text = dataDB["previous_text"]
 		if(previous_text==''):
 			previous_text="Responde la siguiente pregunta por favor"
+
+		if(dataDB["first_button"]){
+			temp.append(
+				{
+					"type": "postback",
+					"title": dataDB["first_button"],
+					"payload": "CARGAR_ARCHIVO "+dataDB["first_button"]
+				},
+			)
+		}
+		if(dataDB["second_button"]){
+			temp.append(
+				{
+					"type": "postback",
+					"title": dataDB["second_button"],
+					"payload": "CARGAR_ARCHIVO "+ dataDB["second_button"]
+				},
+			)
+		}
+		if(dataDB["third_button"]){
+			temp.append(
+				{
+					"type": "postback",
+					"title": dataDB["third_button"],
+					"payload": "CARGAR_ARCHIVO "+dataDB["third_button"]
+				}
+			)
+		}
+		
 		data = {
 			"fulfillmentMessages": [
 				{
@@ -318,26 +347,10 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 									"template_type": "generic",
 									"elements": [
 										{
-											"title": data["title"],
-											"image_url": data["image_url"],
-											"subtitle": data["description"],
-											"buttons": [
-												{
-													"type": "postback",
-													"title": data["first_button"],
-													"payload": "CARGAR_ARCHIVO "+data["first_button"]
-												},
-												{
-													"type": "postback",
-													"title": data["second_button"],
-													"payload": "CARGAR_ARCHIVO "+data["second_button"]
-												},
-												{
-													"type": "postback",
-													"title": data["third_button"],
-													"payload": "CARGAR_ARCHIVO "+data["third_button"]
-												}
-											]
+											"title": dataDB["title"],
+											"image_url": dataDB["image_url"],
+											"subtitle": dataDB["description"],
+											"buttons": temp	
 										}
 									]
 								}

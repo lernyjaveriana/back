@@ -864,7 +864,7 @@ class ApiManager(APIView):
 			if(user_id is None):
 				data=bienvenidaLerny(user_id)
 			else:
-				response = request["response"]
+				response = request["respuesta"]
 				user_id_obj = User.objects.get(
 					identification=user_id)
 				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()
@@ -883,7 +883,7 @@ class ApiManager(APIView):
 					u_resource.response_date = datetime.now()
 					u_resource.last_view_date = datetime.now()
 					u_resource.save()
-					
+
 				user_id_obj = User.objects.get(
 					identification=user_id)
 				lerny_active = User_Lerny.objects.filter(active=True).first()

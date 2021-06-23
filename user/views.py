@@ -308,7 +308,7 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 		if(previous_text==''):
 			previous_text="Responde la siguiente pregunta por favor"
 
-		if(dataDB["first_button"]){
+		if(dataDB["first_button"]):
 			temp.append(
 				{
 					"type": "postback",
@@ -316,8 +316,8 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 					"payload": "CARGAR_ARCHIVO "+dataDB["first_button"]
 				},
 			)
-		}
-		if(dataDB["second_button"]){
+		
+		if(dataDB["second_button"]):
 			temp.append(
 				{
 					"type": "postback",
@@ -325,8 +325,8 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 					"payload": "CARGAR_ARCHIVO "+ dataDB["second_button"]
 				},
 			)
-		}
-		if(dataDB["third_button"]){
+		
+		if(dataDB["third_button"]):
 			temp.append(
 				{
 					"type": "postback",
@@ -334,7 +334,7 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 					"payload": "CARGAR_ARCHIVO "+dataDB["third_button"]
 				}
 			)
-		}
+		
 		
 		data = {
 			"fulfillmentMessages": [

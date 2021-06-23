@@ -42,6 +42,7 @@ class Resource(models.Model):
 	resource_type = models.CharField('resource type', max_length = 200, null=False)
 	first_button= models.CharField('first button', max_length = 200, blank=True)
 	second_button= models.CharField('second button', max_length = 200, blank=True)
+	third_button= models.CharField('third button', max_length = 200, blank=True)
 	def __str__(self):
 		return f'{self.title,self.phase}'
 class User_Lerny(models.Model):

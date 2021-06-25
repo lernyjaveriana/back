@@ -64,6 +64,7 @@ class User_Resource(models.Model):
 	response_date = models.DateTimeField('response date', null=True)
 	last_view_date = models.DateTimeField('last view date', null=True)
 	done_date = models.DateTimeField('done date', auto_now_add=True)
+	points = models.FloatField('points', null=True)
 	def __str__(self):
 		return f'{self.resource_id},{self.user_id}'
 class User_Micro_Lerny(models.Model):

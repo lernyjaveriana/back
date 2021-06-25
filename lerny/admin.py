@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Faqs, Faqs_Lerny, Lerny, MicroLerny, TreeMicroLerny, Resource, User_State, User_Resource, User_Lerny, Company, Lerny_Company
+from .models import Faqs, Faqs_Lerny, Lerny, MicroLerny, TreeMicroLerny, Resource, User_State, User_Resource, User_Lerny, Company, Lerny_Company, User_Micro_Lerny
 
 # Register your models here
 
@@ -42,3 +42,4 @@ admin.site.register(Faqs)
 admin.site.register(Faqs_Lerny,Faqs_Lerny_ResourceAdmin)
 admin.site.register(Company, CompanyAdmin)
 admin.site.register(Lerny_Company)
+admin.site.register(User_Micro_Lerny)

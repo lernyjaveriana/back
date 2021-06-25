@@ -1,3 +1,4 @@
+from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -48,22 +49,32 @@ class MicroLernyDadAndSon(APIView):
 		return Response ({'dad': dad_data, 'son': son_data })
 
 
+def UserStateResource(request):
+	#user = request.user
+	user = User.objects.get(pk=2)
+	list_data = []
+	context = {}
+	if (user.group.name=="Facilitadores"):
+		company = user.company
+		if company:
+			#filtro todos los lernys que pertenecen a la empresa que se encuentra asignado el colaborador
+			lernys = Lerny.objects.filter(lerny_company__company_id=company.pk).values_list("pk", flat=True)
+			user_resources = User_Resource.objects.filter(resource_id__microlerny__lerny__in=lernys).order_by("resource_id__microlerny__lerny__lerny_name")
+			for i in user_resources:
+				data = {}
+				data['lerny'] = i.resource_id.microlerny.lerny.lerny_name
+				data['microlerny'] = i.resource_id.microlerny.micro_lerny_title
+				data['user'] = i.user_id.user_name
+				data['response'] = i.user_response
+				data['done'] = i.done
+				data['points'] = i.points
+				list_data.append(data)
+			context = {'data': list_data}
+			return render(request, 'lerny/tables.html', context)
+		else:
+			return render(request, 'lerny/tables.html', context)
+	else:
+		return render(request, 'lerny/tables.html', context)
+
 #@login_required(login_url='/accounts/login/')	
 #def UserState(response):
-#	user = request.user
-#	if (user.groups.filter(name="Colaborador").exists()):
-#		company = user.company
-#		if company:
-#			lernys = Lerny.objects.filter(lerny_company__company_id=company.pk).values_list("pk", flat=True)
-#			users_states = User_State.objects.filter(lerny_id__in=lernys)
-#			for i in users_states:
-#				data[''] = 
-#				data[''] = 
-#				data[''] = 
-#				data[''] = 
-#				data[''] = 
-#				data[''] = 
-#		else:
-#			response("el usuario no tiene asociada ninguna empresa")
-#	else:
-#		response("no tiene permisos para ingresar")

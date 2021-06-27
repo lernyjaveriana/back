@@ -146,3 +146,5 @@ STATICFILES_DIRS = (
 
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+LOGIN_REDIRECT_URL = '/api_lerny/detail/'

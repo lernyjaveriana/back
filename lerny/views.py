@@ -7,7 +7,7 @@ from .serializers import *
 from .models import *
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-#from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required
 
 
 class LernyManageGet(APIView):
@@ -50,41 +50,31 @@ class MicroLernyDadAndSon(APIView):
 		
 		return Response ({'dad': dad_data, 'son': son_data })
 
-
+@login_required(login_url='/accounts/login/')
 def UserStateResource(request):
-	#user = request.user
-	user = User.objects.get(pk=2)
-	list_data = []
-	context = {}
-	if (user.group.name=="Facilitadores"):
-		company = user.company
-		if company:
-			#filtro todos los lernys que pertenecen a la empresa que se encuentra asignado el colaborador
-			lernys = Lerny.objects.filter(lerny_company__company_id=company.pk).values_list("pk", flat=True)
-			user_resources = User_Resource.objects.filter(resource_id__microlerny__lerny__in=lernys).order_by("resource_id__microlerny__lerny__lerny_name")
-			for i in user_resources:
-				data = {}
-				data['pk'] = i.pk
-				data['lerny'] = i.resource_id.microlerny.lerny.lerny_name
-				data['microlerny'] = i.resource_id.microlerny.micro_lerny_title
-				data['user'] = i.user_id.user_name
-				data['response'] = i.user_response
-				data['done'] = i.done
-				data['points'] = i.points
-				list_data.append(data)
-			context = {'data': list_data}
-			return render(request, 'lerny/tables.html', context)
-		else:
-			return render(request, 'lerny/tables.html', context)
-	else:
-		return render(request, 'lerny/tables.html', context)
+	user = request.user
+	company = user.company
+	try:
+		lernys = Lerny.objects.filter(lerny_company__company_id=company.pk)
+	except:
+		lernys = []
+	context = {'lernys': lernys}
+	#microlerny = MicroLerny.objects.filter(lerny__pk=lerny.pk)
+	return render(request, 'lerny/tables.html', context)
 
+@login_required(login_url='/accounts/login/')
 def testData(request):
-	#user = request.user
-	user = User.objects.get(pk=2)
+	user = request.user
+	print(user)
+	#user = User.objects.get(pk=2)
 	list_data = []
 	context = {}
-	if (user.group.name=="Facilitadores"):
+	try:
+		group = user.group.name
+	except:
+		group = None
+
+	if (group=="Facilitadores"):
 		company = user.company
 		if company:
 			#filtro todos los lernys que pertenecen a la empresa que se encuentra asignado el colaborador

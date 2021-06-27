@@ -47,10 +47,9 @@
                     <span>Inicio</span></a>
             </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
+            <!--
 
-            <!-- Nav Item - Pages Collapse Menu -->
+            <hr class="sidebar-divider">
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
@@ -70,6 +69,7 @@
                     </div>
                 </div>
             </li>
+        -->
 
 
             <!-- Divider -->
@@ -263,9 +263,10 @@
                                 <img class="img-profile rounded-circle"
                                     src="{% static 'lerny/img/undraw_profile.svg' %}">
                             </a>
-                            <!-- Dropdown - User Information -->
+ 
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
+                                <!-- 
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Perfil
@@ -274,6 +275,8 @@
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Ajustes
                                 </a>
+
+                            -->
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -288,7 +291,27 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
+
+                <h1 class="h3 mb-2 text-gray-800">Filtrar por:</h1>
                 <div class="container-fluid my-5 px-5">
+
+                    <div>
+                        <select class="form-select" aria-label="Default select example">
+                          <option selected>Seleccione una opción</option>
+                          {% for lerny in lernys %}
+                          <option value="{{ lerny.pk }}">{{lerny.lerny_name}}</option>
+                          {% endfor %}
+                      </select>
+                  </div>
+                  <div>
+                        <select class="form-select" aria-label="Default select example">
+                          <option selected>Open this select menu</option>
+                          <option value="1">One</option>
+                          <option value="2">Two</option>
+                          <option value="3">Three</option>
+                      </select>
+                  </div>
+
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Tabla general de Usuarios</h1>

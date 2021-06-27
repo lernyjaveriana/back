@@ -305,47 +305,50 @@
                                     <thead>
                                         <tr>
                                             <th>Lerny</th>
-                                            <th>Micro Lerny</th>
-                                            <th>Usuario</th>
-                                            <th>Respuesta</th>
-                                            <th>Finalizado</th>
-                                            <th>Puntos</th>
-                                            <th></th>
+                                            <th>Microlerny</th>
+                                            <th>User</th>
+                                            <th>Response</th>
+                                            <th>Done</th>
+                                            <th>Points</th>
+                                            <th>Acción</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th>Lerny</th>
-                                            <th>Micro Lerny</th>
-                                            <th>Usuario</th>
-                                            <th>Respuesta</th>
-                                            <th>Finalizado</th>
-                                            <th>Puntos</th>
-                                            <th></th>
                                         </tr>
                                     </tfoot>
-                                    <tbody>
-                                        {% for d in data %}
-                                        <tr>
-                                            <td>{{ d.lerny }}</td>
-                                            <td>{{ d.microlerny }}</td>
-                                            <td>{{ d.user }}</td>
-                                            <td>{{ d.response }}</td>
-                                            <td>{{ d.done }}</td>
-                                            <td>{{ d.points }}</td>
-                                            <td>
-                                                <button type="button" class="btn btn-success"> 
-                                                    <img src="{% static 'lerny/img/pencil-square.svg' %}" width="15" height="15">
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Edit Modal -->
+
+                    <div class="modal fade" id="editRow" tabindex="-1" role="dialog" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Editar Puntos</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="input-group mb-3">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text">Puntos</span>
+                                </div>
+                                <input type="number" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="points" id="points_amount">
+                            </div>
+                                <input type="hidden" name="pk" id="pk_edit" value="">
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary" onclick="saveRowEdited()">Guardar Cambios</button>
+                        </div>
+                        </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- /.container-fluid -->
 
@@ -374,24 +377,25 @@
     </a>
 
     <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">¿Preparado para Salir?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Seleccione "Cerrar sesión" a continuación si está listo para finalizar su sesión actual.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                    <a class="btn btn-primary" href="index.html">Cerrar sesión</a>
-                </div>
-            </div>
-        </div>
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
     </div>
+  </div>
+</div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="{% static 'lerny/vendor/jquery/jquery.min.js' %}"></script>
@@ -407,8 +411,54 @@
     <script src="{% static 'lerny/vendor/datatables/jquery.dataTables.min.js' %}"></script>
     <script src="{% static 'lerny/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="{% static 'lerny/js/demo/datatables-demo.js' %}"></script>
+    <script type="text/javascript">
+
+        var table = ""
+
+        function editRow(pk) {
+            document.getElementById("pk_edit").value = pk
+            $('#editRow').modal('show');
+            console.log(document.getElementById("pk_edit").value)
+        }
+
+        function saveRowEdited(){
+            var pk = document.getElementById("pk_edit").value
+            var points = document.getElementById("points_amount").value
+            $.ajax({
+                type:"POST",
+                url:"/api_lerny/editresource/",
+                data:{pk:pk, points:points},
+                success:function(datos){
+                   console.log(datos)
+                   document.getElementById("pk_edit").value = ""
+                   document.getElementById("points_amount").value = ""
+                   $('#editRow').modal('hide');
+                   table.ajax.reload();
+               }
+            })
+        }
+
+        $(document).ready(function() {
+            table = $('#dataTable').DataTable( {
+            "bDestroy": true,
+                ajax: {
+                    url: '/api_lerny/testurl/',
+                    type: 'GET',
+                    dataType: 'json'
+                },
+                columns :[
+                    {data: 'lerny'},
+                    {data: 'microlerny'},
+                    {data: 'user'},
+                    {data: 'response'},
+                    {data: 'done'},
+                    {data: 'points'},
+                    {data: 'pk'},
+
+                ]
+            })
+        });
+    </script>
 
 </body>
 

@@ -60,7 +60,7 @@ ROOT_URLCONF = 'backend_django.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['./templates',],
+        'DIRS': ['./templates', './lerny/templates/lerny'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

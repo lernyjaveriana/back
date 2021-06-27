@@ -5,6 +5,8 @@ from rest_framework import status
 from rest_framework import serializers
 from .serializers import *
 from .models import *
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 #from django.contrib.auth.decorators import login_required
 
 
@@ -62,6 +64,7 @@ def UserStateResource(request):
 			user_resources = User_Resource.objects.filter(resource_id__microlerny__lerny__in=lernys).order_by("resource_id__microlerny__lerny__lerny_name")
 			for i in user_resources:
 				data = {}
+				data['pk'] = i.pk
 				data['lerny'] = i.resource_id.microlerny.lerny.lerny_name
 				data['microlerny'] = i.resource_id.microlerny.micro_lerny_title
 				data['user'] = i.user_id.user_name
@@ -76,5 +79,49 @@ def UserStateResource(request):
 	else:
 		return render(request, 'lerny/tables.html', context)
 
-#@login_required(login_url='/accounts/login/')	
+def testData(request):
+	#user = request.user
+	user = User.objects.get(pk=2)
+	list_data = []
+	context = {}
+	if (user.group.name=="Facilitadores"):
+		company = user.company
+		if company:
+			#filtro todos los lernys que pertenecen a la empresa que se encuentra asignado el colaborador
+			lernys = Lerny.objects.filter(lerny_company__company_id=company.pk).values_list("pk", flat=True)
+			user_resources = User_Resource.objects.filter(resource_id__microlerny__lerny__in=lernys).order_by("resource_id__microlerny__lerny__lerny_name")
+			for i in user_resources:
+				data = {}
+				data['pk'] = '<div align="center"><button type="button" class="btn btn-primary" data-dismiss="modal" onclick="editRow('+str(i.pk)+')">Editar</button></div>'
+				data['lerny'] = i.resource_id.microlerny.lerny.lerny_name
+				data['microlerny'] = i.resource_id.microlerny.micro_lerny_title
+				data['user'] = i.user_id.user_name
+				data['response'] = i.user_response
+				data['done'] = i.done
+				data['points'] = i.points
+				list_data.append(data)
+			context = list_data
+			print(context)
+			return JsonResponse({"data":context}, safe = False)
+		else:
+			return JsonResponse({"data":context}, safe = False)
+	else:
+		return JsonResponse({"data":context}, safe = False)
+
+@csrf_exempt
+def editStateResource(request):
+
+	pk = request.POST.get('pk')
+
+	points = request.POST.get('points')
+
+	user_resource = User_Resource.objects.get(pk = pk)
+
+	user_resource.points = points
+
+	user_resource.save()
+
+	return JsonResponse({"status": "success"})
+
+#@login_required(login_url='/accounts/login/')
 #def UserState(response):

@@ -33,8 +33,6 @@ class MicroLernyDadAndSon(APIView):
 
 		dad = TreeMicroLerny.objects.filter(son_micro_lerny__pk=microlerny_id).values_list('dady_micro_lerny_id', flat=True)
 		son = TreeMicroLerny.objects.filter(dady_micro_lerny__pk=microlerny_id).values_list('son_micro_lerny_id', flat=True)
-		print(dad)
-		print(son)
 		
 		try:
 			microlerny_dad = MicroLerny.objects.filter(pk__in = dad)
@@ -59,13 +57,12 @@ def UserStateResource(request):
 	except:
 		lernys = []
 	context = {'have_company': True if lernys != [] else False, 'username': user.user_name}
-	#microlerny = MicroLerny.objects.filter(lerny__pk=lerny.pk)
+
 	return render(request, 'lerny/tables.html', context)
 
 @login_required(login_url='/accounts/login/')
 def ApiStateResource(request):
 	user = request.user
-	#user = User.objects.get(pk=2)
 	list_data = []
 	context = {}
 	try:
@@ -99,17 +96,98 @@ def ApiStateResource(request):
 @csrf_exempt
 def editStateResource(request):
 
-	pk = request.POST.get('pk')
-
-	points = request.POST.get('points')
-
-	user_resource = User_Resource.objects.get(pk = pk)
-
-	user_resource.points = points
-
-	user_resource.save()
-
-	return JsonResponse({"status": "success"})
+	try:
+		pk = request.POST.get('pk')
+		points = request.POST.get('points')
+		user_resource = User_Resource.objects.get(pk = pk)
+		user_resource.points = points
+		user_resource.save()
+		return JsonResponse({"status": "success"})
+	except Exception as ex:
+		return JsonResponse({"status": ex})
 
 #@login_required(login_url='/accounts/login/')
-#def UserState(response):
+#def lernyDetail(request):
+class lernyDetail(APIView):
+	#lerny_id = request.POST.get('lerny_id')
+	#microlerny_id = request.POST.get('microlerny_id')
+	#user = request.user
+
+	def get(self, request, format=None):
+
+		user = User.objects.get(pk=2)
+		lerny_id = 2
+		microlerny_id = None
+		list_data = []
+		context = {}
+		approved = 0	
+
+		try:
+			group = user.group.name
+		except:
+			group = None
+		try:
+			company = user.company.pk
+		except:
+			company = None
+		
+		if group == "Facilitadores":
+			if company:
+				
+				if lerny_id:
+					#filtro por el lerny
+					lerny = Lerny.objects.get(pk=lerny_id)
+				else:
+					#Muestro el primer lerny asociado a la compañia
+					lerny = Lerny.objects.filter(lerny_company__company_id=company).first()
+
+				#selecciono todos los usuarios incritos en el lerny
+				user_lerny = User_Lerny.objects.filter(lerny_id=lerny.pk)
+				#selecciono todos los recursos del lerny que son obligatorios
+				resource_lerny = Resource.objects.filter(microlerny__lerny__pk=lerny.pk, resource_type="obligatory")
+				if microlerny_id:
+					#Filtro por microlerny
+					resource_lerny = resource_lerny.filter(microlerny__pk=microlerny)
+				#cuento la cantidad de recursos obligatorios que se requieren para aprobar el lerny
+				cont_resource_lerny = resource_lerny.count()
+				#selecciono todos los registros de recursos obligatorios aprobados por usuarios
+				user_resource = User_Resource.objects.filter(resource_id__microlerny__lerny__pk=lerny.pk, resource_id__resource_type="obligatory", done=True)
+
+				for i in user_lerny:
+					data = {}
+
+					data['user'] = i.user_id.user_name
+					cont = user_resource.filter(user_id__pk=i.user_id.pk).count()
+					if cont_resource_lerny != 0:
+						if cont == cont_resource_lerny:
+							data['done'] = True
+							data['progress'] = 100
+							approved = approved + 1
+						elif cont == 0:
+							data['done'] = False
+							data['progress'] = 0
+						else:
+							data['done'] = False
+							data['progress'] = ((cont*100)/cont_resource_lerny)
+					else:
+						data['done'] = True
+						data['progress'] = ((cont*100)/cont_resource_lerny)
+						approved = approved + 1
+					list_data.append(data)
+					cont = 0
+				if user_lerny.count != 0:
+					data_approved = [((approved*100)/user_lerny.count()), (((user_lerny.count()-approved)*100)/user_lerny.count())]
+
+
+				context = {'data': list_data, 'approved': data_approved}
+				#return render(request, 'lerny/chart.html', context)
+				return Response ({'data': context})
+			else:
+				context = {'data': "No tiene una compañia asignada"}
+				#return render(request, 'lerny/chart.html', context)
+				return Response ({'data': context})
+
+		else:
+			context = {'data': "No tiene permisos para ingresar"}
+			#return render(request, 'lerny/chart.html', context)
+			return Response ({'data': context})

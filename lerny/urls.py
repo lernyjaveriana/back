@@ -6,5 +6,6 @@ urlpatterns = [
     path('microlerny/<int:microlerny_id>', views.MicroLernyDadAndSon.as_view()),
     path('detail/', views.UserStateResource, name='detail'),
     path('apiresources/', views.ApiStateResource, name='apiresources'),
-    path('editresource/', views.editStateResource, name='editresource')
+    path('editresource/', views.editStateResource, name='editresource'),
+    path('lernydetail/', views.lernyDetail.as_view())
 ]

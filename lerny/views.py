@@ -58,14 +58,13 @@ def UserStateResource(request):
 		lernys = Lerny.objects.filter(lerny_company__company_id=company.pk)
 	except:
 		lernys = []
-	context = {'lernys': lernys}
+	context = {'have_company': True if lernys != [] else False, 'username': user.user_name}
 	#microlerny = MicroLerny.objects.filter(lerny__pk=lerny.pk)
 	return render(request, 'lerny/tables.html', context)
 
 @login_required(login_url='/accounts/login/')
-def testData(request):
+def ApiStateResource(request):
 	user = request.user
-	print(user)
 	#user = User.objects.get(pk=2)
 	list_data = []
 	context = {}
@@ -91,7 +90,6 @@ def testData(request):
 				data['points'] = i.points
 				list_data.append(data)
 			context = list_data
-			print(context)
 			return JsonResponse({"data":context}, safe = False)
 		else:
 			return JsonResponse({"data":context}, safe = False)

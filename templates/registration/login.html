@@ -55,15 +55,15 @@
                                         <div class="form-group box-field-login d-flex align-items-center">
                                             <i class="fas fa-user-circle"></i>
                                               <td>{{ form.username.label_tag }}</td>
-                                              <td>{{ form.username }}</td>
+                                              <i>{{ form.username }}</i>
                                             <!--<input type="email" class="form-control form-control-user"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"
                                                 placeholder="Correo electrónico">-->
                                         </div>
                                         <div class="form-group box-field-login d-flex align-items-center">
-                                            <i class="fas fa-lock"></i>
+                                            <i class="fas fa-lock" ></i><i></i><i></i>
                                               <td>{{ form.password.label_tag }}</td>
-                                              <td>{{ form.password }}</td>
+                                              <i>{{ form.password }}</i>
                                             <!--<input type="password" class="form-control form-control-user"
                                                 id="exampleInputPassword" placeholder="Contraseña">-->
                                         </div>
@@ -77,14 +77,11 @@
                                             Ingresar
                                         </a>-->
                                         <div>
-                                          <input type="submit" value="login" />
+                                          <input type="submit" class="btn btn-login btn-block" value="INICIAR SESIÓN" />
                                           <input type="hidden" name="next" value="{{ next }}" />
                                         </div>
                                     </form>
                                     <hr>
-                                    <div class="text-center">
-                                        <a class="small text-white" href="{% url 'password_reset' %}">Olvidaste la contraseña</a>
-                                    </div>
                                 </div>
                             </div>
                         </div>

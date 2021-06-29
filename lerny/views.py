@@ -93,6 +93,16 @@ def ApiStateResource(request):
 	else:
 		return JsonResponse({"data":context}, safe = False)
 
+@login_required(login_url='/accounts/login/')
+def charts(request):
+	user = request.user
+	try:
+		company = user.company.pk
+	except:
+		company = None
+	context = {"username": user.user_name, 'have_company': True if company != None else False}
+	return render(request, 'lerny/charts.html', context);
+
 @csrf_exempt
 def editStateResource(request):
 
@@ -107,16 +117,10 @@ def editStateResource(request):
 		return JsonResponse({"status": ex})
 
 #@login_required(login_url='/accounts/login/')
-#def lernyDetail(request):
 class lernyDetail(APIView):
-	#lerny_id = request.POST.get('lerny_id')
-	#microlerny_id = request.POST.get('microlerny_id')
-	#user = request.user
-
 	def get(self, request, format=None):
-
-		user = User.objects.get(pk=2)
-		lerny_id = 2
+		user = request.user
+		lerny_id = 1
 		microlerny_id = None
 		list_data = []
 		context = {}
@@ -143,6 +147,7 @@ class lernyDetail(APIView):
 
 				#selecciono todos los usuarios incritos en el lerny
 				user_lerny = User_Lerny.objects.filter(lerny_id=lerny.pk)
+				#print("#usuario", user_lerny.count())
 				#selecciono todos los recursos del lerny que son obligatorios
 				resource_lerny = Resource.objects.filter(microlerny__lerny__pk=lerny.pk, resource_type="obligatory")
 				if microlerny_id:
@@ -150,39 +155,42 @@ class lernyDetail(APIView):
 					resource_lerny = resource_lerny.filter(microlerny__pk=microlerny)
 				#cuento la cantidad de recursos obligatorios que se requieren para aprobar el lerny
 				cont_resource_lerny = resource_lerny.count()
+				#print("recursos obligatorios", cont_resource_lerny)
 				#selecciono todos los registros de recursos obligatorios aprobados por usuarios
 				user_resource = User_Resource.objects.filter(resource_id__microlerny__lerny__pk=lerny.pk, resource_id__resource_type="obligatory", done=True)
-
+				#print("recursos aprobados usuarios", user_resource.count())
 				for i in user_lerny:
 					data = {}
 
 					data['user'] = i.user_id.user_name
 					cont = user_resource.filter(user_id__pk=i.user_id.pk).count()
+					#print(i.user_id.user_name)
+					#print("recurdos aprobadod", cont)
 					if cont_resource_lerny != 0:
 						if cont == cont_resource_lerny:
-							data['done'] = True
+							data['done'] = "Aprobado"
 							data['progress'] = 100
 							approved = approved + 1
 						elif cont == 0:
-							data['done'] = False
+							data['done'] = "No aprobado"
 							data['progress'] = 0
 						else:
-							data['done'] = False
-							data['progress'] = ((cont*100)/cont_resource_lerny)
+							data['done'] = "No aprobado"
+							data['progress'] = round(((cont*100)/cont_resource_lerny), 2)
 					else:
-						data['done'] = True
-						data['progress'] = ((cont*100)/cont_resource_lerny)
+						data['done'] = "Aprobado"
+						data['progress'] = round(((cont*100)/cont_resource_lerny), 2)
 						approved = approved + 1
 					list_data.append(data)
 					cont = 0
 				if user_lerny.count != 0:
-					data_approved = [((approved*100)/user_lerny.count()), (((user_lerny.count()-approved)*100)/user_lerny.count())]
+					data_approved = [round(((approved*100)/user_lerny.count()), 2), round((((user_lerny.count()-approved)*100)/user_lerny.count()), 2)]
 
 
 				context = {'data': list_data, 'approved': data_approved}
 				#return render(request, 'lerny/chart.html', context)
-				return Response ({'data': context})
-			else:
+				return Response (context)
+		
 				context = {'data': "No tiene una compañia asignada"}
 				#return render(request, 'lerny/chart.html', context)
 				return Response ({'data': context})

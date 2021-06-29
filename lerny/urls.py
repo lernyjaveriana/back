@@ -7,5 +7,6 @@ urlpatterns = [
     path('detail/', views.UserStateResource, name='detail'),
     path('apiresources/', views.ApiStateResource, name='apiresources'),
     path('editresource/', views.editStateResource, name='editresource'),
-    path('lernydetail/', views.lernyDetail.as_view())
+    path('lernydetail/', views.lernyDetail.as_view()),
+    path('charts/', views.charts, name = 'charts')
 ]

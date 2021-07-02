@@ -718,7 +718,7 @@ class ApiManager(APIView):
 				data = ResourceSerializer(resourse).data
 
 			else:
-				lerny_id = user_state.lerny_id
+				lerny_id = lerny_active.lerny_id
 				micro_lerny = MicroLerny.objects.filter(lerny=lerny_id,pk=microlerny)
 				resourse = Resource.objects.get(
 					microlerny=micro_lerny.id, phase='1')

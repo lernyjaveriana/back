@@ -8,6 +8,12 @@ from .models import *
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+
+class CsrfExemptSessionAuthentication(SessionAuthentication):
+
+    def enforce_csrf(self, request):
+        return
 
 
 class LernyManageGet(APIView):
@@ -117,14 +123,18 @@ def editStateResource(request):
 		return JsonResponse({"status": ex})
 
 #@login_required(login_url='/accounts/login/')
+
 class lernyDetail(APIView):
+
+	authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
+
 	def get(self, request, format=None):
 		user = request.user
-		lerny_id = 1
-		microlerny_id = None
+		lerny_id = int(request.GET["lerny_id"])
+		microlerny_id = int(request.GET["microlerny_id"])
 		list_data = []
 		context = {}
-		approved = 0	
+		approved = 0
 
 		try:
 			group = user.group.name
@@ -138,7 +148,7 @@ class lernyDetail(APIView):
 		if group == "Facilitadores":
 			if company:
 				
-				if lerny_id:
+				if lerny_id != -1:
 					#filtro por el lerny
 					lerny = Lerny.objects.get(pk=lerny_id)
 				else:
@@ -150,9 +160,9 @@ class lernyDetail(APIView):
 				#print("#usuario", user_lerny.count())
 				#selecciono todos los recursos del lerny que son obligatorios
 				resource_lerny = Resource.objects.filter(microlerny__lerny__pk=lerny.pk, resource_type="obligatory")
-				if microlerny_id:
+				if microlerny_id != -1:
 					#Filtro por microlerny
-					resource_lerny = resource_lerny.filter(microlerny__pk=microlerny)
+					resource_lerny = resource_lerny.filter(microlerny__pk=microlerny_id)
 				#cuento la cantidad de recursos obligatorios que se requieren para aprobar el lerny
 				cont_resource_lerny = resource_lerny.count()
 				#print("recursos obligatorios", cont_resource_lerny)
@@ -199,3 +209,30 @@ class lernyDetail(APIView):
 			context = {'data': "No tiene permisos para ingresar"}
 			#return render(request, 'lerny/chart.html', context)
 			return Response ({'data': context})
+
+def getLernyList(request):
+
+	lernys = Lerny.objects.all()
+
+	json = []
+
+	for lerny in lernys:
+
+		json.append({'pk': lerny.pk, 'name': lerny.lerny_name})
+
+	return JsonResponse(json, safe=False)
+
+@csrf_exempt
+def getMicrolernyList(request):
+
+	id_lerny = request.POST.get('pk')
+
+	microlernys = MicroLerny.objects.filter(lerny__pk = id_lerny)
+
+	json = []
+
+	for microlerny in microlernys:
+
+		json.append({'pk': microlerny.pk, 'name': microlerny.micro_lerny_title})
+
+	return JsonResponse(json, safe=False)

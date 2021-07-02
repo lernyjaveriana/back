@@ -8,5 +8,7 @@ urlpatterns = [
     path('apiresources/', views.ApiStateResource, name='apiresources'),
     path('editresource/', views.editStateResource, name='editresource'),
     path('lernydetail/', views.lernyDetail.as_view()),
-    path('charts/', views.charts, name = 'charts')
+    path('charts/', views.charts, name = 'charts'),
+    path('lernyapi/', views.getLernyList, name = 'lernyapi'),
+    path('microlernyapi/', views.getMicrolernyList, name = 'microlernyapi'),
 ]

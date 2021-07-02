@@ -2,13 +2,16 @@
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
 
+var myPieChart = null
+
 $.ajax({
-  url: '/api_lerny/lernydetail/',
+  method: 'GET',
+  url: '/api_lerny/lernydetail/?lerny_id=-1&microlerny_id=-1',
   success: function(respuesta) {
     var data_pie = respuesta.approved;
 
     var ctx = document.getElementById("myPieChart");
-    var myPieChart = new Chart(ctx, {
+    myPieChart = new Chart(ctx, {
       type: 'pie',
       data: {
         labels: ["Aprovado", "No Aprovado"],

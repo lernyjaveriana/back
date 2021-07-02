@@ -34,65 +34,65 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
 
     <style type="text/css">
-    div.dtsp-verticalContainer{
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-        align-content: flex-start;
-        align-items: flex-start;
-    }
+        div.dtsp-verticalContainer{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            align-content: flex-start;
+            align-items: flex-start;
+        }
 
-    div.dtsp-verticalContainer div.dtsp-verticalPanes,
-    div.dtsp-verticalContainer div.container{
-        width: 5%;
-        flex-grow: 0;
-        flex-shrink: 0;
-        flex-basis: 0;
-    }
+        div.dtsp-verticalContainer div.dtsp-verticalPanes,
+        div.dtsp-verticalContainer div.container{
+            width: 5%;
+            flex-grow: 0;
+            flex-shrink: 0;
+            flex-basis: 0;
+        }
 
-    div.dtsp-verticalContainer div.dtsp-verticalPanes{
-        flex-grow: 1;
-        flex-shrink: 0;
-        flex-basis: 26%;
-    }
+        div.dtsp-verticalContainer div.dtsp-verticalPanes{
+            flex-grow: 1;
+            flex-shrink: 0;
+            flex-basis: 26%;
+        }
 
-    div.dtsp-verticalPanes {
-        margin-right: 20px;
-    }
+        div.dtsp-verticalPanes {
+            margin-right: 20px;
+        }
 
-    div.dtsp-title {
-        margin-right: 0px !important;
-        margin-top: 13px !important;
-    }
+        div.dtsp-title {
+            margin-right: 0px !important;
+            margin-top: 13px !important;
+        }
 
-    input.dtsp-search {
-        min-width: 0px !important;
-        padding-left: 0px !important;
-        margin: 0px !important;
-    }
+        input.dtsp-search {
+            min-width: 0px !important;
+            padding-left: 0px !important;
+            margin: 0px !important;
+        }
 
-    div.dtsp-verticalContainer div.dtsp-verticalPanes div.dtsp-searchPanes{
-        flex-direction: column;
-        flex-basis: 0px;
-    }
+        div.dtsp-verticalContainer div.dtsp-verticalPanes div.dtsp-searchPanes{
+            flex-direction: column;
+            flex-basis: 0px;
+        }
 
-    div.dtsp-verticalContainer div.dtsp-verticalPanes div.dtsp-searchPanes div.dtsp-searchPane{
-        flex-basis: 0px;
-    }
+        div.dtsp-verticalContainer div.dtsp-verticalPanes div.dtsp-searchPanes div.dtsp-searchPane{
+            flex-basis: 0px;
+        }
 
-    div.dtsp-verticalContainer div.container{
-        flex-grow: 1;
-        flex-shrink: 0;
-        flex-basis: 60%;
-    }
+        div.dtsp-verticalContainer div.container{
+            flex-grow: 1;
+            flex-shrink: 0;
+            flex-basis: 60%;
+        }
 
-    div.dtsp-panesContainer {
-        border: 1px solid #ccc;
-        border-radius: 20px;
-        padding: 5px;
-    }
-</style>
+        div.dtsp-panesContainer {
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            padding: 5px;
+        }
+    </style>
 
 </head>
 
@@ -354,7 +354,7 @@ aria-labelledby="userDropdown">
     </button>
 </div>
 {% endif %}
-<h1 class="h3 mb-2 text-gray-800">Lerny: PONER NOMBRE DEL LERNY ACA </h1>
+<h1 id="lerny_name"  class="h3 mb-2 text-gray-800" align="center">Lerny: PONER NOMBRE DEL LERNY ACA </h1>
 <!--<p class="mb-4">
     Estado de los usuarios en el Lerny
 </p>-->
@@ -393,67 +393,77 @@ aria-labelledby="userDropdown">
                         </div>
 
                     -->
-                    <div class="col-xl-5 col-lg-6">
+                    <div align="center">
+                        <select class="form-select" id="lerny_select" aria-label="Default select example">
+                          <option selected value="-1">Todos los Lerny</option>
+                      </select>
+                      <p style="display: none">Microlerny</p>
+                      <select class="form-select" id="microlerny_select" aria-label="Default select example" style="display: none">
+                          <option selected value="-1">Todos los Microlerny</option>
+                      </select>
+                      <button class="btn btn-dark" type="button" onclick="filter()">FILTRAR</button>
+                  </div>
+                  <div class="col-xl-5 col-lg-6" style="padding: 20px">
 
-                        <!-- Donut Chart -->
-                        <div class="card shadow mb-4">
-                            <!-- Card Header - Dropdown -->
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Ususario Aprobados y No Aprobados</h6>
-                            </div>
-                            <!-- Card Body -->
-                            <div class="card-body">
-                                <div class="chart-pie pt-4">
-                                    <canvas id="myPieChart"></canvas>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-
-                    <!-- DataTales Example -->
-                    <div class="card shadow mb-4 table-admin">
+                    <!-- Donut Chart -->
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Dropdown -->
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-white">Usuarios</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Ususario Aprobados y No Aprobados</h6>
+                        </div>
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <div class="chart-pie pt-4">
+                                <canvas id="myPieChart"></canvas>
+                            </div>
                         </div>
                     </div>
-                    <div class="dtsp-verticalContainer">
-                        <div class="container">
-                            <table id="dataTable" class="display nowrap" width="100%">
-                                <thead>
-                                    <tr>
-                                        <th>Usuario</th>
-                                        <th>Estado</th>
-                                        <th>Progreso</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
-                        <div class="dtsp-verticalPanes col-3"></div>
-                    </div>
-
 
                 </div>
 
+
+                <!-- DataTales Example -->
+                <div class="card shadow mb-4 table-admin">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-white">Usuarios</h6>
+                    </div>
+                </div>
+                <div class="dtsp-verticalContainer">
+                    <div class="container">
+                        <table id="dataTable" class="display nowrap" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Usuario</th>
+                                    <th>Estado</th>
+                                    <th>Progreso</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="dtsp-verticalPanes col-3"></div>
+                </div>
+
+
             </div>
-            <!-- /.container-fluid -->
 
         </div>
-        <!-- End of Main Content -->
-
-        <!-- Footer -->
-        <footer class="sticky-footer bg-white">
-            <div class="container my-auto">
-                <div class="copyright text-center my-auto">
-                    <span>Copyright &copy; Lerny 2021</span>
-                </div>
-            </div>
-        </footer>
-        <!-- End of Footer -->
+        <!-- /.container-fluid -->
 
     </div>
-    <!-- End of Content Wrapper -->
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
+    <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+                <span>Copyright &copy; Lerny 2021</span>
+            </div>
+        </div>
+    </footer>
+    <!-- End of Footer -->
+
+</div>
+<!-- End of Content Wrapper -->
 
 </div>
 <!-- End of Page Wrapper -->
@@ -509,10 +519,85 @@ aria-hidden="true">
 <script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script> 
 
 <script type="text/javascript">
+
+    var table = null
+
+    function filter() {
+        var lerny_id = $( "#lerny_select" ).children("option:selected").val();
+        var microlerny_id = $( "#microlerny_select" ).children("option:selected").val();
+
+        table.ajax.url( '/api_lerny/lernydetail/?lerny_id=' + lerny_id +'&microlerny_id=' + microlerny_id).load();
+        myPieChart.destroy()
+
+        $.ajax({
+          method: 'GET',
+          url: '/api_lerny/lernydetail/?lerny_id=' + lerny_id +'&microlerny_id=' + microlerny_id,
+          success: function(respuesta) {
+            var data_pie = respuesta.approved;
+
+            var ctx = document.getElementById("myPieChart");
+            myPieChart = new Chart(ctx, {
+              type: 'pie',
+              data: {
+                labels: ["Aprovado", "No Aprovado"],
+                datasets: [{
+                  data: data_pie,
+                  backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+                  hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+                  hoverBorderColor: "rgba(234, 236, 244, 1)",
+              }],
+          },
+          options: {
+            maintainAspectRatio: false,
+            tooltips: {
+              backgroundColor: "rgb(255,255,255)",
+              bodyFontColor: "#858796",
+              borderColor: '#dddfeb',
+              borderWidth: 1,
+              xPadding: 15,
+              yPadding: 15,
+              displayColors: true,
+              caretPadding: 10,
+          },
+          legend: {
+              display: false
+          }
+      },
+  });
+        },
+        error: function() {
+            console.log("No se ha podido obtener la información");
+        }
+    });
+
+    }
+
+    $( "#lerny_select" ).change(function() {
+        $( "#lerny_name" ).text($( "#lerny_select" ).children("option:selected").text())
+        $( "#microlerny_select" ).show()
+        $('#microlerny_select').children().remove().end()
+        .append('<option selected value="-1">Todos los Microlerny</option>') ;
+        var lerny_id = $( "#lerny_select" ).children("option:selected").val();
+        $.ajax({
+            method: 'POST',
+            url: '/api_lerny/microlernyapi/',
+            data: { pk: lerny_id },
+            success: function(data) {
+                for(var i = 0; i < Object.keys(data).length; i++) {
+                    document.getElementById("microlerny_select").innerHTML += "<option value='"+data[i].pk+"'>"+data[i].name+"</option>";
+                }
+            },
+            error: function() {
+                console.log("No se ha podido obtener la información");
+            }
+        });
+    });
+
     $(document).ready(function() {
-        var table = $('#dataTable').DataTable( {
+
+        table = $('#dataTable').DataTable( {
             ajax: {
-                url: '/api_lerny/lernydetail/',
+                url: '/api_lerny/lernydetail/?lerny_id=-1&microlerny_id=-1',
                 type: 'GET',
                 dataType: 'json'
             },
@@ -533,6 +618,18 @@ aria-hidden="true">
         table.searchPanes();
         $("div.dtsp-verticalPanes").append(table.searchPanes.container());
     })
+
+    $.ajax({
+        url: '/api_lerny/lernyapi/',
+        success: function(data) {
+            for(var i = 0; i < Object.keys(data).length; i++) {
+                document.getElementById("lerny_select").innerHTML += "<option value='"+data[i].pk+"'>"+data[i].name+"</option>";
+            }
+        },
+        error: function() {
+            console.log("No se ha podido obtener la información");
+        }
+    });
 
 </script>
 

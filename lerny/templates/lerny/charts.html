@@ -625,6 +625,8 @@ aria-hidden="true">
             for(var i = 0; i < Object.keys(data).length; i++) {
                 document.getElementById("lerny_select").innerHTML += "<option value='"+data[i].pk+"'>"+data[i].name+"</option>";
             }
+
+            $( "#lerny_name" ).text(data[0].name)
         },
         error: function() {
             console.log("No se ha podido obtener la información");

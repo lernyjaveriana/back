@@ -87,6 +87,7 @@ def ApiStateResource(request):
 				data['pk'] = '<div align="center"><button type="button" class="btn btn-primary" data-dismiss="modal" onclick="editRow('+str(i.pk)+')">Editar</button></div>'
 				data['lerny'] = i.resource_id.microlerny.lerny.lerny_name
 				data['microlerny'] = i.resource_id.microlerny.micro_lerny_title
+				data['resource'] = i.resource_id.title
 				data['user'] = i.user_id.user_name
 				data['response'] = i.user_response
 				data['done'] = i.done
@@ -122,7 +123,6 @@ def editStateResource(request):
 	except Exception as ex:
 		return JsonResponse({"status": ex})
 
-#@login_required(login_url='/accounts/login/')
 
 class lernyDetail(APIView):
 
@@ -157,7 +157,6 @@ class lernyDetail(APIView):
 
 				#selecciono todos los usuarios incritos en el lerny
 				user_lerny = User_Lerny.objects.filter(lerny_id=lerny.pk)
-				#print("#usuario", user_lerny.count())
 				#selecciono todos los recursos del lerny que son obligatorios
 				resource_lerny = Resource.objects.filter(microlerny__lerny__pk=lerny.pk, resource_type="obligatory")
 				if microlerny_id != -1:
@@ -165,17 +164,12 @@ class lernyDetail(APIView):
 					resource_lerny = resource_lerny.filter(microlerny__pk=microlerny_id)
 				#cuento la cantidad de recursos obligatorios que se requieren para aprobar el lerny
 				cont_resource_lerny = resource_lerny.count()
-				#print("recursos obligatorios", cont_resource_lerny)
 				#selecciono todos los registros de recursos obligatorios aprobados por usuarios
 				user_resource = User_Resource.objects.filter(resource_id__microlerny__lerny__pk=lerny.pk, resource_id__resource_type="obligatory", done=True)
-				#print("recursos aprobados usuarios", user_resource.count())
 				for i in user_lerny:
 					data = {}
-
 					data['user'] = i.user_id.user_name
 					cont = user_resource.filter(user_id__pk=i.user_id.pk).count()
-					#print(i.user_id.user_name)
-					#print("recurdos aprobadod", cont)
 					if cont_resource_lerny != 0:
 						if cont == cont_resource_lerny:
 							data['done'] = "Aprobado"
@@ -189,50 +183,39 @@ class lernyDetail(APIView):
 							data['progress'] = round(((cont*100)/cont_resource_lerny), 2)
 					else:
 						data['done'] = "Aprobado"
-						data['progress'] = round(((cont*100)/cont_resource_lerny), 2)
+						resource_lerny = Resource.objects.filter(microlerny__lerny__pk=lerny.pk)
+						data['progress'] = round(((cont*100)/resource_lerny.count()), 2)
 						approved = approved + 1
 					list_data.append(data)
 					cont = 0
 				if user_lerny.count != 0:
 					data_approved = [round(((approved*100)/user_lerny.count()), 2), round((((user_lerny.count()-approved)*100)/user_lerny.count()), 2)]
 
-
 				context = {'data': list_data, 'approved': data_approved}
-				#return render(request, 'lerny/chart.html', context)
 				return Response (context)
 		
 				context = {'data': "No tiene una compañia asignada"}
-				#return render(request, 'lerny/chart.html', context)
 				return Response ({'data': context})
-
 		else:
 			context = {'data': "No tiene permisos para ingresar"}
-			#return render(request, 'lerny/chart.html', context)
 			return Response ({'data': context})
+
 
 def getLernyList(request):
 
 	lernys = Lerny.objects.all()
-
 	json = []
-
 	for lerny in lernys:
-
 		json.append({'pk': lerny.pk, 'name': lerny.lerny_name})
-
 	return JsonResponse(json, safe=False)
 
 @csrf_exempt
 def getMicrolernyList(request):
-
 	id_lerny = request.POST.get('pk')
-
 	microlernys = MicroLerny.objects.filter(lerny__pk = id_lerny)
-
 	json = []
 
 	for microlerny in microlernys:
-
 		json.append({'pk': microlerny.pk, 'name': microlerny.micro_lerny_title})
 
 	return JsonResponse(json, safe=False)

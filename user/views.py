@@ -506,6 +506,10 @@ class ApiManager(APIView):
 					user_id=UserSerializer(user_id_obj).data['identification']
 				except AssertionError as error:
   					print("An error occurred obteniendo el user id obj: "+ error)
+					user_id=None
+				except:
+  					print("Something else went wrong")
+					user_id=None
 
 
 			request = request.data['queryResult']['parameters']

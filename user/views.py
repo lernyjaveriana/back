@@ -200,7 +200,7 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 							"attachment": {
 								"type": media,
 								"payload": {
-									"url":dataDB["content_url"]
+									"attachment_id":dataDB["content_url"]
 								}
 							}
 						}
@@ -261,7 +261,7 @@ def  continueLerny(lerny_active,user_id_obj,user_id):
 							"attachment": {
 								"type": media,
 								"payload": {
-									"url":dataDB["content_url"]
+									"attachment_id":dataDB["content_url"]
 								}
 							}
 						}
@@ -758,7 +758,7 @@ class ApiManager(APIView):
 									"attachment": {
 										"type": media,
 										"payload": {
-											"url":data["content_url"]
+											"attachment_id":data["content_url"]
 										}
 									}
 								}

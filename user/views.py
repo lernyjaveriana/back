@@ -505,7 +505,12 @@ class ApiManager(APIView):
 					user_id_obj = User.objects.get(uid=str(sender_id))
 					user_id=UserSerializer(user_id_obj).data['identification']
 				except AssertionError as error:
-  					print("An error occurred obteniendo el user id obj: "+ error)
+					
+					print("An error occurred obteniendo el user id obj: "+ error)
+					user_id=None
+				except:
+					print("Something else went wrong")
+					user_id=None
 
 
 			request = request.data['queryResult']['parameters']
@@ -699,109 +704,116 @@ class ApiManager(APIView):
 				}
 		# CARGAR_REQ_MICROLERNY
 		elif(key == "CARGAR_REQ_MICROLERNY"):
-			microlerny = (int(request["microlerny_num"]))
-			user_id_obj = User.objects.get(
-				identification=user_id)
-			lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()
-			user_state = User_State.objects.filter(user_id=user_id_obj, lerny_id =lerny_active.lerny_id)
-
-			if(user_state):
-				user_state = user_state.first()
-				lerny_id = user_state.lerny_id
-				micro_lerny = MicroLerny.objects.filter(lerny=lerny_id,id=microlerny).first()
-				resourse = Resource.objects.get(
-					microlerny=micro_lerny, phase='1')
-
-				user_state.resource_id = resourse
-				user_state.micro_lerny_id = micro_lerny
-				user_state.save()
-				data = ResourceSerializer(resourse).data
-
+			if(user_id is None):
+				data=bienvenidaLerny(user_id)
 			else:
-				lerny_id = user_state.lerny_id
-				micro_lerny = MicroLerny.objects.filter(lerny=lerny_id,pk=microlerny)
-				resourse = Resource.objects.get(
-					microlerny=micro_lerny.id, phase='1')
+				microlerny = (int(request["microlerny_num"]))
+				user_id_obj = User.objects.get(
+					identification=user_id)
+				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()
+				user_state = User_State.objects.filter(user_id=user_id_obj, lerny_id =lerny_active.lerny_id)
 
-				user_state = User_State()
-				user_state.lerny_id = lerny_id
-				user_state.micro_lerny_id = micro_lerny
-				user_state.user_id = user_id_obj
-				user_state.resource_id = resourse
-				user_state.save()
-				data = ResourceSerializer(resourse).data
-			print("Data, description: "+data["description"])
-			media = data["media_type"]
-			previous_text = data["previous_text"]
-			if(previous_text==None):
-				previous_text="Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"
-			data = {
-				"fulfillmentMessages": [
-					{
-						"text": {
-							"text": [
-								previous_text
-							]
-						}
-					},
-					{
-						"payload": {
-							"facebook": {
-								"attachment": {
-									"type": media,
-									"payload": {
-										"attachment_id":data["content_url"]
+				if(user_state):
+					user_state = user_state.first()
+					lerny_id = user_state.lerny_id
+					micro_lerny = MicroLerny.objects.filter(lerny=lerny_id,id=microlerny).first()
+					resourse = Resource.objects.get(
+						microlerny=micro_lerny, phase='1')
+
+					user_state.resource_id = resourse
+					user_state.micro_lerny_id = micro_lerny
+					user_state.save()
+					data = ResourceSerializer(resourse).data
+
+				else:
+					lerny_id = lerny_active.lerny_id
+					micro_lerny = MicroLerny.objects.filter(lerny=lerny_id,pk=microlerny).first()
+					resourse = Resource.objects.get(
+						microlerny=micro_lerny, phase='1')
+
+					user_state = User_State()
+					user_state.lerny_id = lerny_id
+					user_state.micro_lerny_id = micro_lerny
+					user_state.user_id = user_id_obj
+					user_state.resource_id = resourse
+					user_state.save()
+					data = ResourceSerializer(resourse).data
+				print("Data, description: "+data["description"])
+				media = data["media_type"]
+				previous_text = data["previous_text"]
+				if(previous_text==None):
+					previous_text="Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"
+				data = {
+					"fulfillmentMessages": [
+						{
+							"text": {
+								"text": [
+									previous_text
+								]
+							}
+						},
+						{
+							"payload": {
+								"facebook": {
+									"attachment": {
+										"type": media,
+										"payload": {
+											"attachment_id":data["content_url"]
+										}
+									}
+								}
+							}
+						},
+						{
+							"payload": {
+								"facebook": {
+									"attachment": {
+										"type": "template",
+										"payload": {
+											"template_type": "generic",
+											"elements": [
+												{
+													"title": data["title"],
+													"image_url": data["image_url"],
+													"subtitle": data["description"],
+													"buttons": [
+														{
+															"type": "postback",
+															"title": "Siguiente recurso",
+															"payload": "CONTINUAR_CURSO"
+														},
+														{
+															"type": "postback",
+															"title": "Salir",
+															"payload": "lerny_farewell"
+														}
+													]
+												}
+											]
+										}
 									}
 								}
 							}
 						}
-					},
-					{
-						"payload": {
-							"facebook": {
-								"attachment": {
-									"type": "template",
-									"payload": {
-										"template_type": "generic",
-										"elements": [
-											{
-												"title": data["title"],
-												"image_url": data["image_url"],
-												"subtitle": data["description"],
-												"buttons": [
-													{
-														"type": "postback",
-														"title": "Siguiente recurso",
-														"payload": "CONTINUAR_CURSO"
-													},
-													{
-														"type": "postback",
-														"title": "Salir",
-														"payload": "lerny_farewell"
-													}
-												]
-											}
-										]
-									}
-								}
-							}
-						}
-					}
-				]
-			}
+					]
+				}
 		# CARGAR_CONTINUAR_LERNY
 		elif(key == "CARGAR_CONTINUAR_LERNY"):
+
 			print("CARGAR_CONTINUAR_LERNY")
-			lerny_pk = (int(request["lerny_num"]))
-			user_id_obj = User.objects.get(
-				identification=user_id)
-			User_Lerny.objects.filter(active=True,user_id=user_id_obj).update(active=False)
-			lerny_next = Lerny.objects.filter(pk=lerny_pk).first()
-			User_Lerny.objects.filter(active=False,user_id=user_id_obj, lerny_id =lerny_next).update(active=True)
+			if(user_id is None):
+				data=bienvenidaLerny(user_id)
+			else:
+				lerny_pk = (int(request["lerny_num"]))
+				user_id_obj = User.objects.get(
+					identification=user_id)
+				User_Lerny.objects.filter(active=True,user_id=user_id_obj).update(active=False)
+				lerny_next = Lerny.objects.filter(pk=lerny_pk).first()
+				User_Lerny.objects.filter(active=False,user_id=user_id_obj, lerny_id =lerny_next).update(active=True)
 
-			lerny_active = User_Lerny.objects.filter(active=True).first()
+				lerny_active = User_Lerny.objects.filter(active=True).first()
 
-			data=continueLerny(lerny_active.lerny_id,user_id_obj,user_id)
+				data=continueLerny(lerny_active.lerny_id,user_id_obj,user_id)
 		# CARGAR_REQ_MICROLERNY
 		elif(key == "LernyDefaultFallback"):
 			if(text):

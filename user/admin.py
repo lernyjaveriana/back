@@ -40,13 +40,13 @@ class CustomUserAdmin(UserAdmin):
     list_display = ('identification',)
     list_filter = ('identification',)
     fieldsets = (
-        (None, {'fields': ('user_name', 'user_surname', 'country', 'city', 'uid', 'mail', 'notification', 'last_view_date', 'points', 'active_user', 'admin_user', 'identification', 'company', 'group', 'password')}),
+        (None, {'fields': ('user_name', 'user_surname', 'country', 'city', 'uid', 'mail', 'notification', 'last_view_date', 'active_user', 'admin_user', 'identification', 'company', 'group', 'password')}),
         ('Permissions', {'fields': ()}),
     )
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('user_name', 'user_surname', 'country', 'city', 'uid', 'mail', 'notification', 'last_view_date', 'points', 'active_user', 'admin_user', 'identification', 'company', 'group', 'password1', 'password2')}
+            'fields': ('user_name', 'user_surname', 'country', 'city', 'uid', 'mail', 'notification', 'last_view_date', 'active_user', 'admin_user', 'identification', 'company', 'group', 'password1', 'password2')}
         ),
     )
     search_fields = ('identification',)

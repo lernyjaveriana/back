@@ -1,9 +1,19 @@
+from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import serializers
 from .serializers import *
 from .models import *
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+
+class CsrfExemptSessionAuthentication(SessionAuthentication):
+
+    def enforce_csrf(self, request):
+        return
 
 
 class LernyManageGet(APIView):
@@ -29,8 +39,6 @@ class MicroLernyDadAndSon(APIView):
 
 		dad = TreeMicroLerny.objects.filter(son_micro_lerny__pk=microlerny_id).values_list('dady_micro_lerny_id', flat=True)
 		son = TreeMicroLerny.objects.filter(dady_micro_lerny__pk=microlerny_id).values_list('son_micro_lerny_id', flat=True)
-		print(dad)
-		print(son)
 		
 		try:
 			microlerny_dad = MicroLerny.objects.filter(pk__in = dad)
@@ -46,5 +54,168 @@ class MicroLernyDadAndSon(APIView):
 		
 		return Response ({'dad': dad_data, 'son': son_data })
 
-		
+@login_required(login_url='/accounts/login/')
+def UserStateResource(request):
+	user = request.user
+	company = user.company
+	try:
+		lernys = Lerny.objects.filter(lerny_company__company_id=company.pk)
+	except:
+		lernys = []
+	context = {'have_company': True if lernys != [] else False, 'username': user.user_name}
 
+	return render(request, 'lerny/tables.html', context)
+
+@login_required(login_url='/accounts/login/')
+def ApiStateResource(request):
+	user = request.user
+	list_data = []
+	context = {}
+	try:
+		group = user.group.name
+	except:
+		group = None
+
+	if (group=="Facilitadores"):
+		company = user.company
+		if company:
+			#filtro todos los lernys que pertenecen a la empresa que se encuentra asignado el colaborador
+			lernys = Lerny.objects.filter(lerny_company__company_id=company.pk).values_list("pk", flat=True)
+			user_resources = User_Resource.objects.filter(resource_id__microlerny__lerny__in=lernys).order_by("resource_id__microlerny__lerny__lerny_name")
+			for i in user_resources:
+				data = {}
+				data['pk'] = '<div align="center"><button type="button" class="btn btn-primary" data-dismiss="modal" onclick="editRow('+str(i.pk)+')">Editar</button></div>'
+				data['lerny'] = i.resource_id.microlerny.lerny.lerny_name
+				data['microlerny'] = i.resource_id.microlerny.micro_lerny_title
+				data['resource'] = i.resource_id.title
+				data['user'] = i.user_id.user_name
+				data['response'] = i.user_response
+				data['done'] = i.done
+				data['points'] = i.points
+				list_data.append(data)
+			context = list_data
+			return JsonResponse({"data":context}, safe = False)
+		else:
+			return JsonResponse({"data":context}, safe = False)
+	else:
+		return JsonResponse({"data":context}, safe = False)
+
+@login_required(login_url='/accounts/login/')
+def charts(request):
+	user = request.user
+	try:
+		company = user.company.pk
+	except:
+		company = None
+	context = {"username": user.user_name, 'have_company': True if company != None else False}
+	return render(request, 'lerny/charts.html', context);
+
+@csrf_exempt
+def editStateResource(request):
+
+	try:
+		pk = request.POST.get('pk')
+		points = request.POST.get('points')
+		user_resource = User_Resource.objects.get(pk = pk)
+		user_resource.points = points
+		user_resource.save()
+		return JsonResponse({"status": "success"})
+	except Exception as ex:
+		return JsonResponse({"status": ex})
+
+
+class lernyDetail(APIView):
+
+	authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
+
+	def get(self, request, format=None):
+		user = request.user
+		lerny_id = int(request.GET["lerny_id"])
+		microlerny_id = int(request.GET["microlerny_id"])
+		list_data = []
+		context = {}
+		approved = 0
+
+		try:
+			group = user.group.name
+		except:
+			group = None
+		try:
+			company = user.company.pk
+		except:
+			company = None
+		
+		if group == "Facilitadores":
+			if company:
+				
+				if lerny_id != -1:
+					#filtro por el lerny
+					lerny = Lerny.objects.get(pk=lerny_id)
+				else:
+					#Muestro el primer lerny asociado a la compañia
+					lerny = Lerny.objects.filter(lerny_company__company_id=company).first()
+
+				#selecciono todos los usuarios incritos en el lerny
+				user_lerny = User_Lerny.objects.filter(lerny_id=lerny.pk)
+				#selecciono todos los recursos del lerny que son obligatorios
+				resource_lerny = Resource.objects.filter(microlerny__lerny__pk=lerny.pk, resource_type="obligatory")
+				if microlerny_id != -1:
+					#Filtro por microlerny
+					resource_lerny = resource_lerny.filter(microlerny__pk=microlerny_id)
+				#cuento la cantidad de recursos obligatorios que se requieren para aprobar el lerny
+				cont_resource_lerny = resource_lerny.count()
+				#selecciono todos los registros de recursos obligatorios aprobados por usuarios
+				user_resource = User_Resource.objects.filter(resource_id__microlerny__lerny__pk=lerny.pk, resource_id__resource_type="obligatory", done=True)
+				for i in user_lerny:
+					data = {}
+					data['user'] = i.user_id.user_name
+					cont = user_resource.filter(user_id__pk=i.user_id.pk).count()
+					if cont_resource_lerny != 0:
+						if cont == cont_resource_lerny:
+							data['done'] = "Aprobado"
+							data['progress'] = 100
+							approved = approved + 1
+						elif cont == 0:
+							data['done'] = "No aprobado"
+							data['progress'] = 0
+						else:
+							data['done'] = "No aprobado"
+							data['progress'] = round(((cont*100)/cont_resource_lerny), 2)
+					else:
+						data['done'] = "Aprobado"
+						resource_lerny = Resource.objects.filter(microlerny__lerny__pk=lerny.pk)
+						data['progress'] = round(((cont*100)/resource_lerny.count()), 2)
+						approved = approved + 1
+					list_data.append(data)
+					cont = 0
+				if user_lerny.count != 0:
+					data_approved = [round(((approved*100)/user_lerny.count()), 2), round((((user_lerny.count()-approved)*100)/user_lerny.count()), 2)]
+
+				context = {'data': list_data, 'approved': data_approved}
+				return Response (context)
+		
+				context = {'data': "No tiene una compañia asignada"}
+				return Response ({'data': context})
+		else:
+			context = {'data': "No tiene permisos para ingresar"}
+			return Response ({'data': context})
+
+
+def getLernyList(request):
+
+	lernys = Lerny.objects.all()
+	json = []
+	for lerny in lernys:
+		json.append({'pk': lerny.pk, 'name': lerny.lerny_name})
+	return JsonResponse(json, safe=False)
+
+@csrf_exempt
+def getMicrolernyList(request):
+	id_lerny = request.POST.get('pk')
+	microlernys = MicroLerny.objects.filter(lerny__pk = id_lerny)
+	json = []
+
+	for microlerny in microlernys:
+		json.append({'pk': microlerny.pk, 'name': microlerny.micro_lerny_title})
+
+	return JsonResponse(json, safe=False)

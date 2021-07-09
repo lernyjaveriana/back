@@ -1,37 +1,47 @@
 from django.db import models
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import PermissionsMixin
+#from lerny.models import Company
 
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager)
+from django.contrib.auth.models import Group
+
 # Create your models here.
 
 
 class MyUserManager(BaseUserManager):
-    def create_user(self, user_name, user_surname, country, city, mail,identification):
+
+    def create_user(self, user_name, user_surname, country, city, mail, identification, password):
 
         if not identification:
             raise ValueError("debe ingresar numero de identificacion")
+
+        password = make_password(password)
         user = self.model(
             user_name=user_name,
             mail=self.normalize_email(mail),
             user_surname=user_surname,
             country=country,
             city=city,
-            identification=identification)
-        user.set_password(identification)
-        user.save()
+            identification=identification, password = password)
+        user.save(using = self._db)
         return user
-    def create_superuser(self,user_name,user_surname,country,city,password,mail,identification):
+
+    def create_superuser(self, user_name, user_surname, country, city, mail, identification, password):
         user=self.create_user(user_name=user_name,
             user_surname=user_surname,
             country=country,
             city=city,
             mail=mail,
-            identification=identification)
+            identification=identification, password=password)
         user.admin_user=True
-        user.save()
+        user.is_staff = True
+        user.save(using = self._db)
         return user
 
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
     user_name = models.CharField('user name', max_length=50, null=False)
     user_surname = models.CharField('user surname', max_length=50, null=False)
     country = models.CharField('country', max_length=20, null=False)
@@ -46,6 +56,8 @@ class User(AbstractBaseUser):
     active_user = models.BooleanField(default = True)
     admin_user= models.BooleanField(default = False)
     identification = models.CharField('identification',unique=True, max_length=20, default = "12345")
+    company = models.ForeignKey('lerny.Company', on_delete=models.CASCADE, null=True, related_name='company')
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, null = True, related_name='group')
     objects=MyUserManager()
 
     USERNAME_FIELD = "identification"

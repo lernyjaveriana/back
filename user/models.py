@@ -51,7 +51,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     mail = models.CharField('mail', max_length=100,unique=True,blank=True, null=True)
     notification = models.BooleanField(default=True)
     last_view_date = models.DateTimeField('last view date', null=True)
-    points = models.FloatField('points', default=0.0, null=False)
     creation_date = models.DateTimeField('creation date', auto_now_add=True)
     active_user = models.BooleanField(default = True)
     admin_user= models.BooleanField(default = False)

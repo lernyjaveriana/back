@@ -84,11 +84,12 @@ def ApiStateResource(request):
 			user_resources = User_Resource.objects.filter(resource_id__microlerny__lerny__in=lernys).order_by("resource_id__microlerny__lerny__lerny_name")
 			for i in user_resources:
 				data = {}
-				data['pk'] = '<div align="center"><button type="button" class="btn btn-primary" data-dismiss="modal" onclick="editRow('+str(i.pk)+')">Editar</button></div>'
+				data['pk'] = '<div align="center"><button type="button" class="btn btn-primary" data-dismiss="modal" onclick="editRow('+str(i.pk)+')">Calificar</button></div>'
 				data['lerny'] = i.resource_id.microlerny.lerny.lerny_name
 				data['microlerny'] = i.resource_id.microlerny.micro_lerny_title
 				data['resource'] = i.resource_id.title
 				data['user'] = i.user_id.user_name
+				data['identification'] = i.user_id.identification
 				data['response'] = i.user_response
 				data['done'] = i.done
 				data['points'] = i.points

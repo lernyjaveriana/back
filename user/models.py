@@ -55,8 +55,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     active_user = models.BooleanField(default = True)
     admin_user= models.BooleanField(default = False)
     identification = models.CharField('identification',unique=True, max_length=20, default = "12345")
-    company = models.ForeignKey('lerny.Company', on_delete=models.CASCADE, null=True, related_name='company')
-    group = models.ForeignKey(Group, on_delete=models.CASCADE, null = True, related_name='group')
+    company = models.ForeignKey('lerny.Company', on_delete=models.CASCADE, null=True, blank=True, related_name='company')
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, null = True, blank=True, related_name='group')
     objects=MyUserManager()
 
     USERNAME_FIELD = "identification"

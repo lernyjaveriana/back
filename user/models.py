@@ -50,6 +50,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     #passw = models.CharField('passw', max_length=20, null=False)
     mail = models.CharField('mail', max_length=100,unique=True,blank=True, null=True)
     notification = models.BooleanField(default=True)
+    points = models.FloatField('points',  null=True, blank=True)
     last_view_date = models.DateTimeField('last view date', null=True)
     creation_date = models.DateTimeField('creation date', auto_now_add=True)
     active_user = models.BooleanField(default = True)

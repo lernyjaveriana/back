@@ -489,8 +489,7 @@ class ApiManager(APIView):
 			key = "LernyDefaultFallback"
 			text = request.data['queryResult'].get('queryText')
 			urlArg = request.data['originalDetectIntentRequest']["payload"]["data"]["message"]["attachments"][0].get("payload").get('url')
-			sender_id = (request.data['originalDetectIntentRequest']['payload']['data'].get(
-					'sender').get('id'))
+			print('Sender_id fallback: '+str(sender_id))
 			try:
 				user_id_obj = User.objects.get(uid=str(sender_id))
 				user_id=UserSerializer(user_id_obj).data['identification']

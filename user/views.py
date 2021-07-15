@@ -484,35 +484,38 @@ class ApiManager(APIView):
 
 		sender_id=request.data['originalDetectIntentRequest']['payload']['data']['sender']['id']
 		print(sender_id)
-		# extrayendo al usuario dependiendo del uid de fb
-		x = 0
-		# Identifico el user_document_id independientemente de donde se encuentre en el json
-		while(x < len(request.data['queryResult']['outputContexts'])):
-			
-			user_id = (request.data['queryResult']['outputContexts'][x].get(
-				'parameters').get('user_document_id'))
-			if((request.data['queryResult']['outputContexts'][x].get('parameters').get('user_document_id')) != None):
-				break
-			x += 1
-		if(not(user_id is None)):
-			user_id = (str(int(float(user_id))))
-		else:
-			try:
-				user_id_obj = User.objects.get(uid=str(sender_id))
-				user_id=UserSerializer(user_id_obj).data['identification']
-			except AssertionError as error:
-				
-				print("An error occurred obteniendo el user id obj: "+ error)
-				user_id=None
-			except:
-				print("Something else went wrong")
-				user_id=None
-		# extrayendo al usuario dependiendo del uid de fb
+
 		if(request.data['queryResult']['intent']['displayName']=="LernyDefaultFallback"):
 			key = "LernyDefaultFallback"
 			text = request.data['queryResult'].get('queryText')
 			urlArg = request.data['originalDetectIntentRequest']["payload"]["data"]["message"]["attachments"][0].get("payload").get('url')
+			user_id = (request.data['originalDetectIntentRequest']['payload']['data'].get(
+					'sender').get('id'))
 		else:
+			x = 0
+			# Identifico el user_document_id independientemente de donde se encuentre en el json
+			while(x < len(request.data['queryResult']['outputContexts'])):
+				
+				user_id = (request.data['queryResult']['outputContexts'][x].get(
+					'parameters').get('user_document_id'))
+				if((request.data['queryResult']['outputContexts'][x].get('parameters').get('user_document_id')) != None):
+					break
+				x += 1
+			if(not(user_id is None)):
+				user_id = (str(int(float(user_id))))
+			else:
+				try:
+					user_id_obj = User.objects.get(uid=str(sender_id))
+					user_id=UserSerializer(user_id_obj).data['identification']
+				except AssertionError as error:
+					
+					print("An error occurred obteniendo el user id obj: "+ error)
+					user_id=None
+				except:
+					print("Something else went wrong")
+					user_id=None
+
+
 			request = request.data['queryResult']['parameters']
 			key = request['LERNY_INTENT']
 		# LOGIN

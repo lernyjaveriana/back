@@ -489,8 +489,19 @@ class ApiManager(APIView):
 			key = "LernyDefaultFallback"
 			text = request.data['queryResult'].get('queryText')
 			urlArg = request.data['originalDetectIntentRequest']["payload"]["data"]["message"]["attachments"][0].get("payload").get('url')
-			user_id = (request.data['originalDetectIntentRequest']['payload']['data'].get(
+			sender_id = (request.data['originalDetectIntentRequest']['payload']['data'].get(
 					'sender').get('id'))
+			try:
+				user_id_obj = User.objects.get(uid=str(sender_id))
+				user_id=UserSerializer(user_id_obj).data['identification']
+			except AssertionError as error:
+				
+				print("An error occurred obteniendo el user id obj: "+ error)
+				user_id=None
+			except:
+				print("Something else went wrong")
+				user_id=None
+
 		else:
 			x = 0
 			# Identifico el user_document_id independientemente de donde se encuentre en el json

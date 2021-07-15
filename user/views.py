@@ -881,6 +881,7 @@ class ApiManager(APIView):
 							u_resource.resource_id = user_state.resource_id
 							u_resource.user_id = user_state.user_id
 							u_resource.user_response = response
+							u_resource.done = True
 							u_resource.response_date = datetime.now()
 							u_resource.last_view_date = datetime.now()
 							u_resource.save()

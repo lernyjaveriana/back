@@ -258,25 +258,28 @@ div.dtsp-panesContainer {
                             <h6 class="m-0 font-weight-bold text-white">Usuarios</h6>
                         </div>
                     </div>
-                    <div class="dtsp-verticalContainer">
-                        <div class="container">
-                            <table id="dataTable" class="display nowrap" width="100%">
-                                <thead>
-                                    <tr>
-                                        <th>Lerny</th>
-                                        <th>Microlerny</th>
-                                        <th>Recurso</th>
-                                        <th>Identificacion</th>
-                                        <th>Ususario</th>
-                                        <th>Respuesta</th>
-                                        <th>Aprobado</th>
-                                        <th>Puntos</th>
-                                        <th>Acción</th>
-                                    </tr>
-                                </thead>
-                            </table>
+                    <div class="demo-html">
+                        <div class="dtsp-verticalContainer">
+                            <div class="dtsp-verticalPanes col-3"></div>
+                            <div class="container">
+                                <table id="dataTable" class="display nowrap" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Lerny</th>
+                                            <th>Microlerny</th>
+                                            <th>Recurso</th>
+                                            <th>Identificacion</th>
+                                            <th>Ususario</th>
+                                            <th>Respuesta</th>
+                                            <th>Aprobado</th>
+                                            <th>Puntos</th>
+                                            <th>Acción</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            
                         </div>
-                        <div class="dtsp-verticalPanes col-3"></div>
                     </div>
 
                     <!-- Edit Modal -->
@@ -402,6 +405,7 @@ div.dtsp-panesContainer {
 
         $(document).ready(function() {
             var table = $('#dataTable').DataTable( {
+                "scrollX": true,
                 ajax: {
                     url: '/api_lerny/apiresources/',
                     type: 'GET',

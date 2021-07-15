@@ -488,7 +488,7 @@ class ApiManager(APIView):
 		if(request.data['queryResult']['intent']['displayName']=="LernyDefaultFallback"):
 			key = "LernyDefaultFallback"
 			text = request.data['queryResult'].get('queryText')
-			urlArg = request.data['originalDetectIntentRequest']["payload"]["data"]["message"]["attachments"].get(0).get("payload").get('url')
+			urlArg = request.data['originalDetectIntentRequest']["payload"]["data"]["message"]["attachments"].first().get("payload").get('url')
 		else:
 			x = 0
 			# Identifico el user_document_id independientemente de donde se encuentre en el json

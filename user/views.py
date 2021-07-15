@@ -488,6 +488,7 @@ class ApiManager(APIView):
 		if(request.data['queryResult']['intent']['displayName']=="LernyDefaultFallback"):
 			key = "LernyDefaultFallback"
 			text = request.data['queryResult'].get('queryText')
+			urlArg = request.data['originalDetectIntentRequest']["payload"]["data"]["message"]["attachments"].get(0).get("payload").get('url')
 		else:
 			x = 0
 			# Identifico el user_document_id independientemente de donde se encuentre en el json
@@ -848,7 +849,31 @@ class ApiManager(APIView):
 					]
 				}
 			else:
-				data = cargarActividad
+				if(user_id is None):
+					data=bienvenidaLerny(user_id)
+				else:
+					if(urlArg):
+						response = urlArg
+						user_id_obj = User.objects.get(
+							identification=user_id)
+						lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()
+						user_state = User_State.objects.filter(user_id=user_id_obj,lerny_id=lerny_active.lerny_id).first()
+						u_resource = User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).first()
+
+						if(u_resource):
+							data = UserResourceSerializer(u_resource).data
+							User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).update(user_response=data['user_response']+' '+response)
+						else:
+							print("GUARDAR ARCHIVO")
+							u_resource = User_Resource()
+							u_resource.resource_id = user_state.resource_id
+							u_resource.user_id = user_state.user_id
+							u_resource.user_response = response
+							u_resource.response_date = datetime.now()
+							u_resource.last_view_date = datetime.now()
+							u_resource.save()
+						data = cargarActividad
+
 		# CARGAR_REQ_MICROLERNY
 		elif(key == "PREGUNTA_GENERAL"):
 			question = request['QUESTION']

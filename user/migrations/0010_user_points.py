@@ -10,9 +10,4 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='user',
-            name='points',
-            field=models.FloatField(blank=True, null=True, verbose_name='points'),
-        ),
     ]

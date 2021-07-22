@@ -159,17 +159,20 @@ class lernyDetail(APIView):
 				#selecciono todos los usuarios incritos en el lerny
 				user_lerny = User_Lerny.objects.filter(lerny_id=lerny.pk)
 				#selecciono todos los recursos del lerny que son obligatorios
-				resource_lerny = Resource.objects.filter(microlerny__lerny__pk=lerny.pk, resource_type="obligatory")
+				#resource_lerny = Resource.objects.filter(microlerny__lerny__pk=lerny.pk, resource_type="obligatory")
+				resource_lerny = Resource.objects.filter(microlerny__lerny__pk=lerny.pk)
 				if microlerny_id != -1:
 					#Filtro por microlerny
 					resource_lerny = resource_lerny.filter(microlerny__pk=microlerny_id)
 				#cuento la cantidad de recursos obligatorios que se requieren para aprobar el lerny
 				cont_resource_lerny = resource_lerny.count()
 				#selecciono todos los registros de recursos obligatorios aprobados por usuarios
-				user_resource = User_Resource.objects.filter(resource_id__microlerny__lerny__pk=lerny.pk, resource_id__resource_type="obligatory", done=True)
+				#user_resource = User_Resource.objects.filter(resource_id__microlerny__lerny__pk=lerny.pk, resource_id__resource_type="obligatory", done=True)
+				user_resource = User_Resource.objects.filter(resource_id__microlerny__lerny__pk=lerny.pk, done=True)
 				for i in user_lerny:
 					data = {}
 					data['user'] = i.user_id.user_name
+					data['identification'] = i.user_id.identification
 					cont = user_resource.filter(user_id__pk=i.user_id.pk).count()
 					if cont_resource_lerny != 0:
 						if cont == cont_resource_lerny:
@@ -184,8 +187,8 @@ class lernyDetail(APIView):
 							data['progress'] = round(((cont*100)/cont_resource_lerny), 2)
 					else:
 						data['done'] = "Aprobado"
-						resource_lerny = Resource.objects.filter(microlerny__lerny__pk=lerny.pk)
-						data['progress'] = round(((cont*100)/resource_lerny.count()), 2)
+						#resource_lerny = Resource.objects.filter(microlerny__lerny__pk=lerny.pk)
+						data['progress'] = round(((cont*100)/cont_resource_lerny), 2)
 						approved = approved + 1
 					list_data.append(data)
 					cont = 0

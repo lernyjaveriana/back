@@ -101,7 +101,7 @@ div.dtsp-panesContainer {
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion py-4" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center mb-4" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center mb-4" href="">
                 <img class="logo" src="{% static 'lerny/img/logo.svg' %}" alt="logo">
             </a>
 
@@ -262,7 +262,7 @@ div.dtsp-panesContainer {
                         <div class="dtsp-verticalContainer">
                             <div class="dtsp-verticalPanes col-3"></div>
                             <div class="container">
-                                <table id="dataTable" class="display nowrap" width="100%">
+                                <table id="dataTable" class="display" width="100%">
                                     <thead>
                                         <tr>
                                             <th>Lerny</th>
@@ -406,6 +406,8 @@ div.dtsp-panesContainer {
         $(document).ready(function() {
             var table = $('#dataTable').DataTable( {
                 "scrollX": true,
+                //"responsive": true,
+                "fixedHeader": true,
                 ajax: {
                     url: '/api_lerny/apiresources/',
                     type: 'GET',

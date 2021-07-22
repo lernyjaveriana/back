@@ -508,9 +508,9 @@ class ApiManager(APIView):
 			while(x < len(request.data['queryResult']['outputContexts'])):
 				
 				user_id = (request.data['queryResult']['outputContexts'][x].get(
-					'parameters').get('user_document_id'))
+					'parameters').get('user_document_d'))
 				if((request.data['queryResult']['outputContexts'][x].get('parameters').get('user_document_id')) != None):
-					#break
+					break
 				x += 1
 			if(not(user_id is None)):
 				user_id = (str(int(float(user_id))))

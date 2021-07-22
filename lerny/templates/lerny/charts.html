@@ -104,7 +104,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion py-4" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center mb-4" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center mb-4" href="">
                 <img class="logo" src="{% static 'lerny/img/logo.svg' %}" alt="logo">
             </a>
 
@@ -433,6 +433,7 @@ aria-labelledby="userDropdown">
                         <table id="dataTable" class="display nowrap" width="100%">
                             <thead>
                                 <tr>
+                                    <th>Identificación</th>
                                     <th>Usuario</th>
                                     <th>Estado</th>
                                     <th>Progreso</th>
@@ -602,6 +603,7 @@ aria-hidden="true">
                 dataType: 'json'
             },
             columns :[
+            {data: 'identification'},
             {data: 'user'},
             {data: 'done'},
             {data: 'progress'},

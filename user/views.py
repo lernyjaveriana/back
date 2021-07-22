@@ -481,11 +481,11 @@ class ApiManager(APIView):
 		print("OutputContexts")
 		print(request.data['queryResult']['outputContexts'])
 		print("senderId")
-
 		sender_id=request.data['originalDetectIntentRequest']['payload']['data']['sender']['id']
 		print(sender_id)
 
 		if(request.data['queryResult']['intent']['displayName']=="LernyDefaultFallback"):
+			print('fallback')
 			key = "LernyDefaultFallback"
 			text = request.data['queryResult'].get('queryText')
 			urlArg = request.data['originalDetectIntentRequest']["payload"]["data"]["message"]["attachments"][0].get("payload").get('url')
@@ -502,6 +502,7 @@ class ApiManager(APIView):
 				user_id=None
 
 		else:
+			print('not fallback')
 			x = 0
 			# Identifico el user_document_id independientemente de donde se encuentre en el json
 			while(x < len(request.data['queryResult']['outputContexts'])):
@@ -887,7 +888,6 @@ class ApiManager(APIView):
 							u_resource.last_view_date = datetime.now()
 							u_resource.save()
 						data = cargarActividad
-
 		# CARGAR_REQ_MICROLERNY
 		elif(key == "PREGUNTA_GENERAL"):
 			question = request['QUESTION']
@@ -925,7 +925,7 @@ class ApiManager(APIView):
 
 				if(u_resource):
 					data = UserResourceSerializer(u_resource).data
-					User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).update(user_response=data['user_response']+' '+response)
+					User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).update(user_response=data['user_response']+'\n'+response)
 				else:
 					print("GUARDAR ARCHIVO")
 					u_resource = User_Resource()
@@ -942,7 +942,6 @@ class ApiManager(APIView):
 				lerny_active = User_Lerny.objects.filter(active=True).first()
 				data=continueLerny(lerny_active.lerny_id,user_id_obj,user_id)
 
-				
 		else:
 			data = {}
 		print(data)

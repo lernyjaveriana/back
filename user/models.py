@@ -36,7 +36,7 @@ class MyUserManager(BaseUserManager):
             mail=mail,
             identification=identification, password=password)
         user.admin_user=True
-        user.is_staff = True
+        #user.is_staff = True
         user.save(using = self._db)
         return user
 

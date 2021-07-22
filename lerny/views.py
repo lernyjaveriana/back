@@ -172,6 +172,7 @@ class lernyDetail(APIView):
 				for i in user_lerny:
 					data = {}
 					data['user'] = i.user_id.user_name
+					data['identification'] = i.user_id.identification
 					cont = user_resource.filter(user_id__pk=i.user_id.pk).count()
 					if cont_resource_lerny != 0:
 						if cont == cont_resource_lerny:

@@ -79,7 +79,7 @@ cargarActividad={
 					]
 				}
 
-def  continueLerny(lerny_active,user_id_obj,user_id):
+def continueLerny(lerny_active,user_id_obj,user_id):
 
 	user_state = User_State.objects.filter(user_id=user_id_obj, lerny_id =lerny_active)
 	is_last = False
@@ -922,7 +922,14 @@ class ApiManager(APIView):
 				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()
 				user_state = User_State.objects.filter(user_id=user_id_obj,lerny_id=lerny_active.lerny_id).first()
 				u_resource = User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).first()
-
+				feedback = user_state.resource_id.wrong_answer
+				if(user_state.resource_id.first_button==response and user_state.resource_id.correct_answer == 1):
+					feedback = user_state.resource_id.correct_answer
+				if(user_state.resource_id.second_button==response and user_state.resource_id.correct_answer == 2):
+					feedback = user_state.resource_id.correct_answer
+				if(user_state.resource_id.third_button==response and user_state.resource_id.correct_answer == 3):
+					feedback = user_state.resource_id.correct_answer
+				
 				if(u_resource):
 					data = UserResourceSerializer(u_resource).data
 					User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).update(user_response=data['user_response']+'\n'+response)
@@ -941,6 +948,14 @@ class ApiManager(APIView):
 					identification=user_id)
 				lerny_active = User_Lerny.objects.filter(active=True).first()
 				data=continueLerny(lerny_active.lerny_id,user_id_obj,user_id)
+				data_feedback =	{
+					"text": {
+						"text": [
+							feedback
+						]
+					}
+				}
+				data.fulfillmentMessages.append(data_feedback)
 
 		else:
 			data = {}

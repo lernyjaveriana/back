@@ -413,8 +413,8 @@ aria-labelledby="userDropdown">
                         </div>
                         <!-- Card Body -->
                         <div class="card-body">
-                            <div class="chart-pie pt-4">
-                                <canvas id="myPieChart"></canvas>
+                            <div class="chart-bar">
+                                <canvas id="myBarChart"></canvas>
                             </div>
                         </div>
                     </div>
@@ -528,7 +528,7 @@ aria-hidden="true">
         var microlerny_id = $( "#microlerny_select" ).children("option:selected").val();
 
         table.ajax.url( '/api_lerny/lernydetail/?lerny_id=' + lerny_id +'&microlerny_id=' + microlerny_id).load();
-        myPieChart.destroy()
+        myBarChart.destroy()
 
         $.ajax({
           method: 'GET',
@@ -536,16 +536,17 @@ aria-hidden="true">
           success: function(respuesta) {
             var data_pie = respuesta.approved;
 
-            var ctx = document.getElementById("myPieChart");
-            myPieChart = new Chart(ctx, {
+            var ctx = document.getElementById("myBarChart");
+            myBarChart = new Chart(ctx, {
               type: 'bar',
               data: {
                 labels: ["Aprovado", "No Aprovado"],
                 datasets: [{
+                  label: "Porcentaje",
                   data: data_pie,
-                  backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-                  hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
-                  hoverBorderColor: "rgba(234, 236, 244, 1)",
+                  backgroundColor: ['#4e73df', '#1cc88a'],
+                  hoverBackgroundColor: ['#2e59d9', '#17a673'],
+                  borderColor: "#4e73df",
               }],
           },
           options: {
@@ -562,7 +563,35 @@ aria-hidden="true">
           },
           legend: {
               display: false
-          }
+          },
+            scales: {
+              xAxes: [{
+                gridLines: {
+                  display: false,
+                  drawBorder: false
+                },
+                ticks: {
+                  maxTicksLimit: 6
+                },
+                maxBarThickness: 25,
+              }],
+              yAxes: [{
+                ticks: {
+                  min: 0,
+                  max: 100,
+                  maxTicksLimit: 5,
+                  padding: 10,
+                  // Include a dollar sign in the ticks
+                },
+                gridLines: {
+                  color: "rgb(234, 236, 244)",
+                  zeroLineColor: "rgb(234, 236, 244)",
+                  drawBorder: false,
+                  borderDash: [2],
+                  zeroLineBorderDash: [2]
+                }
+              }],
+            },
       },
   });
         },

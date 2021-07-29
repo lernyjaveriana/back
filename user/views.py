@@ -244,7 +244,7 @@ def continueLerny(lerny_active,user_id_obj,user_id):
 		print("Data, description: "+dataDB["description"])
 		media = dataDB["media_type"]
 		previous_text = dataDB["previous_text"]
-		if(previous_text==None):
+		if(previous_text==None or previous_text==''):
 			previous_text="Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"
 		data = {
 			"fulfillmentMessages": [
@@ -756,7 +756,7 @@ class ApiManager(APIView):
 				print("Data, description: "+data["description"])
 				media = data["media_type"]
 				previous_text = data["previous_text"]
-				if(previous_text==None):
+				if(previous_text==None or previous_text==''):
 					previous_text="Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"
 				data = {
 					"fulfillmentMessages": [

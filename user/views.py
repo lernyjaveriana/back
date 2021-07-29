@@ -639,7 +639,7 @@ class ApiManager(APIView):
 			else:
 				user_id_obj = User.objects.get(
 					identification=user_id)
-				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()
+				lerny_active = User_Lerny.objects.get(active=True,user_id=user_id_obj)
 				data=continueLerny(lerny_active.lerny_id,user_id_obj,user_id)
 		# CARGAR ARCHIVO
 		elif(key == "CARGAR_ARCHIVO"):

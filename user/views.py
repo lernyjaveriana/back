@@ -594,6 +594,8 @@ class ApiManager(APIView):
 			if(user_id is None):
 				data=bienvenidaLerny(user_id)
 			else:
+				user_id_obj = User.objects.get(
+					identification=user_id)
 				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()
 				micro_lerny = MicroLerny.objects.filter(lerny=lerny_active.lerny_id)
 				data = MicroLernySerializer(micro_lerny, many=True).data

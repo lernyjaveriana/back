@@ -2,43 +2,71 @@
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
 
-var myPieChart = null
+var myBarChart = null
 
 $.ajax({
   method: 'GET',
   url: '/api_lerny/lernydetail/?lerny_id=-1&microlerny_id=-1',
   success: function(respuesta) {
     var data_pie = respuesta.approved;
+            var ctx = document.getElementById("myBarChart");
+            myBarChart = new Chart(ctx, {
+              type: 'bar',
+              data: {
+                labels: ["Aprovado", "No Aprovado"],
+                datasets: [{
+                  label: "Porcentaje",
+                  data: data_pie,
+                  backgroundColor: ['#4e73df', '#1cc88a'],
+                  hoverBackgroundColor: ['#2e59d9', '#17a673'],
+                  borderColor: "#4e73df",
+              }],
+          },
+          options: {
+            maintainAspectRatio: false,
+            tooltips: {
+              backgroundColor: "rgb(255,255,255)",
+              bodyFontColor: "#858796",
+              borderColor: '#dddfeb',
+              borderWidth: 1,
+              xPadding: 15,
+              yPadding: 15,
+              displayColors: true,
+              caretPadding: 10,
+          },
+          legend: {
+              display: false
+          },
+          scales: {
+            xAxes: [{
+              gridLines: {
+                display: false,
+                drawBorder: false
+              },
+              ticks: {
+                maxTicksLimit: 6
+              },
+              maxBarThickness: 25,
+            }],
+            yAxes: [{
+              ticks: {
+                min: 0,
+                max: 100,
+                maxTicksLimit: 5,
+                padding: 10,
+              },
+              gridLines: {
+                color: "rgb(234, 236, 244)",
+                zeroLineColor: "rgb(234, 236, 244)",
+                drawBorder: false,
+                borderDash: [2],
+                zeroLineBorderDash: [2]
+              }
+            }],
+          },
+      },
+  });
 
-    var ctx = document.getElementById("myPieChart");
-    myPieChart = new Chart(ctx, {
-      type: 'pie',
-      data: {
-        labels: ["Aprovado", "No Aprovado"],
-        datasets: [{
-          data: data_pie,
-          backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-          hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
-          hoverBorderColor: "rgba(234, 236, 244, 1)",
-        }],
-      },
-      options: {
-        maintainAspectRatio: false,
-        tooltips: {
-          backgroundColor: "rgb(255,255,255)",
-          bodyFontColor: "#858796",
-          borderColor: '#dddfeb',
-          borderWidth: 1,
-          xPadding: 15,
-          yPadding: 15,
-          displayColors: true,
-          caretPadding: 10,
-        },
-        legend: {
-          display: false
-        }
-      },
-    });
   },
   error: function() {
         console.log("No se ha podido obtener la información");

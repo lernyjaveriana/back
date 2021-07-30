@@ -9,7 +9,7 @@ class UserLernyAdmin(admin.ModelAdmin):
 
 class Media(admin.ModelAdmin):
     list_display = ("resource_id","content_type")
-    list_filter=("resource_id")
+    list_filter=("resource_id",)
 
 class LernyAdmin(admin.ModelAdmin):
     list_display = ("lerny_name","description", "price")

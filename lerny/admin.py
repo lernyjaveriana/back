@@ -7,9 +7,9 @@ class UserLernyAdmin(admin.ModelAdmin):
     list_display = ("lerny_id","user_id")
     list_filter=("user_id","lerny_id")
 
-class Media(admin.ModelAdmin):
-    list_filter=("resource_id",)
-    list_display = ("resource_id","content_type")
+# class Media(admin.ModelAdmin):
+#     list_filter=("resource_id",)
+#     list_display = ("resource_id","content_type")
 
 class LernyAdmin(admin.ModelAdmin):
     list_display = ("lerny_name","description", "price")

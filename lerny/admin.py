@@ -1,11 +1,15 @@
 from django.contrib import admin
-from .models import Faqs, Faqs_Lerny, Lerny, MicroLerny, TreeMicroLerny, Resource, User_State, User_Resource, User_Lerny, Company, Lerny_Company, User_Micro_Lerny
+from .models import Faqs, Faqs_Lerny, Lerny, MicroLerny, TreeMicroLerny, Resource, User_State, User_Resource, User_Lerny, Company, Lerny_Company, User_Micro_Lerny, Media
 
 # Register your models here
 
 class UserLernyAdmin(admin.ModelAdmin):
     list_display = ("lerny_id","user_id")
     list_filter=("user_id","lerny_id")
+
+class Media(admin.ModelAdmin):
+    list_display = ("resource_id","content_type")
+    list_filter=("resource_id")
 
 class LernyAdmin(admin.ModelAdmin):
     list_display = ("lerny_name","description", "price")
@@ -43,3 +47,4 @@ admin.site.register(Faqs_Lerny,Faqs_Lerny_ResourceAdmin)
 admin.site.register(Company, CompanyAdmin)
 admin.site.register(Lerny_Company)
 admin.site.register(User_Micro_Lerny)
+admin.site.register(Media)

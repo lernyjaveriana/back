@@ -47,7 +47,14 @@ class Resource(models.Model):
 	wrong_answer= models.CharField('Wrong answer', max_length = 200, blank=True)
 	correct_answer_button= models.IntegerField('Correct answer button',default=1, blank=True)
 	def __str__(self):
-		return f'{self.title,self.phase}'
+		return f'{self.title,self.phase,self.microlerny}'
+
+class Media(models.Model):
+	resource_id = models.ForeignKey('resource',on_delete=models.CASCADE, null = False)
+	content_url = models.CharField('content_url', max_length = 100, null=False)
+	content_type = models.CharField('content type', max_length = 200, null=False)
+	def __str__(self):
+		return f'{self.resource_id,self.content_type}'
 class User_Lerny(models.Model):
 	lerny_id = models.ForeignKey(Lerny, on_delete=models.CASCADE, null = False)
 	user_id = models.ForeignKey(User, on_delete=models.CASCADE, null = False)

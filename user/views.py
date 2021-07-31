@@ -183,7 +183,7 @@ def continueLerny(lerny_active,user_id_obj,user_id):
 		# print("Data, description: "+dataDB["description"])
 		media = dataDB["media_type"]
 		previous_text = dataDB["previous_text"]
-		if(previous_text==None):
+		if(previous_text==None or previous_text==''):
 			previous_text="Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"
 		data = {
 			"fulfillmentMessages": [
@@ -200,7 +200,7 @@ def continueLerny(lerny_active,user_id_obj,user_id):
 							"attachment": {
 								"type": media,
 								"payload": {
-									"attachment_id":dataDB["content_url"]
+									"url":dataDB["content_url"]
 								}
 							}
 						}
@@ -244,7 +244,7 @@ def continueLerny(lerny_active,user_id_obj,user_id):
 		print("Data, description: "+dataDB["description"])
 		media = dataDB["media_type"]
 		previous_text = dataDB["previous_text"]
-		if(previous_text==None):
+		if(previous_text==None or previous_text==''):
 			previous_text="Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"
 		data = {
 			"fulfillmentMessages": [
@@ -261,7 +261,7 @@ def continueLerny(lerny_active,user_id_obj,user_id):
 							"attachment": {
 								"type": media,
 								"payload": {
-									"attachment_id":dataDB["content_url"]
+									"url":dataDB["content_url"]
 								}
 							}
 						}
@@ -594,7 +594,9 @@ class ApiManager(APIView):
 			if(user_id is None):
 				data=bienvenidaLerny(user_id)
 			else:
-				lerny_active = User_Lerny.objects.filter(active=True).first()
+				user_id_obj = User.objects.get(
+					identification=user_id)
+				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()
 				micro_lerny = MicroLerny.objects.filter(lerny=lerny_active.lerny_id)
 				data = MicroLernySerializer(micro_lerny, many=True).data
 				i = 0
@@ -639,7 +641,7 @@ class ApiManager(APIView):
 			else:
 				user_id_obj = User.objects.get(
 					identification=user_id)
-				lerny_active = User_Lerny.objects.filter(active=True).first()
+				lerny_active = User_Lerny.objects.get(active=True,user_id=user_id_obj)
 				data=continueLerny(lerny_active.lerny_id,user_id_obj,user_id)
 		# CARGAR ARCHIVO
 		elif(key == "CARGAR_ARCHIVO"):
@@ -756,7 +758,7 @@ class ApiManager(APIView):
 				print("Data, description: "+data["description"])
 				media = data["media_type"]
 				previous_text = data["previous_text"]
-				if(previous_text==None):
+				if(previous_text==None or previous_text==''):
 					previous_text="Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"
 				data = {
 					"fulfillmentMessages": [
@@ -773,7 +775,7 @@ class ApiManager(APIView):
 									"attachment": {
 										"type": media,
 										"payload": {
-											"attachment_id":data["content_url"]
+											"url":data["content_url"]
 										}
 									}
 								}
@@ -826,7 +828,7 @@ class ApiManager(APIView):
 				lerny_next = Lerny.objects.filter(pk=lerny_pk).first()
 				User_Lerny.objects.filter(active=False,user_id=user_id_obj, lerny_id =lerny_next).update(active=True)
 
-				lerny_active = User_Lerny.objects.filter(active=True).first()
+				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()
 
 				data=continueLerny(lerny_active.lerny_id,user_id_obj,user_id)
 		# CARGAR_REQ_MICROLERNY
@@ -946,7 +948,7 @@ class ApiManager(APIView):
 
 				user_id_obj = User.objects.get(
 					identification=user_id)
-				lerny_active = User_Lerny.objects.filter(active=True).first()
+				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()
 				data=continueLerny(lerny_active.lerny_id,user_id_obj,user_id)
 				data_feedback =	{
 					"text": {

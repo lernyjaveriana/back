@@ -134,6 +134,7 @@ class lernyDetail(APIView):
 		lerny_id = int(request.GET["lerny_id"])
 		microlerny_id = int(request.GET["microlerny_id"])
 		list_data = []
+		list_cant_micro = []
 		context = {}
 		approved = 0
 
@@ -158,8 +159,7 @@ class lernyDetail(APIView):
 
 				#selecciono todos los usuarios incritos en el lerny
 				user_lerny = User_Lerny.objects.filter(lerny_id=lerny.pk)
-				#selecciono todos los recursos del lerny que son obligatorios
-				#resource_lerny = Resource.objects.filter(microlerny__lerny__pk=lerny.pk, resource_type="obligatory")
+				#selecciono todos los recursos del lerny
 				resource_lerny = Resource.objects.filter(microlerny__lerny__pk=lerny.pk)
 				if microlerny_id != -1:
 					#Filtro por microlerny
@@ -195,7 +195,15 @@ class lernyDetail(APIView):
 				if user_lerny.count != 0:
 					data_approved = [round(((approved*100)/user_lerny.count()), 2), round((((user_lerny.count()-approved)*100)/user_lerny.count()), 2)]
 
-				context = {'data': list_data, 'approved': data_approved}
+				microlernys = MicroLerny.objects.filter(lerny__pk=lerny.pk)
+				for i in microlernys:
+					data = {}
+					data['microlerny'] = i.micro_lerny_title
+					data['cant'] = user_resource.filter(resource_id__microlerny__pk=i.pk, done=True).order_by('user_id').distinct('user_id').count()
+
+				list_cant_micro.append(data)
+
+				context = {'data': list_data, 'approved': data_approved, 'cant_micro':list_cant_micro}
 				return Response (context)
 		
 				context = {'data': "No tiene una compañia asignada"}

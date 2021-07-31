@@ -13,7 +13,7 @@ $.ajax({
             myBarChart = new Chart(ctx, {
               type: 'bar',
               data: {
-                labels: ["Aprovado", "No Aprovado"],
+                labels: ["Aprobado", "No Aprobado"],
                 datasets: [{
                   label: "Porcentaje",
                   data: data_pie,

@@ -200,8 +200,7 @@ class lernyDetail(APIView):
 					data = {}
 					data['microlerny'] = i.micro_lerny_title
 					data['cant'] = user_resource.filter(resource_id__microlerny__pk=i.pk, done=True).order_by('user_id').distinct('user_id').count()
-
-				list_cant_micro.append(data)
+					list_cant_micro.append(data)
 
 				context = {'data': list_data, 'approved': data_approved, 'cant_micro':list_cant_micro}
 				return Response (context)

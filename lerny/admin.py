@@ -25,7 +25,7 @@ class ResourceAdmin(admin.ModelAdmin):
 
 class User_ResourceAdmin(admin.ModelAdmin):
     list_filter=("user_id",)
-    list_display = ("user_id","resource_id")
+    list_display = ("user_id","resource_id", "done")
 
 class Faqs_Lerny_ResourceAdmin(admin.ModelAdmin):
     list_filter=("lerny_id",)

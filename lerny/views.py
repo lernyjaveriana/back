@@ -192,14 +192,22 @@ class lernyDetail(APIView):
 						approved = approved + 1
 					list_data.append(data)
 					cont = 0
-				if user_lerny.count != 0:
+				if user_lerny.count() != 0:
 					data_approved = [round(((approved*100)/user_lerny.count()), 2), round((((user_lerny.count()-approved)*100)/user_lerny.count()), 2)]
+				else:
+					data_approved = [0, 0]
 
 				microlernys = MicroLerny.objects.filter(lerny__pk=lerny.pk)
 				for i in microlernys:
 					data = {}
+					cant = user_resource.filter(resource_id__microlerny__pk=i.pk, done=True).order_by('user_id').distinct('user_id').count()
 					data['microlerny'] = i.micro_lerny_title
-					data['cant'] = user_resource.filter(resource_id__microlerny__pk=i.pk, done=True).order_by('user_id').distinct('user_id').count()
+					data['cant'] = cant
+					if user_lerny.count()!= 0:
+						data['progress'] = round(((cant*100)/user_lerny.count()), 2)
+					else:
+						data['progress'] = 0
+					
 					list_cant_micro.append(data)
 
 				context = {'data': list_data, 'approved': data_approved, 'cant_micro':list_cant_micro}

@@ -48,5 +48,4 @@ admin.site.register(Faqs_Lerny,Faqs_Lerny_ResourceAdmin)
 admin.site.register(Company, CompanyAdmin)
 admin.site.register(Lerny_Company)
 admin.site.register(User_Micro_Lerny)
-
 admin.site.register(Media,MediaAdmin)

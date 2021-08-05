@@ -32,7 +32,7 @@ class UserLernySerializer(serializers.ModelSerializer):
 		model = User_Lerny
 		fields = '__all__'
 
-class Media(serializers.ModelSerializer):
+class MediaSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Media
 		fields = '__all__'

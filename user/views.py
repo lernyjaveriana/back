@@ -78,25 +78,44 @@ cargarActividad={
 						}
 					]
 				}
+def mediaResponseFormat(resourse):
+	medias = Media.objects.filter(resource_id=resourse).order_by('content_type')
+	template=[]
+	for file in medias:
+		content = MediaSerializer(file).data
+		template.append({
+			"payload": {
+				"facebook": {
+					"attachment": {
+						"type": content["content_type"],
+						"payload": {
+							"url":content["content_url"]
+						}
+					}
+				}
+			}
+		})
+	return template
+		
 
 def continueLerny(lerny_active,user_id_obj,user_id):
-
 	user_state = User_State.objects.filter(user_id=user_id_obj, lerny_id =lerny_active)
 	is_last = False
+	#The user is found in the db
 	if(user_state):
 		user_state = user_state.first()
 		phase = user_state.resource_id.phase
 		resourses = Resource.objects.filter(
 				microlerny=user_state.micro_lerny_id)
 
-		
+		#verifies if the user is still consumming the resources of the actual microlerny
 		if(resourses.count() > int(phase)):
 			resourse = Resource.objects.filter(
-				microlerny=user_state.micro_lerny_id, phase=str(int(phase)+1))
-			user_state.resource_id = resourse.first()
+				microlerny=user_state.micro_lerny_id, phase=str(int(phase)+1)).first()
+			user_state.resource_id = resourse
 			user_state.save()
-			dataDB = ResourceSerializer(resourse.first()).data
-
+			dataDB = ResourceSerializer(resourse).data
+		#verifies if the user completed all the microlerny's resources, then, should search the next microlerny
 		elif(resourses.count() == int(phase)):
 			micro_lerny_id_obj = MicroLerny.objects.get(
 				id=user_state.micro_lerny_id.id)
@@ -180,8 +199,7 @@ def continueLerny(lerny_active,user_id_obj,user_id):
 			]
 		}
 	elif(dataDB["resource_type"] == "consumable" and not is_last):
-		# print("Data, description: "+dataDB["description"])
-		media = dataDB["media_type"]
+		templates=mediaResponseFormat(resourse)
 		previous_text = dataDB["previous_text"]
 		if(previous_text==None or previous_text==''):
 			previous_text="Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"
@@ -194,55 +212,44 @@ def continueLerny(lerny_active,user_id_obj,user_id):
 						]
 					}
 				},
-				{
-					"payload": {
-						"facebook": {
-							"attachment": {
-								"type": media,
-								"payload": {
-									"url":dataDB["content_url"]
-								}
-							}
-						}
-					}
-				},
-				{
-					"payload": {
-						"facebook": {
-							"attachment": {
-								"type": "template",
-								"payload": {
-									"template_type": "generic",
-									"elements": [
+			]
+		}
+		for x in templates:
+			data["fulfillmentMessages"].append(x)
+		data["fulfillmentMessages"].append({
+			"payload": {
+				"facebook": {
+					"attachment": {
+						"type": "template",
+						"payload": {
+							"template_type": "generic",
+							"elements": [
+								{
+									"title": dataDB["title"],
+									"image_url": dataDB["image_url"],
+									"subtitle": dataDB["description"],
+									"buttons": [
 										{
-											"title": dataDB["title"],
-											"image_url": dataDB["image_url"],
-											"subtitle": dataDB["description"],
-											"buttons": [
-												{
-													"type": "postback",
-													"title": "Siguiente recurso",
-													"payload": "CONTINUAR_CURSO"
-												},
-												{
-													"type": "postback",
-													"title": "Salir",
-													"payload": "lerny_farewell"
-												}
-											]
+											"type": "postback",
+											"title": "Siguiente recurso",
+											"payload": "CONTINUAR_CURSO"
+										},
+										{
+											"type": "postback",
+											"title": "Salir",
+											"payload": "lerny_farewell"
 										}
 									]
 								}
-							}
+							]
 						}
 					}
 				}
-			]
-		}
+			}
+		})
 
 	elif(dataDB["resource_type"] == "practical" and not is_last):
-		print("Data, description: "+dataDB["description"])
-		media = dataDB["media_type"]
+		templates=mediaResponseFormat(resourse)
 		previous_text = dataDB["previous_text"]
 		if(previous_text==None or previous_text==''):
 			previous_text="Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"
@@ -255,52 +262,44 @@ def continueLerny(lerny_active,user_id_obj,user_id):
 						]
 					}
 				},
-				{
-					"payload": {
-						"facebook": {
-							"attachment": {
-								"type": media,
-								"payload": {
-									"url":dataDB["content_url"]
-								}
-							}
-						}
-					}
-				},
-				{
-					"payload": {
-						"facebook": {
-							"attachment": {
-								"type": "template",
-								"payload": {
-									"template_type": "generic",
-									"elements": [
+			]
+		}
+		for x in templates:
+			data["fulfillmentMessages"].append(x)
+		
+		data["fulfillmentMessages"].append({
+			"payload": {
+				"facebook": {
+					"attachment": {
+						"type": "template",
+						"payload": {
+							"template_type": "generic",
+							"elements": [
+								{
+									"title": dataDB["title"],
+									"image_url": dataDB["image_url"],
+									"subtitle": dataDB["description"],
+									"buttons": [
 										{
-											"title": dataDB["title"],
-											"image_url": dataDB["image_url"],
-											"subtitle": dataDB["description"],
-											"buttons": [
-												{
-													"type": "postback",
-													"title": "Siguiente recurso",
-													"payload": "CONTINUAR_CURSO"
-												},
-												{
-													"payload": "CARGAR_ARCHIVO" ,
-													"title": "Cargar actividad",
-													"type": "postback"
-												}
-												
-											]
+											"type": "postback",
+											"title": "Siguiente recurso",
+											"payload": "CONTINUAR_CURSO"
+										},
+										{
+											"payload": "CARGAR_ARCHIVO" ,
+											"title": "Cargar actividad",
+											"type": "postback"
 										}
+										
 									]
 								}
-							}
+							]
 						}
 					}
 				}
-			]
-		}
+			}
+		})
+
 	elif(dataDB["resource_type"] == "multiple" and not is_last):
 		print("Data, description: "+dataDB["description"])
 		temp=[]
@@ -740,7 +739,7 @@ class ApiManager(APIView):
 					user_state.resource_id = resourse
 					user_state.micro_lerny_id = micro_lerny
 					user_state.save()
-					data = ResourceSerializer(resourse).data
+					dataDB = ResourceSerializer(resourse).data
 
 				else:
 					lerny_id = lerny_active.lerny_id
@@ -754,10 +753,10 @@ class ApiManager(APIView):
 					user_state.user_id = user_id_obj
 					user_state.resource_id = resourse
 					user_state.save()
-					data = ResourceSerializer(resourse).data
-				print("Data, description: "+data["description"])
-				media = data["media_type"]
-				previous_text = data["previous_text"]
+					dataDB = ResourceSerializer(resourse).data
+				print("Data, description: "+dataDB["description"])
+				templates=mediaResponseFormat(resourse)
+				previous_text = dataDB["previous_text"]
 				if(previous_text==None or previous_text==''):
 					previous_text="Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"
 				data = {
@@ -769,51 +768,41 @@ class ApiManager(APIView):
 								]
 							}
 						},
-						{
-							"payload": {
-								"facebook": {
-									"attachment": {
-										"type": media,
-										"payload": {
-											"url":data["content_url"]
-										}
-									}
-								}
-							}
-						},
-						{
-							"payload": {
-								"facebook": {
-									"attachment": {
-										"type": "template",
-										"payload": {
-											"template_type": "generic",
-											"elements": [
+					]
+				}
+				for x in templates:
+					data["fulfillmentMessages"].append(x)
+				data["fulfillmentMessages"].append({
+					"payload": {
+						"facebook": {
+							"attachment": {
+								"type": "template",
+								"payload": {
+									"template_type": "generic",
+									"elements": [
+										{
+											"title": dataDB["title"],
+											"image_url": dataDB["image_url"],
+											"subtitle": dataDB["description"],
+											"buttons": [
 												{
-													"title": data["title"],
-													"image_url": data["image_url"],
-													"subtitle": data["description"],
-													"buttons": [
-														{
-															"type": "postback",
-															"title": "Siguiente recurso",
-															"payload": "CONTINUAR_CURSO"
-														},
-														{
-															"type": "postback",
-															"title": "Salir",
-															"payload": "lerny_farewell"
-														}
-													]
+													"type": "postback",
+													"title": "Siguiente recurso",
+													"payload": "CONTINUAR_CURSO"
+												},
+												{
+													"type": "postback",
+													"title": "Salir",
+													"payload": "lerny_farewell"
 												}
 											]
 										}
-									}
+									]
 								}
 							}
 						}
-					]
-				}
+					}
+				})
 		# CARGAR_CONTINUAR_LERNY
 		elif(key == "CARGAR_CONTINUAR_LERNY"):
 

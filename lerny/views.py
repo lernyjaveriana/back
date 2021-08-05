@@ -9,6 +9,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from django.db.models import Avg
 
 class CsrfExemptSessionAuthentication(SessionAuthentication):
 
@@ -134,7 +135,12 @@ class lernyDetail(APIView):
 		lerny_id = int(request.GET["lerny_id"])
 		microlerny_id = int(request.GET["microlerny_id"])
 		list_data = []
-		list_cant_micro = []
+		list_info_micro = []
+		list_name_micro = []
+		list_cont_micro = []
+		list_progress_micro = []
+		list_average_micro = []
+
 		context = {}
 		approved = 0
 
@@ -200,7 +206,8 @@ class lernyDetail(APIView):
 				microlernys = MicroLerny.objects.filter(lerny__pk=lerny.pk)
 				for i in microlernys:
 					data = {}
-					cant = user_resource.filter(resource_id__microlerny__pk=i.pk, done=True).order_by('user_id').distinct('user_id').count()
+					######cant = user_resource.filter(resource_id__microlerny__pk=i.pk, done=True).order_by('user_id').distinct('user_id').count()
+					cant = 6
 					data['microlerny'] = i.micro_lerny_title
 					data['cant'] = cant
 					if user_lerny.count()!= 0:
@@ -208,9 +215,22 @@ class lernyDetail(APIView):
 					else:
 						data['progress'] = 0
 					
-					list_cant_micro.append(data)
+					avg = user_resource.filter(resource_id__microlerny__pk=i.pk, done=True).aggregate(average=Avg('points'))
+					data['average'] = avg['average']
+					list_info_micro.append(data)
+					list_name_micro.append(data['microlerny'])
+					list_cont_micro.append(data['cant'])
+					list_progress_micro.append(data['progress'])
+					list_average_micro.append(data['average'])
 
-				context = {'data': list_data, 'approved': data_approved, 'cant_micro':list_cant_micro}
+				context = {	'data': list_data,
+							'approved': data_approved,
+							'info_micro':list_info_micro, 
+							'name_micro':list_name_micro, 
+							'cont_micro':list_cont_micro,
+							'progress_micro': list_progress_micro,
+							'average_micro': list_average_micro,
+						}
 				return Response (context)
 		
 				context = {'data': "No tiene una compañia asignada"}
@@ -222,10 +242,22 @@ class lernyDetail(APIView):
 
 def getLernyList(request):
 
-	lernys = Lerny.objects.all()
+	user = request.user
 	json = []
-	for lerny in lernys:
-		json.append({'pk': lerny.pk, 'name': lerny.lerny_name})
+	
+	try:
+		company = user.company.pk
+	except:
+		company = None
+	
+	if company:
+		lernys = Lerny.objects.filter(lerny_company__company_id=company)
+
+		for lerny in lernys:
+			json.append({'pk': lerny.pk, 'name': lerny.lerny_name})
+	else:
+		json = [{'pk': None, 'name': 'No tiene asignada una compañia'}]
+
 	return JsonResponse(json, safe=False)
 
 @csrf_exempt

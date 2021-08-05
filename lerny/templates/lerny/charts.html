@@ -403,7 +403,10 @@ aria-labelledby="userDropdown">
                       </select>
                       <button class="btn btn-dark" type="button" onclick="filter()">FILTRAR</button>
                   </div>
-                  <div class="col-xl-5 col-lg-6" style="padding: 20px">
+                <div class="row" style="padding: 20px">
+                    <div class="col-xl-4 col-lg-4">
+                    </div>
+                  <div class="col-xl-4 col-lg-4">
 
                     <!-- Donut Chart -->
                     <div class="card shadow mb-4">
@@ -418,10 +421,60 @@ aria-labelledby="userDropdown">
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="col-xl-4 col-lg-4">
+                </div>
+            </div>
+                <div class="row" style="">
+                  <div class="col-xl-4 col-lg-4">
 
+                    <!-- Donut Chart -->
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Dropdown -->
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Estudiantes Módulo Completado</h6>
+                        </div>
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <div class="chart-bar">
+                                <canvas id="myBarChartCant"></canvas>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-
+                <div class="col-xl-4 col-lg-4">
+                    <!-- Donut Chart -->
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Dropdown -->
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">% Avance Promedio Módulo</h6>
+                        </div>
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <div class="chart-bar">
+                                <canvas id="myBarChartProgress"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                
+                </div>
+                <div class="col-xl-4 col-lg-4">
+                    <!-- Donut Chart -->
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Dropdown -->
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Puntaje Promedio Módulo</h6>
+                        </div>
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <div class="chart-bar">
+                                <canvas id="myBarChartAvg"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
                 <!-- DataTales Example -->
                 <div class="card shadow mb-4 table-admin">
                     <div class="card-header py-3">
@@ -528,13 +581,22 @@ aria-hidden="true">
         var microlerny_id = $( "#microlerny_select" ).children("option:selected").val();
 
         table.ajax.url( '/api_lerny/lernydetail/?lerny_id=' + lerny_id +'&microlerny_id=' + microlerny_id).load();
-        myBarChart.destroy()
+        myBarChart.destroy();
+        myBarChartCant.destroy();
+        myBarChartProgress.destroy();
+        myBarChartAvg.destroy();
 
         $.ajax({
           method: 'GET',
           url: '/api_lerny/lernydetail/?lerny_id=' + lerny_id +'&microlerny_id=' + microlerny_id,
           success: function(respuesta) {
             var data_pie = respuesta.approved;
+            var data_micro = respuesta.info_micro;
+            var name_micro = respuesta.name_micro;
+            var cont_micro = respuesta.cont_micro;
+            var progress_micro = respuesta.progress_micro;
+            var average = respuesta.average_micro;
+
 
             var ctx = document.getElementById("myBarChart");
             myBarChart = new Chart(ctx, {
@@ -594,8 +656,176 @@ aria-hidden="true">
             },
       },
   });
+
+    var ctx = document.getElementById("myBarChartCant");
+    myBarChartCant = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: name_micro,
+        datasets: [{
+          label: "# Estudiantes",
+          data: cont_micro,
+          backgroundColor: ['#4e73df'],
+          hoverBackgroundColor: ['#2e59d9'],
+          borderColor: "#4e73df",
+        }],
+      },
+      options: {
+        maintainAspectRatio: false,
+        tooltips: {
+          backgroundColor: "rgb(255,255,255)",
+          bodyFontColor: "#858796",
+          borderColor: '#dddfeb',
+          borderWidth: 1,
+          xPadding: 15,
+          yPadding: 15,
+          displayColors: true,
+          caretPadding: 10,
         },
-        error: function() {
+        legend: {
+          display: false
+        },
+        scales: {
+          xAxes: [{
+            gridLines: {
+              display: false,
+              drawBorder: false
+            },
+            ticks: {
+              maxTicksLimit: 6
+            },
+            maxBarThickness: 25,
+          }],
+          yAxes: [{
+            ticks: {
+              maxTicksLimit: 5,
+              padding: 10,
+            },
+            gridLines: {
+              color: "rgb(234, 236, 244)",
+              zeroLineColor: "rgb(234, 236, 244)",
+              drawBorder: false,
+              borderDash: [2],
+              zeroLineBorderDash: [2]
+            }
+          }],
+        },
+      },
+    });
+
+    var ctx = document.getElementById("myBarChartProgress");
+    myBarChartProgress = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: name_micro,
+        datasets: [{
+          label: "# Estudiantes",
+          data: progress_micro,
+          backgroundColor: ['#4e73df'],
+          hoverBackgroundColor: ['#2e59d9'],
+          borderColor: "#4e73df",
+        }],
+      },
+      options: {
+        maintainAspectRatio: false,
+        tooltips: {
+          backgroundColor: "rgb(255,255,255)",
+          bodyFontColor: "#858796",
+          borderColor: '#dddfeb',
+          borderWidth: 1,
+          xPadding: 15,
+          yPadding: 15,
+          displayColors: true,
+          caretPadding: 10,
+        },
+        legend: {
+          display: false
+        },
+        scales: {
+          xAxes: [{
+            gridLines: {
+              display: false,
+              drawBorder: false
+            },
+            ticks: {
+              maxTicksLimit: 6
+            },
+            maxBarThickness: 25,
+          }],
+          yAxes: [{
+            ticks: {
+              maxTicksLimit: 5,
+              padding: 10,
+            },
+            gridLines: {
+              color: "rgb(234, 236, 244)",
+              zeroLineColor: "rgb(234, 236, 244)",
+              drawBorder: false,
+              borderDash: [2],
+              zeroLineBorderDash: [2]
+            }
+          }],
+        },
+      },
+    });
+
+    var ctx = document.getElementById("myBarChartAvg");
+    myBarChartAvg = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: name_micro,
+        datasets: [{
+          label: "# Estudiantes",
+          data: average,
+          backgroundColor: ['#4e73df'],
+          hoverBackgroundColor: ['#2e59d9'],
+          borderColor: "#4e73df",
+        }],
+      },
+      options: {
+        maintainAspectRatio: false,
+        tooltips: {
+          backgroundColor: "rgb(255,255,255)",
+          bodyFontColor: "#858796",
+          borderColor: '#dddfeb',
+          borderWidth: 1,
+          xPadding: 15,
+          yPadding: 15,
+          displayColors: true,
+          caretPadding: 10,
+        },
+        legend: {
+          display: false
+        },
+        scales: {
+          xAxes: [{
+            gridLines: {
+              display: false,
+              drawBorder: false
+            },
+            ticks: {
+              maxTicksLimit: 6
+            },
+            maxBarThickness: 25,
+          }],
+          yAxes: [{
+            ticks: {
+              maxTicksLimit: 5,
+              padding: 10,
+            },
+            gridLines: {
+              color: "rgb(234, 236, 244)",
+              zeroLineColor: "rgb(234, 236, 244)",
+              drawBorder: false,
+              borderDash: [2],
+              zeroLineBorderDash: [2]
+            }
+          }],
+        },
+      },
+    });
+},
+    error: function() {
             console.log("No se ha podido obtener la información");
         }
     });

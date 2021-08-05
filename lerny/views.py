@@ -206,8 +206,8 @@ class lernyDetail(APIView):
 				microlernys = MicroLerny.objects.filter(lerny__pk=lerny.pk)
 				for i in microlernys:
 					data = {}
-					######cant = user_resource.filter(resource_id__microlerny__pk=i.pk, done=True).order_by('user_id').distinct('user_id').count()
-					cant = 6
+					cant = user_resource.filter(resource_id__microlerny__pk=i.pk, done=True).order_by('user_id').distinct('user_id').count()
+					#cant = 6
 					data['microlerny'] = i.micro_lerny_title
 					data['cant'] = cant
 					if user_lerny.count()!= 0:
@@ -244,7 +244,7 @@ def getLernyList(request):
 
 	user = request.user
 	json = []
-	
+
 	try:
 		company = user.company.pk
 	except:

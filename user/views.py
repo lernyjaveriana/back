@@ -79,7 +79,7 @@ cargarActividad={
 					]
 				}
 def mediaResponseFormat(resourse):
-	medias = Media.objects.filter(resource_id=resourse).order_by('content_type')
+	medias = Media.objects.filter(resource_id=resourse).order_by('position')
 	template=[]
 	for file in medias:
 		content = MediaSerializer(file).data

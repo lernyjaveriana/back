@@ -55,11 +55,11 @@ class UserLoginSerializer(serializers.Serializer):
         if not user:
             try:
                 user = User.objects.get(identification=str(int(float(data['user_document_id']))))
-                if user.identification == user.password:
-                    self.context['user'] = user
-                else:
-                    #print("prueba con el dato identificacion: "+int(float(data['user_document_id'])))
-                    raise serializers.ValidationError('Las credenciales no son válidas')
+                # if user.identification == user.password:
+                self.context['user'] = user
+                # else:
+                #     #print("prueba con el dato identificacion: "+int(float(data['user_document_id'])))
+                #     raise serializers.ValidationError('Las credenciales no son válidas')
             except:
                 print("prueba con el dato identificacion: "+str(int(float(data['user_document_id']))))
                 raise serializers.ValidationError('El usuario no existe')

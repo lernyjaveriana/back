@@ -97,6 +97,20 @@ def mediaResponseFormat(resourse):
 		})
 	return template
 		
+def saveState(lerny_id,micro_lerny,user_id_obj,resourse):
+	user_state_logs = User_State_Logs()
+	user_state_logs.lerny_id = lerny_id
+	user_state_logs.micro_lerny_id = micro_lerny
+	user_state_logs.user_id = user_id_obj
+	user_state_logs.resource_id = resourse
+	user_state_logs.save()
+
+	user_state = User_State()
+	user_state.lerny_id = lerny_id
+	user_state.micro_lerny_id = micro_lerny
+	user_state.user_id = user_id_obj
+	user_state.resource_id = resourse
+	user_state.save()
 
 def continueLerny(lerny_active,user_id_obj,user_id):
 	user_state = User_State.objects.filter(user_id=user_id_obj, lerny_id =lerny_active)
@@ -154,12 +168,8 @@ def continueLerny(lerny_active,user_id_obj,user_id):
 		user_id_obj = User.objects.get(
 			identification=user_id)
 
-		user_state = User_State()
-		user_state.lerny_id = lerny_id
-		user_state.micro_lerny_id = micro_lerny
-		user_state.user_id = user_id_obj
-		user_state.resource_id = resourse
-		user_state.save()
+		saveState(lerny_id,micro_lerny,user_id_obj,resourse)
+
 		dataDB = ResourceSerializer(resourse).data
 	if(is_last):
 
@@ -747,12 +757,9 @@ class ApiManager(APIView):
 					resourse = Resource.objects.get(
 						microlerny=micro_lerny, phase='1')
 
-					user_state = User_State()
-					user_state.lerny_id = lerny_id
-					user_state.micro_lerny_id = micro_lerny
-					user_state.user_id = user_id_obj
-					user_state.resource_id = resourse
-					user_state.save()
+
+					saveState(lerny_id,micro_lerny,user_id_obj,resourse)
+
 					dataDB = ResourceSerializer(resourse).data
 				print("Data, description: "+dataDB["description"])
 				templates=mediaResponseFormat(resourse)

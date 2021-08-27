@@ -174,7 +174,7 @@ class lernyDetail(APIView):
 				cont_resource_lerny = resource_lerny.count()
 				#selecciono todos los registros de recursos obligatorios aprobados por usuarios
 				#user_resource = User_Resource.objects.filter(resource_id__microlerny__lerny__pk=lerny.pk, resource_id__resource_type="obligatory", done=True)
-				user_resource = User_State_Logs.objects.filter(resource_id__microlerny__lerny__pk=lerny.pk)
+				user_resource = User_State_Logs.objects.filter(micro_lerny_id__lerny__pk=lerny.pk)
 				for i in user_lerny:
 					data = {}
 					data['user'] = i.user_id.user_name

@@ -163,7 +163,7 @@ class lernyDetail(APIView):
 					#Muestro el primer lerny asociado a la compañia
 					lerny = Lerny.objects.filter(lerny_company__company_id=company).first()
 
-				#selecciono todos los usuarios incritos en el lerny
+				#selecciono todos los usuarios inscritos en el lerny
 				user_lerny = User_Lerny.objects.filter(lerny_id=lerny.pk)
 				#selecciono todos los recursos del lerny
 				resource_lerny = Resource.objects.filter(microlerny__lerny__pk=lerny.pk)
@@ -174,7 +174,7 @@ class lernyDetail(APIView):
 				cont_resource_lerny = resource_lerny.count()
 				#selecciono todos los registros de recursos obligatorios aprobados por usuarios
 				#user_resource = User_Resource.objects.filter(resource_id__microlerny__lerny__pk=lerny.pk, resource_id__resource_type="obligatory", done=True)
-				user_resource = User_Resource.objects.filter(resource_id__microlerny__lerny__pk=lerny.pk, done=True)
+				user_resource = User_State_Logs.objects.filter(resource_id__microlerny__lerny__pk=lerny.pk)
 				for i in user_lerny:
 					data = {}
 					data['user'] = i.user_id.user_name

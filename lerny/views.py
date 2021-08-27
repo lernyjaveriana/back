@@ -206,8 +206,7 @@ class lernyDetail(APIView):
 				microlernys = MicroLerny.objects.filter(lerny__pk=lerny.pk)
 				for i in microlernys:
 					data = {}
-					cant = user_resource.filter(resource_id__microlerny__pk=i.pk).order_by('user_id').distinct('user_id').count()
-					cant = 6
+					cant = user_resource.filter(micro_lerny_id__pk=i.pk).order_by('user_id').distinct('user_id').count()
 					data['microlerny'] = i.micro_lerny_title
 					data['cant'] = cant
 					if user_lerny.count()!= 0:

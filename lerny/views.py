@@ -179,8 +179,6 @@ class lernyDetail(APIView):
 					data['user'] = i.user_id.user_name
 					data['identification'] = i.user_id.identification
 					cont = user_resource.filter(user_id__pk=i.user_id.pk).count()
-					print('CUENTA DE RECURSOS VISTOS ',cont)
-					print('CUENTA RECURSOS ',cont_resource_lerny)
 					if cont_resource_lerny != 0:
 						if cont == cont_resource_lerny:
 							data['done'] = "Aprobado"
@@ -210,6 +208,8 @@ class lernyDetail(APIView):
 					cant = user_resource.filter(micro_lerny_id__pk=i.pk).order_by('user_id').distinct('user_id').count()
 					data['microlerny'] = i.micro_lerny_title
 					data['cant'] = cant
+					print('CUENTA DE RECURSOS VISTOS ',cant)
+					print('CUENTA RECURSOS ',user_lerny.count())
 					if user_lerny.count()!= 0:
 						data['progress'] = round(((cant*100)/user_lerny.count()), 2)
 					else:

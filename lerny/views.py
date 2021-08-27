@@ -206,7 +206,7 @@ class lernyDetail(APIView):
 				microlernys = MicroLerny.objects.filter(lerny__pk=lerny.pk)
 				for i in microlernys:
 					data = {}
-					cant = user_resource.filter(resource_id__microlerny__pk=i.pk, done=True).order_by('user_id').distinct('user_id').count()
+					cant = user_resource.filter(resource_id__microlerny__pk=i.pk).order_by('user_id').distinct('user_id').count()
 					#cant = 6
 					data['microlerny'] = i.micro_lerny_title
 					data['cant'] = cant
@@ -215,7 +215,7 @@ class lernyDetail(APIView):
 					else:
 						data['progress'] = 0
 					
-					avg = user_resource.filter(resource_id__microlerny__pk=i.pk, done=True).aggregate(average=Avg('points'))
+					avg = user_resource.filter(resource_id__microlerny__pk=i.pk).aggregate(average=Avg('points'))
 					data['average'] = avg['average']
 					list_info_micro.append(data)
 					list_name_micro.append(data['microlerny'])

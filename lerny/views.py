@@ -180,6 +180,7 @@ class lernyDetail(APIView):
 					data['identification'] = i.user_id.identification
 					cont = user_resource.filter(user_id__pk=i.user_id.pk).count()
 					print('CUENTA DE RECURSOS VISTOS ',cont)
+					print('CUENTA RECURSOS ',cont_resource_lerny)
 					if cont_resource_lerny != 0:
 						if cont == cont_resource_lerny:
 							data['done'] = "Aprobado"

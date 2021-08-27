@@ -96,7 +96,15 @@ def mediaResponseFormat(resourse):
 			}
 		})
 	return template
-		
+
+def saveStateLogs(lerny_id,micro_lerny,user_id_obj,resourse):
+	user_state_logs = User_State_Logs()
+	user_state_logs.lerny_id = lerny_id
+	user_state_logs.micro_lerny_id = micro_lerny
+	user_state_logs.user_id = user_id_obj
+	user_state_logs.resource_id = resourse
+	user_state_logs.save()
+
 def saveState(lerny_id,micro_lerny,user_id_obj,resourse):
 	user_state_logs = User_State_Logs()
 	user_state_logs.lerny_id = lerny_id
@@ -127,6 +135,7 @@ def continueLerny(lerny_active,user_id_obj,user_id):
 			resourse = Resource.objects.filter(
 				microlerny=user_state.micro_lerny_id, phase=str(int(phase)+1)).first()
 			user_state.resource_id = resourse
+			saveStateLogs(user_state.lerny_id, user_state.micro_lerny_id, user_state.user_id, user_state.resource_id)
 			user_state.save()
 			dataDB = ResourceSerializer(resourse).data
 		#verifies if the user completed all the microlerny's resources, then, should search the next microlerny
@@ -150,6 +159,7 @@ def continueLerny(lerny_active,user_id_obj,user_id):
 
 				user_state.resource_id = resourse
 				user_state.micro_lerny_id = microlerny_son
+				saveStateLogs(user_state.lerny_id, user_state.micro_lerny_id, user_state.user_id, user_state.resource_id)
 				user_state.save()
 				dataDB = ResourceSerializer(resourse).data
 			else:
@@ -748,6 +758,7 @@ class ApiManager(APIView):
 
 					user_state.resource_id = resourse
 					user_state.micro_lerny_id = micro_lerny
+					saveStateLogs(user_state.lerny_id, user_state.micro_lerny_id, user_state.user_id, user_state.resource_id)
 					user_state.save()
 					dataDB = ResourceSerializer(resourse).data
 

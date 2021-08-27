@@ -213,8 +213,8 @@ class lernyDetail(APIView):
 						data['progress'] = round(((cant*100)/user_lerny.count()), 2)
 					else:
 						data['progress'] = 0
-					user_resource = User_Resource.objects.filter(resource_id__microlerny__lerny__pk=lerny.pk, done=True)
-					avg = user_resource.filter(resource_id__microlerny__pk=i.pk).aggregate(average=Avg('points'))
+					user_resources = User_Resource.objects.filter(resource_id__microlerny__lerny__pk=lerny.pk, done=True)
+					avg = user_resources.filter(resource_id__microlerny__pk=i.pk).aggregate(average=Avg('points'))
 					data['average'] = avg['average']
 					list_info_micro.append(data)
 					list_name_micro.append(data['microlerny'])

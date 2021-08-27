@@ -36,12 +36,15 @@ class CompanyAdmin(admin.ModelAdmin):
     list_display = ("nit","name", "country", "creation_date")
 
 
+
+
 admin.site.register(Lerny,LernyAdmin)
 admin.site.register(User_Lerny,UserLernyAdmin)
 admin.site.register(MicroLerny,MicroLernyAdmin)
 admin.site.register(TreeMicroLerny)
 admin.site.register(Resource,ResourceAdmin)
 admin.site.register(User_State)
+admin.site.register(User_State_Logs)
 admin.site.register(User_Resource,User_ResourceAdmin)
 admin.site.register(Faqs)
 admin.site.register(Faqs_Lerny,Faqs_Lerny_ResourceAdmin)

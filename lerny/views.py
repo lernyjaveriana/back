@@ -173,7 +173,6 @@ class lernyDetail(APIView):
 				#cuento la cantidad de recursos obligatorios que se requieren para aprobar el lerny
 				cont_resource_lerny = resource_lerny.count()
 				#selecciono todos los registros de recursos obligatorios aprobados por usuarios
-				#user_resource = User_Resource.objects.filter(resource_id__microlerny__lerny__pk=lerny.pk, resource_id__resource_type="obligatory", done=True)
 				user_resource = User_State_Logs.objects.filter(micro_lerny_id__lerny__pk=lerny.pk)
 				for i in user_lerny:
 					data = {}
@@ -208,7 +207,7 @@ class lernyDetail(APIView):
 				for i in microlernys:
 					data = {}
 					cant = user_resource.filter(resource_id__microlerny__pk=i.pk).order_by('user_id').distinct('user_id').count()
-					#cant = 6
+					cant = 6
 					data['microlerny'] = i.micro_lerny_title
 					data['cant'] = cant
 					if user_lerny.count()!= 0:

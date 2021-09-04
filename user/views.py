@@ -8,7 +8,8 @@ from .models import User
 from lerny.models import *
 from lerny.serializers import *
 from datetime import datetime
-
+import utils.s3upload as s3upload
+import utils.constants as constants
 
 
 class UserManageGet(APIView):
@@ -673,7 +674,10 @@ class ApiManager(APIView):
 				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()
 				user_state = User_State.objects.filter(user_id=user_id_obj,lerny_id=lerny_active.lerny_id).first()
 				u_resource = User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).first()
-
+				
+				if (response.split(':')[0] == 'https'):
+					response=s3upload.upload_to_s3(response,constants.id_key,constants.access_secret,constants.bucket_name,constants.region,constants.folder)
+				
 				if(u_resource):
 					data = UserResourceSerializer(u_resource).data
 					User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).update(user_response=data['user_response']+' '+response)
@@ -690,7 +694,7 @@ class ApiManager(APIView):
 					
 
 				data = cargarActividad
-		# CARGAR ARCHIVO
+		# LISTAR LERNYS
 		elif(key == "LISTAR_LERNYS"):
 			if(user_id is None):
 				data=bienvenidaLerny(user_id)

@@ -8,8 +8,8 @@ from .models import User
 from lerny.models import *
 from lerny.serializers import *
 from datetime import datetime
-import utils.s3upload as s3upload
-import utils.constants as constants
+import s3upload
+import constants
 
 
 class UserManageGet(APIView):

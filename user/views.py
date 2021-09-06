@@ -142,20 +142,18 @@ def mediaResponseFormat(resourse):
 	return template
 
 def saveStateLogs(lerny_id,micro_lerny,user_id_obj,resourse):
-	user_state_logs = User_State_Logs()
-	user_state_logs.lerny_id = lerny_id
-	user_state_logs.micro_lerny_id = micro_lerny
-	user_state_logs.user_id = user_id_obj
-	user_state_logs.resource_id = resourse
-	user_state_logs.save()
+	logsUserResource =  User_State_Logs.objects.filter(microlerny=micro_lerny,resource_id=resourse, lerny_id=lerny_id,user_id=user_id_obj)
+	if(logsUserResource.count() ==0):	
+		user_state_logs = User_State_Logs()
+		user_state_logs.lerny_id = lerny_id
+		user_state_logs.micro_lerny_id = micro_lerny
+		user_state_logs.user_id = user_id_obj
+		user_state_logs.resource_id = resourse
+		user_state_logs.save()
 
 def saveState(lerny_id,micro_lerny,user_id_obj,resourse):
-	user_state_logs = User_State_Logs()
-	user_state_logs.lerny_id = lerny_id
-	user_state_logs.micro_lerny_id = micro_lerny
-	user_state_logs.user_id = user_id_obj
-	user_state_logs.resource_id = resourse
-	user_state_logs.save()
+
+	saveStateLogs(lerny_id, micro_lerny, user_id_obj, resourse)
 
 	user_state = User_State()
 	user_state.lerny_id = lerny_id
@@ -179,6 +177,7 @@ def continueLerny(lerny_active,user_id_obj,user_id):
 			resourse = Resource.objects.filter(
 				microlerny=user_state.micro_lerny_id, phase=str(int(phase)+1)).first()
 			user_state.resource_id = resourse
+
 			saveStateLogs(user_state.lerny_id, user_state.micro_lerny_id, user_state.user_id, user_state.resource_id)
 			user_state.save()
 			dataDB = ResourceSerializer(resourse).data
@@ -203,6 +202,7 @@ def continueLerny(lerny_active,user_id_obj,user_id):
 
 				user_state.resource_id = resourse
 				user_state.micro_lerny_id = microlerny_son
+
 				saveStateLogs(user_state.lerny_id, user_state.micro_lerny_id, user_state.user_id, user_state.resource_id)
 				user_state.save()
 				dataDB = ResourceSerializer(resourse).data

@@ -142,7 +142,7 @@ def mediaResponseFormat(resourse):
 	return template
 
 def saveStateLogs(lerny_id,micro_lerny,user_id_obj,resourse):
-	logsUserResource =  User_State_Logs.objects.filter(microlerny=micro_lerny,resource_id=resourse, lerny_id=lerny_id,user_id=user_id_obj)
+	logsUserResource =  User_State_Logs.objects.filter(micro_lerny_id=micro_lerny,resource_id=resourse, lerny_id=lerny_id,user_id=user_id_obj)
 	if(logsUserResource.count() ==0):	
 		user_state_logs = User_State_Logs()
 		user_state_logs.lerny_id = lerny_id

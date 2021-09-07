@@ -163,7 +163,7 @@ class lernyDetail(APIView):
 					#Muestro el primer lerny asociado a la compañia
 					lerny = Lerny.objects.filter(lerny_company__company_id=company).first()
 
-				#selecciono todos los usuarios incritos en el lerny
+				#selecciono todos los usuarios inscritos en el lerny
 				user_lerny = User_Lerny.objects.filter(lerny_id=lerny.pk)
 				#selecciono todos los recursos del lerny
 				resource_lerny = Resource.objects.filter(microlerny__lerny__pk=lerny.pk)
@@ -172,9 +172,9 @@ class lernyDetail(APIView):
 					resource_lerny = resource_lerny.filter(microlerny__pk=microlerny_id)
 				#cuento la cantidad de recursos obligatorios que se requieren para aprobar el lerny
 				cont_resource_lerny = resource_lerny.count()
+				print("cont_resource_lerny="+str(cont_resource_lerny))
 				#selecciono todos los registros de recursos obligatorios aprobados por usuarios
-				#user_resource = User_Resource.objects.filter(resource_id__microlerny__lerny__pk=lerny.pk, resource_id__resource_type="obligatory", done=True)
-				user_resource = User_Resource.objects.filter(resource_id__microlerny__lerny__pk=lerny.pk, done=True)
+				user_resource = User_State_Logs.objects.filter(micro_lerny_id__lerny__pk=lerny.pk)
 				for i in user_lerny:
 					data = {}
 					data['user'] = i.user_id.user_name
@@ -206,16 +206,17 @@ class lernyDetail(APIView):
 				microlernys = MicroLerny.objects.filter(lerny__pk=lerny.pk)
 				for i in microlernys:
 					data = {}
-					cant = user_resource.filter(resource_id__microlerny__pk=i.pk, done=True).order_by('user_id').distinct('user_id').count()
-					#cant = 6
+					cant = user_resource.filter(micro_lerny_id__pk=i.pk).order_by('user_id').distinct('user_id').count()
 					data['microlerny'] = i.micro_lerny_title
 					data['cant'] = cant
+					print('CUENTA DE RECURSOS VISTOS ',cant)
+					print('CUENTA RECURSOS ',user_lerny.count())
 					if user_lerny.count()!= 0:
 						data['progress'] = round(((cant*100)/user_lerny.count()), 2)
 					else:
 						data['progress'] = 0
-					
-					avg = user_resource.filter(resource_id__microlerny__pk=i.pk, done=True).aggregate(average=Avg('points'))
+					user_resources = User_Resource.objects.filter(resource_id__microlerny__lerny__pk=lerny.pk, done=True)
+					avg = user_resources.filter(resource_id__microlerny__pk=i.pk).aggregate(average=Avg('points'))
 					data['average'] = avg['average']
 					list_info_micro.append(data)
 					list_name_micro.append(data['microlerny'])

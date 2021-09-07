@@ -9,8 +9,52 @@ from lerny.models import *
 from lerny.serializers import *
 from datetime import datetime
 
+import os
+import boto3
+import wget
+from botocore.exceptions import ClientError
 
 
+id_key = "AKIA4K6QA2LE547NHTXD"
+access_secret= "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"
+bucket_name = "lerny-responses"
+region='us-east-2'
+folder=''
+
+def build_fileurl(bucket_name,region,folder,filename):
+    url = f"https://{bucket_name}.s3.{region}.amazonaws.com/{folder}{filename}"
+    return url
+
+def upload_to_s3(from_url,id_key,access_secret,bucket_name,region,folder):
+
+    filename = wget.download(from_url)
+    print(filename)
+
+    client_s3 =  boto3.client(
+        's3',
+        aws_access_key_id = id_key,
+        aws_secret_access_key = access_secret 
+    )
+
+    data_file_folder= os.getcwd()
+
+    try:
+        print('uploading '+ filename +' to bucket')
+        client_s3.upload_file(
+            os.path.join(data_file_folder,filename),
+            bucket_name,
+            filename
+        )
+    except ClientError as e:
+        print('credentials incorrect')
+        print(e)
+        return e
+    except Exception as e:
+        print(e)
+        return e
+    
+    return build_fileurl(bucket_name,region,folder,filename)
+    
 class UserManageGet(APIView):
 
 	serializers_class = UserSerializer
@@ -96,7 +140,27 @@ def mediaResponseFormat(resourse):
 			}
 		})
 	return template
-		
+
+def saveStateLogs(lerny_id,micro_lerny,user_id_obj,resourse):
+	logsUserResource =  User_State_Logs.objects.filter(microlerny=micro_lerny,resource_id=resourse, lerny_id=lerny_id,user_id=user_id_obj)
+	if(logsUserResource.count() ==0):	
+		user_state_logs = User_State_Logs()
+		user_state_logs.lerny_id = lerny_id
+		user_state_logs.micro_lerny_id = micro_lerny
+		user_state_logs.user_id = user_id_obj
+		user_state_logs.resource_id = resourse
+		user_state_logs.save()
+
+def saveState(lerny_id,micro_lerny,user_id_obj,resourse):
+
+	saveStateLogs(lerny_id, micro_lerny, user_id_obj, resourse)
+
+	user_state = User_State()
+	user_state.lerny_id = lerny_id
+	user_state.micro_lerny_id = micro_lerny
+	user_state.user_id = user_id_obj
+	user_state.resource_id = resourse
+	user_state.save()
 
 def continueLerny(lerny_active,user_id_obj,user_id):
 	user_state = User_State.objects.filter(user_id=user_id_obj, lerny_id =lerny_active)
@@ -113,6 +177,8 @@ def continueLerny(lerny_active,user_id_obj,user_id):
 			resourse = Resource.objects.filter(
 				microlerny=user_state.micro_lerny_id, phase=str(int(phase)+1)).first()
 			user_state.resource_id = resourse
+
+			saveStateLogs(user_state.lerny_id, user_state.micro_lerny_id, user_state.user_id, user_state.resource_id)
 			user_state.save()
 			dataDB = ResourceSerializer(resourse).data
 		#verifies if the user completed all the microlerny's resources, then, should search the next microlerny
@@ -136,6 +202,8 @@ def continueLerny(lerny_active,user_id_obj,user_id):
 
 				user_state.resource_id = resourse
 				user_state.micro_lerny_id = microlerny_son
+
+				saveStateLogs(user_state.lerny_id, user_state.micro_lerny_id, user_state.user_id, user_state.resource_id)
 				user_state.save()
 				dataDB = ResourceSerializer(resourse).data
 			else:
@@ -154,12 +222,8 @@ def continueLerny(lerny_active,user_id_obj,user_id):
 		user_id_obj = User.objects.get(
 			identification=user_id)
 
-		user_state = User_State()
-		user_state.lerny_id = lerny_id
-		user_state.micro_lerny_id = micro_lerny
-		user_state.user_id = user_id_obj
-		user_state.resource_id = resourse
-		user_state.save()
+		saveState(lerny_id,micro_lerny,user_id_obj,resourse)
+
 		dataDB = ResourceSerializer(resourse).data
 	if(is_last):
 
@@ -653,7 +717,10 @@ class ApiManager(APIView):
 				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()
 				user_state = User_State.objects.filter(user_id=user_id_obj,lerny_id=lerny_active.lerny_id).first()
 				u_resource = User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).first()
-
+				print("Response: "+ response)
+				if (response.split(':')[0] == 'https'):
+					response=upload_to_s3(response,id_key,access_secret,bucket_name,region,folder)
+				
 				if(u_resource):
 					data = UserResourceSerializer(u_resource).data
 					User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).update(user_response=data['user_response']+' '+response)
@@ -670,7 +737,7 @@ class ApiManager(APIView):
 					
 
 				data = cargarActividad
-		# CARGAR ARCHIVO
+		# LISTAR LERNYS
 		elif(key == "LISTAR_LERNYS"):
 			if(user_id is None):
 				data=bienvenidaLerny(user_id)
@@ -738,6 +805,7 @@ class ApiManager(APIView):
 
 					user_state.resource_id = resourse
 					user_state.micro_lerny_id = micro_lerny
+					saveStateLogs(user_state.lerny_id, user_state.micro_lerny_id, user_state.user_id, user_state.resource_id)
 					user_state.save()
 					dataDB = ResourceSerializer(resourse).data
 
@@ -747,12 +815,9 @@ class ApiManager(APIView):
 					resourse = Resource.objects.get(
 						microlerny=micro_lerny, phase='1')
 
-					user_state = User_State()
-					user_state.lerny_id = lerny_id
-					user_state.micro_lerny_id = micro_lerny
-					user_state.user_id = user_id_obj
-					user_state.resource_id = resourse
-					user_state.save()
+
+					saveState(lerny_id,micro_lerny,user_id_obj,resourse)
+
 					dataDB = ResourceSerializer(resourse).data
 				print("Data, description: "+dataDB["description"])
 				templates=mediaResponseFormat(resourse)
@@ -864,7 +929,10 @@ class ApiManager(APIView):
 						lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()
 						user_state = User_State.objects.filter(user_id=user_id_obj,lerny_id=lerny_active.lerny_id).first()
 						u_resource = User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).first()
-
+						print("Response: "+ response)
+						if (response.split(':')[0] == 'https'):
+							response=upload_to_s3(response,id_key,access_secret,bucket_name,region,folder)
+						
 						if(u_resource):
 							data = UserResourceSerializer(u_resource).data
 							User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).update(user_response=data['user_response']+' '+response)
@@ -920,7 +988,7 @@ class ApiManager(APIView):
 					feedback = user_state.resource_id.correct_answer
 				if(user_state.resource_id.third_button==response and user_state.resource_id.correct_answer == 3):
 					feedback = user_state.resource_id.correct_answer
-				
+
 				if(u_resource):
 					data = UserResourceSerializer(u_resource).data
 					User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).update(user_response=data['user_response']+'\n'+response)

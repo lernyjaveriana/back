@@ -23,7 +23,8 @@ $.ajax({
         datasets: [{
           label: "# Estudiantes",
           data: cont_micro,
-          hoverBackgroundColor: ['#2e59d9'],
+          backgroundColor: ['#4e73df', '#1cc88a'],
+          hoverBackgroundColor: ['#2e59d9', '#17a673'],
           borderColor: "#4e73df",
         }],
       },
@@ -191,7 +192,8 @@ $.ajax({
         datasets: [{
           label: "Promedio",
           data: average,
-          hoverBackgroundColor: ['#2e59d9'],
+          backgroundColor: ['#4e73df', '#1cc88a'],
+          hoverBackgroundColor: ['#2e59d9', '#17a673'],
           borderColor: "#4e73df",
         }],
       },

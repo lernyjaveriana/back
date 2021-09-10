@@ -54,6 +54,9 @@ $.ajax({
             },
             maxBarThickness: 25,
           }],
+          y: {
+            beginAtZero: true
+          },
           yAxes: [{
             ticks: {
               maxTicksLimit: 5,

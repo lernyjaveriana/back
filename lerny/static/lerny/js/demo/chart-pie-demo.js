@@ -113,6 +113,9 @@ $.ajax({
             },
             maxBarThickness: 25,
           }],
+          y: {
+            beginAtZero: true
+          },
           yAxes: [{
             ticks: {
               min: 0,
@@ -171,6 +174,9 @@ $.ajax({
             },
             maxBarThickness: 25,
           }],
+          y: {
+            beginAtZero: true
+          },
           yAxes: [{
             ticks: {
               maxTicksLimit: 5,
@@ -227,6 +233,9 @@ $.ajax({
             },
             maxBarThickness: 25,
           }],
+          y: {
+            beginAtZero: true
+          },
           yAxes: [{
             ticks: {
               maxTicksLimit: 5,

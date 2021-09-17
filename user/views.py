@@ -589,7 +589,6 @@ class ApiManager(APIView):
 					print("Something else went wrong")
 					user_id=None
 
-
 			request = request.data['queryResult']['parameters']
 			key = request['LERNY_INTENT']
 		# LOGIN
@@ -660,7 +659,7 @@ class ApiManager(APIView):
 				user_id_obj = User.objects.get(
 					identification=user_id)
 				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()
-				micro_lerny = MicroLerny.objects.filter(lerny=lerny_active.lerny_id)
+				micro_lerny = MicroLerny.objects.filter(lerny=lerny_active.lerny_id).order_by('pk')
 				data = MicroLernySerializer(micro_lerny, many=True).data
 				i = 0
 				temp = []

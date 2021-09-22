@@ -93,7 +93,7 @@ cargarActividad={
 											[
 												{
 													"title": "Tu respuesta ha sido guardada, deseas hacer algo más?",
-													"image_url": "https://lerny.co/wp-content/uploads/2020/12/ruta_curso1.jpg",
+													"image_url": "https://lerny.co/wp-content/uploads/2020/12/marca_lerny.jpg",
 													"subtitle": "Para continuar, por favor selecciona una opción.",
 													"buttons":
 													[
@@ -239,7 +239,7 @@ def continueLerny(lerny_active,user_id_obj,user_id):
 									"elements": [
 										{
 											"title": "Has terminado los microlernys asociados al lerny!",
-											"image_url": "https://lerny.co/wp-content/uploads/2020/12/ruta_curso1.jpg",
+											"image_url": "https://lerny.co/wp-content/uploads/2020/12/marca_lerny.jpg",
 											"subtitle": "selecciona una opcion para continuar",
 											"buttons": [
 												{
@@ -450,7 +450,7 @@ def bienvenidaLerny(user_id):
 											[
 												{
 													"title": "Hola " + UserSerializer(user).data["user_name"] + ", un gusto volver a verte!",
-													"image_url": "https://lerny.co/wp-content/uploads/2020/12/titulo_curso.jpg",
+													"image_url": "https://lerny.co/wp-content/uploads/2020/12/marca_lerny.jpg",
 													"subtitle": "Para comenzar por favor selecciona una opción.",
 													"buttons":
 													[

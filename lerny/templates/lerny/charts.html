@@ -150,6 +150,7 @@
         </ul>
         <!-- End of Sidebar -->
 
+
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 
@@ -188,7 +189,7 @@
                                 </div>
                             </div>
                         </form>
-                    </div>
+                        </div>
                 </li>
 
 
@@ -222,193 +223,199 @@ aria-labelledby="userDropdown">
 </div>
 </li>
 
-</ul>
+                    </ul>
 
-</nav>
-<!-- End of Topbar -->
+                </nav>
+                <!-- End of Topbar -->
 
-<!-- Begin Page Content -->
-<div class="container-fluid">
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
 
-    <!-- Page Heading -->
-    {% if not have_company %}
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-      <strong>Compañia no encontrada!</strong> Al parecer no tienes una compañia asignada.
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
-{% endif %}
-<h1 id="lerny_name"  class="h3 mb-2 text-gray-800" align="center">Lerny: PONER NOMBRE DEL LERNY ACA </h1>
-<!--<p class="mb-4">
-    Estado de los usuarios en el Lerny
-</p>-->
-
-<!-- Content Row -->
-<div align="center">
-
-
-                    <!-- Filtros -->
-                    <div align="center">
-                        <select class="form-select" id="lerny_select" aria-label="Default select example">
-                          <option selected value="-1">Todos los Lerny</option>
-                      </select>
-                      <p style="display: none">Microlerny</p>
-                      <select class="form-select" id="microlerny_select" aria-label="Default select example" style="display: none">
-                          <option selected value="-1">Todos los Microlerny</option>
-                      </select>
-                      <button class="btn btn-dark" type="button" onclick="filter()">FILTRAR</button>
-                  </div>
-
-                <div class="row" style="padding: 20px">
-                    <div class="col-xl-4 col-lg-4">
-                    </div>
-                <div class="col-xl-4 col-lg-4">
-
-                <div class="row"></div>
-
-
-                       <!-- DataTales Example -->
-                <div class="card shadow mb-4 table-admin">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-white">Usuarios</h6>
-                    </div>
+                    <!-- Page Heading -->
+                    {% if not have_company %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>Compañia no encontrada!</strong> Al parecer no tienes una compañia asignada.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                
-                <div class="dtsp-verticalContainer">
-                    <div class="container">
-                        <table id="dataTable" class="display nowrap" width="100%">
-                            <thead>
-                                <tr>
-                                    <th>Identificación</th>
-                                    <th>Usuario</th>
-                                    <th>Estado</th>
-                                    <th>Progreso</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                    <div class="dtsp-verticalPanes col-3"></div>
-                </div>
-                    <!-- Donut Chart -->
-                    <div class="card shadow mb-4">
-                        <!-- Card Header - Dropdown -->
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Ususario Aprobados y No Aprobados</h6>
-                        </div>
-                        <!-- Card Body -->
-                        <div class="card-body">
-                            <div class="chart-bar">
-                                <canvas id="myBarChart"></canvas>
+                {% endif %}
+                <h1 id="lerny_name"  class="h3 mb-2 text-gray-800" align="center">Lerny: PONER NOMBRE DEL LERNY ACA </h1>
+                <!--<p class="mb-4">
+                    Estado de los usuarios en el Lerny
+                </p>-->
+
+                <!-- Content Row -->
+                <div align="center">
+
+
+                                    <!-- Filtros -->
+                                    <div align="center">
+                                        <select class="form-select" id="lerny_select" aria-label="Default select example">
+                                        <option selected value="-1">Todos los Lerny</option>
+                                    </select>
+                                    <p style="display: none">Microlerny</p>
+                                    <select class="form-select" id="microlerny_select" aria-label="Default select example" style="display: none">
+                                        <option selected value="-1">Todos los Microlerny</option>
+                                    </select>
+                                    <button class="btn btn-dark" type="button" onclick="filter()">FILTRAR</button>
+                                </div>
+
+                                <div class="row" style="padding: 20px">
+                                    <div class="col-xl-4 col-lg-4">
+                                    </div>
+                                <div class="col-xl-4 col-lg-4">
+
+                                <div class="row"></div>
+
+
+                                    <!-- DataTales Example -->
+                                <div class="card shadow mb-4 table-admin">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-white">Usuarios</h6>
+                                    </div>
+                                </div>
+                                
+                                <div class="dtsp-verticalContainer">
+                                    <div class="container">
+                                        <table id="dataTable" class="display nowrap" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Identificación</th>
+                                                    <th>Usuario</th>
+                                                    <th>Estado</th>
+                                                    <th>Progreso</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                    <div class="dtsp-verticalPanes col-3"></div>
+                                </div>
+                                    <!-- Donut Chart -->
+                                    <div class="card shadow mb-4">
+                                        <!-- Card Header - Dropdown -->
+                                        <div class="card-header py-3">
+                                            <h6 class="m-0 font-weight-bold text-primary">Ususario Aprobados y No Aprobados</h6>
+                                        </div>
+                                        <!-- Card Body -->
+                                        <div class="card-body">
+                                            <div class="chart-bar">
+                                                <canvas id="myBarChart"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-4">
+                                </div>
                             </div>
+
+                        
+
+                                <div class="row">
+                                <div class="col-xl-4 col-lg-4">
+
+                                    <!-- Donut Chart -->
+                                    <div class="card shadow mb-4">
+                                        <!-- Card Header - Dropdown -->
+                                        <div class="card-header py-3">
+                                            <h6 class="m-0 font-weight-bold text-primary">Estudiantes Módulo en progreso/completado</h6>
+                                        </div>
+                                        <!-- Card Body -->
+                                        <div class="card-body">
+                                            <div class="chart-bar">
+                                                <canvas id="myBarChartCant"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-4 col-lg-4">
+                                    <!-- Donut Chart -->
+                                    <div class="card shadow mb-4">
+                                        <!-- Card Header - Dropdown -->
+                                        <div class="card-header py-3">
+                                            <h6 class="m-0 font-weight-bold text-primary">% Estudiantes por módulo</h6>
+                                        </div>
+                                        <!-- Card Body -->
+                                        <div class="card-body">
+                                            <div class="chart-bar">
+                                                <canvas id="myBarChartProgress"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                </div>
+                                <div class="col-xl-4 col-lg-4">
+                                    <!-- Donut Chart -->
+                                    <div class="card shadow mb-4">
+                                        <!-- Card Header - Dropdown -->
+                                        <div class="card-header py-3">
+                                            <h6 class="m-0 font-weight-bold text-primary">Puntaje Promedio Módulo</h6>
+                                        </div>
+                                        <!-- Card Body -->
+                                        <div class="card-body">
+                                            <div class="chart-bar">
+                                                <canvas id="myBarChartAvg"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                                <!-- DataTales Example -->
+                                <div class="card shadow mb-4 table-admin">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-white">Usuarios</h6>
+                                    </div>
+                                </div>
+
+                                <div class="dtsp-verticalContainer">
+                                    <div class="container">
+                                        <table id="dataTable" class="display nowrap" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Identificación</th>
+                                                    <th>Usuario</th>
+                                                    <th>Estado</th>
+                                                    <th>Progreso</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                    <div class="dtsp-verticalPanes col-3"></div>
+                                </div>
+
+
+                            </div>
+
                         </div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-4">
-                </div>
+                        <!-- /.container-fluid -->
+
             </div>
+            <!-- End of Main Content -->
 
-         
-
-                <div class="row">
-                  <div class="col-xl-4 col-lg-4">
-
-                    <!-- Donut Chart -->
-                    <div class="card shadow mb-4">
-                        <!-- Card Header - Dropdown -->
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Estudiantes Módulo en progreso/completado</h6>
-                        </div>
-                        <!-- Card Body -->
-                        <div class="card-body">
-                            <div class="chart-bar">
-                                <canvas id="myBarChartCant"></canvas>
-                            </div>
-                        </div>
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Lerny 2021</span>
                     </div>
                 </div>
-
-                <div class="col-xl-4 col-lg-4">
-                    <!-- Donut Chart -->
-                    <div class="card shadow mb-4">
-                        <!-- Card Header - Dropdown -->
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">% Estudiantes por módulo</h6>
-                        </div>
-                        <!-- Card Body -->
-                        <div class="card-body">
-                            <div class="chart-bar">
-                                <canvas id="myBarChartProgress"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                
-                </div>
-                <div class="col-xl-4 col-lg-4">
-                    <!-- Donut Chart -->
-                    <div class="card shadow mb-4">
-                        <!-- Card Header - Dropdown -->
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Puntaje Promedio Módulo</h6>
-                        </div>
-                        <!-- Card Body -->
-                        <div class="card-body">
-                            <div class="chart-bar">
-                                <canvas id="myBarChartAvg"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-                <!-- DataTales Example -->
-                <div class="card shadow mb-4 table-admin">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-white">Usuarios</h6>
-                    </div>
-                </div>
-
-                <div class="dtsp-verticalContainer">
-                    <div class="container">
-                        <table id="dataTable" class="display nowrap" width="100%">
-                            <thead>
-                                <tr>
-                                    <th>Identificación</th>
-                                    <th>Usuario</th>
-                                    <th>Estado</th>
-                                    <th>Progreso</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                    <div class="dtsp-verticalPanes col-3"></div>
-                </div>
-
-
-            </div>
+            </footer>
+            <!-- End of Footer -->
 
         </div>
-        <!-- /.container-fluid -->
+        <!-- End of Content Wrapper -->
 
     </div>
-    <!-- End of Main Content -->
+    <!-- End of Page Wrapper -->
 
-    <!-- Footer -->
-    <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-            <div class="copyright text-center my-auto">
-                <span>Copyright &copy; Lerny 2021</span>
-            </div>
-        </div>
-    </footer>
-    <!-- End of Footer -->
 
-</div>
-<!-- End of Content Wrapper -->
 
-</div>
-<!-- End of Page Wrapper -->
+
+
+
 
 <!-- Scroll to Top Button-->
 <a class="scroll-to-top rounded" href="#page-top">

@@ -249,11 +249,28 @@
             {% endif %}
             <h1 id="lerny_name"  class="h3 mb-2 text-gray-800" align="center">Lerny: PONER NOMBRE DEL LERNY ACA </h1>
 
+            <!-- Content Row -->
+            <div align="center">
+              
+              <!-- Filtros -->
+              <div align="center">
+                <select class="form-select" id="lerny_select" aria-label="Default select example">
+                    <option selected value="-1">Todos los Lerny</option>
+                </select>
+                <p style="display: none">Microlerny</p>
+                <select class="form-select" id="microlerny_select" aria-label="Default select example" style="display: none">
+                    <option selected value="-1">Todos los Microlerny</option>
+                </select>
+                <button class="btn btn-dark" type="button" onclick="filter()">FILTRAR</button>
+              </div>
+
+            </div>
+
             
           </div> 
           <!-- End Page content -->
       
-          
+
           <!-- Footer -->
           <footer class="sticky-footer bg-white">
               <div class="container my-auto">

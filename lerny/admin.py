@@ -39,13 +39,14 @@ class Group_ResourceAdmin(admin.ModelAdmin):
     list_filter=("lerny_id",)
     list_display = ("Group_name","lerny_id")
 
-class User_Group(admin.ModelAdmin):
+class User_Group_ResourceAdmin(admin.ModelAdmin):
     list_filter=("User_id",)
     list_display = ("Group_id","User_id")
 
 
 
-
+admin.site.register(Group,Group_ResourceAdmin)
+admin.site.register(User_Group,User_Group_ResourceAdmin)
 admin.site.register(Lerny,LernyAdmin)
 admin.site.register(User_Lerny,UserLernyAdmin)
 admin.site.register(MicroLerny,MicroLernyAdmin)

@@ -91,9 +91,11 @@ def ApiStateResource(request):
 				data['resource'] = i.resource_id.title
 				data['user'] = i.user_id.user_name
 				data['identification'] = i.user_id.identification
+				data['Grupo'] = "Grupo 1"
 				data['response'] = i.user_response
 				data['done'] = i.done
 				data['points'] = i.points
+				
 				list_data.append(data)
 			context = list_data
 			return JsonResponse({"data":context}, safe = False)

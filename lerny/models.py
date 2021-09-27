@@ -68,6 +68,7 @@ class User_Lerny(models.Model):
 	pay_date = models.DateTimeField(null=True)
 	last_view_date = models.DateTimeField('last view date', null=True)
 	creation_date = models.DateTimeField('creation date', auto_now_add=True)
+
 	def __str__(self):
 		return f'{self.user_id},{self.lerny_id}'
 class User_Resource(models.Model):
@@ -147,3 +148,17 @@ class Lerny_Company(models.Model):
 	date = models.DateTimeField('date', auto_now_add = True)
 	def __str__(self):
 		return f'{self.lerny_id},{self.company_id}'
+
+class Group(models.Model):
+	Group_name = models.CharField('group name', max_length=50, null=False)
+	lerny_id = models.ForeignKey(Lerny, on_delete=models.CASCADE, null = False)
+	def __str__(self):
+		return f'{self.Group_name},{self.lerny_id}'
+
+
+class User_Group(models.Model):
+	Group_id = models.ForeignKey(Group, on_delete=models.CASCADE, null = False)
+	User_id = models.ForeignKey(User, on_delete=models.CASCADE, null = False)
+	def __str__(self):
+		return f'{self.Group_id},{self.User_id}'
+

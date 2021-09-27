@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Faqs, Faqs_Lerny, Lerny, MicroLerny, TreeMicroLerny, Resource, User_State, User_Resource, User_Lerny, Company, Lerny_Company, User_Micro_Lerny, Media, User_State_Logs
+from .models import Faqs, Faqs_Lerny, Lerny, MicroLerny, TreeMicroLerny, Resource, User_State, User_Resource, User_Lerny, Company, Lerny_Company, User_Micro_Lerny, Media, User_State_Logs, Group, User_Group
 
 # Register your models here
 
@@ -34,6 +34,14 @@ class Faqs_Lerny_ResourceAdmin(admin.ModelAdmin):
 class CompanyAdmin(admin.ModelAdmin):
     list_filter=("nit",)
     list_display = ("nit","name", "country", "creation_date")
+
+class Group_ResourceAdmin(admin.ModelAdmin):
+    list_filter=("lerny_id",)
+    list_display = ("Group_name","lerny_id")
+
+class User_Group(admin.ModelAdmin):
+    list_filter=("User_id",)
+    list_display = ("Group_id","User_id")
 
 
 

@@ -84,12 +84,12 @@ def ApiStateResource(request):
 			lernys = Lerny.objects.filter(lerny_company__company_id=company.pk).values_list("pk", flat=True)
 			user_resources = User_Resource.objects.filter(resource_id__microlerny__lerny__in=lernys).order_by("resource_id__microlerny__lerny__lerny_name")
 			for i in user_resources:
+				data = {}
 				try:
-					User_Group.objects.get(User_id=i.user_id)
-					data['Grupo'] = "Nulls"
+					data['Grupo'] = User_Group.objects.filter(User_id=i.user_id).first()
 				except:
 					data['Grupo'] = "Null"
-				data = {}
+				
 				data['pk'] = '<div align="center"><button type="button" class="btn btn-primary" data-dismiss="modal" onclick="editRow('+str(i.pk)+')">Calificar</button></div>'
 				data['lerny'] = i.resource_id.microlerny.lerny.lerny_name
 				data['microlerny'] = i.resource_id.microlerny.micro_lerny_title

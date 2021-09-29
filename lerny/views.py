@@ -86,7 +86,7 @@ def ApiStateResource(request):
 			for i in user_resources:
 				data = {}
 				try:
-					data['Grupo'] = UserGroupSerializer(User_Group.objects.get(User_id=i.user_id)).data.["Group_id"]
+					data['Grupo'] = UserGroupSerializer(User_Group.objects.get(User_id=i.user_id)).data["Group_id"]
 				except:
 					data['Grupo'] = "Null"
 				

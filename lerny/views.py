@@ -89,7 +89,7 @@ def ApiStateResource(request):
 					group_id=UserGroupSerializer(User_Group.objects.get(User_id=i.user_id)).data["Group_id"]
 					data['Grupo'] = GroupSerializer(Group.objects.get(pk=group_id,lerny_id=i.resource_id.microlerny.lerny.pk)).data["Group_name"]
 				except:
-					data['Grupo'] = "Null"
+					data['Grupo'] = ""
 				
 				data['pk'] = '<div align="center"><button type="button" class="btn btn-primary" data-dismiss="modal" onclick="editRow('+str(i.pk)+')">Calificar</button></div>'
 				data['lerny'] = i.resource_id.microlerny.lerny.lerny_name

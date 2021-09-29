@@ -37,3 +37,13 @@ class MediaSerializer(serializers.ModelSerializer):
 		model = Media
 		fields = '__all__'
 
+class GroupSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Group
+		fields = '__all__'
+
+class UserGroupSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = User_Group
+		fields = '__all__'
+

@@ -300,7 +300,7 @@
                   <div class="card shadow mb-4">
                       <!-- Card Header - Dropdown -->
                       <div class="card-header py-3">
-                          <h6 class="m-0 font-weight-bold text-primary">Estudiantes Módulo en progreso/completado</h6>
+                          <h6 class="m-0 font-weight-bold text-primary">Progeso estudiantes</h6>
                       </div>
                       <!-- Card Body -->
                       <div class="card-body">
@@ -428,7 +428,7 @@
             var progress_micro = respuesta.progress_micro;
             var average = respuesta.average_micro;
 
-
+             //Approved Students chart
             var ctx = document.getElementById("myBarChart");
             myBarChart = new Chart(ctx, {
               type: 'bar',
@@ -488,118 +488,121 @@
       },
   });
 
-    var ctx = document.getElementById("myBarChartCant");
-    myBarChartCant = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: name_micro,
-        datasets: [{
-          label: "# Estudiantes",
-          data: cont_micro,
-          hoverBackgroundColor: ['#2e59d9'],
-          borderColor: "#4e73df",
-        }],
-      },
-      options: {
-        maintainAspectRatio: false,
-        tooltips: {
-          backgroundColor: "rgb(255,255,255)",
-          bodyFontColor: "#858796",
-          borderColor: '#dddfeb',
-          borderWidth: 1,
-          xPadding: 15,
-          yPadding: 15,
-          displayColors: true,
-          caretPadding: 10,
-        },
-        legend: {
-          display: false
-        },
-        scales: {
-          xAxes: [{
-            gridLines: {
-              display: false,
-              drawBorder: false
+            // student progress chart
+            var ctx = document.getElementById("myBarChartCant");
+            myBarChartCant = new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: name_micro,
+              datasets: [{
+                label: "# Estudiantes",
+                data: cont_micro,
+                hoverBackgroundColor: ['#00A3EF'],
+                borderColor: "#E0F4FF",
+              }],
             },
-            ticks: {
-              maxTicksLimit: 6
+            options: {
+              maintainAspectRatio: false,
+              tooltips: {
+                backgroundColor: "#FFFFFF",
+                bodyFontColor: "#858796",
+                borderColor: '#dddfeb',
+                borderWidth: 1,
+                xPadding: 15,
+                yPadding: 15,
+                displayColors: true,
+                caretPadding: 10,
+              },
+              legend: {
+                display: false
+              },
+              scales: {
+                xAxes: [{
+                  gridLines: {
+                    display: false,
+                    drawBorder: false
+                  },
+                  ticks: {
+                    maxTicksLimit: 6
+                  },
+                  maxBarThickness: 25,
+                }],
+                yAxes: [{
+                  ticks: {
+                    maxTicksLimit: 5,
+                    padding: 10,
+                  },
+                  gridLines: {
+                    color: "#000",
+                    zeroLineColor: "#8551F4",
+                    drawBorder: false,
+                    borderDash: [2],
+                    zeroLineBorderDash: [2]
+                  }
+                }],
+              },
             },
-            maxBarThickness: 25,
-          }],
-          yAxes: [{
-            ticks: {
-              maxTicksLimit: 5,
-              padding: 10,
-            },
-            gridLines: {
-              color: "rgb(234, 236, 244)",
-              zeroLineColor: "rgb(234, 236, 244)",
-              drawBorder: false,
-              borderDash: [2],
-              zeroLineBorderDash: [2]
-            }
-          }],
-        },
-      },
-    });
+          });
 
-    var ctx = document.getElementById("myBarChartProgress");
-    myBarChartProgress = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: name_micro,
-        datasets: [{
-          label: "Progreso",
-          data: progress_micro,
-          hoverBackgroundColor: ['#2e59d9'],
-          borderColor: "#4e73df",
-        }],
-      },
-      options: {
-        maintainAspectRatio: false,
-        tooltips: {
-          backgroundColor: "rgb(255,255,255)",
-          bodyFontColor: "#858796",
-          borderColor: '#dddfeb',
-          borderWidth: 1,
-          xPadding: 15,
-          yPadding: 15,
-          displayColors: true,
-          caretPadding: 10,
-        },
-        legend: {
-          display: false
-        },
-        scales: {
-          xAxes: [{
-            gridLines: {
-              display: false,
-              drawBorder: false
-            },
-            ticks: {
-              maxTicksLimit: 6
-            },
-            maxBarThickness: 25,
-          }],
-          yAxes: [{
-            ticks: {
-              maxTicksLimit: 5,
-              padding: 10,
-            },
-            gridLines: {
-              color: "rgb(234, 236, 244)",
-              zeroLineColor: "rgb(234, 236, 244)",
-              drawBorder: false,
-              borderDash: [2],
-              zeroLineBorderDash: [2]
-            }
-          }],
-        },
-      },
-    });
-
-    var ctx = document.getElementById("myBarChartAvg");
-    myBarChartAvg = new Chart(ctx, {
+            //Students per module chart
+            var ctx = document.getElementById("myBarChartProgress");
+            myBarChartProgress = new Chart(ctx, {
+              type: 'bar',
+              data: {
+                labels: name_micro,
+                datasets: [{
+                  label: "Progreso",
+                  data: progress_micro,
+                  hoverBackgroundColor: ['#2e59d9'],
+                  borderColor: "#4e73df",
+                }],
+              },
+              options: {
+                maintainAspectRatio: false,
+                tooltips: {
+                  backgroundColor: "rgb(255,255,255)",
+                  bodyFontColor: "#858796",
+                  borderColor: '#dddfeb',
+                  borderWidth: 1,
+                  xPadding: 15,
+                  yPadding: 15,
+                  displayColors: true,
+                  caretPadding: 10,
+                },
+                legend: {
+                  display: false
+                },
+                scales: {
+                  xAxes: [{
+                    gridLines: {
+                      display: false,
+                      drawBorder: false
+                    },
+                    ticks: {
+                      maxTicksLimit: 6
+                    },
+                    maxBarThickness: 25,
+                  }],
+                  yAxes: [{
+                    ticks: {
+                      maxTicksLimit: 5,
+                      padding: 10,
+                    },
+                    gridLines: {
+                      color: "rgb(234, 236, 244)",
+                      zeroLineColor: "rgb(234, 236, 244)",
+                      drawBorder: false,
+                      borderDash: [2],
+                      zeroLineBorderDash: [2]
+                    }
+                  }],
+                },
+              },
+            });
+            
+            //Average score chart
+            var ctx = document.getElementById("myBarChartAvg");
+            myBarChartAvg = new Chart(ctx, {
       type: 'bar',
       data: {
         labels: name_micro,

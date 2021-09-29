@@ -2060,7 +2060,7 @@ textarea.form-control {
 }
 
 .was-validated .form-check-input:valid ~ .form-check-label, .form-check-input.is-valid ~ .form-check-label {
-  color: #1cc88a;
+  color: #BB86FC;
 }
 
 .was-validated .form-check-input:valid ~ .valid-feedback,

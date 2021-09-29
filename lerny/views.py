@@ -98,6 +98,7 @@ def ApiStateResource(request):
 				data['user'] = i.user_id.user_name
 				data['identification'] = i.user_id.identification
 				data['response'] = i.user_response
+				data['done'] = i.done
 				data['points'] = i.points
 				
 				list_data.append(data)

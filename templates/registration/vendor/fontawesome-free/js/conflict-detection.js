@@ -909,6 +909,7 @@
           return Object.keys(nodesTested.conflict).length + Object.keys(nodesTested.noConflict).length >= testCount;
         }
       }).then(function () {
+        console.info('DONE!');
         setDoneResults({
           nodesTested: nodesTested,
           nodesFound: nodesFound

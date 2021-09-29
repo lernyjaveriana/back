@@ -292,25 +292,6 @@
 
               <div class="row" style="padding: 20px">
 
-                <!-- Approved Students -->
-                <div class="col-xl-6 col-lg-4">
-
-                  <!-- Donut Chart -->
-                  <div class="card shadow mb-4">
-
-                    <!-- Card Header - Dropdown -->
-                    <div class="card-header py-3">
-                          <h6 class="m-0 font-weight-bold text-primary">Ususario Aprobados y No Aprobados</h6>
-                    </div>
-
-                    <!-- Card Body -->
-                    <div class="card-body">
-                          <div class="chart-bar"><canvas id="myBarChart"></canvas></div>
-                    </div>
-
-                  </div>
-
-                </div>
 
                 <!-- student progress-->
                 <div class="col-xl-6 col-lg-4">
@@ -330,29 +311,29 @@
                   </div>
                 </div>
 
+                <!--Students per module -->
+                <div class="col-xl-6 col-lg-4">
+                  <!-- Donut Chart -->
+                  <div class="card shadow mb-4">
+                      <!-- Card Header - Dropdown -->
+                      <div class="card-header py-3">
+                          <h6 class="m-0 font-weight-bold text-primary">% Estudiantes por módulo</h6>
+                      </div>
+                      <!-- Card Body -->
+                      <div class="card-body">
+                          <div class="chart-bar">
+                              <canvas id="myBarChartProgress"></canvas>
+                          </div>
+                      </div>
+                  </div>
+              
+              </div>
+
               </div>
 
 
               <div class="row">
 
-                <!--Students per module -->
-                <div class="col-xl-6 col-lg-4">
-                    <!-- Donut Chart -->
-                    <div class="card shadow mb-4">
-                        <!-- Card Header - Dropdown -->
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">% Estudiantes por módulo</h6>
-                        </div>
-                        <!-- Card Body -->
-                        <div class="card-body">
-                            <div class="chart-bar">
-                                <canvas id="myBarChartProgress"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                
-                </div>
-                
                 <!-- Average score-->
                 <div class="col-xl-6 col-lg-4">
                     <!-- Donut Chart -->
@@ -368,6 +349,26 @@
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <!-- Approved Students -->
+                <div class="col-xl-6 col-lg-4">
+
+                  <!-- Donut Chart -->
+                  <div class="card shadow mb-4">
+
+                    <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3">
+                          <h6 class="m-0 font-weight-bold text-primary">Ususario Aprobados y No Aprobados</h6>
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="card-body">
+                          <div class="chart-bar"><canvas id="myBarChart"></canvas></div>
+                    </div>
+
+                  </div>
+
                 </div>
 
               </div>

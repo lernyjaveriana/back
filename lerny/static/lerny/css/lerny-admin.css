@@ -2040,7 +2040,7 @@ textarea.form-control {
 
 .was-validated .form-control:valid:focus, .form-control.is-valid:focus {
   border-color: #BB86FC;
-  box-shadow: 0 0 0 0.2rem rgba(28, 200, 138, 0.25);
+  box-shadow: 0 0 0 0.2rem #BB86FC;
 }
 
 .was-validated textarea.form-control:valid, textarea.form-control.is-valid {
@@ -2056,7 +2056,7 @@ textarea.form-control {
 
 .was-validated .custom-select:valid:focus, .custom-select.is-valid:focus {
   border-color: #BB86FC;
-  box-shadow: 0 0 0 0.2rem rgba(28, 200, 138, 0.25);
+  box-shadow: 0 0 0 0.2rem #BB86FC;
 }
 
 .was-validated .form-check-input:valid ~ .form-check-label, .form-check-input.is-valid ~ .form-check-label {
@@ -2083,7 +2083,7 @@ textarea.form-control {
 }
 
 .was-validated .custom-control-input:valid:focus ~ .custom-control-label::before, .custom-control-input.is-valid:focus ~ .custom-control-label::before {
-  box-shadow: 0 0 0 0.2rem rgba(28, 200, 138, 0.25);
+  box-shadow: 0 0 0 0.2rem #BB86FC;
 }
 
 .was-validated .custom-control-input:valid:focus:not(:checked) ~ .custom-control-label::before, .custom-control-input.is-valid:focus:not(:checked) ~ .custom-control-label::before {
@@ -2096,7 +2096,7 @@ textarea.form-control {
 
 .was-validated .custom-file-input:valid:focus ~ .custom-file-label, .custom-file-input.is-valid:focus ~ .custom-file-label {
   border-color: #BB86FC;
-  box-shadow: 0 0 0 0.2rem rgba(28, 200, 138, 0.25);
+  box-shadow: 0 0 0 0.2rem #BB86FC;
 }
 
 .invalid-feedback {

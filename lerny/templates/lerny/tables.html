@@ -22,73 +22,96 @@
     <!-- Custom styles for this page -->
     <link href="{% static 'lerny/vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
 
-        <!-- searchPanes -->
+    <!-- searchPanes -->
     <link rel="stylesheet" href="https://cdn.datatables.net/searchpanes/1.0.1/css/searchPanes.dataTables.min.css">
+    
     <!-- select -->
     <link href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
 
     <style type="text/css">
-        div.dtsp-verticalContainer{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-content: flex-start;
-    align-items: flex-start;
-}
+
+    div.dtsp-verticalContainer{
+
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            align-content: flex-start;
+            align-items: flex-start;
+        }
  
-div.dtsp-verticalContainer div.dtsp-verticalPanes,
-div.dtsp-verticalContainer div.container{
-    width: 5%;
-    flex-grow: 0;
-    flex-shrink: 0;
-    flex-basis: 0;
-}
- 
-div.dtsp-verticalContainer div.dtsp-verticalPanes{
-    flex-grow: 1;
-    flex-shrink: 0;
-    flex-basis: 26%;
-}
- 
-div.dtsp-verticalPanes {
-    margin-right: 20px;
-}
- 
-div.dtsp-title {
-    margin-right: 0px !important;
-    margin-top: 13px !important;
-}
- 
-input.dtsp-search {
-    min-width: 0px !important;
-    padding-left: 0px !important;
-    margin: 0px !important;
-}
- 
-div.dtsp-verticalContainer div.dtsp-verticalPanes div.dtsp-searchPanes{
-    flex-direction: column;
-    flex-basis: 0px;
-}
- 
-div.dtsp-verticalContainer div.dtsp-verticalPanes div.dtsp-searchPanes div.dtsp-searchPane{
-    flex-basis: 0px;
-}
- 
-div.dtsp-verticalContainer div.container{
-    flex-grow: 1;
-    flex-shrink: 0;
-    flex-basis: 80%;
-}
- 
-div.dtsp-panesContainer {
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    padding: 5px;
-}
+    div.dtsp-verticalContainer div.dtsp-verticalPanes,
+    div.dtsp-verticalContainer div.container{
+        width: 5%;
+        flex-grow: 0;
+        flex-shrink: 0;
+        flex-basis: 0;
+    }
+    
+    div.dtsp-verticalContainer div.dtsp-verticalPanes{
+        flex-grow: 1;
+        flex-shrink: 0;
+        flex-basis: 26%;
+    }
+    
+    div.dtsp-verticalPanes {
+        margin-right: 20px;
+    }
+    
+    div.dtsp-title {
+        margin-right: 0px !important;
+        margin-top: 13px !important;
+    }
+    
+    input.dtsp-search {
+        min-width: 0px !important;
+        padding-left: 0px !important;
+        margin: 0px !important;
+    }
+    
+    div.dtsp-verticalContainer div.dtsp-verticalPanes div.dtsp-searchPanes{
+        flex-direction: column;
+        flex-basis: 0px;
+    }
+    
+    div.dtsp-verticalContainer div.dtsp-verticalPanes div.dtsp-searchPanes div.dtsp-searchPane{
+        flex-basis: 0px;
+    }
+    
+    div.dtsp-verticalContainer div.container{
+        flex-grow: 1;
+        flex-shrink: 0;
+        flex-basis: 80%;
+    }
+    
+    div.dtsp-panesContainer {
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        padding: 5px;
+    }
     </style>
+
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{% static 'lerny/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'lerny/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{% static 'lerny/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'lerny/js/admin-lerny.js' %}"></script>
+
+    <!-- Page level plugins -->
+    <script src="{% static 'lerny/vendor/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'lerny/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+
+    <!-- searchPanes   -->
+    <script src="https://cdn.datatables.net/searchpanes/1.3.0/js/dataTables.searchPanes.min.js"></script>
+    <!-- select -->
+    <script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script> 
 
 </head>
 
@@ -213,6 +236,8 @@ div.dtsp-panesContainer {
 
                 </nav>
                 <!-- End of Topbar -->
+
+
                 <div class="container-fluid my-5 px-5">
                 <!-- Begin Page Content -->
                 {% if not have_company %}
@@ -223,9 +248,10 @@ div.dtsp-panesContainer {
                     </button>
                 </div>
                 {% endif %}
+
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Tabla general de Usuarios</h1>
-                    <!--<p class="mb-4"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque qui provident deleniti sapiente! In ea libero, minima sunt quos animi nam eveniet, officia beatae dicta neque doloremque totam illo quia.</p> -->
+                    
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4 table-admin">
@@ -233,6 +259,8 @@ div.dtsp-panesContainer {
                             <h6 class="m-0 font-weight-bold text-white">Usuarios</h6>
                         </div>
                     </div>
+
+                    <!-- Columns Table-->
                     <div class="demo-html">
                         <div class="dtsp-verticalContainer">
                             <div class="dtsp-verticalPanes col-3"></div>
@@ -333,24 +361,7 @@ div.dtsp-panesContainer {
   </div>
 </div>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="{% static 'lerny/vendor/jquery/jquery.min.js' %}"></script>
-    <script src="{% static 'lerny/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="{% static 'lerny/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="{% static 'lerny/js/admin-lerny.js' %}"></script>
-
-    <!-- Page level plugins -->
-    <script src="{% static 'lerny/vendor/datatables/jquery.dataTables.min.js' %}"></script>
-    <script src="{% static 'lerny/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
-
-    <!-- searchPanes   -->
-    <script src="https://cdn.datatables.net/searchpanes/1.3.0/js/dataTables.searchPanes.min.js"></script>
-    <!-- select -->
-    <script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script> 
+    
 
     <script type="text/javascript">
 

@@ -9781,8 +9781,8 @@ a:focus {
   width: 2.75rem;
   height: 2.75rem;
   text-align: center;
-  color: #fff;
-  background: rgba(90, 92, 105, 0.5);
+  color: #000;
+  background: #001844;
   line-height: 46px;
 }
 

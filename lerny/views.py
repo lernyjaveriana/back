@@ -83,9 +83,7 @@ def ApiStateResource(request):
 			#filtro todos los lernys que pertenecen a la empresa que se encuentra asignado el colaborador
 			lernys = Lerny.objects.filter(lerny_company__company_id=company.pk).values_list("pk", flat=True)
 			user_resources = User_Resource.objects.filter(resource_id__microlerny__lerny__in=lernys).order_by("resource_id__microlerny__lerny__lerny_name")
-			p=0
 			for i in user_resources:
-				p=p+1
 				data = {}
 				data['pk'] = '<div align="center"><button type="button" class="btn btn-primary" data-dismiss="modal" onclick="editRow('+str(i.pk)+')">Calificar</button></div>'
 				data['lerny'] = i.resource_id.microlerny.lerny.lerny_name
@@ -93,9 +91,7 @@ def ApiStateResource(request):
 				data['resource'] = i.resource_id.title
 				data['user'] = i.user_id.user_name
 				data['identification'] = i.user_id.identification
-				data['Grupo'] = "Grupo "+str(p)
-				if(p==2):
-					data['Grupo'] = "Medellin "
+				data['Grupo'] = User_Group.objects.get(User_id=i.user_id).Group_id.Group_name
 				data['response'] = i.user_response
 				data['done'] = i.done
 				data['points'] = i.points

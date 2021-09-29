@@ -85,7 +85,7 @@ def ApiStateResource(request):
 			user_resources = User_Resource.objects.filter(resource_id__microlerny__lerny__in=lernys).order_by("resource_id__microlerny__lerny__lerny_name")
 			for i in user_resources:
 				try:
-					User_Group.objects.get(User_id=i.user_id).first()
+					User_Group.objects.get(User_id=i.user_id)
 					data['Grupo'] = "Nulls"
 				except:
 					data['Grupo'] = "Null"

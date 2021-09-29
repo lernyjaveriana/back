@@ -140,28 +140,28 @@
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'detail' %}">
-                    <i class="fas fa-fw fa-home"></i>
+                    <i class="fas fa-tasks"></i>
                     <span>Entregables</span></a>
                 </li>
 
 
-        <!-- Divider -->
-        <hr class="sidebar-divider">
+            <!-- Divider -->
+            <hr class="sidebar-divider">
 
-        <!-- Nav Item - Charts -->
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'charts' %}">
-                <i class="fas fa-fw fa-chart-area"></i>
-                <span>Progreso</span></a>
+            <!-- Nav Item - Charts -->
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'charts' %}">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>Progreso</span></a>
             </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
             <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
+            <!-- <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
+            </div> -->
 
         </ul>
         <!-- End of Sidebar -->
@@ -603,58 +603,58 @@
             //Average score chart
             var ctx = document.getElementById("myBarChartAvg");
             myBarChartAvg = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: name_micro,
-        datasets: [{
-          label: "Promedio",
-          data: average,
-          hoverBackgroundColor: ['#2e59d9'],
-          borderColor: "#4e73df",
-        }],
-      },
-      options: {
-        maintainAspectRatio: false,
-        tooltips: {
-          backgroundColor: "rgb(255,255,255)",
-          bodyFontColor: "#858796",
-          borderColor: '#dddfeb',
-          borderWidth: 1,
-          xPadding: 15,
-          yPadding: 15,
-          displayColors: true,
-          caretPadding: 10,
-        },
-        legend: {
-          display: false
-        },
-        scales: {
-          xAxes: [{
-            gridLines: {
-              display: false,
-              drawBorder: false
+            type: 'bar',
+            data: {
+              labels: name_micro,
+              datasets: [{
+                label: "Promedio",
+                data: average,
+                hoverBackgroundColor: ['#2e59d9'],
+                borderColor: "#4e73df",
+              }],
             },
-            ticks: {
-              maxTicksLimit: 6
+            options: {
+              maintainAspectRatio: false,
+              tooltips: {
+                backgroundColor: "rgb(255,255,255)",
+                bodyFontColor: "#858796",
+                borderColor: '#dddfeb',
+                borderWidth: 1,
+                xPadding: 15,
+                yPadding: 15,
+                displayColors: true,
+                caretPadding: 10,
+              },
+              legend: {
+                display: false
+              },
+              scales: {
+                xAxes: [{
+                  gridLines: {
+                    display: false,
+                    drawBorder: false
+                  },
+                  ticks: {
+                    maxTicksLimit: 6
+                  },
+                  maxBarThickness: 25,
+                }],
+                yAxes: [{
+                  ticks: {
+                    maxTicksLimit: 5,
+                    padding: 10,
+                  },
+                  gridLines: {
+                    color: "rgb(234, 236, 244)",
+                    zeroLineColor: "rgb(234, 236, 244)",
+                    drawBorder: false,
+                    borderDash: [2],
+                    zeroLineBorderDash: [2]
+                  }
+                }],
+              },
             },
-            maxBarThickness: 25,
-          }],
-          yAxes: [{
-            ticks: {
-              maxTicksLimit: 5,
-              padding: 10,
-            },
-            gridLines: {
-              color: "rgb(234, 236, 244)",
-              zeroLineColor: "rgb(234, 236, 244)",
-              drawBorder: false,
-              borderDash: [2],
-              zeroLineBorderDash: [2]
-            }
-          }],
-        },
-      },
-    });
+          });
 },
     error: function() {
             console.log("No se ha podido obtener la información");

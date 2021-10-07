@@ -8,7 +8,7 @@ from .models import User
 from lerny.models import *
 from lerny.serializers import *
 from datetime import datetime
-import json
+
 import os
 import boto3
 import wget
@@ -534,8 +534,7 @@ class ApiManager(APIView):
 	
 	def post(self, request):
 		print("request")
-		entire_json=json.loads(str(request))
-		print(json.dumps(entire_json, indent=4, sort_keys=True))
+		print(str(request))	
 		print("request.data")
 		print(request.data)	
 		print("request.data.intent.displayname")

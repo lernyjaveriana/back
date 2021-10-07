@@ -213,7 +213,7 @@ class lernyDetail(APIView):
 				for i in microlernys:
 					data = {}
 					cant = user_resource.filter(micro_lerny_id__pk=i.pk).order_by('user_id').distinct('user_id').count()
-					data['microlerny'] = i.micro_lerny_title
+					data['microlerny'] = i.micro_lerny_subtitle
 					data['cant'] = cant
 					print('CUENTA DE RECURSOS VISTOS ',cant)
 					print('CUENTA RECURSOS ',user_lerny.count())

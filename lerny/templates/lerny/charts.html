@@ -2,146 +2,177 @@
 
 {% block content %}
 
+  <div id="wrapper">
 
-  <h1 id="lerny_name"  class="h3 mb-2 py-3 text-gray-800" align="center">Lerny: PONER NOMBRE DEL LERNY ACA </h1>
-
-  <!-- Page Heading -->
-  {% if not have_company %}
-  <div class="alert alert-warning alert-dismissible fade show" role="alert">
-  <strong>Compañia no encontrada!</strong> Al parecer no tienes una compañia asignada.
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-  </button>
-  </div>
-  {% endif %}
+    <!-- SideBar -->
+    {% include 'partials/sidebar.html' %}
 
 
-  <!-- DataTales Example -->
-  <div class="card shadow mb-4 table-admin">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-white"  align="center" >Usuarios</h6>
-    </div>
-  </div>
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
 
-  <div class="dtsp-verticalContainer">
-      <div class="container">
-          <table id="dataTable" class="display nowrap" width="100%">
-              <thead>
-                  <tr>
-                      <th>Identificación</th>
-                      <th>Usuario</th>
-                      <th>Estado</th>
-                      <th>Progreso</th>
-                  </tr>
-              </thead>
-          </table>
-      </div>
-      <!-- <div class="dtsp-verticalPanes col-3"></div> -->
-  </div>
+        <!-- Main Content -->
+        <div id="content">
 
+            <!-- NavBar -->
+            {% include 'partials/navbar.html' %}  
 
-  <!-- Content Row -->
-  <div align="center">
-
-    <!-- Filtros -->
-    <div align="center" class="pt-5 pb-3">
-      <select class="form-select" id="lerny_select" aria-label="Default select example">
-          <option selected value="-1">Todos los Lerny</option>
-      </select>
-      <p style="display: none">Microlerny</p>
-      <select class="form-select" id="microlerny_select" aria-label="Default select example" style="display: none">
-          <option selected value="-1">Todos los Microlerny</option>
-      </select>
-      <button class="btn btn-dark" type="button" onclick="filter()">FILTRAR</button>
-    </div>
-
-    <!-- First Row of Charts -->
-    <div class="row" style="padding: 20px">
-
-      <!-- student progress-->
-      <div class="col-xl-6 col-lg-4">
-    
-        <!-- Donut Chart -->
-        <div class="card shadow mb-4">
-            <!-- Card Header - Dropdown -->
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Progeso estudiantes</h6>
-            </div>
-            <!-- Card Body -->
-            <div class="card-body">
-                <div class="chart-bar">
-                    <canvas id="myBarChartCant"></canvas>
-                </div>
-            </div>
         </div>
-      </div>
 
-      <!--Students per module -->
-      <div class="col-xl-6 col-lg-4">
-        <!-- Donut Chart -->
-        <div class="card shadow mb-4">
-            <!-- Card Header - Dropdown -->
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <h1 id="lerny_name"  class="h3 mb-2 py-3 text-gray-800" align="center">Lerny: PONER NOMBRE DEL LERNY ACA </h1>
+
+          <!-- Page Heading -->
+          {% if not have_company %}
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <strong>Compañia no encontrada!</strong> Al parecer no tienes una compañia asignada.
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+          </div>
+          {% endif %}
+        
+        
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4 table-admin">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">% Estudiantes por módulo</h6>
+                <h6 class="m-0 font-weight-bold text-white"  align="center" >Usuarios</h6>
             </div>
-            <!-- Card Body -->
-            <div class="card-body">
-                <div class="chart-bar">
-                    <canvas id="myBarChartProgress"></canvas>
-                </div>
-            </div>
-        </div>
-    
-      </div>
-
-    </div>
-
-    <!-- Second Row of Charts -->
-    <div class="row">
-
-      <!-- Average score-->
-      <div class="col-xl-6 col-lg-4">
-          <!-- Donut Chart -->
-          <div class="card shadow mb-4">
-              <!-- Card Header - Dropdown -->
-              <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Puntaje Promedio Módulo</h6>
+          </div>
+        
+          <div class="dtsp-verticalContainer">
+              <div class="container">
+                  <table id="dataTable" class="display nowrap" width="100%">
+                      <thead>
+                          <tr>
+                              <th>Identificación</th>
+                              <th>Usuario</th>
+                              <th>Estado</th>
+                              <th>Progreso</th>
+                          </tr>
+                      </thead>
+                  </table>
               </div>
-              <!-- Card Body -->
-              <div class="card-body">
-                  <div class="chart-bar">
-                      <canvas id="myBarChartAvg"></canvas>
+              <!-- <div class="dtsp-verticalPanes col-3"></div> -->
+          </div>
+        
+        
+          <!-- Content Row -->
+          <div align="center">
+        
+            <!-- Filtros -->
+            <div align="center" class="pt-5 pb-3">
+              <select class="form-select" id="lerny_select" aria-label="Default select example">
+                  <option selected value="-1">Todos los Lerny</option>
+              </select>
+              <p style="display: none">Microlerny</p>
+              <select class="form-select" id="microlerny_select" aria-label="Default select example" style="display: none">
+                  <option selected value="-1">Todos los Microlerny</option>
+              </select>
+              <button class="btn btn-dark" type="button" onclick="filter()">FILTRAR</button>
+            </div>
+        
+            <!-- First Row of Charts -->
+            <div class="row" style="padding: 20px">
+        
+              <!-- student progress-->
+              <div class="col-xl-6 col-lg-4">
+            
+                <!-- Donut Chart -->
+                <div class="card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Progeso estudiantes</h6>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <div class="chart-bar">
+                            <canvas id="myBarChartCant"></canvas>
+                        </div>
+                    </div>
+                </div>
+              </div>
+        
+              <!--Students per module -->
+              <div class="col-xl-6 col-lg-4">
+                <!-- Donut Chart -->
+                <div class="card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">% Estudiantes por módulo</h6>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <div class="chart-bar">
+                            <canvas id="myBarChartProgress"></canvas>
+                        </div>
+                    </div>
+                </div>
+            
+              </div>
+        
+            </div>
+        
+            <!-- Second Row of Charts -->
+            <div class="row">
+        
+              <!-- Average score-->
+              <div class="col-xl-6 col-lg-4">
+                  <!-- Donut Chart -->
+                  <div class="card shadow mb-4">
+                      <!-- Card Header - Dropdown -->
+                      <div class="card-header py-3">
+                          <h6 class="m-0 font-weight-bold text-primary">Puntaje Promedio Módulo</h6>
+                      </div>
+                      <!-- Card Body -->
+                      <div class="card-body">
+                          <div class="chart-bar">
+                              <canvas id="myBarChartAvg"></canvas>
+                          </div>
+                      </div>
                   </div>
               </div>
-          </div>
-      </div>
-
-      <!-- Approved Students -->
-      <div class="col-xl-6 col-lg-4">
-
-        <!-- Donut Chart -->
-        <div class="card shadow mb-4">
-
-          <!-- Card Header - Dropdown -->
-          <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Ususario Aprobados y No Aprobados</h6>
-          </div>
-
-          <!-- Card Body -->
-          <div class="card-body">
-                <div class="chart-bar"><canvas id="myBarChart"></canvas></div>
+        
+              <!-- Approved Students -->
+              <div class="col-xl-6 col-lg-4">
+        
+                <!-- Donut Chart -->
+                <div class="card shadow mb-4">
+        
+                  <!-- Card Header - Dropdown -->
+                  <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Ususario Aprobados y No Aprobados</h6>
+                  </div>
+        
+                  <!-- Card Body -->
+                  <div class="card-body">
+                        <div class="chart-bar"><canvas id="myBarChart"></canvas></div>
+                  </div>
+        
+                </div>
+        
+              </div>
+        
+            </div>
+        
+        
           </div>
 
         </div>
 
-      </div>
+        <!-- Footer -->
+        {% include 'partials/footer.html' %}
 
     </div>
 
-
   </div>
 
-<script type="text/javascript">
+
+  
+
+  <script type="text/javascript">
 
     var table = null
 
@@ -166,7 +197,7 @@
             var progress_micro = respuesta.progress_micro;
             var average = respuesta.average_micro;
 
-             //Approved Students chart
+              //Approved Students chart
             var ctx = document.getElementById("myBarChart");
             myBarChart = new Chart(ctx, {
               type: 'bar',
@@ -393,7 +424,7 @@
               },
             },
           });
-},
+  },
     error: function() {
             console.log("No se ha podido obtener la información");
         }
@@ -463,7 +494,7 @@
         }
     });
 
-</script>
+  </script>
 
 
 

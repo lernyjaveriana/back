@@ -1,151 +1,409 @@
-{% extends 'base.html' %} 
-
+<!DOCTYPE html>
+<html lang="es">
 {% load static %}
+<head>
 
-{% block title %} | Progress {% endblock %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-{% block content %}
+    <title>Lerny</title>
 
-  <h1 id="lerny_name"  class="h3 mb-2 py-3 text-gray-800" align="center">Lerny: PONER NOMBRE DEL LERNY ACA </h1>
+    <!-- Custom fonts for this template-->
+    <link href="{% static 'lerny/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link
+    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet">
 
-  <!-- Page Heading -->
-  {% if not have_company %}
-  <div class="alert alert-warning alert-dismissible fade show" role="alert">
-  <strong>Compañia no encontrada!</strong> Al parecer no tienes una compañia asignada.
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-  </button>
-  </div>
-  {% endif %}
+    <!-- Custom styles for this template-->
+    <link href="{% static 'lerny/css/lerny-admin.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'lerny/css/lerny-admin.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+    <link href="{% static 'lerny/vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+
+    <!-- searchPanes -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/searchpanes/1.0.1/css/searchPanes.dataTables.min.css">
+    <!-- select -->
+    <link href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{% static 'lerny/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'lerny/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{% static 'lerny/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'lerny/js/admin-lerny.js' %}"></script>
+
+    <!-- Page level plugins -->
+    <script src="{% static 'lerny/vendor/chart.js/Chart.min.js' %}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{% static 'lerny/js/demo/chart-pie-demo.js' %}"></script>
+
+    <!-- Page level plugins -->
+    <script src="{% static 'lerny/vendor/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'lerny/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+
+    <!-- searchPanes   -->
+    <script src="https://cdn.datatables.net/searchpanes/1.3.0/js/dataTables.searchPanes.min.js"></script>
+    <!-- select -->
+    <script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script> 
+
+    <!-- Style CSS-->
+    <style type="text/css">
+        div.dtsp-verticalContainer{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            align-content: flex-start;
+            align-items: flex-start;
+        }
+
+        div.dtsp-verticalContainer div.dtsp-verticalPanes,
+        div.dtsp-verticalContainer div.container{
+            width: 5%;
+            flex-grow: 0;
+            flex-shrink: 0;
+            flex-basis: 0;
+        }
+
+        div.dtsp-verticalContainer div.dtsp-verticalPanes{
+            flex-grow: 1;
+            flex-shrink: 0;
+            flex-basis: 26%;
+        }
+
+        div.dtsp-verticalPanes {
+            margin-right: 20px;
+        }
+
+        div.dtsp-title {
+            margin-right: 0px !important;
+            margin-top: 13px !important;
+        }
+
+        input.dtsp-search {
+            min-width: 0px !important;
+            padding-left: 0px !important;
+            margin: 0px !important;
+        }
+
+        div.dtsp-verticalContainer div.dtsp-verticalPanes div.dtsp-searchPanes{
+            flex-direction: column;
+            flex-basis: 0px;
+        }
+
+        div.dtsp-verticalContainer div.dtsp-verticalPanes div.dtsp-searchPanes div.dtsp-searchPane{
+            flex-basis: 0px;
+        }
+
+        div.dtsp-verticalContainer div.container{
+            flex-grow: 1;
+            flex-shrink: 0;
+            flex-basis: 60%;
+        }
+
+        div.dtsp-panesContainer {
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            padding: 5px;
+        }
+    </style>
+
+</head>
+
+<body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion py-4" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center mb-4" href="">
+                <img class="logo" src="{% static 'lerny/img/logo.svg' %}" alt="logo">
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'detail' %}">
+                    <i class="fas fa-tasks"></i>
+                    <span>Entregables</span></a>
+                </li>
 
 
-  <!-- DataTales Example -->
-  <div class="card shadow mb-4 table-admin">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-white"  align="center" >Usuarios</h6>
-    </div>
-  </div>
+            <!-- Divider -->
+            <hr class="sidebar-divider">
 
-  <div class="dtsp-verticalContainer">
-      <div class="container">
-          <table id="dataTable" class="display nowrap" width="100%">
-              <thead>
-                  <tr>
-                      <th>Identificación</th>
-                      <th>Usuario</th>
-                      <th>Estado</th>
-                      <th>Progreso</th>
-                  </tr>
-              </thead>
-          </table>
-      </div>
-      <!-- <div class="dtsp-verticalPanes col-3"></div> -->
-  </div>
+            <!-- Nav Item - Charts -->
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'charts' %}">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>Progreso</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <!-- <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div> -->
+
+        </ul>
+        <!-- End of Sidebar -->
 
 
-  <!-- Content Row -->
-  <div align="center">
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
 
-    <!-- Filtros -->
-    <div align="center" class="pt-5 pb-3">
-      <select class="form-select" id="lerny_select" aria-label="Default select example">
-          <option selected value="-1">Todos los Lerny</option>
-      </select>
-      <p style="display: none">Microlerny</p>
-      <select class="form-select" id="microlerny_select" aria-label="Default select example" style="display: none">
-          <option selected value="-1">Todos los Microlerny</option>
-      </select>
-      <button class="btn btn-dark" type="button" onclick="filter()">FILTRAR</button>
-    </div>
+          <!-- Main Content -->
+          <div id="content">
 
-    <!-- First Row of Charts -->
-    <div class="row" style="padding: 20px">
-
-
-      <!-- student progress-->
-      <div class="col-xl-6 col-lg-4">
+            <!-- Topbar -->
+            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
     
-        <!-- Donut Chart -->
-        <div class="card shadow mb-4">
-            <!-- Card Header - Dropdown -->
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Progeso estudiantes</h6>
-            </div>
-            <!-- Card Body -->
-            <div class="card-body">
-                <div class="chart-bar">
-                    <canvas id="myBarChartCant"></canvas>
-                </div>
-            </div>
-        </div>
-      </div>
-
-      <!--Students per module -->
-      <div class="col-xl-6 col-lg-4">
-        <!-- Donut Chart -->
-        <div class="card shadow mb-4">
-            <!-- Card Header - Dropdown -->
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">% Estudiantes por módulo</h6>
-            </div>
-            <!-- Card Body -->
-            <div class="card-body">
-                <div class="chart-bar">
-                    <canvas id="myBarChartProgress"></canvas>
-                </div>
-            </div>
-        </div>
+                <!-- Sidebar Toggle (Topbar) -->
+                <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                    <i class="fa fa-bars"></i>
+                </button>
     
-      </div>
+                <!-- Topbar Navbar -->
+                <ul class="navbar-nav ml-auto">
+    
+                    <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                    <li class="nav-item dropdown no-arrow d-sm-none">
+                        <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-search fa-fw"></i>
+                        </a>
+                    <!-- Dropdown - Messages -->
+                        <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                        aria-labelledby="searchDropdown">
+                          <form class="form-inline mr-auto w-100 navbar-search">
+                            <div class="input-group">
+                                <input type="text" class="form-control bg-light border-0 small"
+                                placeholder="Search for..." aria-label="Search"
+                                aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                                  <button class="btn btn-primary" type="button">
+                                      <i class="fas fa-search fa-sm"></i>
+                                  </button>
+                                </div>
+                            </div>
+                          </form>
+                        </div>
+                    </li>
+    
+    
+    
+                  <!-- Nav Item - User Information -->
+                  <li class="nav-item dropdown no-arrow">
+                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ username }}</span>
+                    <img class="img-profile rounded-circle"
+                    src="{% static 'lerny/img/undraw_profile.svg' %}">
+                    </a>
+                  
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                      <a class="dropdown-item" href="{% url 'logout' %}">
+                      <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                      Salir
+                      </a>
+                    </div>
+                  </li>
+    
+                </ul>
+    
+            </nav>
+            <!-- End of Topbar -->
 
-    </div>
+          </div>
+          <!-- End of Main Content -->
 
-    <!-- Second Row of Charts -->
-    <div class="row">
+          <!-- Begin Page Content -->
+          <div class="container-fluid">
 
-      <!-- Average score-->
-      <div class="col-xl-6 col-lg-4">
-          <!-- Donut Chart -->
-          <div class="card shadow mb-4">
-              <!-- Card Header - Dropdown -->
+            <h1 id="lerny_name"  class="h3 mb-2 py-3 text-gray-800" align="center">Lerny: PONER NOMBRE DEL LERNY ACA </h1>
+
+            <!-- Page Heading -->
+            {% if not have_company %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Compañia no encontrada!</strong> Al parecer no tienes una compañia asignada.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            {% endif %}
+
+
+            <!-- DataTales Example -->
+            <div class="card shadow mb-4 table-admin">
               <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Puntaje Promedio Módulo</h6>
+                  <h6 class="m-0 font-weight-bold text-white"  align="center" >Usuarios</h6>
               </div>
-              <!-- Card Body -->
-              <div class="card-body">
-                  <div class="chart-bar">
-                      <canvas id="myBarChartAvg"></canvas>
+            </div>
+
+            <div class="dtsp-verticalContainer">
+                <div class="container">
+                    <table id="dataTable" class="display nowrap" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Identificación</th>
+                                <th>Usuario</th>
+                                <th>Estado</th>
+                                <th>Progreso</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <!-- <div class="dtsp-verticalPanes col-3"></div> -->
+            </div>
+
+
+            <!-- Content Row -->
+            <div align="center">
+
+              <!-- Filtros -->
+              <div align="center" class="pt-5 pb-3">
+                <select class="form-select" id="lerny_select" aria-label="Default select example">
+                    <option selected value="-1">Todos los Lerny</option>
+                </select>
+                <p style="display: none">Microlerny</p>
+                <select class="form-select" id="microlerny_select" aria-label="Default select example" style="display: none">
+                    <option selected value="-1">Todos los Microlerny</option>
+                </select>
+                <button class="btn btn-dark" type="button" onclick="filter()">FILTRAR</button>
+              </div>
+
+              <div class="row" style="padding: 20px">
+
+
+                <!-- student progress-->
+                <div class="col-xl-6 col-lg-4">
+              
+                  <!-- Donut Chart -->
+                  <div class="card shadow mb-4">
+                      <!-- Card Header - Dropdown -->
+                      <div class="card-header py-3">
+                          <h6 class="m-0 font-weight-bold text-primary">Progeso estudiantes</h6>
+                      </div>
+                      <!-- Card Body -->
+                      <div class="card-body">
+                          <div class="chart-bar">
+                              <canvas id="myBarChartCant"></canvas>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+
+                <!--Students per module -->
+                <div class="col-xl-6 col-lg-4">
+                  <!-- Donut Chart -->
+                  <div class="card shadow mb-4">
+                      <!-- Card Header - Dropdown -->
+                      <div class="card-header py-3">
+                          <h6 class="m-0 font-weight-bold text-primary">% Estudiantes por módulo</h6>
+                      </div>
+                      <!-- Card Body -->
+                      <div class="card-body">
+                          <div class="chart-bar">
+                              <canvas id="myBarChartProgress"></canvas>
+                          </div>
+                      </div>
+                  </div>
+              
+              </div>
+
+              </div>
+
+
+              <div class="row">
+
+                <!-- Average score-->
+                <div class="col-xl-6 col-lg-4">
+                    <!-- Donut Chart -->
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Dropdown -->
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Puntaje Promedio Módulo</h6>
+                        </div>
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <div class="chart-bar">
+                                <canvas id="myBarChartAvg"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Approved Students -->
+                <div class="col-xl-6 col-lg-4">
+
+                  <!-- Donut Chart -->
+                  <div class="card shadow mb-4">
+
+                    <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3">
+                          <h6 class="m-0 font-weight-bold text-primary">Ususario Aprobados y No Aprobados</h6>
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="card-body">
+                          <div class="chart-bar"><canvas id="myBarChart"></canvas></div>
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+
+            </div>
+
+          
+          </div> 
+          <!-- End Page content -->
+      
+
+          <!-- Footer -->
+          <footer class="sticky-footer bg-white">
+              <div class="container my-auto">
+                  <div class="copyright text-center my-auto">
+                      <span>Copyright &copy; Lerny 2021</span>
                   </div>
               </div>
-          </div>
-      </div>
-
-      <!-- Approved Students -->
-      <div class="col-xl-6 col-lg-4">
-
-        <!-- Donut Chart -->
-        <div class="card shadow mb-4">
-
-          <!-- Card Header - Dropdown -->
-          <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Ususario Aprobados y No Aprobados</h6>
-          </div>
-
-          <!-- Card Body -->
-          <div class="card-body">
-                <div class="chart-bar"><canvas id="myBarChart"></canvas></div>
-          </div>
-
+          </footer>
+          <!-- End of Footer -->
+      
         </div>
-
-      </div>
+        <!-- End of Content Wrapper -->
 
     </div>
+    <!-- End of Page Wrapper -->
 
 
-  </div>
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+  <i class="fas fa-angle-up"></i>
+</a>
 
-  <script type="text/javascript">
+<script type="text/javascript">
 
     var table = null
 
@@ -467,7 +725,8 @@
         }
     });
 
-  </script>
+</script>
 
+</body>
 
-{% endblock %}
+</html>

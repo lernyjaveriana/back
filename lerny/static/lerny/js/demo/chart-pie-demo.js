@@ -23,8 +23,8 @@ $.ajax({
         datasets: [{
           label: "# Estudiantes",
           data: cont_micro,
-          backgroundColor: ['#001844', '#001844'],
-          hoverBackgroundColor: ['#001844', '#001844'],
+          backgroundColor: ['#001844', '#001844', '#001844', '#001844','#001844', '#001844'],
+          hoverBackgroundColor: ['#001844', '#001844','#001844', '#001844','#001844', '#001844'],
           borderColor: "#4e73df",
         }],
       },
@@ -82,8 +82,8 @@ $.ajax({
         datasets: [{
           label: "Porcentaje",
           data: data_pie,
-          backgroundColor: ['#4e73df', '#BB86FC'],
-          hoverBackgroundColor: ['#4e73df', '#BB86FC'],
+          backgroundColor: ['#BB86FC', '#001844', ],
+          hoverBackgroundColor: ['#BB86FC','#001844'],
           borderColor: "#4e73df",
         }],
       },
@@ -143,8 +143,8 @@ $.ajax({
         datasets: [{
           label: "Progreso",
           data: progress_micro,
-          backgroundColor: ['#001844', '#001844'],
-          hoverBackgroundColor: ['#001844', '#001844'],
+          backgroundColor: ['#001844', '#001844', '#001844', '#001844','#001844', '#001844'],
+          hoverBackgroundColor: ['#001844', '#001844','#001844', '#001844','#001844', '#001844'],
           borderColor: "#4e73df",
         }],
       },
@@ -202,8 +202,8 @@ $.ajax({
         datasets: [{
           label: "Promedio",
           data: average,
-          backgroundColor: ['#001844', '#001844'],
-          hoverBackgroundColor: ['#001844', '#001844'],
+          backgroundColor: ['#001844', '#001844', '#001844', '#001844','#001844', '#001844'],
+          hoverBackgroundColor: ['#001844', '#001844','#001844', '#001844','#001844', '#001844'],
           borderColor: "#4e73df",
         }],
       },

@@ -116,7 +116,7 @@ def charts(request):
 	except:
 		company = None
 	context = {"username": user.user_name, 'have_company': True if company != None else False}
-	return render(request, 'lerny/base.html', context)
+	return render(request, 'lerny/charts.html', context)
 
 @csrf_exempt
 def editStateResource(request):

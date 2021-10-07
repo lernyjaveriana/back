@@ -534,7 +534,8 @@ class ApiManager(APIView):
 	
 	def post(self, request):
 		print("request")
-		print(json.dumps(request, indent=4, sort_keys=True))
+		entire_json=json.loads(request)
+		print(json.dumps(entire_json, indent=4, sort_keys=True))
 		print("request.data")
 		print(request.data)	
 		print("request.data.intent.displayname")

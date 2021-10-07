@@ -116,7 +116,8 @@ def charts(request):
 	except:
 		company = None
 	context = {"username": user.user_name, 'have_company': True if company != None else False}
-	return render(request, 'lerny/charts.html', context)
+	print('GRAFICAS',context)
+	return render(request, 'lerny/charts.html', context);
 
 @csrf_exempt
 def editStateResource(request):
@@ -209,7 +210,8 @@ class lernyDetail(APIView):
 				else:
 					data_approved = [0, 0]
 
-				microlernys = MicroLerny.objects.filter(lerny__pk=lerny.pk)
+				microlernys = MicroLerny.objects.filter(lerny__pk=lerny.pk).order_by('pk')
+				
 				for i in microlernys:
 					data = {}
 					cant = user_resource.filter(micro_lerny_id__pk=i.pk).order_by('user_id').distinct('user_id').count()

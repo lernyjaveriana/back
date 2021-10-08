@@ -179,6 +179,7 @@ $.ajax({
           },
           yAxes: [{
             ticks: {
+              min:0,
               maxTicksLimit: 5,
               padding: 10,
             },
@@ -239,7 +240,7 @@ $.ajax({
           yAxes: [{
             ticks: {
               min: 0,
-              max: 100,
+              max: 50,
               maxTicksLimit: 5,
               padding: 10,
             },

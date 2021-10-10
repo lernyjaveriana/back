@@ -552,7 +552,7 @@ class ApiManager(APIView):
 			key = "LernyDefaultFallback"
 			text = request.data['queryResult'].get('queryText')
 			urlArg = request.data['originalDetectIntentRequest']["payload"]["data"]["message"]["attachments"][0].get("payload").get('url')
-			urlArg2 = request.data['originalDetectIntentRequest']["payload"]["data"]["message"]["attachments"][1].get("payload").get('url')
+			urlArg2 = len(request.data['originalDetectIntentRequest']["payload"]["data"]["message"]["attachments"])
 			print('Sender_id fallback: '+str(sender_id))
 			print('urlArg2: '+str(urlArg2))
 			try:

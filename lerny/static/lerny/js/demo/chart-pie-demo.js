@@ -23,8 +23,8 @@ $.ajax({
         datasets: [{
           label: "# Estudiantes",
           data: cont_micro,
-          backgroundColor: ['#4e73df', '#BB86FC','00A3EF', '8551F4','7CDFF'],
-          hoverBackgroundColor: ['#4e73df', '#BB86FC','00A3EF', '8551F4','7CDFF'],
+          backgroundColor: ['#001844', '#001844', '#001844', '#001844','#001844', '#001844'],
+          hoverBackgroundColor: ['#001844', '#001844','#001844', '#001844','#001844', '#001844'],
           borderColor: "#4e73df",
         }],
       },
@@ -82,8 +82,8 @@ $.ajax({
         datasets: [{
           label: "Porcentaje",
           data: data_pie,
-          backgroundColor: ['#4e73df', '#BB86FC'],
-          hoverBackgroundColor: ['#4e73df', '#BB86FC'],
+          backgroundColor: ['#BB86FC', '#001844', ],
+          hoverBackgroundColor: ['#BB86FC','#001844'],
           borderColor: "#4e73df",
         }],
       },
@@ -143,8 +143,8 @@ $.ajax({
         datasets: [{
           label: "Progreso",
           data: progress_micro,
-          backgroundColor: ['#4e73df', '#BB86FC','00A3EF', '8551F4','7CDFF'],
-          hoverBackgroundColor: ['#4e73df', '#BB86FC','00A3EF', '8551F4','7CDFF'],
+          backgroundColor: ['#001844', '#001844', '#001844', '#001844','#001844', '#001844'],
+          hoverBackgroundColor: ['#001844', '#001844','#001844', '#001844','#001844', '#001844'],
           borderColor: "#4e73df",
         }],
       },
@@ -179,6 +179,8 @@ $.ajax({
           },
           yAxes: [{
             ticks: {
+              min:0,
+              max:100,
               maxTicksLimit: 5,
               padding: 10,
             },
@@ -202,8 +204,8 @@ $.ajax({
         datasets: [{
           label: "Promedio",
           data: average,
-          backgroundColor: ['#4e73df', '#BB86FC','00A3EF', '8551F4','7CDFF'],
-          hoverBackgroundColor: ['#4e73df', '#BB86FC','00A3EF', '8551F4','7CDFF'],
+          backgroundColor: ['#001844', '#001844', '#001844', '#001844','#001844', '#001844'],
+          hoverBackgroundColor: ['#001844', '#001844','#001844', '#001844','#001844', '#001844'],
           borderColor: "#4e73df",
         }],
       },
@@ -238,6 +240,8 @@ $.ajax({
           },
           yAxes: [{
             ticks: {
+              min: 0,
+              max: 50,
               maxTicksLimit: 5,
               padding: 10,
             },

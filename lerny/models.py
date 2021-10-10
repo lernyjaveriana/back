@@ -80,7 +80,7 @@ class User_Resource(models.Model):
 	resource_id = models.ForeignKey(Resource, on_delete=models.CASCADE,null = False)
 	user_id = models.ForeignKey(User, on_delete=models.CASCADE, null = False)
 	done = models.BooleanField(default=False)
-	user_response = models.CharField('user response', max_length=300, null=True)
+	user_response = models.TextField('user response', null=True)
 	response_date = models.DateTimeField('response date', null=True)
 	last_view_date = models.DateTimeField('last view date', null=True)
 	done_date = models.DateTimeField('done date', auto_now_add=True)

@@ -558,7 +558,6 @@ class ApiManager(APIView):
 			for attachment in request.data['originalDetectIntentRequest']["payload"]["data"]["message"]["attachments"]:
 				urlArg.append(attachment.get("payload").get('url'))
 			print('Sender_id fallback: '+str(sender_id))
-			print('files sent by the user: '+len(urlArg))
 			try:
 				user_id_obj = User.objects.get(uid=str(sender_id))
 				user_id=UserSerializer(user_id_obj).data['identification']

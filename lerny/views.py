@@ -97,7 +97,7 @@ def ApiStateResource(request):
 				data['resource'] = i.resource_id.title
 				data['user'] = i.user_id.user_name
 				data['identification'] = i.user_id.identification
-				data['response'] = '<div align="center"><button type="button" class="btn btn-primary" data-dismiss="modal" onclick="list_response('+str(i.user_response)+')">Entregable</button></div>'
+				data['response'] = '<div align="center"><button type="button" class="btn btn-primary" data-dismiss="modal" onclick="editRow('+str(i.user_response)+')">Entregable</button></div>'
 				data['points'] = i.points
 				
 				list_data.append(data)

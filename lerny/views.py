@@ -97,12 +97,12 @@ def ApiStateResource(request):
 				data['resource'] = i.resource_id.title
 				data['user'] = i.user_id.user_name
 				data['identification'] = i.user_id.identification
-				data['response'] = i.user_response and '<div align="center"><button type="button" class="btn btn-primary" data-dismiss="modal" onclick="viewResponse('+str(i.pk)+')">Entregable</button></div>'
+				data['response'] = i.user_response
 				data['points'] = i.points
 				
 				list_data.append(data)
 			context = list_data
-			print(context)
+			print(data['response'])
 			return JsonResponse({"data":context}, safe = False)
 		else:
 			return JsonResponse({"data":context}, safe = False)

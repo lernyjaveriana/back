@@ -91,13 +91,13 @@ def ApiStateResource(request):
 				except:
 					data['Grupo'] = ""
 				
-				data['pk'] = '<div align="center"><button type="button" class="btn btn-primary" data-dismiss="modal" onclick="editRow('+str(i.pk)+')">Calificarrr</button></div>'
+				data['pk'] = '<div align="center"><button type="button" class="btn btn-primary" data-dismiss="modal" onclick="editRow('+str(i.pk)+')">Calificar</button></div>'
 				data['lerny'] = i.resource_id.microlerny.lerny.lerny_name
 				data['microlerny'] = i.resource_id.microlerny.micro_lerny_title
 				data['resource'] = i.resource_id.title
 				data['user'] = i.user_id.user_name
 				data['identification'] = i.user_id.identification
-				data['response'] = i.user_response
+				data['response'] = i.user_response and '<div align="center"><button type="button" class="btn btn-primary" data-dismiss="modal" onclick="editRow('+str(i.pk)+')">Entregable</button></div>'
 				data['points'] = i.points
 				
 				list_data.append(data)

@@ -102,6 +102,7 @@ def ApiStateResource(request):
 				
 				list_data.append(data)
 			context = list_data
+			print(context)
 			return JsonResponse({"data":context}, safe = False)
 		else:
 			return JsonResponse({"data":context}, safe = False)

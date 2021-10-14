@@ -277,7 +277,7 @@
                     </div>
 
 
-                    <!-- Edit Modal -->
+                    <!-- Edit Modal Points -->
                     <div class="modal fade" id="editRow" tabindex="-1" role="dialog" aria-hidden="true">
 
                         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -312,34 +312,24 @@
 
                     </div>
 
-                    <!-- Edit Modal -->
-                    <div class="modal fade" id="editRow" tabindex="-1" role="dialog" aria-hidden="true">
+                    <!-- Edit Modal Tasks -->
+                    <div class="modal fade" id="list_response" tabindex="-1" role="dialog" aria-hidden="true">
 
                         <div class="modal-dialog modal-dialog-centered" role="document">
 
                             <div class="modal-content">
 
                                 <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Editar Puntos</h5>
+                                <h5 class="modal-title" id="exampleModalLabel">Entregables</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                                 </div>
 
                                 <div class="modal-body">
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                        <span class="input-group-text">Puntos</span>
-                                    </div>
-                                    <input type="number" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="points" id="points_amount">
-                                </div>
-                                    <input type="hidden" name="pk" id="pk_edit" value="">
-                                </div>
-
-                                <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                <button type="button" class="btn btn-primary" onclick="saveRowEdited()">Guardar Cambios</button>
-                                </div>
+                                    {{i.user_response}}
+                                    <input type="hidden" name="pk" id="response_view" value="">
+                                </div> 
                                 
                             </div>
 
@@ -400,6 +390,12 @@
             document.getElementById("pk_edit").value = pk
             $('#editRow').modal('show');
             console.log(document.getElementById("pk_edit").value)
+        }
+
+        function list_response(user_response) {
+            document.getElementById("response_view").value = user_response
+            $('#editRow').modal('show');
+            console.log(document.getElementById("response_view").value)
         }
 
         function saveRowEdited(){

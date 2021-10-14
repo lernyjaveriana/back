@@ -97,12 +97,13 @@ def ApiStateResource(request):
 				data['resource'] = i.resource_id.title
 				data['user'] = i.user_id.user_name
 				data['identification'] = i.user_id.identification
+				i.user_response = i.user_response.split()
 				data['response'] = i.user_response
 				data['points'] = i.points
 				print("ENTREGABLES",data['response'])
+				
 				list_data.append(data)
 			context = list_data
-			print(context)
 			return JsonResponse({"data":context}, safe = False)
 		else:
 			return JsonResponse({"data":context}, safe = False)

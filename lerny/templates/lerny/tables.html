@@ -430,10 +430,9 @@
                     {data: 'resource'},
                     {data: 'identification'},
                     {data: 'user'},
-                    {data: 'response[,]',
+                    {data: 'response[,].name',
                     "render": function(data, type, row, meta){
-                        data.forEach( r => '<a href="'+r+'" target="_blank" > Recurso </a>' )
-                        
+                        return '<a href="'+data+'" target="_blank" > Recurso </a>'
                     }
                     // "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
                     //         $(nTd).html("<a href='"+oData.response+" target='_blank''>Recurso</a>");}

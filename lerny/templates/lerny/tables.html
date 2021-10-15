@@ -313,7 +313,6 @@
                     </div>
 
                     <!-- Edit Modal Tasks -->
-                    
                     <div class="modal fade" id="viewResponse" tabindex="-1" role="dialog" aria-hidden="true">
 
                         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -431,7 +430,10 @@
                     {data: 'resource'},
                     {data: 'identification'},
                     {data: 'user'},
-                    {data: 'response'},
+                    {data: 'response',
+                    "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                            $(nTd).html("<a href='"+oData.response+"'>Recurso</a>");}
+                    },
                     {data: 'Grupo'},
                     {data: 'points'},
                     {data: 'pk'},

@@ -101,7 +101,6 @@ def ApiStateResource(request):
 				data['response'] = i.user_response
 				data['points'] = i.points
 				print("ENTREGABLES",data['response'])
-				
 				list_data.append(data)
 			context = list_data
 			return JsonResponse({"data":context}, safe = False)

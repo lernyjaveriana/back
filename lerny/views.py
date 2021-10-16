@@ -70,8 +70,9 @@ def UserStateResource(request):
 @login_required(login_url='/accounts/login/')
 def ApiStateResource(request):
 	user = request.user
-	list_data = []
+	list_data, deliverable , txt_response  = [], [], []
 	context = {}
+	es_https = lambda c: True if c.startswith('https') else False
 	try:
 		group = user.group.name
 	except:
@@ -98,16 +99,24 @@ def ApiStateResource(request):
 				data['user'] = i.user_id.user_name
 				data['identification'] = i.user_id.identification
 				
-				#Create hiperlink for user responses
+				#Create tag hiperlink for user responses
 				etiqueta = '<a href="{}" target="_blank" > Recurso </a>'
-				i.user_response = i.user_response.split()
-				links = []
-				for link in i.user_response: 
-  					hiperlink = etiqueta.format(link)
-  					links.append(hiperlink)
+				responses = i.user_response.split()
 
-				print(links)
-				data['response'] = links
+				#separates links from text 
+				for link in range(len(responses)):
+					if es_https(responses[link]):
+  						hiperlink = etiqueta.format(link)
+  						deliverable.append(hiperlink)
+					else: txt_response.append(responses)
+
+				#joins words from the text response
+				answers = " ".join(txt_response)
+
+				#Final list of deliverables
+				deliverable.append(answers)
+				
+				data['response'] = deliverable
 				data['points'] = i.points
 				print("ENTREGABLES",data['response'])
 				list_data.append(data)

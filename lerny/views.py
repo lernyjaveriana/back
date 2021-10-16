@@ -87,6 +87,7 @@ def ApiStateResource(request):
 			#filtro todos los lernys que pertenecen a la empresa que se encuentra asignado el colaborador
 			lernys = Lerny.objects.filter(lerny_company__company_id=company.pk).values_list("pk", flat=True)
 			user_resources = User_Resource.objects.filter(resource_id__microlerny__lerny__in=lernys).order_by("resource_id__microlerny__lerny__lerny_name")
+			print(user_resources)
 			for i in user_resources:
 				data = {}
 				try:
@@ -120,6 +121,7 @@ def ApiStateResource(request):
 				data['response'] = deliverable
 				data['points'] = i.points
 				list_data.append(data)
+				print("ENTREGABLES", data['response'])
 			context = list_data
 			return JsonResponse({"data":context}, safe = False)
 		else:

@@ -72,7 +72,7 @@ def ApiStateResource(request):
 	user = request.user
 	list_data, deliverable , txt_response  = [], [], []
 	context = {}
-	es_https = lambda c: True if c.startswith('https') else False
+	is_https = lambda c: True if c.startswith('https') else False
 	try:
 		group = user.group.name
 	except:
@@ -105,15 +105,14 @@ def ApiStateResource(request):
 
 				#separates links from text 
 				for link in range(len(unformatted_answers)):
-					if es_https(unformatted_answers[link]):
+					if is_https(unformatted_answers[link]):
   						hiperlink = etiqueta.format(link)
   						deliverable.append(hiperlink)
 					else: txt_response.append(unformatted_answers)
 
 				#joins words from the text response
-				if txt_response.count('') > 0: 
+				if len(txt_response) > 0: 
 					answers = " ".join(txt_response)
-
 					#Final list of deliverables
 					deliverable.append(answers)
 

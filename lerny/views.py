@@ -111,10 +111,11 @@ def ApiStateResource(request):
 					else: txt_response.append(unformatted_answers)
 
 				#joins words from the text response
-				answers = " ".join(txt_response)
+				if txt_response.count('') > 0: 
+					answers = " ".join(txt_response)
 
-				#Final list of deliverables
-				deliverable.append(answers)
+					#Final list of deliverables
+					deliverable.append(answers)
 
 				data['response'] = deliverable
 				data['points'] = i.points

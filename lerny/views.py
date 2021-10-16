@@ -101,14 +101,14 @@ def ApiStateResource(request):
 				
 				#Create tag hiperlink for user responses
 				etiqueta = '<a href="{}" target="_blank" > Recurso </a>'
-				unformatted_answers = i.user_response.split()
+				list_answers = i.user_response.split()
 
 				#separates links from text 
-				for link in range(len(unformatted_answers)):
-					if is_https(unformatted_answers[link]):
-  						hiperlink = etiqueta.format(link)
+				for link in range(len(list_answers)):
+					if is_https(list_answers[link]):
+  						hiperlink = etiqueta.format(list_answers[link])
   						deliverable.append(hiperlink)
-					else: txt_response.append(unformatted_answers)
+					else: txt_response.append(list_answers[link])
 
 				#joins words from the text response
 				if len(txt_response) > 0: 
@@ -118,6 +118,7 @@ def ApiStateResource(request):
 
 				data['response'] = deliverable
 				data['points'] = i.points
+
 				print("ENTREGABLES",data['response'])
 				list_data.append(data)
 			context = list_data

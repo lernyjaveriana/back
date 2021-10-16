@@ -97,8 +97,17 @@ def ApiStateResource(request):
 				data['resource'] = i.resource_id.title
 				data['user'] = i.user_id.user_name
 				data['identification'] = i.user_id.identification
+				
+				#Create hiperlink for user responses
+				etiqueta = '<a href="{}" target="_blank" > Recurso </a>'
 				i.user_response = i.user_response.split()
-				data['response'] = i.user_response
+				links = []
+				for link in i.user_response: 
+  					hiperlink = etiqueta.format(link)
+  					links.append(hiperlink)
+
+				print(links)
+				data['response'] = links
 				data['points'] = i.points
 				print("ENTREGABLES",data['response'])
 				list_data.append(data)

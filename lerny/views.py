@@ -70,10 +70,7 @@ def UserStateResource(request):
 @login_required(login_url='/accounts/login/')
 def ApiStateResource(request):
 	user = request.user
-	list_data, deliverable , txt_response  = [], [], []
-
-	#Create tag hiperlink for user responses
-	etiqueta = '<a href="{}" target="_blank" > Recurso </a>'
+	list_data = [] 
 	context = {}
 	is_https = lambda c: True if c.startswith('https') else False
 	try:
@@ -103,7 +100,11 @@ def ApiStateResource(request):
 				data['user'] = i.user_id.user_name
 				data['identification'] = i.user_id.identification
 				
+				#Create tag hiperlink for user responses
+				etiqueta = '<a href="{}" target="_blank" > Recurso </a>'
 				list_answers = i.user_response.split()
+
+				deliverable , txt_response = [], []
 
 				#separates links from text 
 				for link in range(len(list_answers)):
@@ -113,10 +114,10 @@ def ApiStateResource(request):
 					else: txt_response.append(list_answers[link])
 
 				#joins words from the text response
-				# if len(txt_response) > 0: 
-				# 	answers = " ".join(txt_response)
-				# 	#Final list of deliverables
-				# 	deliverable.append(answers)
+				if len(txt_response) > 0: 
+					answers = " ".join(txt_response)
+					#Final list of deliverables
+					deliverable.append(answers)
 
 				data['response'] = deliverable
 				data['points'] = i.points

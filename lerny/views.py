@@ -71,6 +71,9 @@ def UserStateResource(request):
 def ApiStateResource(request):
 	user = request.user
 	list_data, deliverable , txt_response  = [], [], []
+
+	#Create tag hiperlink for user responses
+	etiqueta = '<a href="{}" target="_blank" > Recurso </a>'
 	context = {}
 	is_https = lambda c: True if c.startswith('https') else False
 	try:
@@ -99,8 +102,6 @@ def ApiStateResource(request):
 				data['user'] = i.user_id.user_name
 				data['identification'] = i.user_id.identification
 				
-				#Create tag hiperlink for user responses
-				etiqueta = '<a href="{}" target="_blank" > Recurso </a>'
 				list_answers = i.user_response.split()
 
 				#separates links from text 
@@ -118,8 +119,6 @@ def ApiStateResource(request):
 
 				data['response'] = deliverable
 				data['points'] = i.points
-
-				print("ENTREGABLES",data['response'])
 				list_data.append(data)
 			context = list_data
 			return JsonResponse({"data":context}, safe = False)

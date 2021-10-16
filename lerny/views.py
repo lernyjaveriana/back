@@ -113,10 +113,10 @@ def ApiStateResource(request):
 					else: txt_response.append(list_answers[link])
 
 				#joins words from the text response
-				if len(txt_response) > 0: 
-					answers = " ".join(txt_response)
-					#Final list of deliverables
-					deliverable.append(answers)
+				# if len(txt_response) > 0: 
+				# 	answers = " ".join(txt_response)
+				# 	#Final list of deliverables
+				# 	deliverable.append(answers)
 
 				data['response'] = deliverable
 				data['points'] = i.points

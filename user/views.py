@@ -30,6 +30,8 @@ def upload_to_s3(from_url,id_key,access_secret,bucket_name,region,folder):
     filename = wget.download(from_url)
     print(filename)
 
+    os.rename(filename,filename.replace(" ",""))
+
     client_s3 =  boto3.client(
         's3',
         aws_access_key_id = id_key,

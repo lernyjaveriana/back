@@ -30,6 +30,8 @@ def upload_to_s3(from_url,id_key,access_secret,bucket_name,region,folder):
     filename = wget.download(from_url)
     print(filename)
 
+    os.rename(filename,filename.replace(" ",""))
+
     client_s3 =  boto3.client(
         's3',
         aws_access_key_id = id_key,
@@ -207,7 +209,7 @@ def continueLerny(lerny_active,user_id_obj,user_id):
 				user_state.save()
 				dataDB = ResourceSerializer(resourse).data
 			else:
-				#variable que indica que es o no el ultimo microlerny dle curso
+				#variable que indica que es o no el ultimo microlerny del curso
 				is_last = True
 		else:
 			data = None
@@ -227,41 +229,58 @@ def continueLerny(lerny_active,user_id_obj,user_id):
 		dataDB = ResourceSerializer(resourse).data
 	if(is_last):
 
+		user_id_obj = User.objects.get(identification=user_id)
+		user_lernys = User_Lerny.objects.filter(user_id=user_id_obj)
+
+		lernys_ids = user_lernys.values_list('lerny_id', flat=True)
+		lernys = Lerny.objects.filter(
+			pk__in=lernys_ids)
+
+		data = LernySerializer(lernys, many=True).data
+		i = 0
+		temp = []
+		previous_text = "Has terminado los microlernys asociados al lerny!"
+		while(i < len(data)):
+			print("IMPRESION LISTAR LERNY: "+ str(data[i]['id'])+") " + data[i]['lerny_name'])
+			temp.append(
+				{
+					"subtitle": data[i]['description'],
+					"image_url": data[i]['url_image'],
+					"title": data[i]['lerny_name'],
+					"buttons": [
+					{
+						"payload": "cargar lerny "+str(data[i]['id']),
+						"title": "Continuar Lerny",
+						"type": "postback"
+					}
+					]
+				},)
+			i += 1
+
 		data = {
 			"fulfillmentMessages": [
-				{
-					"payload": {
-						"facebook": {
-							"attachment": {
-								"type": "template",
-								"payload": {
-									"template_type": "generic",
-									"elements": [
-										{
-											"title": "Has terminado los microlernys asociados al lerny!",
-											"image_url": "https://lerny.co/wp-content/uploads/2020/12/marca_lerny.jpg",
-											"subtitle": "selecciona una opcion para continuar",
-											"buttons": [
-												{
-													"type": "postback",
-													"title": "Listar Microlernys",
-													"payload": "LIST_MICROLERNYS"
-												},
-												{
-													"type": "postback",
-													"title": "Salir",
-													"payload": "lerny_farewell"
-												}
-											]
-										}
-									]
-								}
+			{
+				"text": {
+					"text": [
+						previous_text
+					]
+				}
+			},
+			{
+				"payload": {
+					"facebook": {
+						"attachment": {
+							"type": "template",
+							"payload": {
+								"template_type": "generic",
+								"elements": temp
 							}
 						}
 					}
 				}
-			]
+			}]
 		}
+
 	elif(dataDB["resource_type"] == "consumable" and not is_last):
 		templates=mediaResponseFormat(resourse)
 		previous_text = dataDB["previous_text"]

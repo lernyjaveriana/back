@@ -229,7 +229,7 @@ def continueLerny(lerny_active,user_id_obj,user_id):
 		dataDB = ResourceSerializer(resourse).data
 	if(is_last):
 
-		user_id_obj = user_id
+		user_id_obj = User.objects.get(identification=user_id)
 		user_lernys = User_Lerny.objects.filter(user_id=user_id_obj)
 
 		lernys_ids = user_lernys.values_list('lerny_id', flat=True)

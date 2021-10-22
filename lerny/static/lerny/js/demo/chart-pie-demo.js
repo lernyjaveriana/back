@@ -15,6 +15,8 @@ $.ajax({
     var progress_micro = respuesta.progress_micro;
     var average = respuesta.average_micro;
 
+    console.log("MICRO LERNYS", name_micro)
+
     var ctx = document.getElementById("myBarChartCant");
     myBarChartCant = new Chart(ctx, {
       type: 'bar',
@@ -23,8 +25,8 @@ $.ajax({
         datasets: [{
           label: "# Estudiantes",
           data: cont_micro,
-          backgroundColor: ['#001844', '#001844', '#001844', '#001844','#001844', '#001844'],
-          hoverBackgroundColor: ['#001844', '#001844','#001844', '#001844','#001844', '#001844'],
+          backgroundColor: ['#001844', '#001844', '#001844', '#001844','#001844', '#001844','#001844','#001844', '#001844'],
+          hoverBackgroundColor: ['#001844', '#001844','#001844', '#001844','#001844', '#001844','#001844','#001844', '#001844'],
           borderColor: "#4e73df",
         }],
       },
@@ -142,8 +144,8 @@ $.ajax({
         datasets: [{
           label: "Progreso",
           data: progress_micro,
-          backgroundColor: ['#001844', '#001844', '#001844', '#001844','#001844', '#001844'],
-          hoverBackgroundColor: ['#001844', '#001844','#001844', '#001844','#001844', '#001844'],
+          backgroundColor: ['#001844', '#001844', '#001844', '#001844','#001844', '#001844','#001844','#001844', '#001844'],
+          hoverBackgroundColor: ['#001844', '#001844','#001844', '#001844','#001844', '#001844','#001844','#001844', '#001844'],
           borderColor: "#4e73df",
         }],
       },
@@ -203,8 +205,8 @@ $.ajax({
         datasets: [{
           label: "Promedio",
           data: average,
-          backgroundColor: ['#001844', '#001844', '#001844', '#001844','#001844', '#001844'],
-          hoverBackgroundColor: ['#001844', '#001844','#001844', '#001844','#001844', '#001844'],
+          backgroundColor: ['#001844', '#001844', '#001844', '#001844','#001844', '#001844', '#001844','#001844', '#001844'],
+          hoverBackgroundColor: ['#001844', '#001844','#001844', '#001844','#001844', '#001844','#001844','#001844', '#001844'],
           borderColor: "#4e73df",
         }],
       },

@@ -1013,7 +1013,6 @@ class ApiManager(APIView):
 						u_resource.response_date = datetime.now()
 						u_resource.last_view_date = datetime.now()
 						u_resource.save()
-						User_Resource.objects.get(resource_id=actual_resource_user).delete()
 					else:
 						previous_text="No hemos podido cargar tu actividad, intentalo de nuevo por favor"
 						data = {

@@ -986,7 +986,8 @@ class ApiManager(APIView):
 					if(actual_resource_user):
 						data = UserResourceSerializer(actual_resource_user).data
 						data2 = UserResourceSerializer(objetive_resource_user).data
-						User_Resource.objects.filter(user_id=user_id_obj, resource_id=objetive_resource_user).update(user_response=data['user_response']+' '+data2['user_response'])
+						User_Resource.objects.filter(user_id=user_id_obj, resource_id=objetive_resource).update(user_response=data['user_response']+' '+data2['user_response'])
+						User_Resource.objects.get(user_id=user_id_obj, resource_id=actual_resource_user.resource_id).delete()
 					else:
 						previous_text="No hemos podido cargar tu actividad, intentalo de nuevo por favor"
 						datas = {

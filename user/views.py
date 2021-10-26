@@ -146,12 +146,12 @@ def cargarActividadFallbackIntent(user_id):
 					"title": data[i]['title'],
 					"buttons": [
 					{
-						"payload": "cargar actividad a este recurso"+str(data[i]['id']),
+						"payload": "cargar actividad "+str(data[i]['id']),
 						"title": "Cargar",
 						"type": "postback"
 					}
 					]
-				},)
+				})
 			i += 1
 
 	data = {

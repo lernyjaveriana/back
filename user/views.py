@@ -1007,7 +1007,7 @@ class ApiManager(APIView):
 						print("RE CARGAR ARCHIVO")
 						u_resource = User_Resource()
 						u_resource.resource_id = objetive_resource_user
-						u_resource.user_id = user_state.user_id
+						u_resource.user_id = user_id_obj
 						u_resource.user_response = data['user_response']
 						u_resource.done = True
 						u_resource.response_date = datetime.now()

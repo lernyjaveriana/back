@@ -147,7 +147,7 @@ def cargarActividadFallbackIntent(user_id):
 					"buttons": [
 					{
 						"payload": "cargar actividad "+str(data[i]['id']),
-						"title": "Cargar",
+						"title": "Seleccionar",
 						"type": "postback"
 					}
 					]
@@ -963,7 +963,35 @@ class ApiManager(APIView):
 				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()
 
 				data=continueLerny(lerny_active.lerny_id,user_id_obj,user_id)
-		# CARGAR_REQ_MICROLERNY
+		# CARGAR_REQ_MICROLERNY\
+		elif(key == "ACTIVIDAD_A_RECURSO"):
+
+			print("ACTIVIDAD_A_RECURSO")
+			if(user_id is None):
+				data=bienvenidaLerny(user_id)
+			else:
+				recurso_pk = (int(request["recurso_num"]))
+				user_id_obj = User.objects.get(
+					identification=user_id)
+
+				objetive_resource = Resource.objects.filter(pk=recurso_pk).first()
+
+				actual_resource_user = User_State.objects.filter(user_id=user_id_obj).first().resource_id
+				
+				User_Resource.objects.filter(resource_id=actual_resource_user).update(resource_id=objetive_resource)
+
+				previous_text="Actividades entregadas han sido asignadas al recurso "+str(objetive_resource.title)
+				data = {
+					"fulfillmentMessages": [
+						{
+							"text": {
+								"text": [
+									previous_text
+								]
+							}
+						},
+					]
+				}
 		elif(key == "LernyDefaultFallback"):
 			if(text):
 				data = {

@@ -1005,7 +1005,7 @@ class ApiManager(APIView):
 					if(actual_resource_user):
 						data = UserResourceSerializer(actual_resource_user).data
 						print("RE CARGAR ARCHIVO")
-						User_Resource.objects.filter(resource_id=actual_resource_user).update(resource_id=objetive_resource)
+						User_Resource.objects.filter(resource_id=actual_resource_user.resource_id).update(resource_id=objetive_resource.resource_id)
 
 					else:
 						previous_text="No hemos podido cargar tu actividad, intentalo de nuevo por favor"

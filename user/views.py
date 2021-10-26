@@ -177,6 +177,7 @@ def cargarActividadFallbackIntent(user_id):
 			}
 		}]
 	}
+	return data
 
 def mediaResponseFormat(resourse):
 	medias = Media.objects.filter(resource_id=resourse).order_by('position')

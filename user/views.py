@@ -976,22 +976,72 @@ class ApiManager(APIView):
 
 				objetive_resource = Resource.objects.filter(pk=recurso_pk).first()
 
-				actual_resource_user = User_State.objects.filter(user_id=user_id_obj).first().resource_id
-				
-				User_Resource.objects.filter(resource_id=actual_resource_user).update(resource_id=objetive_resource)
+				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()
+				user_state = User_State.objects.filter(user_id=user_id_obj,lerny_id=lerny_active.lerny_id).first()
+				actual_resource_user = User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).first()
 
-				previous_text="Actividades entregadas han sido asignadas al recurso "+str(objetive_resource.title)
-				data = {
-					"fulfillmentMessages": [
-						{
-							"text": {
-								"text": [
-									previous_text
-								]
-							}
-						},
-					]
-				}
+				objetive_resource_user = User_Resource.objects.filter(user_id=user_id_obj, resource_id=objetive_resource).first()
+				
+				if(objetive_resource_user):
+					if(actual_resource_user):
+						data = UserResourceSerializer(actual_resource_user).data
+						data2 = UserResourceSerializer(objetive_resource_user).data
+						User_Resource.objects.filter(user_id=user_id_obj, resource_id=objetive_resource_user).update(user_response=data['user_response']+' '+data2['user_response'])
+					else:
+						previous_text="No hemos podido cargar tu actividad, intentalo de nuevo por favor"
+						data = {
+							"fulfillmentMessages": [
+								{
+									"text": {
+										"text": [
+											previous_text
+										]
+									}
+								},
+							]
+						}
+						
+				else:
+					if(actual_resource_user):
+						data = UserResourceSerializer(actual_resource_user).data
+						print("RE CARGAR ARCHIVO")
+						u_resource = User_Resource()
+						u_resource.resource_id = objetive_resource_user
+						u_resource.user_id = user_state.user_id
+						u_resource.user_response = data['user_response']
+						u_resource.done = True
+						u_resource.response_date = datetime.now()
+						u_resource.last_view_date = datetime.now()
+						u_resource.save()
+						User_Resource.objects.get(resource_id=actual_resource_user).delete()
+					else:
+						previous_text="No hemos podido cargar tu actividad, intentalo de nuevo por favor"
+						data = {
+							"fulfillmentMessages": [
+								{
+									"text": {
+										"text": [
+											previous_text
+										]
+									}
+								},
+							]
+						}
+				if(data):
+					print("actividades re asignadas sin problema")
+				else:
+					previous_text="Actividades entregadas han sido asignadas al recurso "+str(objetive_resource.title)
+					data = {
+						"fulfillmentMessages": [
+							{
+								"text": {
+									"text": [
+										previous_text
+									]
+								}
+							},
+						]
+					}
 		elif(key == "LernyDefaultFallback"):
 			if(text):
 				data = {

@@ -131,11 +131,11 @@ def cargarActividadFallbackIntent(user_id):
 	lerny_active=user_lerny.lerny_id
 	micro_lernys = MicroLerny.objects.filter(lerny=lerny_active).order_by('pk')
 	previous_text = "A cual recurso deseas asociar el entregable que acabas de subir?"
+	temp = []
 	for micro_lerny in micro_lernys:
 		resources_microlerny = Resource.objects.filter(microlerny=micro_lerny,resource_type="practical")
 		data = ResourceSerializer(resources_microlerny, many=True).data
 		i = 0
-		temp = []
 		
 		while(i < len(data)):
 			print("IMPRESION LISTAR RECURSOS PRACTICOS: "+ str(data[i]['id'])+") " + data[i]['title'])

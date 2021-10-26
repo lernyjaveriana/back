@@ -989,7 +989,7 @@ class ApiManager(APIView):
 						User_Resource.objects.filter(user_id=user_id_obj, resource_id=objetive_resource_user).update(user_response=data['user_response']+' '+data2['user_response'])
 					else:
 						previous_text="No hemos podido cargar tu actividad, intentalo de nuevo por favor"
-						data = {
+						datas = {
 							"fulfillmentMessages": [
 								{
 									"text": {
@@ -1009,7 +1009,7 @@ class ApiManager(APIView):
 
 					else:
 						previous_text="No hemos podido cargar tu actividad, intentalo de nuevo por favor"
-						data = {
+						datas = {
 							"fulfillmentMessages": [
 								{
 									"text": {
@@ -1020,8 +1020,9 @@ class ApiManager(APIView):
 								},
 							]
 						}
-				if(data):
+				if(datas):
 					print("actividades re asignadas sin problema")
+					data=datas
 				else:
 					previous_text="Actividades entregadas han sido asignadas al recurso "+str(objetive_resource.title)
 					data = {

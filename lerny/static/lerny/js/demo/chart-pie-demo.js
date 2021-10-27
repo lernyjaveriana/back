@@ -18,8 +18,14 @@ $.ajax({
     var lerny_id = $( "#lerny_select" ).children("option:selected").val();
     var microlerny_id = $( "#microlerny_select" ).children("option:selected").val();
 
-    table.ajax.url( '/api_lerny/lernydetail/?lerny_id=' + lerny_id +'&microlerny_id=' + microlerny_id).load();
-    myPieChart.destroy()
+    function filter(){
+      table.ajax.url( '/api_lerny/lernydetail/?lerny_id=' + lerny_id +'&microlerny_id=' + microlerny_id).load();
+      myBarChartCant.destroy()
+      myBarChart.destroy()
+      myBarChartProgress.destroy()
+      myBarChartAvg.destroy()
+      
+    }
 
     console.log("MICRO LERNYS", name_micro)
 

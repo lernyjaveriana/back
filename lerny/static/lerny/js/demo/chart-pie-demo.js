@@ -15,6 +15,12 @@ $.ajax({
     var progress_micro = respuesta.progress_micro;
     var average = respuesta.average_micro;
 
+    var lerny_id = $( "#lerny_select" ).children("option:selected").val();
+    var microlerny_id = $( "#microlerny_select" ).children("option:selected").val();
+
+    table.ajax.url( '/api_lerny/lernydetail/?lerny_id=' + lerny_id +'&microlerny_id=' + microlerny_id).load();
+    myPieChart.destroy()
+
     console.log("MICRO LERNYS", name_micro)
 
     var ctx = document.getElementById("myBarChartCant");

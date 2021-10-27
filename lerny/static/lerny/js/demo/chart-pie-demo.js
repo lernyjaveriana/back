@@ -55,7 +55,7 @@ $.ajax({
               drawBorder: false
             },
             ticks: {
-              maxTicksLimit: 6
+              maxTicksLimit: 20
             },
             maxBarThickness: 25,
           }],

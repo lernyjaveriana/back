@@ -2,8 +2,6 @@
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
 
-var myBarChart = null
-var myBarChartCant = null
 $.ajax({
   method: 'GET',
   url: '/api_lerny/lernydetail/?lerny_id=-1&microlerny_id=-1',
@@ -18,14 +16,7 @@ $.ajax({
     var lerny_id = $( "#lerny_select" ).children("option:selected").val();
     var microlerny_id = $( "#microlerny_select" ).children("option:selected").val();
 
-    function filter(){
-      table.ajax.url( '/api_lerny/lernydetail/?lerny_id=' + lerny_id +'&microlerny_id=' + microlerny_id).load();
-      myBarChartCant.destroy()
-      myBarChart.destroy()
-      myBarChartProgress.destroy()
-      myBarChartAvg.destroy()
-      
-    }
+    
 
     console.log("MICRO LERNYS", name_micro)
 

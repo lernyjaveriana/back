@@ -7,7 +7,7 @@ from rest_framework.decorators import action
 from .models import User
 from lerny.models import *
 from lerny.serializers import *
-from user.bucketHelper import upload_to_s3
+from user.Intents.bucketHelper import upload_to_s3
 from datetime import datetime
 
 

@@ -1,3 +1,8 @@
+import os
+import boto3
+from botocore.exceptions import ClientError
+import wget
+
 id_key = "AKIA4K6QA2LE547NHTXD"
 access_secret= "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"
 bucket_name = "lerny-responses"

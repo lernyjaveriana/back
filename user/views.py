@@ -30,6 +30,8 @@ def upload_to_s3(from_url,id_key,access_secret,bucket_name,region,folder):
     filename = wget.download(from_url)
     print(filename)
 
+    os.rename(filename,filename.replace(" ",""))
+
     client_s3 =  boto3.client(
         's3',
         aws_access_key_id = id_key,
@@ -122,6 +124,61 @@ cargarActividad={
 						}
 					]
 				}
+# After upload activities trggered into fallback intent, it should shows you a menu
+def cargarActividadFallbackIntent(user_id):
+	user_id_obj = User.objects.get(identification=user_id)
+	user_lerny = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()
+	lerny_active=user_lerny.lerny_id
+	micro_lernys = MicroLerny.objects.filter(lerny=lerny_active).order_by('pk')
+	previous_text = "A cual recurso deseas asociar el entregable que acabas de subir?"
+	temp = []
+	for micro_lerny in micro_lernys:
+		resources_microlerny = Resource.objects.filter(microlerny=micro_lerny,resource_type="practical")
+		data = ResourceSerializer(resources_microlerny, many=True).data
+		i = 0
+		
+		while(i < len(data)):
+			print("IMPRESION LISTAR RECURSOS PRACTICOS: "+ str(data[i]['id'])+") " + data[i]['title'])
+			temp.append(
+				{
+					"subtitle": data[i]['description'],
+					"image_url": data[i]['image_url'],
+					"title": data[i]['title'],
+					"buttons": [
+					{
+						"payload": "cargar actividad "+str(data[i]['id']),
+						"title": "Seleccionar",
+						"type": "postback"
+					}
+					]
+				})
+			i += 1
+
+	data = {
+		"fulfillmentMessages": [
+		{
+			"text": {
+				"text": [
+					previous_text
+				]
+			}
+		},
+		{
+			"payload": {
+				"facebook": {
+					"attachment": {
+						"type": "template",
+						"payload": {
+							"template_type": "generic",
+							"elements": temp
+						}
+					}
+				}
+			}
+		}]
+	}
+	return data
+
 def mediaResponseFormat(resourse):
 	medias = Media.objects.filter(resource_id=resourse).order_by('position')
 	template=[]
@@ -207,7 +264,7 @@ def continueLerny(lerny_active,user_id_obj,user_id):
 				user_state.save()
 				dataDB = ResourceSerializer(resourse).data
 			else:
-				#variable que indica que es o no el ultimo microlerny dle curso
+				#variable que indica que es o no el ultimo microlerny del curso
 				is_last = True
 		else:
 			data = None
@@ -227,41 +284,58 @@ def continueLerny(lerny_active,user_id_obj,user_id):
 		dataDB = ResourceSerializer(resourse).data
 	if(is_last):
 
+		user_id_obj = User.objects.get(identification=user_id)
+		user_lernys = User_Lerny.objects.filter(user_id=user_id_obj)
+
+		lernys_ids = user_lernys.values_list('lerny_id', flat=True)
+		lernys = Lerny.objects.filter(
+			pk__in=lernys_ids)
+
+		data = LernySerializer(lernys, many=True).data
+		i = 0
+		temp = []
+		previous_text = "Has terminado los microlernys asociados al lerny!"
+		while(i < len(data)):
+			print("IMPRESION LISTAR LERNY: "+ str(data[i]['id'])+") " + data[i]['lerny_name'])
+			temp.append(
+				{
+					"subtitle": data[i]['description'],
+					"image_url": data[i]['url_image'],
+					"title": data[i]['lerny_name'],
+					"buttons": [
+					{
+						"payload": "cargar lerny "+str(data[i]['id']),
+						"title": "Continuar Lerny",
+						"type": "postback"
+					}
+					]
+				},)
+			i += 1
+
 		data = {
 			"fulfillmentMessages": [
-				{
-					"payload": {
-						"facebook": {
-							"attachment": {
-								"type": "template",
-								"payload": {
-									"template_type": "generic",
-									"elements": [
-										{
-											"title": "Has terminado los microlernys asociados al lerny!",
-											"image_url": "https://lerny.co/wp-content/uploads/2020/12/marca_lerny.jpg",
-											"subtitle": "selecciona una opcion para continuar",
-											"buttons": [
-												{
-													"type": "postback",
-													"title": "Listar Microlernys",
-													"payload": "LIST_MICROLERNYS"
-												},
-												{
-													"type": "postback",
-													"title": "Salir",
-													"payload": "lerny_farewell"
-												}
-											]
-										}
-									]
-								}
+			{
+				"text": {
+					"text": [
+						previous_text
+					]
+				}
+			},
+			{
+				"payload": {
+					"facebook": {
+						"attachment": {
+							"type": "template",
+							"payload": {
+								"template_type": "generic",
+								"elements": temp
 							}
 						}
 					}
 				}
-			]
+			}]
 		}
+
 	elif(dataDB["resource_type"] == "consumable" and not is_last):
 		templates=mediaResponseFormat(resourse)
 		previous_text = dataDB["previous_text"]
@@ -551,7 +625,12 @@ class ApiManager(APIView):
 			print('fallback')
 			key = "LernyDefaultFallback"
 			text = request.data['queryResult'].get('queryText')
-			urlArg = request.data['originalDetectIntentRequest']["payload"]["data"]["message"]["attachments"][0].get("payload").get('url')
+			attachmentLen = len(request.data['originalDetectIntentRequest']["payload"]["data"]["message"]["attachments"])
+			urlArg = []
+
+			# need to verify every attachement file that was sent by the user and save the url generated by fb msn
+			for attachment in request.data['originalDetectIntentRequest']["payload"]["data"]["message"]["attachments"]:
+				urlArg.append(attachment.get("payload").get('url'))
 			print('Sender_id fallback: '+str(sender_id))
 			try:
 				user_id_obj = User.objects.get(uid=str(sender_id))
@@ -716,7 +795,7 @@ class ApiManager(APIView):
 				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()
 				user_state = User_State.objects.filter(user_id=user_id_obj,lerny_id=lerny_active.lerny_id).first()
 				u_resource = User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).first()
-				print("Response: "+ response)
+				
 				if (response.split(':')[0] == 'https'):
 					response=upload_to_s3(response,id_key,access_secret,bucket_name,region,folder)
 				
@@ -884,7 +963,80 @@ class ApiManager(APIView):
 				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()
 
 				data=continueLerny(lerny_active.lerny_id,user_id_obj,user_id)
-		# CARGAR_REQ_MICROLERNY
+		# CARGAR_REQ_MICROLERNY\
+		elif(key == "ACTIVIDAD_A_RECURSO"):
+
+			print("ACTIVIDAD_A_RECURSO")
+			if(user_id is None):
+				data=bienvenidaLerny(user_id)
+			else:
+				recurso_pk = (int(request["recurso_num"]))
+				user_id_obj = User.objects.get(
+					identification=user_id)
+
+				objetive_resource = Resource.objects.filter(pk=recurso_pk).first()
+
+				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()
+				user_state = User_State.objects.filter(user_id=user_id_obj,lerny_id=lerny_active.lerny_id).first()
+				actual_resource_user = User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).first()
+				datas=None
+				objetive_resource_user = User_Resource.objects.filter(user_id=user_id_obj, resource_id=objetive_resource).first()
+				
+				if(objetive_resource_user):
+					if(actual_resource_user):
+						data = UserResourceSerializer(actual_resource_user).data
+						data2 = UserResourceSerializer(objetive_resource_user).data
+						User_Resource.objects.filter(user_id=user_id_obj, resource_id=objetive_resource).update(user_response=data['user_response']+' '+data2['user_response'])
+						User_Resource.objects.get(user_id=user_id_obj, resource_id=actual_resource_user.resource_id).delete()
+					else:
+						previous_text="No hemos podido cargar tu actividad, intentalo de nuevo por favor"
+						datas = {
+							"fulfillmentMessages": [
+								{
+									"text": {
+										"text": [
+											previous_text
+										]
+									}
+								},
+							]
+						}
+						
+				else:
+					if(actual_resource_user):
+						data = UserResourceSerializer(actual_resource_user).data
+						print("RE CARGAR ARCHIVO")
+						User_Resource.objects.filter(resource_id=actual_resource_user.resource_id).update(resource_id=objetive_resource)
+
+					else:
+						previous_text="No hemos podido cargar tu actividad, intentalo de nuevo por favor"
+						datas = {
+							"fulfillmentMessages": [
+								{
+									"text": {
+										"text": [
+											previous_text
+										]
+									}
+								},
+							]
+						}
+				if(datas):
+					print("actividades re asignadas sin problema")
+					data=datas
+				else:
+					previous_text="Actividades entregadas han sido asignadas al recurso "+str(objetive_resource.title)
+					data = {
+						"fulfillmentMessages": [
+							{
+								"text": {
+									"text": [
+										previous_text
+									]
+								}
+							},
+						]
+					}
 		elif(key == "LernyDefaultFallback"):
 			if(text):
 				data = {
@@ -921,31 +1073,30 @@ class ApiManager(APIView):
 				if(user_id is None):
 					data=bienvenidaLerny(user_id)
 				else:
-					if(urlArg):
+					if(len(urlArg)>0):
 						response = urlArg
 						user_id_obj = User.objects.get(
 							identification=user_id)
 						lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()
 						user_state = User_State.objects.filter(user_id=user_id_obj,lerny_id=lerny_active.lerny_id).first()
 						u_resource = User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).first()
-						print("Response: "+ response)
-						if (response.split(':')[0] == 'https'):
-							response=upload_to_s3(response,id_key,access_secret,bucket_name,region,folder)
-						
-						if(u_resource):
-							data = UserResourceSerializer(u_resource).data
-							User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).update(user_response=data['user_response']+' '+response)
-						else:
-							print("GUARDAR ARCHIVO")
-							u_resource = User_Resource()
-							u_resource.resource_id = user_state.resource_id
-							u_resource.user_id = user_state.user_id
-							u_resource.user_response = response
-							u_resource.done = True
-							u_resource.response_date = datetime.now()
-							u_resource.last_view_date = datetime.now()
-							u_resource.save()
-						data = cargarActividad
+						for url in urlArg:
+							response=upload_to_s3(url,id_key,access_secret,bucket_name,region,folder)						
+							if(u_resource):
+								data = UserResourceSerializer(u_resource).data
+								User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).update(user_response=data['user_response']+' '+response)
+								u_resource = User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).first()
+							else:
+								print("GUARDAR ARCHIVO")
+								u_resource = User_Resource()
+								u_resource.resource_id = user_state.resource_id
+								u_resource.user_id = user_state.user_id
+								u_resource.user_response = response
+								u_resource.done = True
+								u_resource.response_date = datetime.now()
+								u_resource.last_view_date = datetime.now()
+								u_resource.save()
+						data = cargarActividadFallbackIntent(user_id)
 		# CARGAR_REQ_MICROLERNY
 		elif(key == "PREGUNTA_GENERAL"):
 			question = request['QUESTION']

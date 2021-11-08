@@ -2,8 +2,6 @@
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
 
-var myBarChart = null
-var myBarChartCant = null
 $.ajax({
   method: 'GET',
   url: '/api_lerny/lernydetail/?lerny_id=-1&microlerny_id=-1',
@@ -15,6 +13,13 @@ $.ajax({
     var progress_micro = respuesta.progress_micro;
     var average = respuesta.average_micro;
 
+    var lerny_id = $( "#lerny_select" ).children("option:selected").val();
+    var microlerny_id = $( "#microlerny_select" ).children("option:selected").val();
+
+    
+
+    console.log("MICRO LERNYS", name_micro)
+
     var ctx = document.getElementById("myBarChartCant");
     myBarChartCant = new Chart(ctx, {
       type: 'bar',
@@ -23,8 +28,8 @@ $.ajax({
         datasets: [{
           label: "# Estudiantes",
           data: cont_micro,
-          backgroundColor: ['#4e73df', '#1cc88a'],
-          hoverBackgroundColor: ['#2e59d9', '#17a673'],
+          backgroundColor: ['#001844', '#001844', '#001844', '#001844','#001844', '#001844','#001844','#001844', '#001844'],
+          hoverBackgroundColor: ['#001844', '#001844','#001844', '#001844','#001844', '#001844','#001844','#001844', '#001844'],
           borderColor: "#4e73df",
         }],
       },
@@ -50,7 +55,7 @@ $.ajax({
               drawBorder: false
             },
             ticks: {
-              maxTicksLimit: 6
+              maxTicksLimit: 20
             },
             maxBarThickness: 25,
           }],
@@ -82,8 +87,8 @@ $.ajax({
         datasets: [{
           label: "Porcentaje",
           data: data_pie,
-          backgroundColor: ['#4e73df', '#1cc88a'],
-          hoverBackgroundColor: ['#2e59d9', '#17a673'],
+          backgroundColor: ['#BB86FC', '#001844', ],
+          hoverBackgroundColor: ['#BB86FC','#001844'],
           borderColor: "#4e73df",
         }],
       },
@@ -119,7 +124,6 @@ $.ajax({
           yAxes: [{
             ticks: {
               min: 0,
-              max: 100,
               maxTicksLimit: 5,
               padding: 10,
             },
@@ -143,8 +147,8 @@ $.ajax({
         datasets: [{
           label: "Progreso",
           data: progress_micro,
-          backgroundColor: ['#4e73df', '#1cc88a'],
-          hoverBackgroundColor: ['#2e59d9', '#17a673'],
+          backgroundColor: ['#001844', '#001844', '#001844', '#001844','#001844', '#001844','#001844','#001844', '#001844'],
+          hoverBackgroundColor: ['#001844', '#001844','#001844', '#001844','#001844', '#001844','#001844','#001844', '#001844'],
           borderColor: "#4e73df",
         }],
       },
@@ -179,6 +183,8 @@ $.ajax({
           },
           yAxes: [{
             ticks: {
+              min:0,
+
               maxTicksLimit: 5,
               padding: 10,
             },
@@ -202,8 +208,8 @@ $.ajax({
         datasets: [{
           label: "Promedio",
           data: average,
-          backgroundColor: ['#4e73df', '#1cc88a'],
-          hoverBackgroundColor: ['#2e59d9', '#17a673'],
+          backgroundColor: ['#001844', '#001844', '#001844', '#001844','#001844', '#001844', '#001844','#001844', '#001844'],
+          hoverBackgroundColor: ['#001844', '#001844','#001844', '#001844','#001844', '#001844','#001844','#001844', '#001844'],
           borderColor: "#4e73df",
         }],
       },
@@ -238,6 +244,7 @@ $.ajax({
           },
           yAxes: [{
             ticks: {
+              min: 0,
               maxTicksLimit: 5,
               padding: 10,
             },

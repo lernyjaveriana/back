@@ -12,9 +12,7 @@
     
     <!-- Custom fonts for this template -->
     <link href="{% static 'lerny/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="{% static 'lerny/css/lerny-admin.css' %}" rel="stylesheet">
@@ -22,73 +20,96 @@
     <!-- Custom styles for this page -->
     <link href="{% static 'lerny/vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
 
-        <!-- searchPanes -->
+    <!-- searchPanes -->
     <link rel="stylesheet" href="https://cdn.datatables.net/searchpanes/1.0.1/css/searchPanes.dataTables.min.css">
+    
     <!-- select -->
     <link href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
 
     <style type="text/css">
-        div.dtsp-verticalContainer{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-content: flex-start;
-    align-items: flex-start;
-}
+
+    div.dtsp-verticalContainer{
+
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            align-content: flex-start;
+            align-items: flex-start;
+        }
  
-div.dtsp-verticalContainer div.dtsp-verticalPanes,
-div.dtsp-verticalContainer div.container{
-    width: 5%;
-    flex-grow: 0;
-    flex-shrink: 0;
-    flex-basis: 0;
-}
- 
-div.dtsp-verticalContainer div.dtsp-verticalPanes{
-    flex-grow: 1;
-    flex-shrink: 0;
-    flex-basis: 26%;
-}
- 
-div.dtsp-verticalPanes {
-    margin-right: 20px;
-}
- 
-div.dtsp-title {
-    margin-right: 0px !important;
-    margin-top: 13px !important;
-}
- 
-input.dtsp-search {
-    min-width: 0px !important;
-    padding-left: 0px !important;
-    margin: 0px !important;
-}
- 
-div.dtsp-verticalContainer div.dtsp-verticalPanes div.dtsp-searchPanes{
-    flex-direction: column;
-    flex-basis: 0px;
-}
- 
-div.dtsp-verticalContainer div.dtsp-verticalPanes div.dtsp-searchPanes div.dtsp-searchPane{
-    flex-basis: 0px;
-}
- 
-div.dtsp-verticalContainer div.container{
-    flex-grow: 1;
-    flex-shrink: 0;
-    flex-basis: 60%;
-}
- 
-div.dtsp-panesContainer {
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    padding: 5px;
-}
+    div.dtsp-verticalContainer div.dtsp-verticalPanes,
+    div.dtsp-verticalContainer div.container{
+        width: 5%;
+        flex-grow: 0;
+        flex-shrink: 0;
+        flex-basis: 0;
+    }
+    
+    div.dtsp-verticalContainer div.dtsp-verticalPanes{
+        flex-grow: 1;
+        flex-shrink: 0;
+        flex-basis: 26%;
+    }
+    
+    div.dtsp-verticalPanes {
+        margin-right: 20px;
+    }
+    
+    div.dtsp-title {
+        margin-right: 0px !important;
+        margin-top: 13px !important;
+    }
+    
+    input.dtsp-search {
+        min-width: 0px !important;
+        padding-left: 0px !important;
+        margin: 0px !important;
+    }
+    
+    div.dtsp-verticalContainer div.dtsp-verticalPanes div.dtsp-searchPanes{
+        flex-direction: column;
+        flex-basis: 0px;
+    }
+    
+    div.dtsp-verticalContainer div.dtsp-verticalPanes div.dtsp-searchPanes div.dtsp-searchPane{
+        flex-basis: 0px;
+    }
+    
+    div.dtsp-verticalContainer div.container{
+        flex-grow: 1;
+        flex-shrink: 0;
+        flex-basis: 80%;
+    }
+    
+    div.dtsp-panesContainer {
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        padding: 5px;
+    }
     </style>
+
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{% static 'lerny/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'lerny/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{% static 'lerny/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'lerny/js/admin-lerny.js' %}"></script>
+
+    <!-- Page level plugins -->
+    <script src="{% static 'lerny/vendor/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'lerny/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+
+    <!-- searchPanes   -->
+    <script src="https://cdn.datatables.net/searchpanes/1.3.0/js/dataTables.searchPanes.min.js"></script>
+    <!-- select -->
+    <script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script> 
 
 </head>
 
@@ -112,33 +133,8 @@ div.dtsp-panesContainer {
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'detail' %}">
                     <i class="fas fa-fw fa-home"></i>
-                    <span>Inicio</span></a>
+                    <span>Entregables</span></a>
             </li>
-
-            <!--
-
-            <hr class="sidebar-divider">
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-filter"></i>
-                    <span>Filtrar por</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="option-collapse py-2 collapse-inner">
-                        <h6 class="collapse-header">Lerny</h6>
-                        <a class="collapse-item" href="#">Herramientas...</a>
-                        <a class="collapse-item" href="#">Cocina para...</a>
-                    </div>
-                    <div class="option-collapse py-2 collapse-inner">
-                        <h6 class="collapse-header">MicroLerny</h6>
-                        <a class="collapse-item" href="#">Herramientas...</a>
-                        <a class="collapse-item" href="#">Cocina para...</a>
-                    </div>
-                </div>
-            </li>
-        -->
-
 
             <!-- Divider -->
             <hr class="sidebar-divider">
@@ -147,7 +143,7 @@ div.dtsp-panesContainer {
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'charts' %}">
                     <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Graficas</span></a>
+                    <span>Progreso</span></a>
             </li>
 
             <!-- Divider -->
@@ -216,17 +212,6 @@ div.dtsp-panesContainer {
  
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <!-- 
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Perfil
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Ajustes
-                                </a>
-
-                            -->
                                 <a class="dropdown-item" href="{% url 'logout' %}">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Salir
@@ -238,8 +223,14 @@ div.dtsp-panesContainer {
 
                 </nav>
                 <!-- End of Topbar -->
-                <div class="container-fluid my-5 px-5">
-                <!-- Begin Page Content -->
+
+            </div>
+            <!-- End of Main Content -->
+
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid my-5 px-5">
+                
                 {% if not have_company %}
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
                       <strong>Compañia no encontrada!</strong> Al parecer no tienes una compañia asignada.
@@ -248,16 +239,19 @@ div.dtsp-panesContainer {
                     </button>
                 </div>
                 {% endif %}
+
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Tabla general de Usuarios</h1>
-                    <!--<p class="mb-4"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque qui provident deleniti sapiente! In ea libero, minima sunt quos animi nam eveniet, officia beatae dicta neque doloremque totam illo quia.</p> -->
+                    
 
-                    <!-- DataTales Example -->
+                    <!-- DataTales -->
                     <div class="card shadow mb-4 table-admin">
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-white">Usuarios</h6>
                         </div>
                     </div>
+
+                    <!-- Columns Table-->
                     <div class="demo-html">
                         <div class="dtsp-verticalContainer">
                             <div class="dtsp-verticalPanes col-3"></div>
@@ -271,7 +265,7 @@ div.dtsp-panesContainer {
                                             <th>Identificacion</th>
                                             <th>Ususario</th>
                                             <th>Respuesta</th>
-                                            <th>Aprobado</th>
+                                            <th>Grupo</th>
                                             <th>Puntos</th>
                                             <th>Acción</th>
                                         </tr>
@@ -282,38 +276,67 @@ div.dtsp-panesContainer {
                         </div>
                     </div>
 
-                    <!-- Edit Modal -->
 
+                    <!-- Edit Modal Points -->
                     <div class="modal fade" id="editRow" tabindex="-1" role="dialog" aria-hidden="true">
-                      <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Editar Puntos</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="input-group mb-3">
-                                  <div class="input-group-prepend">
-                                    <span class="input-group-text">Puntos</span>
-                                </div>
-                                <input type="number" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="points" id="points_amount">
-                            </div>
-                                <input type="hidden" name="pk" id="pk_edit" value="">
-                            </div>
-                            <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-primary" onclick="saveRowEdited()">Guardar Cambios</button>
-                        </div>
-                        </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.container-fluid -->
 
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Editar Puntos</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+
+                                <div class="modal-body">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                        <span class="input-group-text">Puntos</span>
+                                    </div>
+                                    <input type="number" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="points" id="points_amount">
+                                </div>
+                                    <input type="hidden" name="pk" id="pk_edit" value="">
+                                </div>
+
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-primary" onclick="saveRowEdited()">Guardar Cambios</button>
+                                </div>
+                                
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Edit Modal Tasks -->
+                    <div class="modal fade" id="viewResponse" tabindex="-1" role="dialog" aria-hidden="true">
+
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Entregables</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+
+                                <div class="modal-body">
+                                    {{i.user_response}}
+                                    <input type="hidden" name="pk" id="response_view" value="">
+                                </div> 
+                                
+                            </div>
+
+                        </div>
+
+                    </div>
             </div>
-            <!-- End of Main Content -->
 
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
@@ -338,43 +361,26 @@ div.dtsp-panesContainer {
 
     <!-- Logout Modal-->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="{% static 'lerny/vendor/jquery/jquery.min.js' %}"></script>
-    <script src="{% static 'lerny/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="{% static 'lerny/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="{% static 'lerny/js/admin-lerny.js' %}"></script>
-
-    <!-- Page level plugins -->
-    <script src="{% static 'lerny/vendor/datatables/jquery.dataTables.min.js' %}"></script>
-    <script src="{% static 'lerny/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
-
-    <!-- searchPanes   -->
-    <script src="https://cdn.datatables.net/searchpanes/1.3.0/js/dataTables.searchPanes.min.js"></script>
-    <!-- select -->
-    <script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script> 
+    
 
     <script type="text/javascript">
 
@@ -384,6 +390,12 @@ div.dtsp-panesContainer {
             document.getElementById("pk_edit").value = pk
             $('#editRow').modal('show');
             console.log(document.getElementById("pk_edit").value)
+        }
+
+        function viewResponse(user_response) {
+            document.getElementById("response_view").value = user_response
+            $('#editRow').modal('show');
+            console.log(document.getElementById("response_view").value)
         }
 
         function saveRowEdited(){
@@ -406,7 +418,6 @@ div.dtsp-panesContainer {
         $(document).ready(function() {
             var table = $('#dataTable').DataTable( {
                 "scrollX": true,
-                //"responsive": true,
                 "fixedHeader": true,
                 ajax: {
                     url: '/api_lerny/apiresources/',
@@ -419,8 +430,8 @@ div.dtsp-panesContainer {
                     {data: 'resource'},
                     {data: 'identification'},
                     {data: 'user'},
-                    {data: 'response'},
-                    {data: 'done'},
+                    {data: 'response[,]'},
+                    {data: 'Grupo'},
                     {data: 'points'},
                     {data: 'pk'},
 

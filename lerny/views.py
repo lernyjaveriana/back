@@ -70,8 +70,9 @@ def UserStateResource(request):
 @login_required(login_url='/accounts/login/')
 def ApiStateResource(request):
 	user = request.user
-	list_data = []
+	list_data = [] 
 	context = {}
+	is_https = lambda c: True if c.startswith('https') else False
 	try:
 		group = user.group.name
 	except:
@@ -83,18 +84,45 @@ def ApiStateResource(request):
 			#filtro todos los lernys que pertenecen a la empresa que se encuentra asignado el colaborador
 			lernys = Lerny.objects.filter(lerny_company__company_id=company.pk).values_list("pk", flat=True)
 			user_resources = User_Resource.objects.filter(resource_id__microlerny__lerny__in=lernys).order_by("resource_id__microlerny__lerny__lerny_name")
+			print(user_resources)
 			for i in user_resources:
 				data = {}
+				try:
+					group_id=UserGroupSerializer(User_Group.objects.get(User_id=i.user_id)).data["Group_id"]
+					data['Grupo'] = GroupSerializer(Group.objects.get(pk=group_id,lerny_id=i.resource_id.microlerny.lerny.pk)).data["Group_name"]
+				except:
+					data['Grupo'] = ""
+				
 				data['pk'] = '<div align="center"><button type="button" class="btn btn-primary" data-dismiss="modal" onclick="editRow('+str(i.pk)+')">Calificar</button></div>'
 				data['lerny'] = i.resource_id.microlerny.lerny.lerny_name
 				data['microlerny'] = i.resource_id.microlerny.micro_lerny_title
 				data['resource'] = i.resource_id.title
 				data['user'] = i.user_id.user_name
 				data['identification'] = i.user_id.identification
-				data['response'] = i.user_response
-				data['done'] = i.done
+				
+				#Create tag hiperlink for user responses
+				etiqueta = '<a href="{}" target="_blank" > Recurso </a>'
+				list_answers = i.user_response.split()
+
+				deliverable , txt_response = [], []
+
+				#separates links from text 
+				for link in range(len(list_answers)):
+					if is_https(list_answers[link]):
+  						hiperlink = etiqueta.format(list_answers[link])
+  						deliverable.append(hiperlink)
+					else: txt_response.append(list_answers[link])
+
+				#joins words from the text response
+				if len(txt_response) > 0: 
+					answers = " ".join(txt_response)
+					#Final list of deliverables
+					deliverable.append(answers)
+
+				data['response'] = deliverable
 				data['points'] = i.points
 				list_data.append(data)
+				print("ENTREGABLES", data['response'])
 			context = list_data
 			return JsonResponse({"data":context}, safe = False)
 		else:
@@ -110,6 +138,7 @@ def charts(request):
 	except:
 		company = None
 	context = {"username": user.user_name, 'have_company': True if company != None else False}
+	print('GRAFICAS',context)
 	return render(request, 'lerny/charts.html', context);
 
 @csrf_exempt
@@ -203,11 +232,12 @@ class lernyDetail(APIView):
 				else:
 					data_approved = [0, 0]
 
-				microlernys = MicroLerny.objects.filter(lerny__pk=lerny.pk)
+				microlernys = MicroLerny.objects.filter(lerny__pk=lerny.pk).order_by('pk')
+				
 				for i in microlernys:
 					data = {}
 					cant = user_resource.filter(micro_lerny_id__pk=i.pk).order_by('user_id').distinct('user_id').count()
-					data['microlerny'] = i.micro_lerny_title
+					data['microlerny'] = i.micro_lerny_subtitle
 					data['cant'] = cant
 					print('CUENTA DE RECURSOS VISTOS ',cant)
 					print('CUENTA RECURSOS ',user_lerny.count())

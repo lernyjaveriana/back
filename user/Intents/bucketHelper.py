@@ -13,7 +13,7 @@ def build_fileurl(bucket_name,region,folder,filename):
     url = f"https://{bucket_name}.s3.{region}.amazonaws.com/{folder}{filename}"
     return url
 
-def upload_to_s3(from_url,id_key,access_secret,bucket_name,region,folder):
+def upload_to_s3(from_url):
 
     filename = wget.download(from_url)
     print(filename)

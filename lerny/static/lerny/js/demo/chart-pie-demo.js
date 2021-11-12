@@ -114,7 +114,7 @@ $.ajax({
               drawBorder: false
             },
             ticks: {
-              maxTicksLimit: 6
+              maxTicksLimit: 20
             },
             maxBarThickness: 25,
           }],
@@ -185,7 +185,7 @@ $.ajax({
             ticks: {
               min:0,
 
-              maxTicksLimit: 5,
+              maxTicksLimit: 20,
               padding: 10,
             },
             gridLines: {
@@ -235,7 +235,7 @@ $.ajax({
               drawBorder: false
             },
             ticks: {
-              maxTicksLimit: 6
+              maxTicksLimit: 20
             },
             maxBarThickness: 25,
           }],

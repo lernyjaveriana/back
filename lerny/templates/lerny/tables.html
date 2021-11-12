@@ -106,10 +106,7 @@
     <script src="{% static 'lerny/vendor/datatables/jquery.dataTables.min.js' %}"></script>
     <script src="{% static 'lerny/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
 
-    <!-- searchPanes   -->
-    <script src="https://cdn.datatables.net/searchpanes/1.3.0/js/dataTables.searchPanes.min.js"></script>
-    <!-- select -->
-    <script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script> 
+   
 
 </head>
 
@@ -381,6 +378,10 @@
     </div>
 
     
+     <!-- searchPanes   -->
+     <script src="https://cdn.datatables.net/searchpanes/1.3.0/js/dataTables.searchPanes.min.js"></script>
+     <!-- select -->
+     <script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script> 
 
     <script type="text/javascript">
 
@@ -437,11 +438,25 @@
 
                 ],
                 searchPanes: {
-                    layout: 'columns-1',
-                    columns: [0,1]
+                    cascadePanes: true,
+                    dtOpts:{
+                        dom:'tp',
+                        paging:'true',
+                        pagingType:'full_numbers',
+                        searching:'true',
+
+                    },
                 },
-                dom: '<"dtsp-dataTable"frtipP>',
-                pageLength: 20
+                dom: 'Pfrtrip',
+                pageLength: 20,
+                columnsDefs:[{
+                    searchPanes:{
+                        show:true
+
+                    },
+                    targets:[1,2,3,4,5,6]
+                }]
+                
             })
             table.searchPanes();
             $("div.dtsp-verticalPanes").append(table.searchPanes.container());

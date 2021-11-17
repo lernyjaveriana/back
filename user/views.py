@@ -820,7 +820,7 @@ class ApiManager(APIView):
 			if(user_id is None):
 				data=bienvenidaLerny(user_id)
 			else:
-				user_id_obj = User.objects.get(uid=str(sender_id))
+				user_id_obj = User.objects.get(identification=user_id)
 				user_lernys = User_Lerny.objects.filter(user_id=user_id_obj)
 
 				lernys_ids = user_lernys.values_list('lerny_id', flat=True)

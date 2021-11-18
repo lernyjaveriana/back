@@ -137,7 +137,6 @@ def charts(request):
 	except:
 		company = None
 	context = {"username": user.user_name, 'have_company': True if company != None else False}
-	print('GRAFICAS',context)
 	return render(request, 'lerny/charts.html', context);
 
 @csrf_exempt
@@ -200,7 +199,7 @@ class lernyDetail(APIView):
 					resource_lerny = resource_lerny.filter(microlerny__pk=microlerny_id)
 				#cuento la cantidad de recursos obligatorios que se requieren para aprobar el lerny
 				cont_resource_lerny = resource_lerny.count()
-				print("cont_resource_lerny="+str(cont_resource_lerny))
+			
 				#selecciono todos los registros de recursos obligatorios aprobados por usuarios
 				user_resource = User_State_Logs.objects.filter(micro_lerny_id__lerny__pk=lerny.pk)
 				for i in user_lerny:
@@ -238,8 +237,6 @@ class lernyDetail(APIView):
 					cant = user_resource.filter(micro_lerny_id__pk=i.pk).order_by('user_id').distinct('user_id').count()
 					data['microlerny'] = i.micro_lerny_subtitle
 					data['cant'] = cant
-					print('CUENTA DE RECURSOS VISTOS ',cant)
-					print('CUENTA RECURSOS ',user_lerny.count())
 					if user_lerny.count()!= 0:
 						data['progress'] = round(((cant*100)/user_lerny.count()), 2)
 					else:

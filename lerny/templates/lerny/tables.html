@@ -451,32 +451,7 @@
 
                 ],
                 dom: 'Plfrtip',
-                searchPanes: {
-                    layout: 'columns-3',
-                    cascadePanes: true,
-                    dtOpts:{
-                        dom:'tp',
-                        paging:'true',
-                        pagingType:'simple',
-                        searching:'true',
-
-                    },
-                },
-                pageLength: 20,
-                columnsDefs:[
-                {
-                    searchPanes:{show:true},
-                    visible:true,
-                    targets:[0,1,6]
-                },
-                {
-                    searchPanes:{show:false},
-                    visible:true,
-                    targets:[2,3,4,5,7]
-                },
-                
-            ]
-                
+                pageLength: 20,           
             });
         
             // Create a row in the head 
@@ -486,10 +461,10 @@
             $('#dataTable thead tr:eq(1) th').each( function (i) {
                 var title = $(this).text();
                 if (title == "Lerny" || title == "Microlerny" || title == "Grupo"|| title == "Usuario") {
-                    $(this).html( '<input type="text" class="form-control form-control-sm" placeholder="Buscar..." />' );
+                    $(this).html( '<input type="text" class="form-control form-control-sm" placeholder="Buscar ' + title +'"/>' );
                 }
                 else {
-                    $(this).html( '<input type="text" class="form-control form-control-sm" placeholder="Buscar..." disabled/>' );
+                    $(this).html( '<input type="text" class="form-control form-control-sm" placeholder="" disabled/>' );
                 }
                 
                 $( 'input', this ).on( 'keyup change', function () {

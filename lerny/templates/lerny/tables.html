@@ -485,8 +485,11 @@
             // exclude columns
             $('#dataTable thead tr:eq(1) th').each( function (i) {
                 var title = $(this).text();
-                if (title == "Recurso" || title == "Identificación" || title == "Respuesta"|| title == "Puntos") {
+                if (title == "Lerny" || title == "Microlerny" || title == "Grupo"|| title == "Usuario") {
                     $(this).html( '<input type="text" class="form-control form-control-sm" placeholder="Buscar..." />' );
+                }
+                else {
+                    $(this).html( '<input type="text" class="form-control form-control-sm" placeholder="Buscar..." disabled/>' );
                 }
                 
                 $( 'input', this ).on( 'keyup change', function () {

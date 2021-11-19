@@ -400,89 +400,89 @@
     <!-- End of Page Wrapper -->
 
 
-<!-- Scroll to Top Button-->
-<a class="scroll-to-top rounded" href="#page-top">
-  <i class="fas fa-angle-up"></i>
-</a>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+    </a>
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
-    var table = null
+        var table = null
 
-    function filter(){
-        var lerny_id = $( "#lerny_select" ).children("option:selected").val();
-        var microlerny_id = $( "#microlerny_select" ).children("option:selected").val(); 
-        table.ajax.url( '/api_lerny/lernydetail/?lerny_id=' + lerny_id +'&microlerny_id=' + microlerny_id).load();
-        myBarChartCant.destroy()
-        myBarChart.destroy()
-        myBarChartProgress.destroy()
-        myBarChartAvg.destroy()
-        
-    }
-    
-    $( "#lerny_select" ).change(function() {
-        $( "#lerny_name" ).text($( "#lerny_select" ).children("option:selected").text())
-        $( "#microlerny_select" ).show()
-        $('#microlerny_select').children().remove().end()
-        .append('<option selected value="-1">Todos los Microlerny</option>') ;
-        var lerny_id = $( "#lerny_select" ).children("option:selected").val();
+        function filter(){
+            var lerny_id = $( "#lerny_select" ).children("option:selected").val();
+            var microlerny_id = $( "#microlerny_select" ).children("option:selected").val(); 
+            table.ajax.url( '/api_lerny/lernydetail/?lerny_id=' + lerny_id +'&microlerny_id=' + microlerny_id).load();
+            // myBarChartCant.destroy()
+            // myBarChart.destroy()
+            // myBarChartProgress.destroy()
+            // myBarChartAvg.destroy()
+            
+        }
+            
+        $( "#lerny_select" ).change(function() {
+            $( "#lerny_name" ).text($( "#lerny_select" ).children("option:selected").text())
+            $( "#microlerny_select" ).show()
+            $('#microlerny_select').children().remove().end()
+            .append('<option selected value="-1">Todos los Microlerny</option>') ;
+            var lerny_id = $( "#lerny_select" ).children("option:selected").val();
+            $.ajax({
+                method: 'POST',
+                url: '/api_lerny/microlernyapi/',
+                data: { pk: lerny_id },
+                success: function(data) {
+                    for(var i = 0; i < Object.keys(data).length; i++) {
+                        document.getElementById("microlerny_select").innerHTML += "<option value='"+data[i].pk+"'>"+data[i].name+"</option>";
+                    }
+                },
+                error: function() {
+                    console.log("No se ha podido obtener la información");
+                }
+            });
+        });
+
+        $(document).ready(function() {
+
+            table = $('#dataTable').DataTable( {
+                ajax: {
+                    url: '/api_lerny/lernydetail/?lerny_id=-1&microlerny_id=-1',
+                    type: 'GET',
+                    dataType: 'json'
+                },
+                columns :[
+                {data: 'identification'},
+                {data: 'user'},
+                {data: 'done'},
+                {data: 'progress'},
+
+                ],
+                searchPanes: {
+                    layout: 'columns-1',
+                    columns: [0,1,2,3]
+                },
+                dom: '<"dtsp-dataTable"frtip>',
+                pageLength: 20
+            })
+
+            table.searchPanes();
+            $("div.dtsp-verticalPanes").append(table.searchPanes.container());
+        })
+
         $.ajax({
-            method: 'POST',
-            url: '/api_lerny/microlernyapi/',
-            data: { pk: lerny_id },
+            url: '/api_lerny/lernyapi/',
             success: function(data) {
                 for(var i = 0; i < Object.keys(data).length; i++) {
-                    document.getElementById("microlerny_select").innerHTML += "<option value='"+data[i].pk+"'>"+data[i].name+"</option>";
+                    document.getElementById("lerny_select").innerHTML += "<option value='"+data[i].pk+"'>"+data[i].name+"</option>";
                 }
+
+                $( "#lerny_name" ).text(data[0].name)
             },
             error: function() {
                 console.log("No se ha podido obtener la información");
             }
         });
-    });
 
-    $(document).ready(function() {
-
-        table = $('#dataTable').DataTable( {
-            ajax: {
-                url: '/api_lerny/lernydetail/?lerny_id=-1&microlerny_id=-1',
-                type: 'GET',
-                dataType: 'json'
-            },
-            columns :[
-            {data: 'identification'},
-            {data: 'user'},
-            {data: 'done'},
-            {data: 'progress'},
-
-            ],
-            searchPanes: {
-                layout: 'columns-1',
-                columns: [0,1,2,3]
-            },
-            dom: '<"dtsp-dataTable"frtip>',
-            pageLength: 20
-        })
-
-        table.searchPanes();
-        $("div.dtsp-verticalPanes").append(table.searchPanes.container());
-    })
-
-    $.ajax({
-        url: '/api_lerny/lernyapi/',
-        success: function(data) {
-            for(var i = 0; i < Object.keys(data).length; i++) {
-                document.getElementById("lerny_select").innerHTML += "<option value='"+data[i].pk+"'>"+data[i].name+"</option>";
-            }
-
-            $( "#lerny_name" ).text(data[0].name)
-        },
-        error: function() {
-            console.log("No se ha podido obtener la información");
-        }
-    });
-
-</script>
+    </script>
 
 </body>
 

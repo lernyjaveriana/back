@@ -16,6 +16,12 @@ $.ajax({
     var lerny_id = $( "#lerny_select" ).children("option:selected").val();
     var microlerny_id = $( "#microlerny_select" ).children("option:selected").val();
 
+    console.log(data_pie);
+    console.log(data_micro);
+    console.log(name_micro);
+    console.log(cont_micro); 
+    console.log(progress_micro);
+    console.log(average);
     
 
     

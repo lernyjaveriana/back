@@ -207,7 +207,7 @@ class User_Group(models.Model):
 
 class Support_Resource(models.Model):
 	name = models.CharField('name', max_length=50, null=False)
-	text = models.CharField('response ', max_length=300, null=False)
+	text = models.CharField('text ', max_length=300, null=False)
 	Response_is_text = models.BooleanField(default=False)
 
 	def __str__(self):

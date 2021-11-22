@@ -285,8 +285,8 @@ class ApiManager(APIView):
 								"languageCode":"en-US"
 							}
 						}
-				# else:
-				# 	data=continueLerny(lerny_active.lerny_id,user_id_obj,user_id)
+				else:
+					data=continueLerny(lerny_active.lerny_id,user_id_obj,user_id)
 		# CARGAR ARCHIVO
 		elif(key == "CARGAR_ARCHIVO"):
 			if(user_id is None):

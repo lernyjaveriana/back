@@ -685,16 +685,16 @@ class ApiManager(APIView):
 				support_resource_microlerny_lerny = Support_Resource_Microlerny_Lerny.objects.filter(
 				lerny_id=user_state.lerny_id, Microlerny_id = user_state.micro_lerny_id).order_by('pk')
 
-				isText = SupportResourceSerializer(support_resource_show = support_resource_microlerny_lerny.first().Support_Resource_id).data["Response_is_text"]
+				isText = SupportResourceSerializer(support_resource_microlerny_lerny.first().Support_Resource_id).data["Response_is_text"]
 				score = Score()
 				score.Support_Resource_Microlerny_Lerny = support_resource_microlerny_lerny.first()
 				score.User = user_id_obj	
 				if(isText):
-					response=str(request["NPS_METRIC1"])
+					response=str(request["NPS1"])
 					score.Response = response
 					score.Response_Int = 0
 				else:
-					response=int(float(request["NPS_METRIC1"]))
+					response=int(float(request["NPS1"]))
 					score.Response = "N/A"
 					score.Response_Int = response
 				score.save()
@@ -736,16 +736,16 @@ class ApiManager(APIView):
 				support_resource_microlerny_lerny = Support_Resource_Microlerny_Lerny.objects.filter(
 				lerny_id=user_state.lerny_id, Microlerny_id = user_state.micro_lerny_id).order_by('pk')
 
-				isText = SupportResourceSerializer(support_resource_show = support_resource_microlerny_lerny.first().Support_Resource_id).data["Response_is_text"]
+				isText = SupportResourceSerializer(support_resource_microlerny_lerny[1].Support_Resource_id).data["Response_is_text"]
 				score = Score()
 				score.Support_Resource_Microlerny_Lerny = support_resource_microlerny_lerny[1]
 				score.User = user_id_obj	
 				if(isText):
-					response=str(request["NPS_METRIC2"])
+					response=str(request["NPS2"])
 					score.Response = response
 					score.Response_Int = 0
 				else:
-					response=int(float(request["NPS_METRIC2"]))
+					response=int(float(request["NPS2"]))
 					score.Response = "N/A"
 					score.Response_Int = response
 				score.save()
@@ -771,7 +771,7 @@ class ApiManager(APIView):
 								"languageCode":"en-US"
 							}
 					}
-		# NPS_METRIC1
+		# NPS_METRIC3
 		elif(key == "NPS_METRIC3"):
 			if(user_id is None):
 				data=bienvenidaLerny(user_id)
@@ -790,11 +790,11 @@ class ApiManager(APIView):
 				score.Support_Resource_Microlerny_Lerny = support_resource_microlerny_lerny[1]
 				score.User = user_id_obj	
 				if(isText):
-					response=str(request["NPS_METRIC2"])
+					response=str(request["NPS3"])
 					score.Response = response
 					score.Response_Int = 0
 				else:
-					response=int(float(request["NPS_METRIC2"]))
+					response=int(float(request["NPS3"]))
 					score.Response = "N/A"
 					score.Response_Int = response
 				score.save()

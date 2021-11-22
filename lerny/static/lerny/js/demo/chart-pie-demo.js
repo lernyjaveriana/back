@@ -216,56 +216,11 @@ $.ajax({
         datasets: [{
           label: "Progreso",
           data: progress_micro,
-          backgroundColor: ['#001844', '#00A3EF', '#7CDFF', '#BB86FC','#001844', '#001844','#001844','#001844', '#001844'],
-          hoverBackgroundColor: ['#001844', '#00A3EF','#7CDFF', '#BB86FC','#001844', '#001844','#001844','#001844', '#001844'],
+          backgroundColor: ['#001844', '#0039A3', '#0047CC ', '#0056F5','#1F6DFF', '#4788FF','#70A2FF'],
+          hoverOffset: 4,
+          // hoverBackgroundColor: ['#001844', '#00A3EF','#7CDFF', '#BB86FC','#001844', '#001844','#001844','#001844', '#001844'],
           borderColor: "#000000",
         }],
-      },
-      options: {
-        maintainAspectRatio: false,
-        tooltips: {
-          backgroundColor: "rgb(255,255,255)",
-          bodyFontColor: "#858796",
-          borderColor: '#dddfeb',
-          borderWidth: 1,
-          xPadding: 15,
-          yPadding: 15,
-          displayColors: true,
-          caretPadding: 10,
-        },
-        legend: {
-          display: false
-        },
-        scales: {
-          xAxes: [{
-            gridLines: {
-              display: false,
-              drawBorder: false
-            },
-            ticks: {
-              maxTicksLimit: 6
-            },
-            maxBarThickness: 25,
-          }],
-          y: {
-            beginAtZero: true
-          },
-          yAxes: [{
-            ticks: {
-              min:0,
-
-              maxTicksLimit: 20,
-              padding: 10,
-            },
-            gridLines: {
-              color: "rgb(234, 236, 244)",
-              zeroLineColor: "rgb(234, 236, 244)",
-              drawBorder: false,
-              borderDash: [2],
-              zeroLineBorderDash: [2]
-            }
-          }],
-        },
       },
     });
 

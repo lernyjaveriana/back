@@ -413,10 +413,10 @@
             var lerny_id = $( "#lerny_select" ).children("option:selected").val();
             var microlerny_id = $( "#microlerny_select" ).children("option:selected").val(); 
             table.ajax.url( '/api_lerny/lernydetail/?lerny_id=' + lerny_id +'&microlerny_id=' + microlerny_id).load();
-            // myBarChartCant.destroy()
-            // myBarChart.destroy()
-            // myBarChartProgress.destroy()
-            // myBarChartAvg.destroy()
+            myBarChartCant.update()
+            myBarChart.update()
+            myBarChartProgress.update()
+            myBarChartAvg.update()
             
         }
             

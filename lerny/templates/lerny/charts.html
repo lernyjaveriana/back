@@ -409,17 +409,6 @@
 
         var table = null
 
-        function filter(){
-            var lerny_id = $( "#lerny_select" ).children("option:selected").val();
-            var microlerny_id = $( "#microlerny_select" ).children("option:selected").val(); 
-            const data = table.ajax.url( '/api_lerny/lernydetail/?lerny_id=' + lerny_id +'&microlerny_id=' + microlerny_id).load();
-            console.log(data);
-            myBarChartCant.update()
-            myBarChart.update()
-            myBarChartProgress.update()
-            myBarChartAvg.update()
-            
-        }
             
         $( "#lerny_select" ).change(function() {
             $( "#lerny_name" ).text($( "#lerny_select" ).children("option:selected").text())

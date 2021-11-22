@@ -210,15 +210,15 @@ $.ajax({
 
     var ctx = document.getElementById("myBarChartProgress");
     myBarChartProgress = new Chart(ctx, {
-      type: 'bar',
+      type: 'pie',
       data: {
         labels: name_micro,
         datasets: [{
           label: "Progreso",
           data: progress_micro,
-          backgroundColor: ['#001844', '#001844', '#001844', '#001844','#001844', '#001844','#001844','#001844', '#001844'],
-          hoverBackgroundColor: ['#001844', '#001844','#001844', '#001844','#001844', '#001844','#001844','#001844', '#001844'],
-          borderColor: "#4e73df",
+          backgroundColor: ['#001844', '#00A3EF', '#7CDFF', '#BB86FC','#001844', '#001844','#001844','#001844', '#001844'],
+          hoverBackgroundColor: ['#001844', '#00A3EF','#7CDFF', '#BB86FC','#001844', '#001844','#001844','#001844', '#001844'],
+          borderColor: "#000000",
         }],
       },
       options: {

@@ -268,8 +268,8 @@ class ApiManager(APIView):
 					User=user_state.user_id ).order_by('pk')
 				scores_count=scores.count()
 
-				print('count support_resource_microlerny_lerny_count: '+support_resource_microlerny_lerny_count)
-				print('count scores_count: '+scores_count)
+				print('count support_resource_microlerny_lerny_count: '+str(support_resource_microlerny_lerny_count))
+				print('count scores_count: '+str(scores_count))
 
 				if(support_resource_microlerny_lerny and scores_count<support_resource_microlerny_lerny_count):
 					try:

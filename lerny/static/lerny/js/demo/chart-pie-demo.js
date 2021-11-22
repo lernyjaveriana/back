@@ -18,7 +18,7 @@ $.ajax({
 
     
 
-    console.log("MICRO LERNYS", name_micro)
+    
 
     var ctx = document.getElementById("myBarChartCant");
     myBarChartCant = new Chart(ctx, {

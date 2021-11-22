@@ -685,7 +685,7 @@ class ApiManager(APIView):
 				support_resource_microlerny_lerny = Support_Resource_Microlerny_Lerny.objects.filter(
 				lerny_id=user_state.lerny_id, Microlerny_id = user_state.micro_lerny_id).order_by('pk')
 
-				isText = SupportResourceSerializer(support_resource_show = support_resource_microlerny_lerny.first().Support_Resource_id).data["Response_is_text"]
+				isText = SupportResourceSerializer(support_resource_microlerny_lerny.first().Support_Resource_id).data["Response_is_text"]
 				score = Score()
 				score.Support_Resource_Microlerny_Lerny = support_resource_microlerny_lerny.first()
 				score.User = user_id_obj	

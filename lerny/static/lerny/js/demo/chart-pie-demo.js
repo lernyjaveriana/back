@@ -16,7 +16,76 @@ $.ajax({
     var lerny_id = $( "#lerny_select" ).children("option:selected").val();
     var microlerny_id = $( "#microlerny_select" ).children("option:selected").val();
 
-    
+    console.log(data_pie);
+    console.log(data_micro);
+    console.log(name_micro);
+    console.log(cont_micro); 
+    console.log(progress_micro);
+    console.log(average);
+
+    // function filterByLerny(data_micro, lerny_id) {
+    //   return data_micro.filter(function(microlerny) {
+    //     return microlerny.lerny_id == lerny_id;
+    //   });
+    // }  // filterByLerny
+
+    // function filterByMicro(data_micro, microlerny_id) {
+    //   return data_micro.filter(function(microlerny) {
+    //     return microlerny.microlerny_id == microlerny_id;
+    //   });
+    // }  // filterByMicro
+
+    // function filterByMicroName(data_micro, name_micro) {
+    //   return data_micro.filter(function(microlerny) {
+    //     return microlerny.name_micro == name_micro;
+    //   });
+    // }  // filterByMicroName
+
+    // function filterByMicroCont(data_micro, cont_micro) {
+    //   return data_micro.filter(function(microlerny) {
+    //     return microlerny.cont_micro == cont_micro;
+    //   });
+    // }  // filterByMicroCont
+
+    // function filterByMicroProgress(data_micro, progress_micro) {
+    //   return data_micro.filter(function(microlerny) {
+    //     return microlerny.progress_micro == progress_micro;
+    //   });
+    // }  // filterByMicroProgress
+
+    // function filterByMicroAverage(data_micro, average) {
+    //   return data_micro.filter(function(microlerny) {
+    //     return microlerny.average_micro == average;
+    //   });
+    // }  // filterByMicroAverage
+
+    // function filterByMicroNameAndCont(data_micro, name_micro, cont_micro) {
+    //   return data_micro.filter(function(microlerny) {
+    //     return microlerny.name_micro == name_micro && microlerny.cont_micro == cont_micro;
+    //   });
+    // }  // filterByMicroNameAndCont
+
+    // function filterByMicroNameAndProgress(data_micro, name_micro, progress_micro) {
+    //   return data_micro.filter(function(microlerny) {
+    //     return microlerny.name_micro == name_micro && microlerny.progress_micro == progress_micro;
+    //   });
+    // }  // filterByMicroNameAndProgress
+
+    // function filterByMicroNameAndAverage(data_micro, name_micro, average) {
+
+    //   return data_micro.filter(function(microlerny) {
+    //     return microlerny.name_micro == name_micro && microlerny.average_micro == average;
+    //   });
+    // }  // filterByMicroNameAndAverage
+
+    // function filterByMicroContAndProgress(data_micro, cont_micro, progress_micro) {
+    //   return data_micro.filter(function(microlerny) {
+    //     return microlerny.cont_micro == cont_micro && microlerny.progress_micro == progress_micro;
+    //   });
+    // }  // filterByMicroContAndProgress
+  
+  
+
 
     
 
@@ -81,122 +150,32 @@ $.ajax({
 
     var ctx = document.getElementById("myBarChart");
     myBarChart = new Chart(ctx, {
-      type: 'bar',
+      type: 'pie',
       data: {
         labels: ["Aprobado", "No Aprobado"],
         datasets: [{
           label: "Porcentaje",
           data: data_pie,
           backgroundColor: ['#BB86FC', '#001844', ],
-          hoverBackgroundColor: ['#BB86FC','#001844'],
-          borderColor: "#4e73df",
+          borderColor: "#98E4FB",
+          hoverOffset: 4
         }],
-      },
-      options: {
-        maintainAspectRatio: false,
-        tooltips: {
-          backgroundColor: "rgb(255,255,255)",
-          bodyFontColor: "#858796",
-          borderColor: '#dddfeb',
-          borderWidth: 1,
-          xPadding: 15,
-          yPadding: 15,
-          displayColors: true,
-          caretPadding: 10,
-        },
-        legend: {
-          display: false
-        },
-        scales: {
-          xAxes: [{
-            gridLines: {
-              display: false,
-              drawBorder: false
-            },
-            ticks: {
-              maxTicksLimit: 20
-            },
-            maxBarThickness: 25,
-          }],
-          y: {
-            beginAtZero: true
-          },
-          yAxes: [{
-            ticks: {
-              min: 0,
-              maxTicksLimit: 5,
-              padding: 10,
-            },
-            gridLines: {
-              color: "rgb(234, 236, 244)",
-              zeroLineColor: "rgb(234, 236, 244)",
-              drawBorder: false,
-              borderDash: [2],
-              zeroLineBorderDash: [2]
-            }
-          }],
-        },
       },
     });
 
     var ctx = document.getElementById("myBarChartProgress");
     myBarChartProgress = new Chart(ctx, {
-      type: 'bar',
+      type: 'pie',
       data: {
         labels: name_micro,
         datasets: [{
           label: "Progreso",
           data: progress_micro,
-          backgroundColor: ['#001844', '#001844', '#001844', '#001844','#001844', '#001844','#001844','#001844', '#001844'],
-          hoverBackgroundColor: ['#001844', '#001844','#001844', '#001844','#001844', '#001844','#001844','#001844', '#001844'],
-          borderColor: "#4e73df",
+          backgroundColor: ['#001844', '#0039A3', '#0047CC ', '#0056F5','#1F6DFF', '#4788FF','#70A2FF'],
+          hoverOffset: 4,
+          // hoverBackgroundColor: ['#001844', '#00A3EF','#7CDFF', '#BB86FC','#001844', '#001844','#001844','#001844', '#001844'],
+          borderColor: "#000000",
         }],
-      },
-      options: {
-        maintainAspectRatio: false,
-        tooltips: {
-          backgroundColor: "rgb(255,255,255)",
-          bodyFontColor: "#858796",
-          borderColor: '#dddfeb',
-          borderWidth: 1,
-          xPadding: 15,
-          yPadding: 15,
-          displayColors: true,
-          caretPadding: 10,
-        },
-        legend: {
-          display: false
-        },
-        scales: {
-          xAxes: [{
-            gridLines: {
-              display: false,
-              drawBorder: false
-            },
-            ticks: {
-              maxTicksLimit: 6
-            },
-            maxBarThickness: 25,
-          }],
-          y: {
-            beginAtZero: true
-          },
-          yAxes: [{
-            ticks: {
-              min:0,
-
-              maxTicksLimit: 20,
-              padding: 10,
-            },
-            gridLines: {
-              color: "rgb(234, 236, 244)",
-              zeroLineColor: "rgb(234, 236, 244)",
-              drawBorder: false,
-              borderDash: [2],
-              zeroLineBorderDash: [2]
-            }
-          }],
-        },
       },
     });
 

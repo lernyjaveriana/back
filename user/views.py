@@ -259,7 +259,7 @@ class ApiManager(APIView):
 				user_id_obj = User.objects.get(
 					identification=user_id)
 				lerny_active = User_Lerny.objects.get(active=True,user_id=user_id_obj)
-				user_state = User_State.objects.filter(user_id=user_id_obj, lerny_id =lerny_active)
+				user_state = User_State.objects.filter(user_id=user_id_obj, lerny_id =lerny_active.lerny_id)
 				user_state = user_state.first()
 				support_resource_microlerny_lerny = Support_Resource_Microlerny_Lerny.objects.filter(
 					lerny_id=user_state.lerny_id, Microlerny_id = user_state.micro_lerny_id).order_by('pk')

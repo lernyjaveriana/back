@@ -157,54 +157,9 @@ $.ajax({
           label: "Porcentaje",
           data: data_pie,
           backgroundColor: ['#BB86FC', '#001844', ],
-          hoverBackgroundColor: ['#BB86FC','#001844'],
-          borderColor: "#4e73df",
+          borderColor: "#98E4FB",
+          hoverOffset: 4
         }],
-      },
-      options: {
-        maintainAspectRatio: false,
-        tooltips: {
-          backgroundColor: "rgb(255,255,255)",
-          bodyFontColor: "#858796",
-          borderColor: '#dddfeb',
-          borderWidth: 1,
-          xPadding: 15,
-          yPadding: 15,
-          displayColors: true,
-          caretPadding: 10,
-        },
-        legend: {
-          display: false
-        },
-        scales: {
-          xAxes: [{
-            gridLines: {
-              display: false,
-              drawBorder: false
-            },
-            ticks: {
-              maxTicksLimit: 20
-            },
-            maxBarThickness: 25,
-          }],
-          y: {
-            beginAtZero: true
-          },
-          yAxes: [{
-            ticks: {
-              min: 0,
-              maxTicksLimit: 5,
-              padding: 10,
-            },
-            gridLines: {
-              color: "rgb(234, 236, 244)",
-              zeroLineColor: "rgb(234, 236, 244)",
-              drawBorder: false,
-              borderDash: [2],
-              zeroLineBorderDash: [2]
-            }
-          }],
-        },
       },
     });
 

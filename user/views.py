@@ -268,23 +268,23 @@ class ApiManager(APIView):
 					User=user_state.user_id ).order_by('pk')
 				scores_count=scores.count()
 
-				# if(support_resource_microlerny_lerny and scores_count<support_resource_microlerny_lerny_count):
-				# 	try:
-				# 		support_resource_show = support_resource_microlerny_lerny[scores_count]
-				# 	except IndexError:
-				# 		support_resource_show = None
+				if(support_resource_microlerny_lerny and scores_count<support_resource_microlerny_lerny_count):
+					try:
+						support_resource_show = support_resource_microlerny_lerny[scores_count]
+					except IndexError:
+						support_resource_show = None
 
-				# 	if(support_resource_show):
-				# 		support_resource=support_resource_show.Support_Resource_id
-				# 		dataDB = SupportResourceSerializer(support_resource).data["text"]
-				data = {
-					"followupEventInput": {
-						"name": "NPS1_EVENT",
-						"parameters": {
-						},
-						"languageCode":"en-US"
-					}
-				}
+					if(support_resource_show):
+						support_resource=support_resource_show.Support_Resource_id
+						dataDB = SupportResourceSerializer(support_resource).data["text"]
+						data = {
+							"followupEventInput": {
+								"name": dataDB,
+								"parameters": {
+								},
+								"languageCode":"en-US"
+							}
+						}
 				# else:
 				# 	data=continueLerny(lerny_active.lerny_id,user_id_obj,user_id)
 		# CARGAR ARCHIVO

@@ -259,7 +259,37 @@ class ApiManager(APIView):
 				user_id_obj = User.objects.get(
 					identification=user_id)
 				lerny_active = User_Lerny.objects.get(active=True,user_id=user_id_obj)
-				data=continueLerny(lerny_active.lerny_id,user_id_obj,user_id)
+				user_state = User_State.objects.filter(user_id=user_id_obj, lerny_id =lerny_active.lerny_id)
+				user_state = user_state.first()
+				support_resource_microlerny_lerny = Support_Resource_Microlerny_Lerny.objects.filter(
+					lerny_id=user_state.lerny_id, Microlerny_id = user_state.micro_lerny_id).order_by('pk')
+				support_resource_microlerny_lerny_count=support_resource_microlerny_lerny.count()
+				scores = Score.objects.filter(
+					User=user_state.user_id ).order_by('pk')
+				scores_count=scores.count()
+
+				print('count support_resource_microlerny_lerny_count: '+str(support_resource_microlerny_lerny_count))
+				print('count scores_count: '+str(scores_count))
+
+				if(support_resource_microlerny_lerny and scores_count<support_resource_microlerny_lerny_count):
+					try:
+						support_resource_show = support_resource_microlerny_lerny[scores_count]
+					except IndexError:
+						support_resource_show = None
+
+					if(support_resource_show):
+						support_resource=support_resource_show.Support_Resource_id
+						dataDB = SupportResourceSerializer(support_resource).data["text"]
+						data = {
+							"followupEventInput": {
+								"name": dataDB,
+								"parameters": {
+								},
+								"languageCode":"en-US"
+							}
+						}
+				else:
+					data=continueLerny(lerny_active.lerny_id,user_id_obj,user_id)
 		# CARGAR ARCHIVO
 		elif(key == "CARGAR_ARCHIVO"):
 			if(user_id is None):

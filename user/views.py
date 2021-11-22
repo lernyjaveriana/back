@@ -265,7 +265,7 @@ class ApiManager(APIView):
 					lerny_id=user_state.lerny_id, Microlerny_id = user_state.micro_lerny_id).order_by('pk')
 				support_resource_microlerny_lerny_count=support_resource_microlerny_lerny.count()
 				scores = Score.objects.filter(
-					User=user_state.user_id, Microlerny_id = user_state.micro_lerny_id).order_by('pk')
+					User=user_state.user_id ).order_by('pk')
 				scores_count=scores.count()
 
 				# if(support_resource_microlerny_lerny and scores_count<support_resource_microlerny_lerny_count):

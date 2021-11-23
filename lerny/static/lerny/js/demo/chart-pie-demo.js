@@ -14,12 +14,17 @@ $.ajax({
     var progress_micro = respuesta.progress_micro; //progress of microlernies
     var average = respuesta.average_micro; //average of microlernies
 
+    
+
+
     var lerny_id = $( "#lerny_select" ).children("option:selected").val();
     var microlerny_id = $( "#microlerny_select" ).children("option:selected").val();
 
     console.log(cont_micro); 
     console.log(respuesta);
     console.log(data_micro);
+    console.log(lerny_id);
+    console.log(microlerny_id);
  
                 
     $( "#lerny_select" ).change(function() {

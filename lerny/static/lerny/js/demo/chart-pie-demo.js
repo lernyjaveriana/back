@@ -62,11 +62,13 @@ $.ajax({
           }
       });
 
-    // function filterByLerny(data_micro, lerny_id) {
-    //   return data_micro.filter(function(microlerny) {
-    //     return microlerny.lerny_id == lerny_id;
-    //   });
-    // }  // filterByLerny
+    
+
+    function filterByLerny(data_micro, lerny_id) {
+      return data_micro.filter(function(microlerny) {
+        return microlerny.lerny_id == lerny_id;
+      });
+    }  // filterByLerny
 
     // function filterByMicro(data_micro, microlerny_id) {
     //   return data_micro.filter(function(microlerny) {

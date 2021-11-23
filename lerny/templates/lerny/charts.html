@@ -408,6 +408,9 @@
     <script type="text/javascript">
 
         var table = null
+        var lerny_id = $( "#lerny_select" ).children("option:selected").val();
+        var microlerny_id = $( "#microlerny_select" ).children("option:selected").val();
+
 
         $(document).ready(function() {
 
@@ -436,7 +439,11 @@
             $("div.dtsp-verticalPanes").append(table.searchPanes.container());
         })
 
-       
+        function filterByLerny(data_micro, lerny_id) {
+            return data_micro.filter(function(microlerny) {
+            return microlerny.lerny_id == lerny_id;
+            });
+        }  // filterByLerny
 
     </script>
 

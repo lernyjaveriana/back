@@ -17,9 +17,7 @@ $.ajax({
     
 
 
-    var lerny_id = $( "#lerny_select" ).children("option:selected").val();
-    var microlerny_id = $( "#microlerny_select" ).children("option:selected").val();
-
+  
     console.log(cont_micro); 
     console.log(respuesta);
     console.log(data_micro);
@@ -64,11 +62,7 @@ $.ajax({
 
     
 
-    function filterByLerny(data_micro, lerny_id) {
-      return data_micro.filter(function(microlerny) {
-        return microlerny.lerny_id == lerny_id;
-      });
-    }  // filterByLerny
+   
 
     // function filterByMicro(data_micro, microlerny_id) {
     //   return data_micro.filter(function(microlerny) {

@@ -326,7 +326,7 @@ class ApiManager(APIView):
 			if(user_id is None):
 				data=bienvenidaLerny(user_id)
 			else:
-				user_id_obj = User.objects.get(uid=str(sender_id))
+				user_id_obj = User.objects.get(identification=user_id)
 				user_lernys = User_Lerny.objects.filter(user_id=user_id_obj)
 
 				lernys_ids = user_lernys.values_list('lerny_id', flat=True)
@@ -543,6 +543,45 @@ class ApiManager(APIView):
 							},
 						]
 					}
+
+					data["fulfillmentMessages"].append({
+						"payload": {
+							"facebook": {
+								"attachment": {
+									"type": "template",
+									"payload":
+									{
+										"template_type": "generic",
+										"elements":
+										[
+											{
+												"title": "Tu respuesta ha sido guardada, deseas hacer algo más?",
+												"image_url": "https://lerny.co/wp-content/uploads/2020/12/marca_lerny.jpg",
+												"subtitle": "Para continuar, por favor selecciona una opción.",
+												"buttons":
+												[
+													{
+														"type": "postback",
+														"title": "Complementar",
+														"payload": "CARGAR_ARCHIVO"
+													},
+													{
+														"type": "postback",
+														"title": "Continuar lerny",
+														"payload": "continuar_curso"
+													},
+													{
+														"type": "postback",
+														"title": "ver microlernys",
+														"payload": "LIST_MICROLERNYS"
+													},
+												]
+											}
+										]
+									}
+								}
+							}
+						}})
 		elif(key == "LernyDefaultFallback"):
 			if(text):
 				data = {

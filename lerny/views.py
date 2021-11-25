@@ -190,9 +190,11 @@ class lernyDetail(APIView):
 				else:
 					#Muestro el primer lerny asociado a la compañia
 					lerny = Lerny.objects.filter(lerny_company__company_id=company).first()
+					print("ENTRO",lerny)
 
 				#selecciono todos los usuarios inscritos en el lerny
 				user_lerny = User_Lerny.objects.filter(lerny_id=lerny.pk)
+				print("ENTRO",user_lerny)
 				#selecciono todos los recursos del lerny
 				resource_lerny = Resource.objects.filter(microlerny__lerny__pk=lerny.pk)
 				if microlerny_id != -1:

@@ -188,7 +188,7 @@ class lernyDetail(APIView):
 					lerny = Lerny.objects.get(pk=lerny_id)
 				else:
 					#Muestro el primer lerny asociado a la compañia
-					lerny = Lerny.objects.filter(lerny_company__company_id=company)
+					lerny = Lerny.objects.filter(lerny_company__company_id=company).first()
 
 				#selecciono todos los usuarios inscritos en el lerny
 				user_lerny = User_Lerny.objects.filter(lerny_id=lerny.pk)

@@ -83,12 +83,12 @@ def ApiStateResource(request):
 		if company:
 			#filtro todos los lernys que pertenecen a la empresa que se encuentra asignado el colaborador
 			lernys = Lerny.objects.filter(lerny_company__company_id=company.pk).values_list("pk", flat=True)
-			user_resources = User_Resource.objects.filter(resource_id__microlerny__lerny__in=lernys).order_by("resource_id__microlerny__lerny__lerny_name")
+			user_resources = User_Resource.objects.filter(resource_id__microlerny__lerny__in=lernys).order_by("resource_id__microlerny__lerny__lerny_name") #user_resource son los entregables 
 			print(user_resources)
 			for i in user_resources:
 				data = {}
 				try:
-					group_id=UserGroupSerializer(User_Group.objects.get(User_id=i.user_id)).data["Group_id"]
+					group_id=UserGroupSerializer(User_Group.objects.get(User_id=i.user_id)).data["Group_id"] #grupo del usuario
 					data['Grupo'] = GroupSerializer(Group.objects.get(pk=group_id,lerny_id=i.resource_id.microlerny.lerny.pk)).data["Group_name"]
 				except:
 					data['Grupo'] = ""
@@ -186,12 +186,15 @@ class lernyDetail(APIView):
 				if lerny_id != -1:
 					#filtro por el lerny
 					lerny = Lerny.objects.get(pk=lerny_id)
+					print("ENTRO",lerny)
 				else:
 					#Muestro el primer lerny asociado a la compañia
 					lerny = Lerny.objects.filter(lerny_company__company_id=company).first()
+					print("ENTRO",lerny)
 
 				#selecciono todos los usuarios inscritos en el lerny
 				user_lerny = User_Lerny.objects.filter(lerny_id=lerny.pk)
+				print("ENTRO",user_lerny)
 				#selecciono todos los recursos del lerny
 				resource_lerny = Resource.objects.filter(microlerny__lerny__pk=lerny.pk)
 				if microlerny_id != -1:

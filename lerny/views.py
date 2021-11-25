@@ -206,9 +206,7 @@ class lernyDetail(APIView):
 				#selecciono todos los registros de recursos obligatorios aprobados por usuarios
 				user_resource = User_State_Logs.objects.filter(micro_lerny_id__lerny__pk=lerny.pk)
 				for i in user_lerny:
-					group = i.user_id.group
-					group_name=group.name
-					if(group_name != "Facilitadores"):
+					
 						data = {}
 						data['user'] = i.user_id.user_name
 						data['identification'] = i.user_id.identification

@@ -284,7 +284,7 @@
                 <select class="form-select" id="lerny_select" aria-label="Default select example">
                     <option selected value="-1">Todos los Lerny</option>
                 </select>
-                <button class="btn btn-dark" type="button" onclick="filter_chart()">FILTRAR</button>
+                <button class="btn btn-dark" type="button" onclick="filter_chart();update_table()">FILTRAR</button>
               </div>
 
 
@@ -413,11 +413,7 @@
                     type: 'GET',
                     dataType: 'json'
                 },
-                // ajax: {
-                //     url: '/api_lerny/apiresources/',
-                //     type: 'GET',
-                //     dataType: 'json'
-                // },
+
                 columns :[
                 {data: 'identification'},
                 {data: 'user'},
@@ -439,41 +435,11 @@
         $.ajax({
             url: '/api_lerny/lernyapi/',
             success: function(data) {
-               console.log("ARCHIVO CHARTS",data);
-               const lerny_id = data[1].pk;
-               console.log("Lerny ID",lerny_id);
+               const lerny_id = data[1].pk;  
             }
         })
 
-        // function filter_chart(){
-        //     $.ajax({
-        //     url: '/api_lerny/lernyapi/',
-        //     success: function(data) {
-        //        console.log("ARCHIVO CHARTS",data);
-        //        const lerny_id = data[1].pk;
-        //        console.log("Lerny ID",lerny_id);
-        //        $.ajax({
-        //            url: '/api_lerny/lernydetail/?lerny_id='+lerny_id+'&microlerny_id=-1',
-        //            success: function(lerny) {
-        //                console.log("Lerny",lerny);
-
-        //                 var pie = lerny.approved; //Students approved
-                        
-        //                 var name_micro = lerny.name_micro; //name of microlernies
-        //                 var cont_micro = lerny.cont_micro; //number students of microlernies
-        //                 var progress_micro = lerny.progress_micro; //progress of microlernies
-        //                 var average = lerny.average_micro; //average of microlernies
-        //                 myBarChartCant.update();
-                       
-        //            }
-        //        })
-        //     }
-        // })
-            
-        //     // chart.update();
-        // }
-
-
+       
         // Set new default font family and font color to mimic Bootstrap's default styling
         Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
         Chart.defaults.global.defaultFontColor = '#858796';
@@ -492,7 +458,7 @@
 
             console.log("Datos Iniciales",respuesta);
                         
-
+            //Select Lerny
             $.ajax({
                 url: '/api_lerny/lernyapi/',
                 success: function(data) {

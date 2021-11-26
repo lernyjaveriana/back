@@ -403,7 +403,11 @@
 
     <script type="text/javascript">
 
-        var table = null;
+        var table = null
+        var lerny = $( "#lerny_select" ).children("option:selected").val();
+
+        console.log(lerny);
+
         
         $(document).ready(function() {
 
@@ -432,11 +436,11 @@
             $("div.dtsp-verticalPanes").append(table.searchPanes.container());
         })
 
-        function filterByLerny(){
-            lerny_id = $( "#lerny_select" ).children("option:selected").val();
-            microlerny_id = $( "#microlerny_select" ).children("option:selected").val();
-            table.ajax.url( '/api_lerny/lernydetail/?lerny_id='+lerny_id+'&microlerny_id='+microlerny_id ).load();
-        }
+        // function filterByLerny(){
+        //     lerny_id = $( "#lerny_select" ).children("option:selected").val();
+        //     microlerny_id = $( "#microlerny_select" ).children("option:selected").val();
+        //     table.ajax.url( '/api_lerny/lernydetail/?lerny_id='+lerny_id+'&microlerny_id='+microlerny_id ).load();
+        // }
 
     </script>
 

@@ -430,15 +430,17 @@
 
         })
 
-        $.ajax({
-                url: "/api_lerny/editresource/",
+        function data() {
+            $.ajax({
+                url: '/api_lerny/lerny/?lerny_id=-1&microlerny_id=-1',
                 type: 'GET',
                 dataType: 'json',
-                success: function(data){
-                    console.log(data)
+                success: function(data) {
+                   console.log(data)
                 }
             });
             
+        }
         function update_table(){
             lerny = $( "#lerny_select" ).children("option:selected").val();
             table.ajax.url( '/api_lerny/lernydetail/?lerny_id='+lerny+'&microlerny_id=-1' ).load();

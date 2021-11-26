@@ -440,6 +440,8 @@
             url: '/api_lerny/lernyapi/',
             success: function(data) {
                console.log("ARCHIVO CHARTS",data);
+               var lerny_id = data.lerny_id;
+               console.log("Lerny ID",lerny_id);
             }
         })
         function update_table(){

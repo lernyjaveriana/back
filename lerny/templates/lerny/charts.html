@@ -631,22 +631,16 @@
 
         function filter_chart(){
 
-            const lerny_select = $( "#lerny_select" ).children("option:selected").val();
+            lerny = $( "#lerny_select" ).children("option:selected").val();
 
             $.ajax({
             
                 url: '/api_lerny/lernyapi/',
                 success: function(data) {
 
-                    const lerny = data.filter( function (l) {
-
-                        return l.name == lerny_select;
-                        
-                    })
-
-                const lerny_id = lerny.pk;
-                console.log("LERNY SELECCIONADO",lerny);
-                console.log("ID LERNY SELECCIONADO",lerny_id);
+                const lerny_id = data.filter(function(d) {
+                    return d.name == lerny;
+                });
                 $.ajax({
                 url: '/api_lerny/lernydetail/?lerny_id='+lerny_id+'&microlerny_id=-1',
                 success: function(lerny) {

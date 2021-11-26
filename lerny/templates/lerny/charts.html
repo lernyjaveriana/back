@@ -435,6 +435,21 @@
             $("div.dtsp-verticalPanes").append(table.searchPanes.container());
         })
 
+
+        $.ajax(
+            {
+                url: '/api_lerny/lerny/',
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    console.log(data);
+                    $.each(data, function(index, value) {
+                        $('#lerny_select').append('<option value="'+value.id+'">'+value.name+'</option>');
+                    });
+                }
+            }
+        );
+    
         function filterByLerny(data_micro, lerny_id) {
             console.log(data_micro);
             if (lerny_id == undefined) {

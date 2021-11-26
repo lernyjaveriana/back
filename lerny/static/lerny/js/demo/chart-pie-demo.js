@@ -54,6 +54,7 @@ $.ajax({
               }
 
               $( "#lerny_name" ).text(data[0].name)
+              $( "#lerny_name" ).show()
           },
           error: function() {
               console.log("No se ha podido obtener la información");

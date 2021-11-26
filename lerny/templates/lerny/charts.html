@@ -435,36 +435,19 @@
 
         })
 
-        function data() {
-            $.ajax({
-                url: '/api_lerny/lerny/?lerny_id=-1&microlerny_id=-1',
-                type: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                   console.log(data)
-                }
-            });
-            
-        }
+
+        $.ajax({
+            url: '/api_lerny/lernyapi/',
+            success: function(data) {
+               console.log("ARCHIVO CHARTS",data);
+            }
+        })
         function update_table(){
             lerny = $( "#lerny_select" ).children("option:selected").val();
             table.ajax.url( '/api_lerny/lernydetail/?lerny_id='+lerny+'&microlerny_id=-1' ).load();
             
         }
 
-        // function filter_chart() {
-
-        //     const chart = document.getElementById('myBarChartCant');
-        //     const chart2 = document.getElementById('myBarChartProgress');
-        //     const chart3 = document.getElementById('myBarChartAvg');
-        //     const chart4 = document.getElementById('myBarChart');
-
-        //     const data = chart.ajax.url( '/api_lerny/lernydetail/?lerny_id='+lerny+'&microlerny_id=-1' ).load();
-
-        //     console.log(data)
-
-            
-        // }
 
     </script>
 

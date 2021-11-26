@@ -631,16 +631,19 @@
 
         function filter_chart(){
 
-            lerny = $( "#lerny_select" ).children("option:selected").val();
+            lerny_select = $( "#lerny_select" ).children("option:selected").val();
+            console.log(lerny_select);
 
             $.ajax({
             
                 url: '/api_lerny/lernyapi/',
                 success: function(data) {
 
-                const lerny_id = data.filter(function(d) {
+                const lerny = data.filter(function(d) {
                     return d.name == lerny;
                 });
+
+                lerny_id = lerny[0].pk;
                 $.ajax({
                 url: '/api_lerny/lernydetail/?lerny_id='+lerny_id+'&microlerny_id=-1',
                 success: function(lerny) {

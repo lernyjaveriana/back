@@ -403,7 +403,7 @@
     <script type="text/javascript">
 
         var table = null
-        var lerny = $( "#lerny_select" ).children("option:selected").val();
+       
       
         $(document).ready(function() {
 
@@ -456,13 +456,12 @@
             var progress_micro = respuesta.progress_micro; //progress of microlernies
             var average = respuesta.average_micro; //average of microlernies
 
-            console.log("Datos Iniciales",respuesta);
                         
             //Select Lerny
             $.ajax({
                 url: '/api_lerny/lernyapi/',
                 success: function(data) {
-                    console.log(data);
+                    console.log("DATA LERNY",data);
                     for(var i = 0; i < Object.keys(data).length; i++) {
                         document.getElementById("lerny_select").innerHTML += "<option value='"+data[i].pk+"'>"+data[i].name+"</option>";
                     }
@@ -629,26 +628,26 @@
             }
         });
 
+
+        var lerny_select = $( "#lerny_select" ).children("option:selected").val();
+        console.log("LERNY_SELECT",lerny_select);
         function filter_chart(){
 
-            lerny_select = $( "#lerny_select" ).children("option:selected").val();
-            console.log("LERNY_SELECT",lerny_select);
+            
             $.ajax({
             
                 url: '/api_lerny/lernyapi/',
                 success: function(data) {
 
-                const lerny = data
+                const lerny = data;
 
                 console.log("FILTRADO",lerny);
                 lerny_id = lerny[0].pk;
-                console.log(lerny_id);
-                console.log(lerny_select);
+                console.log("ID LERNY_SELECT",lerny_id);
                 $.ajax({
                 url: '/api_lerny/lernydetail/?lerny_id='+lerny_id+'&microlerny_id=-1',
                 success: function(lerny) {
             
-                console.log("Lerny",lerny);
                 myBarChartCant.data.datasets[0].data = lerny.cant_micro;
                 myBarChartCant.data.labels = lerny.name_micro;
                 myBarChartCant.update();

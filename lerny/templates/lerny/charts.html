@@ -285,10 +285,6 @@
                 <select class="form-select" id="lerny_select" aria-label="Default select example">
                     <option selected value="-1">Todos los Lerny</option>
                 </select>
-                <p style="display: none">Microlerny</p>
-                <select class="form-select" id="microlerny_select" aria-label="Default select example" style="display: none">
-                    <option selected value="-1">Todos los Microlerny</option>
-                </select>
                 <button class="btn btn-dark" type="button" onclick="filterByLerny()">FILTRAR</button>
               </div>
 
@@ -440,11 +436,13 @@
             $("div.dtsp-verticalPanes").append(table.searchPanes.container());
         })
 
-        // function filterByLerny(){
-        //     lerny_id = $( "#lerny_select" ).children("option:selected").val();
-        //     microlerny_id = $( "#microlerny_select" ).children("option:selected").val();
-        //     table.ajax.url( '/api_lerny/lernydetail/?lerny_id='+lerny_id+'&microlerny_id='+microlerny_id ).load();
-        // }
+        function filterByLerny(){
+            lerny_id = $( "#lerny_select" ).children("option:selected").val();
+            microlerny_id = $( "#microlerny_select" ).children("option:selected").val();
+            table.ajax.url( '/api_lerny/lernydetail/?lerny_id='+lerny_id+'&microlerny_id='+microlerny_id ).load();
+            console.log(lerny_id);
+            
+        }
 
     </script>
 

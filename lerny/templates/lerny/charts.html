@@ -284,7 +284,7 @@
                 <select class="form-select" id="lerny_select" aria-label="Default select example">
                     <option selected value="-1">Todos los Lerny</option>
                 </select>
-                <button class="btn btn-dark" type="button" onclick="filter_chart()">FILTRAR</button>
+                <button class="btn btn-dark" type="button" onclick="fil()">FILTRAR</button>
               </div>
 
 
@@ -453,12 +453,21 @@
 
         function filter_chart(){
             $.ajax({
-                url: '/api_lerny/lernydetail/?lerny_id=lerny_id&microlerny_id=-1',
-                success: function(data) {
-                   console.log(" CHART NUEVO",data);
-                
-                }
-            })
+            url: '/api_lerny/lernyapi/',
+            success: function(data) {
+               console.log("ARCHIVO CHARTS",data);
+               const lerny_id = data[1].pk;
+               console.log("Lerny ID",lerny_id);
+               $.ajax({
+                   url: '/api_lerny/lernydetail/?lerny_id='+lerny_id+'&microlerny_id=-1',
+                   success: function(lerny) {
+                       console.log("Lerny",lerny);
+                       
+                   }
+               })
+            }
+        })
+            
             // chart.update();
         }
 

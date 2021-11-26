@@ -14,11 +14,6 @@ $.ajax({
     var progress_micro = respuesta.progress_micro; //progress of microlernies
     var average = respuesta.average_micro; //average of microlernies
 
-    
-
-
-  
-    
     console.log(respuesta);
     console.log(lerny_id);
                 
@@ -51,71 +46,11 @@ $.ajax({
               }
 
               $( "#lerny_name" ).text(data[0].name)
-              $( "#lerny_name" ).show()
           },
           error: function() {
               console.log("No se ha podido obtener la información");
           }
       });
-
-    
-
-   
-
-    // function filterByMicro(data_micro, microlerny_id) {
-    //   return data_micro.filter(function(microlerny) {
-    //     return microlerny.microlerny_id == microlerny_id;
-    //   });
-    // }  // filterByMicro
-
-    // function filterByMicroName(data_micro, name_micro) {
-    //   return data_micro.filter(function(microlerny) {
-    //     return microlerny.name_micro == name_micro;
-    //   });
-    // }  // filterByMicroName
-
-    // function filterByMicroCont(data_micro, cont_micro) {
-    //   return data_micro.filter(function(microlerny) {
-    //     return microlerny.cont_micro == cont_micro;
-    //   });
-    // }  // filterByMicroCont
-
-    // function filterByMicroProgress(data_micro, progress_micro) {
-    //   return data_micro.filter(function(microlerny) {
-    //     return microlerny.progress_micro == progress_micro;
-    //   });
-    // }  // filterByMicroProgress
-
-    // function filterByMicroAverage(data_micro, average) {
-    //   return data_micro.filter(function(microlerny) {
-    //     return microlerny.average_micro == average;
-    //   });
-    // }  // filterByMicroAverage
-
-    // function filterByMicroNameAndCont(data_micro, name_micro, cont_micro) {
-    //   return data_micro.filter(function(microlerny) {
-    //     return microlerny.name_micro == name_micro && microlerny.cont_micro == cont_micro;
-    //   });
-    // }  // filterByMicroNameAndCont
-
-    // function filterByMicroNameAndProgress(data_micro, name_micro, progress_micro) {
-    //   return data_micro.filter(function(microlerny) {
-    //     return microlerny.name_micro == name_micro && microlerny.progress_micro == progress_micro;
-    //   });
-    // }  // filterByMicroNameAndProgress
-
-    // function filterByMicroNameAndAverage(data_micro, name_micro, average) {
-
-    //   return data_micro.filter(function(microlerny) {
-    //     return microlerny.name_micro == name_micro && microlerny.average_micro == average;
-    //   });
-    // }  // filterByMicroNameAndAverage
-
-    // function filterByMicroContAndProgress(data_micro, cont_micro, progress_micro) {
-    //   return data_micro.filter(function(microlerny) {
-    //     return microlerny.cont_micro == cont_micro && microlerny.progress_micro == progress_micro;
-    //   });
-    // }  // filterByMicroContAndProgress
   
     var ctx = document.getElementById("myBarChartCant"); 
     myBarChartCant = new Chart(ctx, {

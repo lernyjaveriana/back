@@ -629,10 +629,10 @@
         });
 
 
-        var lerny_select = $( "#lerny_select" ).children("option:selected").val();
-        console.log("LERNY_SELECT",lerny_select);
+        
         function filter_chart(){
-
+            var lerny_select = $( "#lerny_select" ).children("option:selected").val();
+            console.log("LERNY_SELECT",lerny_select);
             
             $.ajax({
             
@@ -640,7 +640,7 @@
                 success: function(data) {
 
                 const lerny = data;
-
+                
                 console.log("FILTRADO",lerny);
                 lerny_id = lerny[0].pk;
                 console.log("ID LERNY_SELECT",lerny_id);

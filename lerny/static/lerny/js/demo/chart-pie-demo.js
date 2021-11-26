@@ -14,7 +14,7 @@ $.ajax({
     var progress_micro = respuesta.progress_micro; //progress of microlernies
     var average = respuesta.average_micro; //average of microlernies
 
-    console.log(respuesta);
+    console.log("Datos Iniciales",respuesta);
                 
 
     $.ajax({

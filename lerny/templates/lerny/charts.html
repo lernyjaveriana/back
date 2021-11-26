@@ -405,10 +405,7 @@
 
         var table = null
         var lerny = $( "#lerny_select" ).children("option:selected").val();
-
-        console.log(lerny);
-
-        
+      
         $(document).ready(function() {
 
             table = $('#dataTable').DataTable( {
@@ -432,16 +429,18 @@
                 pageLength: 20
             })
 
-            table.searchPanes();
-            $("div.dtsp-verticalPanes").append(table.searchPanes.container());
         })
 
-        function filterByLerny(){
-            lerny_id = $( "#lerny_select" ).children("option:selected").val();
-            microlerny_id = $( "#microlerny_select" ).children("option:selected").val();
-            table.ajax.url( '/api_lerny/lernydetail/?lerny_id='+lerny_id+'&microlerny_id='+microlerny_id ).load();
-            console.log(lerny_id);
-            
+        function update_table(){
+            $.ajax({
+                url: '/api_lerny/lernydetail/?lerny_id='+$( "#lerny_select" ).children("option:selected").val(),
+                type: 'GET',
+                dataType: 'json',
+                success: function(data){
+                    table.clear().draw();
+                    table.rows.add(data);
+                }
+            });
         }
 
     </script>

@@ -20,6 +20,7 @@ $.ajax({
     $.ajax({
           url: '/api_lerny/lernyapi/',
           success: function(data) {
+            console.log(data);
               for(var i = 0; i < Object.keys(data).length; i++) {
                   document.getElementById("lerny_select").innerHTML += "<option value='"+data[i].pk+"'>"+data[i].name+"</option>";
               }

@@ -284,7 +284,7 @@
                 <select class="form-select" id="lerny_select" aria-label="Default select example">
                     <option selected value="-1">Todos los Lerny</option>
                 </select>
-                <button class="btn btn-dark" type="button" onclick="update_table();filter_chart()">FILTRAR</button>
+                <button class="btn btn-dark" type="button" onclick="update_table()">FILTRAR</button>
               </div>
 
 
@@ -413,17 +413,17 @@
                     type: 'GET',
                     dataType: 'json'
                 },
-                ajax: {
-                    url: '/api_lerny/apiresources/',
-                    type: 'GET',
-                    dataType: 'json'
-                },
+                // ajax: {
+                //     url: '/api_lerny/apiresources/',
+                //     type: 'GET',
+                //     dataType: 'json'
+                // },
                 columns :[
                 {data: 'identification'},
                 {data: 'user'},
                 {data: 'done'},
                 {data: 'progress'},
-                {data: 'group'},
+                // {data: 'group'},
                 ],
                 searchPanes: {
                     layout: 'columns-1',
@@ -452,19 +452,19 @@
             
         }
 
-        function filter_chart() {
+        // function filter_chart() {
 
-            const chart = document.getElementById('myBarChartCant');
-            const chart2 = document.getElementById('myBarChartProgress');
-            const chart3 = document.getElementById('myBarChartAvg');
-            const chart4 = document.getElementById('myBarChart');
+        //     const chart = document.getElementById('myBarChartCant');
+        //     const chart2 = document.getElementById('myBarChartProgress');
+        //     const chart3 = document.getElementById('myBarChartAvg');
+        //     const chart4 = document.getElementById('myBarChart');
 
-            const data = chart.ajax.url( '/api_lerny/lernydetail/?lerny_id='+lerny+'&microlerny_id=-1' ).load();
+        //     const data = chart.ajax.url( '/api_lerny/lernydetail/?lerny_id='+lerny+'&microlerny_id=-1' ).load();
 
-            console.log(data)
+        //     console.log(data)
 
             
-        }
+        // }
 
     </script>
 

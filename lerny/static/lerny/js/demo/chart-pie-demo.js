@@ -18,12 +18,9 @@ $.ajax({
 
 
   
-    console.log(cont_micro); 
+    
     console.log(respuesta);
-    console.log(data_micro);
     console.log(lerny_id);
-    console.log(microlerny_id);
- 
                 
     // $( "#lerny_select" ).change(function() {
     //   $( "#lerny_name" ).text($( "#lerny_select" ).children("option:selected").text())

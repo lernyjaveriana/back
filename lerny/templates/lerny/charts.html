@@ -632,15 +632,14 @@
         function filter_chart(){
 
             lerny_select = $( "#lerny_select" ).children("option:selected").val();
-            
-
+            console.log(lerny_select);
             $.ajax({
             
                 url: '/api_lerny/lernyapi/',
                 success: function(data) {
 
                 var lerny = data.filter(function(d) {
-                    return d.name == lerny;
+                    return d.name == lerny_select;
                 });
 
                 lerny_id = lerny[0].pk;

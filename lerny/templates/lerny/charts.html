@@ -462,6 +462,14 @@
                    url: '/api_lerny/lernydetail/?lerny_id='+lerny_id+'&microlerny_id=-1',
                    success: function(lerny) {
                        console.log("Lerny",lerny);
+
+                        var pie = lerny.approved; //Students approved
+                        
+                        var name_micro = lerny.name_micro; //name of microlernies
+                        var cont_micro = lerny.cont_micro; //number students of microlernies
+                        var progress_micro = lerny.progress_micro; //progress of microlernies
+                        var average = lerny.average_micro; //average of microlernies
+                        myBarChartCant.update();
                        
                    }
                })

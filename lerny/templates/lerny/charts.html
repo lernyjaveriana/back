@@ -631,13 +631,22 @@
 
         function filter_chart(){
 
+            const lerny_select = $( "#lerny_select" ).children("option:selected").val();
+
             $.ajax({
             
                 url: '/api_lerny/lernyapi/',
                 success: function(data) {
-                console.log("ARCHIVO CHARTS",data);
-                const lerny_id = data[1].pk;
-                console.log("Lerny ID",lerny_id);
+
+                    const lerny = data.filter( function (l) {
+
+                        return l.name == lerny_select;
+                        
+                    })
+
+                const lerny_id = lerny.pk;
+                console.log("LERNY SELECCIONADO",lerny);
+                console.log("ID LERNY SELECCIONADO",lerny_id);
                 $.ajax({
                 url: '/api_lerny/lernydetail/?lerny_id='+lerny_id+'&microlerny_id=-1',
                 success: function(lerny) {

@@ -432,15 +432,8 @@
         })
 
         function update_table(){
-            $.ajax({
-                url: '/api_lerny/lernydetail/?lerny_id='+$( "#lerny_select" ).children("option:selected").val(),
-                type: 'GET',
-                dataType: 'json',
-                success: function(data){
-                    table.clear().draw();
-                    table.rows.add(data);
-                }
-            });
+            lerny = $( "#lerny_select" ).children("option:selected").val();
+            table.ajax.url( '/api_lerny/lernydetail/?lerny_id='+lerny+'&microlerny_id=-1' ).load();
         }
 
     </script>

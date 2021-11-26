@@ -641,7 +641,10 @@
 
                 const lerny = data;
                 
-                console.log("FILTRADO",lerny);
+                fil = lerny.filter( function (l) {
+                    return l.name == lerny_select;
+                })
+                console.log("FILTRADO",fil);
                 lerny_id = lerny[0].pk;
                 console.log("ID LERNY_SELECT",lerny_id);
                 $.ajax({

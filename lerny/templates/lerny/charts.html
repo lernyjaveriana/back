@@ -430,10 +430,7 @@
 
         })
 
-        function update_table(){
-            lerny = $( "#lerny_select" ).children("option:selected").val();
-            table.ajax.url( '/api_lerny/lernydetail/?lerny_id='+lerny+'&microlerny_id=-1' ).load();
-            $.ajax({
+        $.ajax({
                 url: "/api_lerny/editresource/",
                 type: 'GET',
                 dataType: 'json',
@@ -441,6 +438,11 @@
                     console.log(data)
                 }
             });
+            
+        function update_table(){
+            lerny = $( "#lerny_select" ).children("option:selected").val();
+            table.ajax.url( '/api_lerny/lernydetail/?lerny_id='+lerny+'&microlerny_id=-1' ).load();
+            
         }
 
     </script>

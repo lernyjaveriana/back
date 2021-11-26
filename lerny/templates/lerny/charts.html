@@ -285,10 +285,6 @@
                 <select class="form-select" id="lerny_select" aria-label="Default select example">
                     <option selected value="-1">Todos los Lerny</option>
                 </select>
-                <p style="display: none">Microlerny</p>
-                <select class="form-select" id="microlerny_select" aria-label="Default select example" style="display: none">
-                    <option selected value="-1">Todos los Microlerny</option>
-                </select>
                 <button class="btn btn-dark" type="button" onclick="filterByLerny()">FILTRAR</button>
               </div>
 
@@ -440,10 +436,20 @@
         })
 
         function filterByLerny(data_micro, lerny_id) {
-            return data_micro.filter(function(microlerny) {
-            return microlerny.lerny_id == lerny_id;
-            });
-        }  // filterByLerny
+            if (lerny_id == undefined) {
+                lerny_id = $( "#lerny_select" ).children("option:selected").val();
+
+                if (lerny_id == -1) {
+                    table.ajax.url( '/api_lerny/lernydetail/?lerny_id=-1&microlerny_id=-1' ).load();
+                } else {
+                    table.ajax.url( '/api_lerny/lernydetail/?lerny_id=' + lerny_id + '&microlerny_id=-1' ).load();
+                }
+            } 
+            else {
+                table.ajax.url( '/api_lerny/lernydetail/?lerny_id=' + lerny_id + '&microlerny_id=' + data_micro ).load();
+            }
+            };
+          // filterByLerny
 
     </script>
 

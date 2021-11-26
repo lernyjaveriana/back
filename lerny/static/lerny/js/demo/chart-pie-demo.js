@@ -25,26 +25,26 @@ $.ajax({
     console.log(microlerny_id);
  
                 
-    $( "#lerny_select" ).change(function() {
-      $( "#lerny_name" ).text($( "#lerny_select" ).children("option:selected").text())
-      $( "#microlerny_select" ).show()
-      $('#microlerny_select').children().remove().end()
-      .append('<option selected value="-1">Todos los Microlerny</option>') ;
-      var lerny_id = $( "#lerny_select" ).children("option:selected").val();
-      $.ajax({
-          method: 'POST',
-          url: '/api_lerny/microlernyapi/',
-          data: { pk: lerny_id },
-          success: function(data) {
-              for(var i = 0; i < Object.keys(data).length; i++) {
-                  document.getElementById("microlerny_select").innerHTML += "<option value='"+data[i].pk+"'>"+data[i].name+"</option>";
-              }
-          },
-          error: function() {
-              console.log("No se ha podido obtener la información");
-          }
-      });
-    });
+    // $( "#lerny_select" ).change(function() {
+    //   $( "#lerny_name" ).text($( "#lerny_select" ).children("option:selected").text())
+    //   $( "#microlerny_select" ).show()
+    //   $('#microlerny_select').children().remove().end()
+    //   .append('<option selected value="-1">Todos los Microlerny</option>') ;
+    //   var lerny_id = $( "#lerny_select" ).children("option:selected").val();
+    //   $.ajax({
+    //       method: 'POST',
+    //       url: '/api_lerny/microlernyapi/',
+    //       data: { pk: lerny_id },
+    //       success: function(data) {
+    //           for(var i = 0; i < Object.keys(data).length; i++) {
+    //               document.getElementById("microlerny_select").innerHTML += "<option value='"+data[i].pk+"'>"+data[i].name+"</option>";
+    //           }
+    //       },
+    //       error: function() {
+    //           console.log("No se ha podido obtener la información");
+    //       }
+    //   });
+    // });
 
     $.ajax({
           url: '/api_lerny/lernyapi/',

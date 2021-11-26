@@ -413,12 +413,17 @@
                     type: 'GET',
                     dataType: 'json'
                 },
+                ajax: {
+                    url: '/api_lerny/apiresources/',
+                    type: 'GET',
+                    dataType: 'json'
+                },
                 columns :[
                 {data: 'identification'},
                 {data: 'user'},
                 {data: 'done'},
                 {data: 'progress'},
-
+                {data: 'group'},
                 ],
                 searchPanes: {
                     layout: 'columns-1',

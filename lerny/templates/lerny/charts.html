@@ -638,12 +638,9 @@
                 url: '/api_lerny/lernyapi/',
                 success: function(data) {
 
-                var lerny = data.filter(function(d) {
-                    return d.name == lerny_select;
-                    console.log("FILTRADO",lerny);
-                });
-                
+                const lerny = data
 
+                console.log("FILTRADO",lerny);
                 lerny_id = lerny[0].pk;
                 console.log(lerny_id);
                 console.log(lerny_select);

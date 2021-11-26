@@ -15,7 +15,6 @@ $.ajax({
     var average = respuesta.average_micro; //average of microlernies
 
     console.log(respuesta);
-    console.log(lerny_id);
                 
     $( "#lerny_select" ).change(function() {
       $( "#lerny_name" ).text($( "#lerny_select" ).children("option:selected").text())

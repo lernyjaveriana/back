@@ -657,14 +657,15 @@
                 url: '/api_lerny/lernydetail/?lerny_id='+lerny_id+'&microlerny_id=-1',
                 success: function(lerny) {
                 console.log("LERNY_ACTUAL",lerny);
+                myBarChartProgress.data.datasets[0].data = lerny.progress_micro;
+                myBarChartProgress.data.labels = lerny.name_micro;
+                myBarChartProgress.update();
                 myBarChartCant.data.datasets[0].data = lerny.cant_micro;
                 myBarChartCant.data.labels = lerny.name_micro;
                 myBarChartCant.update();
                 myBarChart.data.datasets[0].data = lerny.data_pie;
+                myBarChartCant.data.labels = lerny.name_micro;
                 myBarChart.update();
-                myBarChartProgress.data.datasets[0].data = lerny.progress_micro;
-                myBarChartProgress.data.labels = lerny.name_micro;
-                myBarChartProgress.update();
                 myBarChartAvg.data.datasets[0].data = lerny.average;
                 myBarChartAvg.data.labels = lerny.name_micro;
                 myBarChartAvg.update();

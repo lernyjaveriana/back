@@ -656,7 +656,7 @@
                 $.ajax({
                 url: '/api_lerny/lernydetail/?lerny_id='+lerny_id+'&microlerny_id=-1',
                 success: function(lerny) {
-            
+                console.log("LERNY_ACTUAL",lerny);
                 myBarChartCant.data.datasets[0].data = lerny.cant_micro;
                 myBarChartCant.data.labels = lerny.name_micro;
                 myBarChartCant.update();

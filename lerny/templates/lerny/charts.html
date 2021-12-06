@@ -403,22 +403,29 @@
     <script type="text/javascript">
 
         var table = null
+
         
+        $.ajax( {
+            url: '/api_lerny/lernydetail/?lerny_id=-1&microlerny_id=-1',
+            type: 'GET',
+            dataType: 'json',
+            success: function( json ) {
+                table.rows.add( json.data ).draw()
+            }
+        });
+
+        $.ajax( {
+            url: '/api_lerny/apiresources/',
+            type: 'GET',
+            dataType: 'json',
+            success: function( json ) {
+                table.rows.add( json.data ).draw()
+            }
+        });
+
         //TABLE USERS
         $(document).ready(function() {
             table = $('#dataTable').DataTable( {
-                ajax: {
-                    url: '/api_lerny/lernydetail/?lerny_id=-1&microlerny_id=-1',
-                    type: 'GET',
-                    dataType: 'json'
-                },
-
-                ajax: {
-                    url: '/api_lerny/apiresources/',
-                    type: 'GET',
-                    dataType: 'json'
-                },
-
                 columns :[
                 {data: 'identification'},
                 {data: 'user'},

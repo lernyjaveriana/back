@@ -513,7 +513,9 @@
                     drawBorder: false
                     },
                     ticks: {
-                    maxTicksLimit: 20
+                    maxTicksLimit: 20,
+                    maxRotation: 270,
+                    minRotation: 270,
                     },
                     maxBarThickness: 25,
                 }],
@@ -546,7 +548,7 @@
                 label: "Porcentaje",
                 data: data_pie,
                 backgroundColor: ['#BB86FC', '#001844', ],
-                borderColor: "#98E4FB",
+                borderColor: "#D4D6B9",
                 hoverOffset: 4
                 }],
             },
@@ -560,7 +562,7 @@
                 datasets: [{
                 label: "Progreso",
                 data: progress_micro,
-                backgroundColor: ['#001844', '#0039A3', '#0047CC ', '#0056F5','#1F6DFF', '#4788FF','#70A2FF'],
+                backgroundColor: ['#001844', '#0039A3', '#0047CC ', '#0056F5','#1F6DFF', '#4788FF','#70A2FF','#99BDFF', '#C1D9FF'],
                 hoverOffset: 4,
                 // hoverBackgroundColor: ['#001844', '#00A3EF','#7CDFF', '#BB86FC','#001844', '#001844','#001844','#001844', '#001844'],
                 borderColor: "#000000",
@@ -603,7 +605,9 @@
                     drawBorder: false
                     },
                     ticks: {
-                    maxTicksLimit: 20
+                    maxTicksLimit: 20,
+                    maxRotation: 270,
+                    minRotation: 270,
                     },
                     maxBarThickness: 25,
                 }],

@@ -266,6 +266,7 @@ class lernyDetail(APIView):
 							'progress_micro': list_progress_micro,
 							'average_micro': list_average_micro,
 						}
+				print(context)
 				return Response (context)
 		
 				context = {'data': "No tiene una compañia asignada"}

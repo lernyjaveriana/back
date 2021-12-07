@@ -206,29 +206,33 @@ class lernyDetail(APIView):
 				#selecciono todos los registros de recursos obligatorios aprobados por usuarios
 				user_resource = User_State_Logs.objects.filter(micro_lerny_id__lerny__pk=lerny.pk)
 				for i in user_lerny:
-					
-						data = {}
-						data['user'] = i.user_id.user_name
-						data['identification'] = i.user_id.identification
-						cont = user_resource.filter(user_id__pk=i.user_id.pk).count()
-						if cont_resource_lerny != 0:
-							if cont == cont_resource_lerny:
-								data['done'] = "Aprobado"
-								data['progress'] = 100
-								approved = approved + 1
-							elif cont == 0:
-								data['done'] = "No aprobado"
-								data['progress'] = 0
-							else:
-								data['done'] = "No aprobado"
-								data['progress'] = round(((cont*100)/cont_resource_lerny), 2)
-						else:
+					data = {}
+					try:
+						group_id=UserGroupSerializer(User_Group.objects.get(User_id=i.user_id)).data["Group_id"] #grupo del usuario
+						data['Grupo'] = GroupSerializer(Group.objects.get(pk=group_id,lerny_id=i.lerny_id)).data["Group_name"]
+					except:
+						data['Grupo'] = ""
+					data['user'] = i.user_id.user_name
+					data['identification'] = i.user_id.identification
+					cont = user_resource.filter(user_id__pk=i.user_id.pk).count()
+					if cont_resource_lerny != 0:
+						if cont == cont_resource_lerny:
 							data['done'] = "Aprobado"
-							#resource_lerny = Resource.objects.filter(microlerny__lerny__pk=lerny.pk)
-							data['progress'] = round(((cont*100)/cont_resource_lerny), 2)
+							data['progress'] = 100
 							approved = approved + 1
-						list_data.append(data)
-						cont = 0
+						elif cont == 0:
+							data['done'] = "No aprobado"
+							data['progress'] = 0
+						else:
+							data['done'] = "No aprobado"
+							data['progress'] = round(((cont*100)/cont_resource_lerny), 2)
+					else:
+						data['done'] = "Aprobado"
+						#resource_lerny = Resource.objects.filter(microlerny__lerny__pk=lerny.pk)
+						data['progress'] = round(((cont*100)/cont_resource_lerny), 2)
+						approved = approved + 1
+					list_data.append(data)
+					cont = 0
 				if user_lerny.count() != 0:
 					data_approved = [round(((approved*100)/user_lerny.count()), 2), round((((user_lerny.count()-approved)*100)/user_lerny.count()), 2)]
 				else:

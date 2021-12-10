@@ -421,33 +421,33 @@
             })
         }
 
-        // $(document).ready(function() {
-        //     var table = $('#dataTable').DataTable( {
-        //         "language": {
-        //             "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
-        //         },
-        //         "orderCellsTop":true,
-        //         "scrollX": true,
-        //         "fixedHeader": true,
-        //         ajax: {
-        //             url: '/api_lerny/apiresources/',
-        //             type: 'GET',
-        //             dataType: 'json'
-        //         },
-        //         columns :[
-        //             {data: 'lerny'},
-        //             {data: 'microlerny'},
-        //             {data: 'resource'},
-        //             {data: 'identification'},
-        //             {data: 'user'},
-        //             {data: 'response[,]'},
-        //             {data: 'Grupo'},
-        //             {data: 'points'},
-        //             {data: 'pk'},
+        $(document).ready(function() {
+            var table = $('#dataTable').DataTable( {
+                // "language": {
+                //     "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+                // },
+                // "orderCellsTop":true,
+                // "scrollX": true,
+                "fixedHeader": true,
+                ajax: {
+                    url: '/api_lerny/apiresources/',
+                    type: 'GET',
+                    dataType: 'json'
+                },
+                columns :[
+                    {data: 'lerny'},
+                    {data: 'microlerny'},
+                    {data: 'resource'},
+                    {data: 'identification'},
+                    {data: 'user'},
+                    {data: 'response[,]'},
+                    {data: 'Grupo'},
+                    {data: 'points'},
+                    {data: 'pk'},
 
-        //         ],
-        //         pageLength: 20,           
-        //     });
+                ],
+                pageLength: 20,           
+            });
         
         //     // Filters for the table
         //     // Create a row in the head 

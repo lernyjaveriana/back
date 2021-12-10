@@ -445,24 +445,24 @@
                 pageLength: 20,           
             });
         
-        //     // Filters for the table
-        //     // Create a row in the head 
-        //     $('#dataTable thead tr').clone(true).appendTo( '#dataTable thead' );
+            // Filters for the table
+            // Create a row in the head 
+            $('#dataTable thead tr').clone(true).appendTo( '#dataTable thead' );
 
-        //     // exclude columns
-        //     $('#dataTable thead tr:eq(1) th').each( function (i) {
-        //         var title = $(this).text();
-        //         $(this).html( '<input type="text" class="form-control form-control-sm" placeholder="Buscar"/>' );
+            // exclude columns
+            $('#dataTable thead tr:eq(1) th').each( function (i) {
+                var title = $(this).text();
+                $(this).html( '<input type="text" class="form-control form-control-sm" placeholder="Buscar"/>' );
    
-        //         $( 'input', this ).on( 'keyup change', function () {
-        //             if ( table.column(i).search() !== this.value ) {
-        //                 table
-        //                 .column(i)
-        //                 .search( this.value )
-        //                 .draw();
-        //             }
-        //         } );
-        //     } );
+                $( 'input', this ).on( 'keyup change', function () {
+                    if ( table.column(i).search() !== this.value ) {
+                        table
+                        .column(i)
+                        .search( this.value )
+                        .draw();
+                    }
+                } );
+            } );
 
 
         });

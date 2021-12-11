@@ -209,10 +209,11 @@ class lernyDetail(APIView):
 				user_resource = User_State_Logs.objects.filter(micro_lerny_id__lerny__pk=lerny.pk)
 				for i in user_lerny:
 					try:
-						groupname=UserSerializer(i.user_id).data["group"]
-						print("Group name: "+groupname)
+						groupname = User.objects.filter(id=i.user_id)
+						groupnamess=UserSerializer(groupname).data["group"]
+						print("Group name: "+groupnamess)
 					except:
-						break
+						rt=1
 
 					data = {}
 					try:

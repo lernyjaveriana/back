@@ -210,7 +210,8 @@ class lernyDetail(APIView):
 					try:
 						group_id=UserGroupSerializer(User_Group.objects.get(User_id=i.user_id, group_id__lerny__pk=lerny.pk)).data["Group_id"] #grupo del usuario
 						data['Grupo'] = GroupSerializer(Group.objects.get(pk=group_id,lerny_id=i.lerny_id)).data["Group_name"]
-					except:
+					except AssertionError:
+						print("Error: "+AssertionError)
 						data['Grupo'] = ""
 					data['user'] = i.user_id.user_name
 					data['identification'] = i.user_id.identification

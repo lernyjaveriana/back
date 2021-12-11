@@ -629,7 +629,7 @@ class ApiManager(APIView):
 							response=upload_to_s3(url)						
 							if(u_resource):
 								data = UserResourceSerializer(u_resource).data
-								User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).update(user_response=data['user_response']+' '+response)
+								User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).update(user_response=data['user_response']+','+response)
 								u_resource = User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).first()
 							else:
 								print("GUARDAR ARCHIVO")

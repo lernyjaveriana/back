@@ -208,13 +208,6 @@ class lernyDetail(APIView):
 				#selecciono todos los registros de recursos obligatorios aprobados por usuarios
 				user_resource = User_State_Logs.objects.filter(micro_lerny_id__lerny__pk=lerny.pk)
 				for i in user_lerny:
-					try:
-						groupname = User.objects.filter(id=i.user_id)
-						groupnamess=UserSerializer(groupname).data["group"]
-						print("Group name: "+groupnamess)
-					except:
-						rt=1
-
 					data = {}
 					try:
 						group_id=UserGroupSerializer(User_Group.objects.filter(User_id=i.user_id, Group_id__lerny_id__pk=i.lerny_id.pk).first()).data["Group_id"] #grupo del usuario

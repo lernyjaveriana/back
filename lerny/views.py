@@ -209,10 +209,11 @@ class lernyDetail(APIView):
 					data = {}
 					try:
 						group_id=UserGroupSerializer(User_Group.objects.filter(User_id=i.user_id, Group_id__lerny_id__pk=i.lerny_id.pk).first()).data["Group_id"] #grupo del usuario
-						print ("el gropu_id es: "+str(group_id))
-						data['Grupo'] = GroupSerializer(Group.objects.get(pk=group_id)).data["Group_name"]
-					except AssertionError:
-						print("Error: "+AssertionError)
+						if (group_id != None):
+							data['Grupo'] = GroupSerializer(Group.objects.get(pk=group_id)).data["Group_name"]
+						else:
+							data['Grupo'] = ""
+					except:
 						data['Grupo'] = ""
 					data['user'] = i.user_id.user_name
 					data['identification'] = i.user_id.identification

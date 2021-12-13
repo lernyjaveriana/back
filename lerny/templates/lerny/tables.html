@@ -450,11 +450,12 @@
             // exclude columns
             $('#dataTable thead tr:eq(1) th').each( function (i) {
                 var title = $(this).text();
-                if (title == "Entregables" || title == "points") {
-                    // $(this).remove();
-                    $(this).html( '<input type="text" class="form-control form-control-sm" placeholder="" disabled/>' );
+                if (title == "Lerny" || title == "Microlerny" || title == "Grupo"|| title == "Usuario") {
+                    $(this).html( '<input type="text" class="form-control form-control-sm" placeholder="Buscar..." />' );
                 }
-                $(this).html( '<input type="text" class="form-control form-control-sm" placeholder="Buscar"/>' );
+                else {
+                    $(this).html( '<input type="text" class="form-control form-control-sm" placeholder="Buscar..." disabled/>' );
+                }
    
                 $( 'input', this ).on( 'keyup change', function () {
                     if ( table.column(i).search() !== this.value ) {

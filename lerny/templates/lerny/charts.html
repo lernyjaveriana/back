@@ -258,6 +258,14 @@
               </div>
             </div>
 
+             <!-- Filtros -->
+            <div align="center" class="pt-5 pb-3">
+                <select class="form-select" id="lerny_select" aria-label="Default select example">
+                    <option selected value="-1">Selecionar</option>
+                </select>
+                <button class="btn btn-dark" type="button" onclick="update_table();filter_chart()">Filtrar</button>
+            </div>
+
             <div class="dtsp-verticalContainer">
                 <div class="container">
                     <table id="dataTable" class="display nowrap" width="100%">
@@ -278,16 +286,7 @@
 
             <!-- Content Row -->
             <div align="center">
-
-              <!-- Filtros -->
-              <div align="center" class="pt-5 pb-3">
-                <select class="form-select" id="lerny_select" aria-label="Default select example">
-                    <option selected value="-1">Todos los Lerny</option>
-                </select>
-                <button class="btn btn-dark" type="button" onclick="update_table();filter_chart()">Filtrar</button>
-              </div>
-
-
+        
               <div class="row" style="padding: 20px">
 
 

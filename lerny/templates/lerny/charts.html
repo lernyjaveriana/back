@@ -462,7 +462,6 @@
                     console.log("DATA LERNY",data);
                     for(var i = 0; i < Object.keys(data).length; i++) {
                         document.getElementById("lerny_select").innerHTML += "<option value='"+data[i].pk+"'>"+data[i].name+"</option>";
-                        document.getElementById("lerny_name").innerHTML = data[i].name;
                     }
 
                     $( "#lerny_name" ).text(data[0].name)
@@ -647,6 +646,7 @@
                 console.log("FILTRADO",fil);
                 lerny_id = fil[0].pk;
                 console.log("ID LERNY_SELECT",lerny_id);
+                $( "#lerny_name" ).text(fil[0].name)
                 
                 $.ajax({
                 url: '/api_lerny/lernydetail/?lerny_id='+lerny_id+'&microlerny_id=-1',

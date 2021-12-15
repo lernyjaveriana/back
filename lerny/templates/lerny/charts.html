@@ -138,6 +138,7 @@
 
         #dataTable_length {
             position: absolute;
+            margin-top: 30px;
         }
 
         #dataTable_filter {
@@ -291,14 +292,14 @@
             </div>
 
              <!-- Filtros -->
-            <div align="center" class="pt-1 pb-2">
+            <div align="center" class="pt-1 pb-3">
                 <select class="form-select" id="lerny_select" aria-label="Default select example">
                     <option selected value="-1">Seleccionar</option>
                 </select>
                 <button class="btn btn-dark" type="button" onclick="update_table();filter_chart()">Filtrar</button>
             </div>
 
-            <div class="dtsp-verticalContainer">
+            <div class="dtsp-verticalContainer pb-5">
                 <div class="container">
                     <table id="dataTable" class="display table table-striped table-bordered dataTable no-footer" width="100%">
                         <thead>

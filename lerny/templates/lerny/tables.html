@@ -470,6 +470,16 @@
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
                 },
+                dom: 'Blfrtip',
+                buttons:[
+                    {
+                        extend: 'excelHtml5',
+                        text: '<i class="fas fa-file-excel"></i>',
+                        titleAttr: 'Exportar a Excel',
+                        className: 'btn btn-success',
+                        
+                    }
+                ],
                 "orderCellsTop":true,
                 ajax: {
                     url: '/api_lerny/apiresources/',
@@ -490,10 +500,6 @@
                 ],
                 pageLength: 20,
                 responsive: true,
-                "dom": 'Blfrtip',
-                buttons:[
-                    'excel','pdf',
-                ]
             });
         
             // Filters for the table

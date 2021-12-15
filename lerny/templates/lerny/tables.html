@@ -127,22 +127,22 @@
 
     </style>
 
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap.min.js"></script>
-    
-    <!-- Buttons-->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script src="{% static 'lerny/js/jquery-3.3.1.js' %}"></script>
+    <script src="{% static 'lerny/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'lerny/js/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'lerny/js/buttons.flash.min.js' %}"></script>
+    <script src="{% static 'lerny/js/jszip.min.js' %}"></script>
+    <script src="{% static 'lerny/js/pdfmake.min.js' %}"></script>
+    <script src="{% static 'lerny/js/vfs_fonts.js' %}"></script>
+    <script src="{% static 'lerny/js/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'lerny/js/bootstrap.js' %}"></script>
+    <script src="{% static 'lerny/js/bootstrap-toggle.min.js' %}"></script>
 
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
-       
+
 
     <!-- Bootstrap core JavaScript-->
-    <script src="{% static 'lerny/vendor/jquery/jquery.min.js' %}"></script>
-    <script src="{% static 'lerny/vendor/jquery/jquery.js' %}"></script>
+    <!-- <script src="{% static 'lerny/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'lerny/vendor/jquery/jquery.js' %}"></script> -->
 
     <script src="{% static 'lerny/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
@@ -151,10 +151,6 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{% static 'lerny/js/admin-lerny.js' %}"></script>
-
-    <!-- Page level plugins -->
-    <script src="{% static 'lerny/vendor/datatables/jquery.dataTables.min.js' %}"></script>
-    <script src="{% static 'lerny/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
 
     <!-- searchPanes   -->
     <script src="https://cdn.datatables.net/searchpanes/1.3.0/js/dataTables.searchPanes.min.js"></script>
@@ -472,13 +468,7 @@
                 },
                 dom: 'Blfrtip',
                 buttons:[
-                    {
-                        extend: 'excelHtml5',
-                        text: '<i class="fas fa-file-excel"></i>',
-                        titleAttr: 'Exportar a Excel',
-                        className: 'btn btn-success',
-                        
-                    }
+                    
                 ],
                 "orderCellsTop":true,
                 ajax: {

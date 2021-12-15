@@ -120,10 +120,10 @@
             padding-right: 20px;
         }
 
-        #dataTable_filter {
+        /* #dataTable_filter {
    
     display: contents;
-}
+} */
 
     </style>
 
@@ -150,16 +150,6 @@
     <script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
     <!-- fixed header-->
     <script src="https://cdn.datatables.net/fixedheader/3.1.5/js/dataTables.fixedHeader.min.js"></script>
-
-    <!-- Buttons-->
-    <script src="https://cdn.datatables.net/buttons/2.1.1/js/buttons.bootstrap5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.colVis.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.flash.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.html5.min.js"></script>
-    
-
-
-
 
 </head>
 
@@ -484,9 +474,17 @@
 
                 ],
                 pageLength: 20,
+                responsive: true,
+                dom: 'Bfrtip',
                 buttons: [
-                    'copy', 'excel', 'pdf'
-                ],           
+                    {
+                        extend: 'excelHtml5',
+                        text: '<i class="fas fa-file-excel"></i>',
+                        titleAttr: 'Exportar Excel',
+                        className: 'btn btn-success',
+                    }
+                    
+                ],
             });
         
             // Filters for the table
@@ -517,6 +515,14 @@
         });
     </script>
 
+
+     <!-- Buttons-->
+
+    <script src="https://cdn.datatables.net/buttons/2.1.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.1.1/js/buttons.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.colVis.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.html5.min.js"></script>
+     
 </body>
 
 </html>

@@ -20,9 +20,6 @@
     <!-- Custom styles for this template-->
     <link href="{% static 'lerny/css/lerny-admin.css' %}" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <link href="{% static 'lerny/css/lerny-admin.css' %}" rel="stylesheet">
-
     <!-- Custom styles for this page -->
     <link href="{% static 'lerny/vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
 
@@ -33,15 +30,17 @@
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="{% static 'lerny/vendor/jquery/jquery.min.js' %}"></script>
-    <script src="{% static 'lerny/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'lerny/js/jquery-3.3.1.js' %}"></script>
+    <script src="{% static 'lerny/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'lerny/js/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'lerny/js/buttons.flash.min.js' %}"></script>
+    <script src="{% static 'lerny/js/jszip.min.js' %}"></script>
+    <script src="{% static 'lerny/js/pdfmake.min.js' %}"></script>
+    <script src="{% static 'lerny/js/vfs_fonts.js' %}"></script>
+    <script src="{% static 'lerny/js/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'lerny/js/bootstrap.js' %}"></script>
+    <script src="{% static 'lerny/js/bootstrap-toggle.min.js' %}"></script>
 
-    <!-- Core plugin JavaScript-->
-    <script src="{% static 'lerny/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="{% static 'lerny/js/admin-lerny.js' %}"></script>
 
     <!-- Page level plugins -->
     <script src="{% static 'lerny/vendor/chart.js/Chart.min.js' %}"></script>
@@ -49,9 +48,7 @@
     <!-- Page level custom scripts -->
     <!-- <script src="{% static 'lerny/js/demo/chart-pie-demo.js' %}"></script> -->
 
-    <!-- Page level plugins -->
-    <script src="{% static 'lerny/vendor/datatables/jquery.dataTables.min.js' %}"></script>
-    <script src="{% static 'lerny/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+
 
     <!-- searchPanes   -->
     <script src="https://cdn.datatables.net/searchpanes/1.3.0/js/dataTables.searchPanes.min.js"></script>
@@ -447,7 +444,11 @@
                 {data: 'progress'},
                 {data: 'Grupo'},
                 ],
-                dom: '<"dtsp-dataTable"frtip>',
+                dom: 'Blfrtip',
+                buttons:[
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                    
+                ],
                 pageLength: 20
             })
 

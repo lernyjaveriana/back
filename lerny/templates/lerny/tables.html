@@ -136,9 +136,9 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
 
-    <script src="{% static 'lerny/js/dataTables.buttons.min.js' %}"></script>
-    <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.html5.min.js"></script>
-
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+       
 
     <!-- Bootstrap core JavaScript-->
     <script src="{% static 'lerny/vendor/jquery/jquery.min.js' %}"></script>
@@ -490,7 +490,7 @@
                 ],
                 pageLength: 20,
                 responsive: true,
-                dom: 'B',
+                dom: 'B<"clear">lfrtip',
                 buttons:[
                     'excel',
                 ]

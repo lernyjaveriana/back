@@ -209,6 +209,7 @@ class lernyDetail(APIView):
 				user_resource = User_State_Logs.objects.filter(micro_lerny_id__lerny__pk=lerny.pk)
 				for i in user_lerny:
 					data = {}
+					print("GROUP NAME= "+str(i.user_id.group.name))
 					try:
 						group_id=UserGroupSerializer(User_Group.objects.filter(User_id=i.user_id, Group_id__lerny_id__pk=i.lerny_id.pk).first()).data["Group_id"] #grupo del usuario
 						if (group_id != None):

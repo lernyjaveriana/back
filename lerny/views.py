@@ -3,6 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import serializers
+
+from user.serializers import UserSerializer
 from .serializers import *
 from .models import *
 from django.http import JsonResponse
@@ -208,8 +210,11 @@ class lernyDetail(APIView):
 				for i in user_lerny:
 					data = {}
 					try:
-						group_id=UserGroupSerializer(User_Group.objects.get(User_id=i.user_id, group_id__lerny__pk=lerny.pk)).data["Group_id"] #grupo del usuario
-						data['Grupo'] = GroupSerializer(Group.objects.get(pk=group_id,lerny_id=i.lerny_id)).data["Group_name"]
+						group_id=UserGroupSerializer(User_Group.objects.filter(User_id=i.user_id, Group_id__lerny_id__pk=i.lerny_id.pk).first()).data["Group_id"] #grupo del usuario
+						if (group_id != None):
+							data['Grupo'] = GroupSerializer(Group.objects.get(pk=group_id)).data["Group_name"]
+						else:
+							data['Grupo'] = ""
 					except:
 						data['Grupo'] = ""
 					data['user'] = i.user_id.user_name

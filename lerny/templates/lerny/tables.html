@@ -477,6 +477,8 @@
             })
         }
 
+
+
         $(document).ready(function() {
             var table = $('#dataTable').DataTable( {
                 "language": {
@@ -490,6 +492,11 @@
                         titleAttr: 'Exportar a Excel',
                         className: 'btn btn-success',
                         color:  'green',
+                        customize: function (xlsx){
+                            var sheet = xlsx.worksheets['sheet1.xml'];
+
+                            $('row f[r^="C"]', sheet).attr( 's', '2' );
+                        }
                     },
 
                     {
@@ -530,6 +537,13 @@
                 pageLength: 20,
                 responsive: true,
             });
+
+            $.ajax({
+                url: '/api_lerny/lernyapi/',
+                success: function(data){
+                    console.log(data,'LERNY')
+                }
+            })
         
             // Filters for the table
             // Create a row in the head 
@@ -554,8 +568,6 @@
                     }
                 } );
             } );
-
-
         });
     </script>
 

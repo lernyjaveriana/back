@@ -439,6 +439,38 @@
         //TABLE USERS
         $(document).ready(function() {
             table = $('#dataTable').DataTable( {
+                buttons:[
+                    {
+                        extend: 'excelHtml5',
+                        text: '<i class="fas fa-file-excel"></i>',
+                        titleAttr: 'Exportar a Excel',
+                        className: 'btn btn-success',
+                        color:  'green',
+                        customize: function (xlsx){
+                            var sheet = xlsx.worksheets['sheet1.xml'];
+
+                            $('row f[r^="C"]', sheet).attr( 's', '2' );
+                        }
+                    },
+
+                    {
+                        extend: 'pdfHtml5',
+                        text: '<i class="fas fa-file-pdf"></i>',
+                        titleAttr: 'Exportar a PDF',
+                        className: 'btn btn-danger',
+                        color:  'red',
+                    },
+                        
+                    {
+                        extend: 'copy',
+                        text: '<i class="far fa-copy"></i>',
+                        titleAttr: 'Copiar',
+                        className: 'btn btn-info',
+                        color:  'blue',
+                    },
+             
+                ],
+              
                 ajax: {
                     url: '/api_lerny/lernydetail/?lerny_id=-1&microlerny_id=-1',
                     type: 'GET',

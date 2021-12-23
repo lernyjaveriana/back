@@ -123,6 +123,7 @@ def ApiStateResource(request):
 					deliverable.append(answers)
 
 				data['response'] = deliverable
+				data['http'] =i.user_response
 				data['points'] = i.points
 				list_data.append(data)
 			context = list_data

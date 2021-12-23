@@ -332,7 +332,8 @@
                                             <th>Entregables</th>
                                             <th>Grupo</th>
                                             <th>Puntos</th>
-                                            <th class="noExport">Acción</th>
+                                            <th>Acción</th>
+                                            <th>Enlaces</th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -492,26 +493,6 @@
                         titleAttr: 'Exportar a Excel',
                         className: 'btn btn-success',
                         color:  'green',
-                        exportOptions: {
-                             columns: "thead th:not(.noExport)"
-                        }
-                        // customize: function (xlsx){
-                        //     var sheet = xlsx.worksheets['sheet1.xml'];
-
-                        //     $('row f',sheet).each( function () {
-                        //         if ($('is t', this).text().indexOf("http") === 0){
-
-                        //             // (2.) change the type to `str` which is a formula
-                        //             $(thi).attr('t','str');
-                        //             //append the formula
-                        //             $(this).append('<f>' + 'HYPERLINK("'+$('is t', this).text()+'","'+$('is t', this).text()+'")'+ '</f>');
-                        //             //remove the inlineStr
-                        //             $('is', this).remove();
-                        //             // (3.) underline
-                        //             $(this).attr( 's', '4' );
-                        //         }
-                        //     });
-                        // }
                     },
 
                     {
@@ -547,6 +528,7 @@
                     {data: 'Grupo'},
                     {data: 'points'},
                     {data: 'pk'},
+                    {data: 'http'},
 
                 ],
                 pageLength: 20,

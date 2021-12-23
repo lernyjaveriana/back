@@ -506,16 +506,16 @@
                         titleAttr: 'Exportar a Excel',
                         className: 'btn btn-success',
                         color:  'green',
-                    },
-
+                    }),
+                    $.extend (true, {}, buttonCommon,
                     {
                         extend: 'pdfHtml5',
                         text: '<i class="fas fa-file-pdf"></i>',
                         titleAttr: 'Exportar a PDF',
                         className: 'btn btn-danger',
                         color:  'red',
-                    },
-                        
+                    }),
+                    $.extend (true, {}, buttonCommon,
                     {
                         extend: 'copy',
                         text: '<i class="far fa-copy"></i>',

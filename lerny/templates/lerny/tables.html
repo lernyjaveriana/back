@@ -481,12 +481,25 @@
 
 
         $(document).ready(function() {
+
+            // Function ignore column for export data
+            var buttonCommon = {
+                exportOptions: {
+                    columns: function(column, data, node) {
+                        if (column === 0 || column ===5 || column === 8) {
+                            return false;
+                        }
+                        return true;
+                    }
+                }
+    };
             var table = $('#dataTable').DataTable( {
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
                 },
                 dom: 'Blfrtip',
                 buttons:[
+                    $.extend (true, {}, buttonCommon,
                     {
                         extend: 'excelHtml5',
                         text: '<i class="fas fa-file-excel"></i>',
@@ -510,6 +523,7 @@
                         className: 'btn btn-info',
                         color:  'blue',
                     },
+                    )
              
                 ],
                 "orderCellsTop":true,

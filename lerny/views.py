@@ -105,7 +105,7 @@ def ApiStateResource(request):
 				
 				#Create tag hiperlink for user responses
 				etiqueta = '<a href="{}" target="_blank" > Recurso </a>'
-				list_answers = i.user_response.split()
+				list_answers = i.user_response.split(;)
 
 				deliverable , txt_response = [], []
 
@@ -118,7 +118,7 @@ def ApiStateResource(request):
 
 				#joins words from the text response
 				if len(txt_response) > 0: 
-					answers = " ".join(txt_response)
+					answers = ";".join(txt_response)
 					#Final list of deliverables
 					deliverable.append(answers)
 

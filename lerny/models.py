@@ -81,7 +81,8 @@ class Media(models.Model):
 class User_Lerny(models.Model):
 	lerny_id = models.ForeignKey(Lerny, on_delete=models.CASCADE, null=False)
 	user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
-	active = models.BooleanField(default=False)
+	access = models.BooleanField('is accessible?',default=True)
+	active = models.BooleanField('current status', default=False)
 
 	def __str__(self):
 		return f'{self.user_id},{self.lerny_id}'

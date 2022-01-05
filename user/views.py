@@ -310,7 +310,7 @@ class ApiManager(APIView):
 				
 				if(u_resource):
 					data = UserResourceSerializer(u_resource).data
-					User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).update(user_response=data['user_response']+' '+response)
+					User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).update(user_response=data['user_response']+';'+response)
 				else:
 					print("GUARDAR ARCHIVO")
 					u_resource = User_Resource()
@@ -762,7 +762,6 @@ class ApiManager(APIView):
 								"languageCode":"en-US"
 							}
 						}
-
 		# NPS_METRIC2
 		elif(key == "NPS_METRIC2"):
 						
@@ -841,7 +840,6 @@ class ApiManager(APIView):
 					score.Response_Int = response
 				score.save()
 				data=continueLerny(lerny_active.lerny_id,user_id_obj,user_id)
-
 		else:
 			data = {}
 		print(data)

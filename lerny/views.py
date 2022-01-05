@@ -118,7 +118,7 @@ def ApiStateResource(request):
 
 				#joins words from the text response
 				if len(txt_response) > 0: 
-					answers = " ".join(txt_response)
+					answers = ";".join(txt_response)
 					#Final list of deliverables
 					deliverable.append(answers)
 

@@ -258,7 +258,7 @@ class ApiManager(APIView):
 				data=bienvenidaLerny(user_id)
 			else:
 				user_id_obj = User.objects.get(identification=user_id)
-				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj,access=True)
+				lerny_active = User_Lerny.objects.get(active=True,user_id=user_id_obj,access=True)
 				if(lerny_active):
 					user_state = User_State.objects.filter(user_id=user_id_obj, lerny_id =lerny_active.lerny_id)
 					user_state = user_state.first()

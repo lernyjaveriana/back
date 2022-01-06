@@ -1,5 +1,4 @@
-from .serializers import UserSerializer, UserLoginSerializer
-from .models import User
+from ..models import User
 from lerny.models import *
 from lerny.serializers import *
 

@@ -90,8 +90,11 @@ def ApiStateResource(request):
 			for i in user_resources:
 				data = {}
 				try:
-					group_id=UserGroupSerializer(User_Group.objects.get(User_id=i.user_id)).data["Group_id"] #grupo del usuario
-					data['Grupo'] = GroupSerializer(Group.objects.get(pk=group_id,lerny_id=i.resource_id.microlerny.lerny.pk)).data["Group_name"]
+					group_id=UserGroupSerializer(User_Group.objects.filter(User_id=i.user_id, Group_id__lerny_id__pk=i.resource_id.microlerny.lerny.pk).first()).data["Group_id"] #grupo del usuario
+					if (group_id != None):
+						data['Grupo'] = GroupSerializer(Group.objects.get(pk=group_id)).data["Group_name"]
+					else:
+						data['Grupo'] = ""
 				except:
 					data['Grupo'] = ""
 				

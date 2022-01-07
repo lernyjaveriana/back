@@ -13,6 +13,7 @@ from user.Intents.bienvenidaLerny import bienvenidaLerny
 from user.Intents.listarLernys import listarLernys
 from user.Intents.continueLerny import continueLerny
 from user.Intents.cargarRecursoMicrolerny import cargarRecursoMicrolerny
+from user.Intents.listarMicrolernys import listarMicrolernys
 from datetime import datetime
 
 class UserManageGet(APIView):
@@ -216,42 +217,7 @@ class ApiManager(APIView):
 					identification=user_id)
 				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()
 				micro_lerny = MicroLerny.objects.filter(lerny=lerny_active.lerny_id).order_by('pk')
-				data = MicroLernySerializer(micro_lerny, many=True).data
-				i = 0
-				temp = []
-				while(i < len(data)):
-					print("IMPRESION LISTAR LERNY: "+ str(data[i]['id'])+") " + data[i]['micro_lerny_title'])
-					temp.append(
-						{
-							"subtitle": data[i]['micro_lerny_subtitle'],
-							"image_url": data[i]['microlerny_image_url'],
-							"title": data[i]['micro_lerny_title'],
-							"buttons": [
-							{
-								"payload": "cargar recurso "+str(data[i]['id']) ,
-								"title": "Seleccionar",
-								"type": "postback"
-							}
-							]
-						},)
-					i += 1
-
-				data = {
-					"fulfillmentMessages": [
-					{
-						"payload": {
-							"facebook": {
-								"attachment": {
-									"type": "template",
-									"payload": {
-										"template_type": "generic",
-										"elements": temp
-									}
-								}
-							}
-						}
-					}]
-				}
+				data = listarMicrolernys(micro_lerny)
 		# CONTINUAR CURSO
 		elif(key == "CONTINUAR_CURSO"):
 			if(user_id is None):
@@ -344,7 +310,7 @@ class ApiManager(APIView):
 				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj,access=True).first()
 				if(lerny_active):
 					user_state = User_State.objects.filter(user_id=user_id_obj, lerny_id =lerny_active.lerny_id)
-					cargarRecursoMicrolerny(user_id,microlerny,user_id_obj,lerny_active,user_state)
+					data=cargarRecursoMicrolerny(user_id,microlerny,user_id_obj,lerny_active,user_state)
 				else:
 					data=listarLernys(user_id)
 		# CARGAR_CONTINUAR_LERNY

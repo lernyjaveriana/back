@@ -221,6 +221,13 @@ class ApiManager(APIView):
 					data = listarMicrolernys(micro_lerny)
 				else:
 					data=listarLernys(user_id)
+					data["fulfillmentMessages"].append({
+						"text": {
+							"text": [
+								"debes seleccionar un lerny antes de continuar"
+							]
+						}
+					})
 		# CONTINUAR CURSO
 		elif(key == "CONTINUAR_CURSO"):
 			if(user_id is None):

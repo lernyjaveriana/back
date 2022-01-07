@@ -224,7 +224,7 @@ class ApiManager(APIView):
 					data["fulfillmentMessages"].append({
 						"text": {
 							"text": [
-								"debes seleccionar un lerny antes de continuar"
+								"Debes seleccionar un lerny antes de continuar"
 							]
 						}
 					})
@@ -272,6 +272,13 @@ class ApiManager(APIView):
 						data=continueLerny(lerny_active.lerny_id,user_id_obj,user_id)
 				else:
 					data=listarLernys(user_id)
+					data["fulfillmentMessages"].append({
+						"text": {
+							"text": [
+								"Debes seleccionar un lerny antes de continuar"
+							]
+						}
+					})
 		# CARGAR ARCHIVO
 		elif(key == "CARGAR_ARCHIVO"):
 			if(user_id is None):
@@ -323,6 +330,13 @@ class ApiManager(APIView):
 					data=cargarRecursoMicrolerny(user_id,microlerny,user_id_obj,lerny_active,user_state)
 				else:
 					data=listarLernys(user_id)
+					data["fulfillmentMessages"].append({
+						"text": {
+							"text": [
+								"debes seleccionar un lerny antes de continuar"
+							]
+						}
+					})
 		# CARGAR_CONTINUAR_LERNY
 		elif(key == "CARGAR_CONTINUAR_LERNY"):
 

@@ -215,9 +215,12 @@ class ApiManager(APIView):
 			else:
 				user_id_obj = User.objects.get(
 					identification=user_id)
-				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()
-				micro_lerny = MicroLerny.objects.filter(lerny=lerny_active.lerny_id).order_by('pk')
-				data = listarMicrolernys(micro_lerny)
+				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj,access=True).first()
+				if(lerny_active):
+					micro_lerny = MicroLerny.objects.filter(lerny=lerny_active.lerny_id).order_by('pk')
+					data = listarMicrolernys(micro_lerny)
+				else:
+					data=listarLernys(user_id)
 		# CONTINUAR CURSO
 		elif(key == "CONTINUAR_CURSO"):
 			if(user_id is None):

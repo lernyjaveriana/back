@@ -4,3 +4,4 @@ api
 include
 Lib
 Scripts
+data/db

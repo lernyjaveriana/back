@@ -6,6 +6,7 @@ from user.Intents.bucketHelper import upload_to_s3
 from user.Intents.cargarActividadFallbackIntent import cargarActividadFallbackIntent
 from datetime import datetime
 
+##return a template with all the files available for that resource
 def mediaResponseFormat(resourse):
 	medias = Media.objects.filter(resource_id=resourse).order_by('position')
 	template=[]
@@ -24,6 +25,15 @@ def mediaResponseFormat(resourse):
 			}
 		})
 	return template
+
+##return a list with all the files available for that resource
+def mediaResponseUrlList(resourse):
+	medias = Media.objects.filter(resource_id=resourse).order_by('position')
+	urls=[]
+	for file in medias:
+		content = MediaSerializer(file).data
+		urls.append(content["content_url"])
+	return urls
 
 
 def saveStateLogs(lerny_id,micro_lerny,user_id_obj,resourse):
@@ -168,6 +178,7 @@ def continueLerny(lerny_active,user_id_obj,user_id):
 	elif(dataDB["resource_type"] == "consumable" and not is_last):
 		templates=mediaResponseFormat(resourse)
 		previous_text = dataDB["previous_text"]
+
 		if(previous_text==None or previous_text==''):
 			previous_text="Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"
 		data = {
@@ -190,6 +201,18 @@ def continueLerny(lerny_active,user_id_obj,user_id):
 				
 			]
 		}
+		for x in mediaResponseUrlList(resourse):
+			data["fulfillmentMessages"].append(
+				{
+					"text": {
+						"text": [
+							x,
+						]
+
+					}
+				},
+			)
+
 		for x in templates:
 			data["fulfillmentMessages"].append(x)
 		data["fulfillmentMessages"].append({

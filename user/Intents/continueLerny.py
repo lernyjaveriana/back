@@ -175,10 +175,12 @@ def continueLerny(lerny_active,user_id_obj,user_id):
 				{
 					"text": {
 						"text": [
-							previous_text
+							previous_text, 
+							"si tiene problemas cargando el contenido del recurso, puede visualizarlo en el siguien enlace: ",
 						]
 					}
 				},
+				
 			]
 		}
 		for x in templates:
@@ -225,7 +227,8 @@ def continueLerny(lerny_active,user_id_obj,user_id):
 				{
 					"text": {
 						"text": [
-							previous_text
+							previous_text, 
+							"si tiene problemas cargando el contenido del recurso, puede visualizarlo en el siguien enlace: ",
 						]
 					}
 				},

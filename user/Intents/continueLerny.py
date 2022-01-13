@@ -271,6 +271,17 @@ def continueLerny(lerny_active,user_id_obj,user_id):
 				},
 			]
 		}
+		for x in mediaResponseUrlList(resourse):
+			data["fulfillmentMessages"].append(
+				{
+					"text": {
+						"text": [
+							x,
+						]
+
+					}
+				},
+			)
 		for x in templates:
 			data["fulfillmentMessages"].append(x)
 		

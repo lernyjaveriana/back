@@ -33,6 +33,7 @@ def mediaResponseUrlList(resourse):
 	for file in medias:
 		content = MediaSerializer(file).data
 		urls.append(content["content_url"])
+		print("urls: "+ content["content_url"])
 	return urls
 
 

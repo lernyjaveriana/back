@@ -1,7 +1,7 @@
 from ..models import User
 from lerny.models import *
 from lerny.serializers import *
-from user.Intents.continueLerny import mediaResponseFormat,saveStateLogs,saveState
+from user.Intents.continueLerny import mediaResponseFormat,saveStateLogs,saveState,mediaResponseUrlList
 
 
 def cargarRecursoMicrolerny(user_id,microlerny,user_id_obj,lerny_active,user_state):
@@ -44,8 +44,27 @@ def cargarRecursoMicrolerny(user_id,microlerny,user_id_obj,lerny_active,user_sta
                     ]
                 }
             },
+            {
+                "text": {
+                    "text": [
+                        "si tiene problemas cargando el contenido del recurso, puede visualizarlo en el siguien enlace: ",
+                    ]
+
+                }
+            },
         ]
     }
+    for x in mediaResponseUrlList(resourse):
+        data["fulfillmentMessages"].append(
+            {
+                "text": {
+                    "text": [
+                        x,
+                    ]
+
+                }
+            },
+        )
     for x in templates:
         data["fulfillmentMessages"].append(x)
     data["fulfillmentMessages"].append({

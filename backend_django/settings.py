@@ -28,7 +28,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -79,31 +78,22 @@ WSGI_APPLICATION = 'backend_django.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-# DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': BASE_DIR / 'db.sqlite3',
-#    }
-# }
-
 DATABASES = {
    'default': {
-       'ENGINE': 'django.db.backends.postgresql',
-       'NAME':'d9rd70bpisbklq',
-       'USER': 'rgptlvvkazymor',
-       'HOTS': 'http://ec2-54-242-43-231.compute-1.amazonaws.com/',
-       'PORT': 5432
+       'ENGINE': 'django.db.backends.sqlite3',
+       'NAME': BASE_DIR / 'db.sqlite3',
    }
 }
 
-# import dj_database_url
-# from decouple import config
 
-# DATABASES = {
-#     'default': dj_database_url.config(
-#         default=config('DATABASE_URL')
-#     )
-# }
+
+import dj_database_url
+
+db_from_env = dj_database_url.config(conn_max_age=600)
+print(db_from_env)
+DATABASES['default'].update(db_from_env)
+
+print(DATABASES)
 
 
 # Password validation

@@ -142,6 +142,21 @@ class User_State_Logs(models.Model):
 		return f'{self.lerny_id},{self.micro_lerny_id},{self.user_id},{self.resource_id}'
 
 
+class PQR(models.Model):
+
+	lerny_id = models.ForeignKey(Lerny, on_delete=models.CASCADE, null=False)
+	micro_lerny_id = models.ForeignKey(
+		MicroLerny, on_delete=models.CASCADE, null=False)
+	user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+	resource_id = models.ForeignKey(
+		Resource, on_delete=models.CASCADE, null=False)
+	pqr = models.TextField('user response', null=True)
+	type = models.TextField('type', null=True)
+
+	def __str__(self):
+		return f'{self.lerny_id},{self.micro_lerny_id},{self.user_id},{self.pqr}'
+
+
 class Faqs_Lerny(models.Model):
 	lerny_id = models.ForeignKey(Lerny, on_delete=models.CASCADE, null=False)
 	intent_name = models.CharField('intent_name', max_length=50, null=False)

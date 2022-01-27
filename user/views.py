@@ -14,6 +14,7 @@ from user.Intents.listarLernys import listarLernys
 from user.Intents.continueLerny import continueLerny
 from user.Intents.cargarRecursoMicrolerny import cargarRecursoMicrolerny
 from user.Intents.listarMicrolernys import listarMicrolernys
+from user.Intents.pqr import pqr
 from datetime import datetime
 
 class UserManageGet(APIView):
@@ -724,6 +725,8 @@ class ApiManager(APIView):
 					score.Response_Int = response
 				score.save()
 				data=continueLerny(lerny_active.lerny_id,user_id_obj,user_id)
+		elif(key == "PQR"):
+			print(pqr())
 		else:
 			data = {}
 		print(data)

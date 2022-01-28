@@ -726,7 +726,15 @@ class ApiManager(APIView):
 				score.save()
 				data=continueLerny(lerny_active.lerny_id,user_id_obj,user_id)
 		elif(key == "PQR"):
-			print(pqr())
+			
+			if(user_id is None):
+				data=bienvenidaLerny(user_id)
+			else:
+				user_id_obj = User.objects.get(identification=user_id)
+				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj,access=True).first()
+				print(pqr(user_id))
+				#data = pqr(user_id)
+
 		else:
 			data = {}
 		print(data)

@@ -54,6 +54,10 @@ class Score_ResourceAdmin(admin.ModelAdmin):
     list_filter=("Support_Resource_Microlerny_Lerny",)
     list_display = ("Support_Resource_Microlerny_Lerny","User")
 
+class pqr_ResourceAdmin(admin.ModelAdmin):
+    list_filter=("user_id",)
+    list_display = ("user_state","user_id","pqr","type")
+
 
 
 admin.site.register(Group,Group_ResourceAdmin)
@@ -75,3 +79,4 @@ admin.site.register(Media,MediaAdmin)
 admin.site.register(Support_Resource,Support_Resource_ResourceAdmin)
 admin.site.register(Support_Resource_Microlerny_Lerny,Support_Resource_Microlerny_Lerny_ResourceAdmin)
 admin.site.register(Score,Score_ResourceAdmin)
+admin.site.register(PQR,pqr_ResourceAdmin)

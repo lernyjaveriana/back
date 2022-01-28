@@ -143,14 +143,9 @@ class User_State_Logs(models.Model):
 
 
 class PQR(models.Model):
-
-	lerny_id = models.ForeignKey(Lerny, on_delete=models.CASCADE, null=False)
-	micro_lerny_id = models.ForeignKey(
-		MicroLerny, on_delete=models.CASCADE, null=False)
 	user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
-	resource_id = models.ForeignKey(
-		Resource, on_delete=models.CASCADE, null=False)
-	pqr = models.TextField('user response', null=True)
+	user_state = models.ForeignKey(User_State,on_delete=models.CASCADE, null=True)
+	pqr = models.TextField('user response', null=False)
 	type = models.TextField('type', null=True)
 
 	def __str__(self):

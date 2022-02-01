@@ -735,9 +735,9 @@ class ApiManager(APIView):
 				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj,access=True).first()
 				user_state = User_State.objects.filter(user_id=user_id_obj, lerny_id =lerny_active.lerny_id)
 				user_pqr = text
-				print(pqr(user_id_obj,user_state,user_pqr))
+				#print(pqr(user_id_obj,user_state,user_pqr))
 				
-				#data = pqr(user_id)
+				data = pqr(user_id_obj,user_state,user_pqr)
 
 		else:
 			data = {}

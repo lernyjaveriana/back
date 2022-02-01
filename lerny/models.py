@@ -147,7 +147,6 @@ class PQR(models.Model):
 	user_state = models.ForeignKey(User_State,on_delete=models.CASCADE, null=True)
 	pqr = models.TextField('user response', null=False)
 	type = models.TextField('type', null=True)
-
 	def __str__(self):
 		return f'{self.lerny_id},{self.micro_lerny_id},{self.user_id},{self.pqr}'
 

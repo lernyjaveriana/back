@@ -729,6 +729,7 @@ class ApiManager(APIView):
 				data=continueLerny(lerny_active.lerny_id,user_id_obj,user_id)
 		elif(key == "PQR"):
 			if(user_id is None):
+				
 				data=bienvenidaLerny(user_id)
 			else:
 				user_id_obj = User.objects.get(identification=user_id)

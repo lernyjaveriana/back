@@ -729,14 +729,15 @@ class ApiManager(APIView):
 				data=continueLerny(lerny_active.lerny_id,user_id_obj,user_id)
 		elif(key == "PQR"):
 			if(user_id is None):
-				
+
 				data=bienvenidaLerny(user_id)
 			else:
 				user_id_obj = User.objects.get(identification=user_id)
 				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj,access=True).first()
 				user_state = User_State.objects.filter(user_id=user_id_obj, lerny_id =lerny_active.lerny_id).first()
 				user_pqr = text
-				#print(pqr(user_id_obj,user_state,user_pqr))
+
+				print(user_pqr)
 				
 				data = pqr(user_id_obj,user_state,user_pqr)
 

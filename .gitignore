@@ -5,3 +5,11 @@ include
 Lib
 Scripts
 data/db
+*.log
+*.pot
+*.pyc
+__pycache__
+local_settings.py
+db.sqlite3
+venv/
+backend_django/__pycache__

@@ -23,7 +23,7 @@ def pqr(user_id_obj, user_state, user_pqr):
                                 "elements":
                                 [
                                     {
-                                        "title": "Tu pregunta/inquietud ha sido guardada, deseas hacer algo más?",
+                                        "title": "Tu inquietud ha sido guardada",
                                         "image_url": "https://lerny.co/wp-content/uploads/2020/12/marca_lerny.jpg",
                                         "subtitle": "Para continuar, por favor selecciona una opción.",
                                         "buttons":

@@ -7,56 +7,16 @@ from rest_framework.decorators import action
 from .models import User
 from lerny.models import *
 from lerny.serializers import *
+from user.Intents.bucketHelper import upload_to_s3
+from user.Intents.cargarActividadFallbackIntent import cargarActividadFallbackIntent
+from user.Intents.bienvenidaLerny import bienvenidaLerny
+from user.Intents.listarLernys import listarLernys
+from user.Intents.continueLerny import continueLerny
+from user.Intents.cargarRecursoMicrolerny import cargarRecursoMicrolerny
+from user.Intents.listarMicrolernys import listarMicrolernys
+from user.Intents.pqr import pqr
 from datetime import datetime
 
-import os
-import boto3
-import wget
-from botocore.exceptions import ClientError
-
-
-id_key = "AKIA4K6QA2LE547NHTXD"
-access_secret= "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"
-bucket_name = "lerny-responses"
-region='us-east-2'
-folder=''
-
-def build_fileurl(bucket_name,region,folder,filename):
-    url = f"https://{bucket_name}.s3.{region}.amazonaws.com/{folder}{filename}"
-    return url
-
-def upload_to_s3(from_url,id_key,access_secret,bucket_name,region,folder):
-
-    filename = wget.download(from_url)
-    print(filename)
-
-    os.rename(filename,filename.replace(" ",""))
-
-    client_s3 =  boto3.client(
-        's3',
-        aws_access_key_id = id_key,
-        aws_secret_access_key = access_secret 
-    )
-
-    data_file_folder= os.getcwd()
-
-    try:
-        print('uploading '+ filename +' to bucket')
-        client_s3.upload_file(
-            os.path.join(data_file_folder,filename),
-            bucket_name,
-            filename
-        )
-    except ClientError as e:
-        print('credentials incorrect')
-        print(e)
-        return e
-    except Exception as e:
-        print(e)
-        return e
-    
-    return build_fileurl(bucket_name,region,folder,filename)
-    
 class UserManageGet(APIView):
 
 	serializers_class = UserSerializer
@@ -124,486 +84,7 @@ cargarActividad={
 						}
 					]
 				}
-# After upload activities trggered into fallback intent, it should shows you a menu
-def cargarActividadFallbackIntent(user_id):
-	user_id_obj = User.objects.get(identification=user_id)
-	user_lerny = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()
-	lerny_active=user_lerny.lerny_id
-	micro_lernys = MicroLerny.objects.filter(lerny=lerny_active).order_by('pk')
-	previous_text = "A cual recurso deseas asociar el entregable que acabas de subir?"
-	temp = []
-	for micro_lerny in micro_lernys:
-		resources_microlerny = Resource.objects.filter(microlerny=micro_lerny,resource_type="practical")
-		data = ResourceSerializer(resources_microlerny, many=True).data
-		i = 0
-		
-		while(i < len(data)):
-			print("IMPRESION LISTAR RECURSOS PRACTICOS: "+ str(data[i]['id'])+") " + data[i]['title'])
-			temp.append(
-				{
-					"subtitle": data[i]['description'],
-					"image_url": data[i]['image_url'],
-					"title": data[i]['title'],
-					"buttons": [
-					{
-						"payload": "cargar actividad "+str(data[i]['id']),
-						"title": "Seleccionar",
-						"type": "postback"
-					}
-					]
-				})
-			i += 1
 
-	data = {
-		"fulfillmentMessages": [
-		{
-			"text": {
-				"text": [
-					previous_text
-				]
-			}
-		},
-		{
-			"payload": {
-				"facebook": {
-					"attachment": {
-						"type": "template",
-						"payload": {
-							"template_type": "generic",
-							"elements": temp
-						}
-					}
-				}
-			}
-		}]
-	}
-	return data
-
-def mediaResponseFormat(resourse):
-	medias = Media.objects.filter(resource_id=resourse).order_by('position')
-	template=[]
-	for file in medias:
-		content = MediaSerializer(file).data
-		template.append({
-			"payload": {
-				"facebook": {
-					"attachment": {
-						"type": content["content_type"],
-						"payload": {
-							"url":content["content_url"]
-						}
-					}
-				}
-			}
-		})
-	return template
-
-def saveStateLogs(lerny_id,micro_lerny,user_id_obj,resourse):
-	logsUserResource =  User_State_Logs.objects.filter(micro_lerny_id=micro_lerny,resource_id=resourse, lerny_id=lerny_id,user_id=user_id_obj)
-	if(logsUserResource.count() ==0):	
-		user_state_logs = User_State_Logs()
-		user_state_logs.lerny_id = lerny_id
-		user_state_logs.micro_lerny_id = micro_lerny
-		user_state_logs.user_id = user_id_obj
-		user_state_logs.resource_id = resourse
-		user_state_logs.save()
-
-def saveState(lerny_id,micro_lerny,user_id_obj,resourse):
-
-	saveStateLogs(lerny_id, micro_lerny, user_id_obj, resourse)
-
-	user_state = User_State()
-	user_state.lerny_id = lerny_id
-	user_state.micro_lerny_id = micro_lerny
-	user_state.user_id = user_id_obj
-	user_state.resource_id = resourse
-	user_state.save()
-
-def continueLerny(lerny_active,user_id_obj,user_id):
-	user_state = User_State.objects.filter(user_id=user_id_obj, lerny_id =lerny_active)
-	is_last = False
-	#The user is found in the db
-	if(user_state):
-		user_state = user_state.first()
-		phase = user_state.resource_id.phase
-		resourses = Resource.objects.filter(
-				microlerny=user_state.micro_lerny_id)
-
-		#verifies if the user is still consumming the resources of the actual microlerny
-		if(resourses.count() > int(phase)):
-			resourse = Resource.objects.filter(
-				microlerny=user_state.micro_lerny_id, phase=str(int(phase)+1)).first()
-			user_state.resource_id = resourse
-
-			saveStateLogs(user_state.lerny_id, user_state.micro_lerny_id, user_state.user_id, user_state.resource_id)
-			user_state.save()
-			dataDB = ResourceSerializer(resourse).data
-		#verifies if the user completed all the microlerny's resources, then, should search the next microlerny
-		elif(resourses.count() == int(phase)):
-			micro_lerny_id_obj = MicroLerny.objects.get(
-				id=user_state.micro_lerny_id.id)
-			son = TreeMicroLerny.objects.filter(
-				dady_micro_lerny=micro_lerny_id_obj)
-
-			if(son.count() > 0):
-				s = son.values_list('son_micro_lerny_id', flat=True)
-
-				microlerny_son = MicroLerny.objects.filter(
-					pk__in=s).first()
-
-				micro_lerny_son_obj = MicroLerny.objects.get(
-					id=microlerny_son.id)
-
-				resourse = Resource.objects.get(
-					microlerny=micro_lerny_son_obj, phase='1')
-
-				user_state.resource_id = resourse
-				user_state.micro_lerny_id = microlerny_son
-
-				saveStateLogs(user_state.lerny_id, user_state.micro_lerny_id, user_state.user_id, user_state.resource_id)
-				user_state.save()
-				dataDB = ResourceSerializer(resourse).data
-			else:
-				#variable que indica que es o no el ultimo microlerny del curso
-				is_last = True
-		else:
-			data = None
-	else:
-		
-		lerny_id = lerny_active
-
-		micro_lerny = MicroLerny.objects.filter(lerny=lerny_id).order_by('pk').first()
-		resourse = Resource.objects.get(
-			microlerny=micro_lerny.id, phase='1')
-
-		user_id_obj = User.objects.get(
-			identification=user_id)
-
-		saveState(lerny_id,micro_lerny,user_id_obj,resourse)
-
-		dataDB = ResourceSerializer(resourse).data
-	if(is_last):
-
-		user_id_obj = User.objects.get(identification=user_id)
-		user_lernys = User_Lerny.objects.filter(user_id=user_id_obj)
-
-		lernys_ids = user_lernys.values_list('lerny_id', flat=True)
-		lernys = Lerny.objects.filter(
-			pk__in=lernys_ids)
-
-		data = LernySerializer(lernys, many=True).data
-		i = 0
-		temp = []
-		previous_text = "Has terminado los microlernys asociados al lerny!"
-		while(i < len(data)):
-			print("IMPRESION LISTAR LERNY: "+ str(data[i]['id'])+") " + data[i]['lerny_name'])
-			temp.append(
-				{
-					"subtitle": data[i]['description'],
-					"image_url": data[i]['url_image'],
-					"title": data[i]['lerny_name'],
-					"buttons": [
-					{
-						"payload": "cargar lerny "+str(data[i]['id']),
-						"title": "Continuar Lerny",
-						"type": "postback"
-					}
-					]
-				},)
-			i += 1
-
-		data = {
-			"fulfillmentMessages": [
-			{
-				"text": {
-					"text": [
-						previous_text
-					]
-				}
-			},
-			{
-				"payload": {
-					"facebook": {
-						"attachment": {
-							"type": "template",
-							"payload": {
-								"template_type": "generic",
-								"elements": temp
-							}
-						}
-					}
-				}
-			}]
-		}
-
-	elif(dataDB["resource_type"] == "consumable" and not is_last):
-		templates=mediaResponseFormat(resourse)
-		previous_text = dataDB["previous_text"]
-		if(previous_text==None or previous_text==''):
-			previous_text="Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"
-		data = {
-			"fulfillmentMessages": [
-				{
-					"text": {
-						"text": [
-							previous_text
-						]
-					}
-				},
-			]
-		}
-		for x in templates:
-			data["fulfillmentMessages"].append(x)
-		data["fulfillmentMessages"].append({
-			"payload": {
-				"facebook": {
-					"attachment": {
-						"type": "template",
-						"payload": {
-							"template_type": "generic",
-							"elements": [
-								{
-									"title": dataDB["title"],
-									"image_url": dataDB["image_url"],
-									"subtitle": dataDB["description"],
-									"buttons": [
-										{
-											"type": "postback",
-											"title": "Siguiente recurso",
-											"payload": "CONTINUAR_CURSO"
-										},
-										{
-											"type": "postback",
-											"title": "Salir",
-											"payload": "lerny_farewell"
-										}
-									]
-								}
-							]
-						}
-					}
-				}
-			}
-		})
-
-	elif(dataDB["resource_type"] == "practical" and not is_last):
-		templates=mediaResponseFormat(resourse)
-		previous_text = dataDB["previous_text"]
-		if(previous_text==None or previous_text==''):
-			previous_text="Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"
-		data = {
-			"fulfillmentMessages": [
-				{
-					"text": {
-						"text": [
-							previous_text
-						]
-					}
-				},
-			]
-		}
-		for x in templates:
-			data["fulfillmentMessages"].append(x)
-		
-		data["fulfillmentMessages"].append({
-			"payload": {
-				"facebook": {
-					"attachment": {
-						"type": "template",
-						"payload": {
-							"template_type": "generic",
-							"elements": [
-								{
-									"title": dataDB["title"],
-									"image_url": dataDB["image_url"],
-									"subtitle": dataDB["description"],
-									"buttons": [
-										{
-											"type": "postback",
-											"title": "Siguiente recurso",
-											"payload": "CONTINUAR_CURSO"
-										},
-										{
-											"payload": "CARGAR_ARCHIVO" ,
-											"title": "Cargar actividad",
-											"type": "postback"
-										}
-										
-									]
-								}
-							]
-						}
-					}
-				}
-			}
-		})
-
-	elif(dataDB["resource_type"] == "multiple" and not is_last):
-		print("Data, description: "+dataDB["description"])
-		temp=[]
-		previous_text = dataDB["previous_text"]
-		if(previous_text==''):
-			previous_text="Responde la siguiente pregunta por favor"
-
-		if(dataDB["first_button"]):
-			temp.append(
-				{
-					"type": "postback",
-					"title": dataDB["first_button"],
-					"payload": "CARGAR_MULTIPLE "+dataDB["first_button"]
-				},
-			)
-		
-		if(dataDB["second_button"]):
-			temp.append(
-				{
-					"type": "postback",
-					"title": dataDB["second_button"],
-					"payload": "CARGAR_MULTIPLE "+ dataDB["second_button"]
-				},
-			)
-		
-		if(dataDB["third_button"]):
-			temp.append(
-				{
-					"type": "postback",
-					"title": dataDB["third_button"],
-					"payload": "CARGAR_MULTIPLE "+dataDB["third_button"]
-				}
-			)
-		
-		
-		data = {
-			"fulfillmentMessages": [
-				{
-					"payload": {
-						"facebook": {
-							"attachment": {
-								"type": "template",
-								"payload": {
-									"template_type": "generic",
-									"elements": [
-										{
-											"title": dataDB["title"],
-											"image_url": dataDB["image_url"],
-											"subtitle": dataDB["description"],
-											"buttons": temp	
-										}
-									]
-								}
-							}
-						}
-					}
-				}
-			]
-		}
-	return data
-
-def bienvenidaLerny(user_id):
-	if(user_id):
-		user = User.objects.get(
-		identification=user_id)
-		data = {
-			"fulfillmentMessages": [
-				{
-					"text": {
-						"text": [
-							"Bienvenido a lerny"
-						]
-					}
-				},
-				{
-					"payload": {
-						"facebook": {
-							"attachment": {
-								"type": "template",
-								"payload":
-										{
-											"template_type": "generic",
-											"elements":
-											[
-												{
-													"title": "Hola " + UserSerializer(user).data["user_name"] + ", un gusto volver a verte!",
-													"image_url": "https://lerny.co/wp-content/uploads/2020/12/marca_lerny.jpg",
-													"subtitle": "Para comenzar por favor selecciona una opción.",
-													"buttons":
-													[
-														{
-															"type": "postback",
-															"title": "Continuar Lerny",
-															"payload": "CONTINUAR_CURSO"
-														},
-														{
-															"type": "postback",
-															"title": "ver Micro Lernys",
-															"payload": "LIST_MICROLERNYS"
-														},
-														{
-															"type": "postback",
-															"title": "Listar Lernys",
-															"payload": "LISTAR_LERNYS"
-														}
-													]
-												}
-											]
-										}
-							}
-						}
-					}
-				}
-			]
-		}
-	else:
-		data = {
-			"fulfillmentMessages": [
-				{
-					"text": {
-						"text": [
-							"Hola!, te damos la bienvenida a Lerny, una plataforma de educación en facebook messenger, pensada para quienes construimos futuro trabajando."
-						]
-					}
-				},
-				{
-					"payload":{
-						"facebook": 
-						{
-							"attachment": 
-							{
-							"type": "template",
-							"payload": {
-								"template_type": "generic",
-								"elements": [
-								{
-									"image_url": "https://lerny.co/wp-content/uploads/2020/12/marca_lerny.jpg",
-									"buttons": [
-									{
-										"title": "Comprar curso",
-										"payload": "comprar_curso",
-										"type": "postback"
-									},
-									{
-										"payload": "iniciar_sesion",
-										"title": "Iniciar sesión",
-										"type": "postback"
-									},
-									{
-										"payload": "info_contacto",
-										"title": "Más información",
-										"type": "postback"
-									}
-									],
-									"title": "Menú Principal",
-									"subtitle": "Para comenzar por favor selecciona una opción."
-								}
-								]
-							}
-							}
-						}
-						}
-				}
-			]
-		}
-	return data
 class ApiManager(APIView):
 	
 	def post(self, request):
@@ -619,13 +100,13 @@ class ApiManager(APIView):
 		print(request.data['queryResult']['outputContexts'])
 		print("senderId")
 		sender_id=request.data['originalDetectIntentRequest']['payload']['data']['sender']['id']
+		text = request.data['queryResult'].get('queryText')
 		print(sender_id)
 
 		if(request.data['queryResult']['intent']['displayName']=="LernyDefaultFallback"):
 			print('fallback')
 			key = "LernyDefaultFallback"
-			text = request.data['queryResult'].get('queryText')
-			attachmentLen = len(request.data['originalDetectIntentRequest']["payload"]["data"]["message"]["attachments"])
+			
 			urlArg = []
 
 			# need to verify every attachement file that was sent by the user and save the url generated by fb msn
@@ -642,6 +123,7 @@ class ApiManager(APIView):
 			except:
 				print("Something else went wrong")
 				user_id=None
+				
 
 		else:
 			print('not fallback')
@@ -731,59 +213,75 @@ class ApiManager(APIView):
 		# LOGIN
 		# LISTAR MICROLERNYS
 		elif(key == "LIST_MICROLERNYS"):
-			
 			if(user_id is None):
 				data=bienvenidaLerny(user_id)
 			else:
 				user_id_obj = User.objects.get(
 					identification=user_id)
-				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()
-				micro_lerny = MicroLerny.objects.filter(lerny=lerny_active.lerny_id).order_by('pk')
-				data = MicroLernySerializer(micro_lerny, many=True).data
-				i = 0
-				temp = []
-				while(i < len(data)):
-					print("IMPRESION LISTAR LERNY: "+ str(data[i]['id'])+") " + data[i]['micro_lerny_title'])
-					temp.append(
-						{
-							"subtitle": data[i]['micro_lerny_subtitle'],
-							"image_url": data[i]['microlerny_image_url'],
-							"title": data[i]['micro_lerny_title'],
-							"buttons": [
-							{
-								"payload": "cargar recurso "+str(data[i]['id']) ,
-								"title": "Seleccionar",
-								"type": "postback"
-							}
+				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj,access=True).first()
+				if(lerny_active):
+					micro_lerny = MicroLerny.objects.filter(lerny=lerny_active.lerny_id).order_by('pk')
+					data = listarMicrolernys(micro_lerny)
+				else:
+					data=listarLernys(user_id)
+					data["fulfillmentMessages"].append({
+						"text": {
+							"text": [
+								"Debes seleccionar un lerny antes de continuar"
 							]
-						},)
-					i += 1
-
-				data = {
-					"fulfillmentMessages": [
-					{
-						"payload": {
-							"facebook": {
-								"attachment": {
-									"type": "template",
-									"payload": {
-										"template_type": "generic",
-										"elements": temp
-									}
-								}
-							}
 						}
-					}]
-				}
+					})
 		# CONTINUAR CURSO
 		elif(key == "CONTINUAR_CURSO"):
 			if(user_id is None):
 				data=bienvenidaLerny(user_id)
 			else:
-				user_id_obj = User.objects.get(
-					identification=user_id)
-				lerny_active = User_Lerny.objects.get(active=True,user_id=user_id_obj)
-				data=continueLerny(lerny_active.lerny_id,user_id_obj,user_id)
+				user_id_obj = User.objects.get(identification=user_id)
+				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj,access=True).first()
+				if(lerny_active):
+					user_state = User_State.objects.filter(user_id=user_id_obj, lerny_id =lerny_active.lerny_id)
+					user_state = user_state.first()
+					if(user_state):
+						support_resource_microlerny_lerny = Support_Resource_Microlerny_Lerny.objects.filter(
+							lerny_id=user_state.lerny_id, Microlerny_id = user_state.micro_lerny_id).order_by('pk')
+						support_resource_microlerny_lerny_count=support_resource_microlerny_lerny.count()
+						scores = Score.objects.filter(
+							User=user_state.user_id ).order_by('pk')
+						scores_count=scores.count()
+
+						print('count support_resource_microlerny_lerny_count: '+str(support_resource_microlerny_lerny_count))
+						print('count scores_count: '+str(scores_count))
+						## support feature
+						if(support_resource_microlerny_lerny and scores_count<support_resource_microlerny_lerny_count):
+							try:
+								support_resource_show = support_resource_microlerny_lerny[scores_count]
+							except IndexError:
+								support_resource_show = None
+
+							if(support_resource_show):
+								support_resource=support_resource_show.Support_Resource_id
+								dataDB = SupportResourceSerializer(support_resource).data["text"]
+								data = {
+									"followupEventInput": {
+										"name": dataDB,
+										"parameters": {
+										},
+										"languageCode":"en-US"
+									}
+								}
+						else:
+							data=continueLerny(lerny_active.lerny_id,user_id_obj,user_id)
+					else:
+						data=continueLerny(lerny_active.lerny_id,user_id_obj,user_id)
+				else:
+					data=listarLernys(user_id)
+					data["fulfillmentMessages"].append({
+						"text": {
+							"text": [
+								"Debes seleccionar un lerny antes de continuar"
+							]
+						}
+					})
 		# CARGAR ARCHIVO
 		elif(key == "CARGAR_ARCHIVO"):
 			if(user_id is None):
@@ -797,11 +295,11 @@ class ApiManager(APIView):
 				u_resource = User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).first()
 				
 				if (response.split(':')[0] == 'https'):
-					response=upload_to_s3(response,id_key,access_secret,bucket_name,region,folder)
+					response=upload_to_s3(response)
 				
 				if(u_resource):
 					data = UserResourceSerializer(u_resource).data
-					User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).update(user_response=data['user_response']+' '+response)
+					User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).update(user_response=data['user_response']+';'+response)
 				else:
 					print("GUARDAR ARCHIVO")
 					u_resource = User_Resource()
@@ -820,49 +318,7 @@ class ApiManager(APIView):
 			if(user_id is None):
 				data=bienvenidaLerny(user_id)
 			else:
-				user_id_obj = User.objects.get(uid=str(sender_id))
-				user_lernys = User_Lerny.objects.filter(user_id=user_id_obj)
-
-				lernys_ids = user_lernys.values_list('lerny_id', flat=True)
-				lernys = Lerny.objects.filter(
-					pk__in=lernys_ids)
-
-				data = LernySerializer(lernys, many=True).data
-				i = 0
-				temp = []
-				while(i < len(data)):
-					print("IMPRESION LISTAR LERNY: "+ str(data[i]['id'])+") " + data[i]['lerny_name'])
-					temp.append(
-						{
-							"subtitle": data[i]['description'],
-							"image_url": data[i]['url_image'],
-							"title": data[i]['lerny_name'],
-							"buttons": [
-							{
-								"payload": "cargar lerny "+str(data[i]['id']),
-								"title": "Continuar Lerny",
-								"type": "postback"
-							}
-							]
-						},)
-					i += 1
-
-				data = {
-					"fulfillmentMessages": [
-					{
-						"payload": {
-							"facebook": {
-								"attachment": {
-									"type": "template",
-									"payload": {
-										"template_type": "generic",
-										"elements": temp
-									}
-								}
-							}
-						}
-					}]
-				}
+				data=listarLernys(user_id)
 		# CARGAR_REQ_MICROLERNY
 		elif(key == "CARGAR_REQ_MICROLERNY"):
 			if(user_id is None):
@@ -871,81 +327,19 @@ class ApiManager(APIView):
 				microlerny = (int(request["microlerny_num"]))
 				user_id_obj = User.objects.get(
 					identification=user_id)
-				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()
-				user_state = User_State.objects.filter(user_id=user_id_obj, lerny_id =lerny_active.lerny_id)
-
-				if(user_state):
-					user_state = user_state.first()
-					lerny_id = user_state.lerny_id
-					micro_lerny = MicroLerny.objects.filter(lerny=lerny_id,id=microlerny).first()
-					resourse = Resource.objects.get(
-						microlerny=micro_lerny, phase='1')
-
-					user_state.resource_id = resourse
-					user_state.micro_lerny_id = micro_lerny
-					saveStateLogs(user_state.lerny_id, user_state.micro_lerny_id, user_state.user_id, user_state.resource_id)
-					user_state.save()
-					dataDB = ResourceSerializer(resourse).data
-
+				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj,access=True).first()
+				if(lerny_active):
+					user_state = User_State.objects.filter(user_id=user_id_obj, lerny_id =lerny_active.lerny_id)
+					data=cargarRecursoMicrolerny(user_id,microlerny,user_id_obj,lerny_active,user_state)
 				else:
-					lerny_id = lerny_active.lerny_id
-					micro_lerny = MicroLerny.objects.filter(lerny=lerny_id,pk=microlerny).first()
-					resourse = Resource.objects.get(
-						microlerny=micro_lerny, phase='1')
-
-
-					saveState(lerny_id,micro_lerny,user_id_obj,resourse)
-
-					dataDB = ResourceSerializer(resourse).data
-				print("Data, description: "+dataDB["description"])
-				templates=mediaResponseFormat(resourse)
-				previous_text = dataDB["previous_text"]
-				if(previous_text==None or previous_text==''):
-					previous_text="Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"
-				data = {
-					"fulfillmentMessages": [
-						{
-							"text": {
-								"text": [
-									previous_text
-								]
-							}
-						},
-					]
-				}
-				for x in templates:
-					data["fulfillmentMessages"].append(x)
-				data["fulfillmentMessages"].append({
-					"payload": {
-						"facebook": {
-							"attachment": {
-								"type": "template",
-								"payload": {
-									"template_type": "generic",
-									"elements": [
-										{
-											"title": dataDB["title"],
-											"image_url": dataDB["image_url"],
-											"subtitle": dataDB["description"],
-											"buttons": [
-												{
-													"type": "postback",
-													"title": "Siguiente recurso",
-													"payload": "CONTINUAR_CURSO"
-												},
-												{
-													"type": "postback",
-													"title": "Salir",
-													"payload": "lerny_farewell"
-												}
-											]
-										}
-									]
-								}
-							}
+					data=listarLernys(user_id)
+					data["fulfillmentMessages"].append({
+						"text": {
+							"text": [
+								"debes seleccionar un lerny antes de continuar"
+							]
 						}
-					}
-				})
+					})
 		# CARGAR_CONTINUAR_LERNY
 		elif(key == "CARGAR_CONTINUAR_LERNY"):
 
@@ -960,9 +354,11 @@ class ApiManager(APIView):
 				lerny_next = Lerny.objects.filter(pk=lerny_pk).first()
 				User_Lerny.objects.filter(active=False,user_id=user_id_obj, lerny_id =lerny_next).update(active=True)
 
-				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()
-
-				data=continueLerny(lerny_active.lerny_id,user_id_obj,user_id)
+				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj,access=True).first()
+				if(lerny_active):
+					data=continueLerny(lerny_active.lerny_id,user_id_obj,user_id)
+				else:
+					data=listarLernys(user_id)
 		# CARGAR_REQ_MICROLERNY\
 		elif(key == "ACTIVIDAD_A_RECURSO"):
 
@@ -1037,6 +433,45 @@ class ApiManager(APIView):
 							},
 						]
 					}
+
+					data["fulfillmentMessages"].append({
+						"payload": {
+							"facebook": {
+								"attachment": {
+									"type": "template",
+									"payload":
+									{
+										"template_type": "generic",
+										"elements":
+										[
+											{
+												"title": "Tu respuesta ha sido guardada, deseas hacer algo más?",
+												"image_url": "https://lerny.co/wp-content/uploads/2020/12/marca_lerny.jpg",
+												"subtitle": "Para continuar, por favor selecciona una opción.",
+												"buttons":
+												[
+													{
+														"type": "postback",
+														"title": "Complementar",
+														"payload": "CARGAR_ARCHIVO"
+													},
+													{
+														"type": "postback",
+														"title": "Continuar lerny",
+														"payload": "continuar_curso"
+													},
+													{
+														"type": "postback",
+														"title": "ver microlernys",
+														"payload": "LIST_MICROLERNYS"
+													},
+												]
+											}
+										]
+									}
+								}
+							}
+						}})
 		elif(key == "LernyDefaultFallback"):
 			if(text):
 				data = {
@@ -1081,10 +516,10 @@ class ApiManager(APIView):
 						user_state = User_State.objects.filter(user_id=user_id_obj,lerny_id=lerny_active.lerny_id).first()
 						u_resource = User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).first()
 						for url in urlArg:
-							response=upload_to_s3(url,id_key,access_secret,bucket_name,region,folder)						
+							response=upload_to_s3(url)						
 							if(u_resource):
 								data = UserResourceSerializer(u_resource).data
-								User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).update(user_response=data['user_response']+' '+response)
+								User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).update(user_response=data['user_response']+';'+response)
 								u_resource = User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).first()
 							else:
 								print("GUARDAR ARCHIVO")
@@ -1165,77 +600,217 @@ class ApiManager(APIView):
 					}
 				}
 				data.fulfillmentMessages.append(data_feedback)
+		# NPS_METRIC1
+		elif(key == "NPS_METRIC1"):			
+			if(user_id is None):
+				data=bienvenidaLerny(user_id)
+			else:
+
+				user_id_obj = User.objects.get(
+					identification=user_id)
+				lerny_active = User_Lerny.objects.get(active=True,user_id=user_id_obj)
+				user_state = User_State.objects.filter(user_id=user_id_obj, lerny_id =lerny_active.lerny_id)
+				user_state = user_state.first()
+				support_resource_microlerny_lerny = Support_Resource_Microlerny_Lerny.objects.filter(
+				lerny_id=user_state.lerny_id, Microlerny_id = user_state.micro_lerny_id).order_by('pk')
+
+				isText = SupportResourceSerializer(support_resource_microlerny_lerny.first().Support_Resource_id).data["Response_is_text"]
+				score = Score()
+				score.Support_Resource_Microlerny_Lerny = support_resource_microlerny_lerny.first()
+				score.User = user_id_obj	
+				if(isText):
+					response=str(request["NPS1"])
+					score.Response = response
+					score.Response_Int = 0
+				else:
+					response=int(float(request["NPS1"]))
+					score.Response = "N/A"
+					score.Response_Int = response
+				score.save()
+
+
+				scores = Score.objects.filter(
+				User=user_state.user_id ).order_by('pk')
+				scores_count=scores.count()
+				support_resource_microlerny_lerny_count=support_resource_microlerny_lerny.count()
+				if(support_resource_microlerny_lerny and scores_count<support_resource_microlerny_lerny_count):
+					try:
+						support_resource_show = support_resource_microlerny_lerny[scores_count]
+					except IndexError:
+						support_resource_show = None
+					support_resource=support_resource_show.Support_Resource_id
+					dataDB = SupportResourceSerializer(support_resource).data["text"]
+					
+					data = {
+							"followupEventInput": {
+								"name": dataDB,
+								"parameters": {
+								},
+								"languageCode":"en-US"
+							}
+						}
+		# NPS_METRIC2
+		elif(key == "NPS_METRIC2"):
+						
+			if(user_id is None):
+				data=bienvenidaLerny(user_id)
+			else:
+
+				user_id_obj = User.objects.get(
+					identification=user_id)
+				lerny_active = User_Lerny.objects.get(active=True,user_id=user_id_obj)
+				user_state = User_State.objects.filter(user_id=user_id_obj, lerny_id =lerny_active.lerny_id)
+				user_state = user_state.first()
+				support_resource_microlerny_lerny = Support_Resource_Microlerny_Lerny.objects.filter(
+				lerny_id=user_state.lerny_id, Microlerny_id = user_state.micro_lerny_id).order_by('pk')
+
+				isText = SupportResourceSerializer(support_resource_microlerny_lerny[1].Support_Resource_id).data["Response_is_text"]
+				score = Score()
+				score.Support_Resource_Microlerny_Lerny = support_resource_microlerny_lerny[1]
+				score.User = user_id_obj	
+				if(isText):
+					response=str(request["NPS2"])
+					score.Response = response
+					score.Response_Int = 0
+				else:
+					response=int(float(request["NPS2"]))
+					score.Response = "N/A"
+					score.Response_Int = response
+				score.save()
+
+
+				scores = Score.objects.filter(
+				User=user_state.user_id ).order_by('pk')
+				scores_count=scores.count()
+				support_resource_microlerny_lerny_count=support_resource_microlerny_lerny.count()
+				if(support_resource_microlerny_lerny and scores_count<support_resource_microlerny_lerny_count):
+					try:
+						support_resource_show = support_resource_microlerny_lerny[scores_count]
+					except IndexError:
+						support_resource_show = None
+					support_resource=support_resource_show.Support_Resource_id
+					dataDB = SupportResourceSerializer(support_resource).data["text"]
+					
+					data = {
+							"followupEventInput": {
+								"name": dataDB,
+								"parameters": {
+								},
+								"languageCode":"en-US"
+							}
+					}
+		# NPS_METRIC3
+		elif(key == "NPS_METRIC3"):
+			if(user_id is None):
+				data=bienvenidaLerny(user_id)
+			else:
+
+				user_id_obj = User.objects.get(
+					identification=user_id)
+				lerny_active = User_Lerny.objects.get(active=True,user_id=user_id_obj)
+				user_state = User_State.objects.filter(user_id=user_id_obj, lerny_id =lerny_active.lerny_id)
+				user_state = user_state.first()
+				support_resource_microlerny_lerny = Support_Resource_Microlerny_Lerny.objects.filter(
+				lerny_id=user_state.lerny_id, Microlerny_id = user_state.micro_lerny_id).order_by('pk')
+
+				isText = SupportResourceSerializer(support_resource_show = support_resource_microlerny_lerny.first().Support_Resource_id).data["Response_is_text"]
+				score = Score()
+				score.Support_Resource_Microlerny_Lerny = support_resource_microlerny_lerny[1]
+				score.User = user_id_obj	
+				if(isText):
+					response=str(request["NPS3"])
+					score.Response = response
+					score.Response_Int = 0
+				else:
+					response=int(float(request["NPS3"]))
+					score.Response = "N/A"
+					score.Response_Int = response
+				score.save()
+				data=continueLerny(lerny_active.lerny_id,user_id_obj,user_id)
+		elif(key == "PQR"):
+			if(user_id is None):
+
+				data=bienvenidaLerny(user_id)
+			else:
+				user_id_obj = User.objects.get(identification=user_id)
+				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj,access=True).first()
+				user_state = User_State.objects.filter(user_id=user_id_obj, lerny_id =lerny_active.lerny_id).first()
+				user_pqr = text
+
+				print(user_pqr)
+				
+				data = pqr(user_id_obj,user_state,user_pqr)
 
 		else:
 			data = {}
 		print(data)
 		return Response(data, status=status.HTTP_201_CREATED)
 		 
-class GetPayInformation(APIView):
+# class GetPayInformation(APIView):
 
-    def get(self, request, tipoDocumento, numeroDocumento, format=None):
-#        url = "http://replica.javerianacali.edu.co:8100/ServiciosSF/rs/consultarDeuda?tipoDocumento="+tipoDocumento+"&numeroDocumento="+numeroDocumento
-#        response = requests.get(url)
-#        information = response.json()
+#     def get(self, request, tipoDocumento, numeroDocumento, format=None):
+# #        url = "http://replica.javerianacali.edu.co:8100/ServiciosSF/rs/consultarDeuda?tipoDocumento="+tipoDocumento+"&numeroDocumento="+numeroDocumento
+# #        response = requests.get(url)
+# #        information = response.json()
 
-        data = {}
+#         data = {}
 
-        information = {
-            "result":[
-                {
-                    "nationalId":"1107073062",
-                    "commonId":"00008956081",
-                    "invoiceId":"PRE-EDU-00010176410000",
-                    "valorPagar":"970000",
-                    "valorPagado":"0",
-                    "accountTypeSF":"CEC"
-                }
-            ]
-        }
+#         information = {
+#             "result":[
+#                 {
+#                     "nationalId":"1107073062",
+#                     "commonId":"00008956081",
+#                     "invoiceId":"PRE-EDU-00010176410000",
+#                     "valorPagar":"970000",
+#                     "valorPagado":"0",
+#                     "accountTypeSF":"CEC"
+#                 }
+#             ]
+#         }
 
-        try:
-            information["result"]
-            result = True
-        except:
-            result = False
+#         try:
+#             information["result"]
+#             result = True
+#         except:
+#             result = False
 
-        if(result):
-            lerny = Lerny.objects.all().first()
-            user = User.objects.get(identification=numeroDocumento)
-            pay = False
-            for i in information["result"]:
-                user_lerny = User_Lerny.objects.filter(lerny_id =lerny.id, user_id__identification=i["nationalId"])
-                if(i["valorPagar"]==i["valorPagado"]):
-                    pay = True
-                else:
-                    pay = False
+#         if(result):
+#             lerny = Lerny.objects.all().first()
+#             user = User.objects.get(identification=numeroDocumento)
+#             pay = False
+#             for i in information["result"]:
+#                 user_lerny = User_Lerny.objects.filter(lerny_id =lerny.id, user_id__identification=i["nationalId"])
+#                 if(i["valorPagar"]==i["valorPagado"]):
+#                     pay = True
+#                 else:
+#                     pay = False
 
-                if(user_lerny):
-                    user_lerny = user_lerny.first()
-                    user_lerny.valor = i["valorPagado"]
-                    user_lerny.bill_state = pay
-                    user_lerny.reference = i["invoiceId"]
-                    user_lerny.pay_date = datetime.now()
-                    user_lerny.save()
-                    data = UserLernySerializer(user_lerny).data
+#                 if(user_lerny):
+#                     user_lerny = user_lerny.first()
+#                     user_lerny.valor = i["valorPagado"]
+#                     user_lerny.bill_state = pay
+#                     user_lerny.reference = i["invoiceId"]
+#                     user_lerny.pay_date = datetime.now()
+#                     user_lerny.save()
+#                     data = UserLernySerializer(user_lerny).data
                 
-                else:
-                    user_lerny = User_Lerny()
-                    user_lerny.lerny_id = lerny
-                    user_lerny.user_id = user
-                    user_lerny.valor = i["valorPagado"]
-                    user_lerny.bill_state = pay
-                    user_lerny.reference = i["invoiceId"]
-                    user_lerny.pay_date = datetime.now()
-                    user_lerny.lerny_points = 0
-                    user_lerny.opinion_points = 0
-                    user_lerny.save()
-                    data = UserLernySerializer(user_lerny).data
-        else:
-            information={
-                "codError": "CE_CONSULTA_DEUDA",
-                "exceptionMessage": "Error consultando las deudas de la persona"
-            }
-            data = information
+#                 else:
+#                     user_lerny = User_Lerny()
+#                     user_lerny.lerny_id = lerny
+#                     user_lerny.user_id = user
+#                     user_lerny.valor = i["valorPagado"]
+#                     user_lerny.bill_state = pay
+#                     user_lerny.reference = i["invoiceId"]
+#                     user_lerny.pay_date = datetime.now()
+#                     user_lerny.lerny_points = 0
+#                     user_lerny.opinion_points = 0
+#                     user_lerny.save()
+#                     data = UserLernySerializer(user_lerny).data
+#         else:
+#             information={
+#                 "codError": "CE_CONSULTA_DEUDA",
+#                 "exceptionMessage": "Error consultando las deudas de la persona"
+#             }
+#             data = information
 
-        return Response(data)
+#         return Response(data)

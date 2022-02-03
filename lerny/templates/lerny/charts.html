@@ -20,43 +20,38 @@
     <!-- Custom styles for this template-->
     <link href="{% static 'lerny/css/lerny-admin.css' %}" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <link href="{% static 'lerny/css/lerny-admin.css' %}" rel="stylesheet">
-
     <!-- Custom styles for this page -->
     <link href="{% static 'lerny/vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
 
     <!-- searchPanes -->
     <link rel="stylesheet" href="https://cdn.datatables.net/searchpanes/1.0.1/css/searchPanes.dataTables.min.css">
+    
     <!-- select -->
     <link href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css">
 
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.1.0/css/buttons.dataTables.min.css">
+
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="{% static 'lerny/vendor/jquery/jquery.min.js' %}"></script>
-    <script src="{% static 'lerny/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
-    <!-- Core plugin JavaScript-->
-    <script src="{% static 'lerny/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+    <!--- CDN Datatables -->
 
-    <!-- Custom scripts for all pages-->
-    <script src="{% static 'lerny/js/admin-lerny.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js" ></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.1.0/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.print.min.js"></script>
+
+
 
     <!-- Page level plugins -->
     <script src="{% static 'lerny/vendor/chart.js/Chart.min.js' %}"></script>
 
     <!-- Page level custom scripts -->
-    <script src="{% static 'lerny/js/demo/chart-pie-demo.js' %}"></script>
-
-    <!-- Page level plugins -->
-    <script src="{% static 'lerny/vendor/datatables/jquery.dataTables.min.js' %}"></script>
-    <script src="{% static 'lerny/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
-
-    <!-- searchPanes   -->
-    <script src="https://cdn.datatables.net/searchpanes/1.3.0/js/dataTables.searchPanes.min.js"></script>
-    <!-- select -->
-    <script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script> 
+    <!-- <script src="{% static 'lerny/js/demo/chart-pie-demo.js' %}"></script> -->
 
     <!-- Style CSS-->
     <style type="text/css">
@@ -118,6 +113,45 @@
             border-radius: 20px;
             padding: 5px;
         }
+
+        .dataTables_wrapper .dataTables_length select {
+            padding-right: 10px;
+        }
+
+        #wrapper {
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        #Sidebar {
+            height: 100%;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            overflow-x: hidden;
+        }
+
+        #wrapper #content-wrapper{
+            margin-left: 18%;
+        }
+
+        #dataTable_length {
+            position: absolute;
+            margin-top: 30px;
+            margin-left: 180px;
+        }
+
+        #dataTable_filter {
+            margin: 20px;
+        }
+
+        div.dt-buttons {
+            position: relative;
+            float: left;
+            margin-top: 25px;
+        }
+
     </style>
 
 </head>
@@ -127,44 +161,48 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion py-4" id="accordionSidebar">
+        <div id="Sidebar" >
 
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center mb-4" href="">
-                <img class="logo" src="{% static 'lerny/img/logo.svg' %}" alt="logo">
-            </a>
+            <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion py-4" >
 
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
+                <!-- Sidebar - Brand -->
+                <a class="sidebar-brand d-flex align-items-center justify-content-center mb-4" href="">
+                    <img class="logo" src="{% static 'lerny/img/logo.svg' %}" alt="logo">
+                </a>
 
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'detail' %}">
-                    <i class="fas fa-tasks"></i>
-                    <span>Entregables</span></a>
+                <!-- Divider -->
+                <hr class="sidebar-divider my-0">
+
+                <!-- Nav Item - Dashboard -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'detail' %}">
+                        <i class="fas fa-tasks"></i>
+                        <span>Entregables</span></a>
+                    </li>
+
+
+                <!-- Divider -->
+                <hr class="sidebar-divider">
+
+                <!-- Nav Item - Charts -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'charts' %}">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Progreso</span></a>
                 </li>
 
+                <!-- Divider -->
+                <hr class="sidebar-divider d-none d-md-block">
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
+                <!-- Sidebar Toggler (Sidebar) -->
+                <!-- <div class="text-center d-none d-md-inline">
+                    <button class="rounded-circle border-0" id="sidebarToggle"></button>
+                </div> -->
 
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'charts' %}">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Progreso</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
-            <!-- Sidebar Toggler (Sidebar) -->
-            <!-- <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div> -->
-
-        </ul>
+            </ul>
+        </div>
         <!-- End of Sidebar -->
+
 
 
         <!-- Content Wrapper -->
@@ -258,39 +296,35 @@
               </div>
             </div>
 
-            <div class="dtsp-verticalContainer">
+             <!-- Filtros -->
+            <div align="center" class="pt-1 pb-3">
+                <select class="form-select" id="lerny_select" aria-label="Default select example">
+                    <option selected value="-1">Seleccionar</option>
+                </select>
+                <button class="btn btn-dark" type="button" onclick="update_table();filter_chart()">Filtrar</button>
+            </div>
+
+            <div class="dtsp-verticalContainer pb-5">
                 <div class="container">
-                    <table id="dataTable" class="display nowrap" width="100%">
+                    <table id="dataTable" class="display table table-striped table-bordered dataTable no-footer" width="100%">
                         <thead>
                             <tr>
                                 <th>Identificación</th>
                                 <th>Usuario</th>
                                 <th>Estado</th>
                                 <th>Progreso</th>
+                                <th>Grupo</th>
                             </tr>
                         </thead>
                     </table>
                 </div>
-                <!-- <div class="dtsp-verticalPanes col-3"></div> -->
+             
             </div>
 
 
             <!-- Content Row -->
             <div align="center">
-
-              <!-- Filtros -->
-              <div align="center" class="pt-5 pb-3">
-                <select class="form-select" id="lerny_select" aria-label="Default select example">
-                    <option selected value="-1">Todos los Lerny</option>
-                </select>
-                <p style="display: none">Microlerny</p>
-                <select class="form-select" id="microlerny_select" aria-label="Default select example" style="display: none">
-                    <option selected value="-1">Todos los Microlerny</option>
-                </select>
-                <button class="btn btn-dark" type="button" onclick="filter()">FILTRAR</button>
-              </div>
-
-
+        
               <div class="row" style="padding: 20px">
 
 
@@ -398,89 +432,319 @@
     <!-- End of Page Wrapper -->
 
 
-<!-- Scroll to Top Button-->
-<a class="scroll-to-top rounded" href="#page-top">
-  <i class="fas fa-angle-up"></i>
-</a>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+    </a>
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
-    var table = null
+        var table = null
 
-    function filter(){
-        var lerny_id = $( "#lerny_select" ).children("option:selected").val();
-        var microlerny_id = $( "#microlerny_select" ).children("option:selected").val(); 
-        table.ajax.url( '/api_lerny/lernydetail/?lerny_id=' + lerny_id +'&microlerny_id=' + microlerny_id).load();
-        myBarChartCant.destroy()
-        myBarChart.destroy()
-        myBarChartProgress.destroy()
-        myBarChartAvg.destroy()
-        
-    }
-    
-    $( "#lerny_select" ).change(function() {
-        $( "#lerny_name" ).text($( "#lerny_select" ).children("option:selected").text())
-        $( "#microlerny_select" ).show()
-        $('#microlerny_select').children().remove().end()
-        .append('<option selected value="-1">Todos los Microlerny</option>') ;
-        var lerny_id = $( "#lerny_select" ).children("option:selected").val();
+        //TABLE USERS
+        $(document).ready(function() {
+            table = $('#dataTable').DataTable( {
+                dom: 'Blfrtip',
+                buttons:[
+                    {
+                        extend: 'excelHtml5',
+                        text: '<i class="fas fa-file-excel"></i>',
+                        titleAttr: 'Exportar a Excel',
+                        className: 'btn btn-success',
+                        color:  'green',
+                        customize: function (xlsx){
+                            var sheet = xlsx.worksheets['sheet1.xml'];
+
+                            $('row f[r^="C"]', sheet).attr( 's', '2' );
+                        }
+                    },
+
+                    {
+                        extend: 'pdfHtml5',
+                        text: '<i class="fas fa-file-pdf"></i>',
+                        titleAttr: 'Exportar a PDF',
+                        className: 'btn btn-danger',
+                        color:  'red',
+                    },
+                        
+                    {
+                        extend: 'copy',
+                        text: '<i class="far fa-copy"></i>',
+                        titleAttr: 'Copiar',
+                        className: 'btn btn-info',
+                        color:  'blue',
+                    },
+             
+                ],
+              
+                ajax: {
+                    url: '/api_lerny/lernydetail/?lerny_id=-1&microlerny_id=-1',
+                    type: 'GET',
+                    dataType: 'json',
+                    },
+                columns :[
+                {data: 'identification'},
+                {data: 'user'},
+                {data: 'done'},
+                {data: 'progress'},
+                {data: 'Grupo'},
+                ],
+                pageLength: 20
+            })
+
+        })
+
+
+        function update_table(){
+            var lerny_id = $('#lerny_select').val();
+            table.ajax.url('/api_lerny/lernydetail/?lerny_id='+lerny_id+'&microlerny_id=-1').load();
+        }
+
         $.ajax({
-            method: 'POST',
-            url: '/api_lerny/microlernyapi/',
-            data: { pk: lerny_id },
+            url: '/api_lerny/lernyapi/',
             success: function(data) {
-                for(var i = 0; i < Object.keys(data).length; i++) {
-                    document.getElementById("microlerny_select").innerHTML += "<option value='"+data[i].pk+"'>"+data[i].name+"</option>";
+               const lerny_id = data[1].pk;  
+            }
+        })
+
+       
+        // // Set new default font family and font color to mimic Bootstrap's default styling
+        Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+        Chart.defaults.global.defaultFontColor = '#858796';
+
+        $.ajax({
+        method: 'GET',
+        url: '/api_lerny/lernydetail/?lerny_id=-1&microlerny_id=-1',
+        success: function(respuesta) {
+
+            var data_pie = respuesta.approved; //Students approved
+            var data_micro = respuesta.info_micro; //Array of microlernies
+            var name_micro = respuesta.name_micro; //name of microlernies
+            var cont_micro = respuesta.cont_micro; //number students of microlernies
+            var progress_micro = respuesta.progress_micro; //progress of microlernies
+            var average = respuesta.average_micro; //average of microlernies
+
+                        
+            //Select Lerny
+            $.ajax({
+                url: '/api_lerny/lernyapi/',
+                success: function(data) {
+                    console.log("DATA LERNY",data);
+                    for(var i = 0; i < Object.keys(data).length; i++) {
+                        document.getElementById("lerny_select").innerHTML += "<option value='"+data[i].pk+"'>"+data[i].name+"</option>";
+                    }
+
+                    $( "#lerny_name" ).text(data[0].name)
+                },
+                error: function() {
+                    console.log("No se ha podido obtener la información");
                 }
+            });
+        
+            var ctx = document.getElementById("myBarChartCant"); 
+            myBarChartCant = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: name_micro,
+                datasets: [{
+                label: "# Estudiantes",
+                data: cont_micro,
+                backgroundColor: ['#001844', '#001844', '#001844', '#001844','#001844', '#001844','#001844','#001844', '#001844'],
+                hoverBackgroundColor: ['#001844', '#001844','#001844', '#001844','#001844', '#001844','#001844','#001844', '#001844'],
+                borderColor: "#4e73df",
+                }],
             },
-            error: function() {
+            options: {
+                maintainAspectRatio: false,
+                tooltips: {
+                backgroundColor: "rgb(255,255,255)",
+                bodyFontColor: "#858796",
+                borderColor: '#dddfeb',
+                borderWidth: 1,
+                xPadding: 15,
+                yPadding: 15,
+                displayColors: true,
+                caretPadding: 10,
+                },
+                legend: {
+                display: false
+                },
+                scales: {
+                xAxes: [{
+                    gridLines: {
+                    display: false,
+                    drawBorder: false
+                    },
+                    ticks: {
+                    maxTicksLimit: 20,
+                    maxRotation: 90,
+                    minRotation: 90,
+                    },
+                    maxBarThickness: 25,
+                }],
+                y: {
+                    beginAtZero: true
+                },
+                yAxes: [{
+                    ticks: {
+                    maxTicksLimit: 5,
+                    padding: 10,
+                    },
+                    gridLines: {
+                    color: "rgb(234, 236, 244)",
+                    zeroLineColor: "rgb(234, 236, 244)",
+                    drawBorder: false,
+                    borderDash: [2],
+                    zeroLineBorderDash: [2]
+                    }
+                }],
+                },
+            },
+            });
+
+            var ctx = document.getElementById("myBarChart");  
+            myBarChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ["Aprobado", "No Aprobado"],
+                datasets: [{
+                label: "Porcentaje",
+                data: data_pie,
+                backgroundColor: ['#BB86FC', '#001844', ],
+                hoverOffset: 4,
+                }],
+            },
+            });
+
+            var ctx = document.getElementById("myBarChartProgress");
+            myBarChartProgress = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: name_micro,
+                datasets: [{
+                label: "Progreso",
+                data: progress_micro,
+                backgroundColor: ['#001844', '#0039A3', '#0047CC ', '#0056F5','#1F6DFF', '#4788FF','#70A2FF','#99BDFF', '#C1D9FF'],
+                hoverOffset: 4,
+                }],
+            },
+            });
+
+            var ctx = document.getElementById("myBarChartAvg");
+            myBarChartAvg = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: name_micro,
+                datasets: [{
+                label: "Promedio",
+                data: average,
+                backgroundColor: ['#001844', '#001844', '#001844', '#001844','#001844', '#001844', '#001844','#001844', '#001844'],
+                hoverBackgroundColor: ['#001844', '#001844','#001844', '#001844','#001844', '#001844','#001844','#001844', '#001844'],
+                borderColor: "#4e73df",
+                }],
+            },
+            options: {
+                maintainAspectRatio: false,
+                tooltips: {
+                backgroundColor: "rgb(255,255,255)",
+                bodyFontColor: "#858796",
+                borderColor: '#dddfeb',
+                borderWidth: 1,
+                xPadding: 15,
+                yPadding: 15,
+                displayColors: true,
+                caretPadding: 10,
+                },
+                legend: {
+                display: false
+                },
+                scales: {
+                xAxes: [{
+                    gridLines: {
+                    display: false,
+                    drawBorder: false
+                    },
+                    ticks: {
+                    maxTicksLimit: 20,
+                    maxRotation: 90,
+                    minRotation: 90,
+                    },
+                    maxBarThickness: 25,
+                }],
+                y: {
+                    beginAtZero: true
+                },
+                yAxes: [{
+                    ticks: {
+                    min: 0,
+                    maxTicksLimit: 5,
+                    padding: 10,
+                    },
+                    gridLines: {
+                    color: "rgb(234, 236, 244)",
+                    zeroLineColor: "rgb(234, 236, 244)",
+                    drawBorder: false,
+                    borderDash: [2],
+                    zeroLineBorderDash: [2]
+                    }
+                }],
+                },
+            },
+            });
+        },
+        error: function() {
                 console.log("No se ha podido obtener la información");
             }
         });
-    });
 
-    $(document).ready(function() {
 
-        table = $('#dataTable').DataTable( {
-            ajax: {
-                url: '/api_lerny/lernydetail/?lerny_id=-1&microlerny_id=-1',
-                type: 'GET',
-                dataType: 'json'
-            },
-            columns :[
-            {data: 'identification'},
-            {data: 'user'},
-            {data: 'done'},
-            {data: 'progress'},
+        
+        function filter_chart(){
+            var lerny_select = $( "#lerny_select" ).children("option:selected").val();
+            console.log("LERNY_SELECT",lerny_select);
+            
+            $.ajax({
+            
+                url: '/api_lerny/lernyapi/',
+                success: function(data) {
 
-            ],
-            searchPanes: {
-                layout: 'columns-1',
-                columns: [0,1,2]
-            },
-            dom: '<"dtsp-dataTable"frtip>',
-            pageLength: 20
-        })
+                const lerny = data;
+                
+                var fil = lerny.filter( function (l) {
+                    return l.pk == lerny_select;
+                })
+                console.log("FILTRADO",fil);
+                lerny_id = fil[0].pk;
+                console.log("ID LERNY_SELECT",lerny_id);
+                $( "#lerny_name" ).text(fil[0].name)
+                
+                $.ajax({
+                url: '/api_lerny/lernydetail/?lerny_id='+lerny_id+'&microlerny_id=-1',
+                success: function(lerny) {
 
-        table.searchPanes();
-        $("div.dtsp-verticalPanes").append(table.searchPanes.container());
-    })
+                    console.log("LERNY_ACTUAL",lerny);
 
-    $.ajax({
-        url: '/api_lerny/lernyapi/',
-        success: function(data) {
-            for(var i = 0; i < Object.keys(data).length; i++) {
-                document.getElementById("lerny_select").innerHTML += "<option value='"+data[i].pk+"'>"+data[i].name+"</option>";
-            }
+                    myBarChartCant.data.datasets[0].data = lerny.cont_micro;
+                    myBarChartCant.data.labels = lerny.name_micro;
+                    myBarChartCant.update();
 
-            $( "#lerny_name" ).text(data[0].name)
-        },
-        error: function() {
-            console.log("No se ha podido obtener la información");
+                    myBarChartProgress.data.datasets[0].data = lerny.progress_micro;
+                    myBarChartProgress.data.labels = lerny.name_micro;
+                    myBarChartProgress.update();
+
+                    myBarChart.data.datasets[0].data = lerny.approved;      
+                    myBarChart.update();
+
+                    myBarChartAvg.data.datasets[0].data = lerny.average_micro;
+                    myBarChartAvg.data.labels = lerny.name_micro;
+                    myBarChartAvg.update();
+                    }
+                })
+                } 
+            })
         }
-    });
-
-</script>
+        
+    </script>
 
 </body>
 

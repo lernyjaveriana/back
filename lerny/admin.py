@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Faqs, Faqs_Lerny, Lerny, MicroLerny, TreeMicroLerny, Resource, User_State, User_Resource, User_Lerny, Company, Lerny_Company, User_Micro_Lerny, Media, User_State_Logs, Group, User_Group
+from .models import *
 
 # Register your models here
 
@@ -43,6 +43,21 @@ class User_Group_ResourceAdmin(admin.ModelAdmin):
     list_filter=("User_id",)
     list_display = ("Group_id","User_id")
 
+# Support tables 
+class Support_Resource_ResourceAdmin(admin.ModelAdmin):
+    list_filter=("name",)
+    list_display = ("name","text")
+class Support_Resource_Microlerny_Lerny_ResourceAdmin(admin.ModelAdmin):
+    list_filter=("Support_Resource_id",)
+    list_display = ("Support_Resource_id",)
+class Score_ResourceAdmin(admin.ModelAdmin):
+    list_filter=("Support_Resource_Microlerny_Lerny",)
+    list_display = ("Support_Resource_Microlerny_Lerny","User")
+
+class pqr_ResourceAdmin(admin.ModelAdmin):
+    list_filter=("user_id",)
+    list_display = ("user_state","user_id","pqr","type")
+
 
 
 admin.site.register(Group,Group_ResourceAdmin)
@@ -61,3 +76,7 @@ admin.site.register(Company, CompanyAdmin)
 admin.site.register(Lerny_Company)
 admin.site.register(User_Micro_Lerny)
 admin.site.register(Media,MediaAdmin)
+admin.site.register(Support_Resource,Support_Resource_ResourceAdmin)
+admin.site.register(Support_Resource_Microlerny_Lerny,Support_Resource_Microlerny_Lerny_ResourceAdmin)
+admin.site.register(Score,Score_ResourceAdmin)
+admin.site.register(PQR,pqr_ResourceAdmin)

@@ -47,3 +47,18 @@ class UserGroupSerializer(serializers.ModelSerializer):
 		model = User_Group
 		fields = '__all__'
 
+class SupportResourceSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Support_Resource
+		fields = '__all__'
+
+class SupportResourceMicrolernyLernySerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Support_Resource_Microlerny_Lerny
+		fields = '__all__'
+
+class ScoreSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Score
+		fields = '__all__'
+

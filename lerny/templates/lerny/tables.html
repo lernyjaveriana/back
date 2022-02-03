@@ -10,6 +10,7 @@
 
     <title>Lerny</title>
     
+    
     <!-- Custom fonts for this template -->
     <link href="{% static 'lerny/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
@@ -27,73 +28,138 @@
     <link href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+    
+    <!-- Fixed Header-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.2.0/css/fixedHeader.dataTables.min.css">
+
+    <!-- Buttons-->
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.1.1/css/buttons.bootstrap5.min.css">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.1.0/css/buttons.dataTables.min.css">
+
+    <!-- Style main-->
+    <link rel="stylesheet" href="{% static 'lerny/css/main.css' %}">
 
     <style type="text/css">
 
-    div.dtsp-verticalContainer{
 
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            justify-content: flex-start;
-            align-content: flex-start;
-            align-items: flex-start;
+        div.dtsp-verticalContainer{
+
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: flex-start;
+                align-content: flex-start;
+                align-items: flex-start;
+            }
+    
+        div.dtsp-verticalContainer div.dtsp-verticalPanes,
+        div.dtsp-verticalContainer div.container{
+            width: 5%;
+            flex-grow: 0;
+            flex-shrink: 0;
+            flex-basis: 0;
         }
- 
-    div.dtsp-verticalContainer div.dtsp-verticalPanes,
-    div.dtsp-verticalContainer div.container{
-        width: 5%;
-        flex-grow: 0;
-        flex-shrink: 0;
-        flex-basis: 0;
-    }
+        
+        div.dtsp-verticalContainer div.dtsp-verticalPanes{
+            flex-grow: 1;
+            flex-shrink: 0;
+            flex-basis: 26%;
+        }
+        
+        div.dtsp-verticalPanes {
+            margin-right: 20px;
+        }
+        
+        div.dtsp-title {
+            margin-right: 0px !important;
+            margin-top: 13px !important;
+        }
+        
+        input.dtsp-search {
+            min-width: 0px !important;
+            padding-left: 0px !important;
+            margin: 0px !important;
+        }
+        
+        div.dtsp-verticalContainer div.dtsp-verticalPanes div.dtsp-searchPanes{
+            flex-direction: column;
+            flex-basis: 0px;
+        }
+        
+        div.dtsp-verticalContainer div.dtsp-verticalPanes div.dtsp-searchPanes div.dtsp-searchPane{
+            flex-basis: 0px;
+        }
+        
+        div.dtsp-verticalContainer div.container{
+            flex-grow: 1;
+            flex-shrink: 0;
+            flex-basis: 80%;
+        }
     
-    div.dtsp-verticalContainer div.dtsp-verticalPanes{
-        flex-grow: 1;
-        flex-shrink: 0;
-        flex-basis: 26%;
-    }
-    
-    div.dtsp-verticalPanes {
-        margin-right: 20px;
-    }
-    
-    div.dtsp-title {
-        margin-right: 0px !important;
-        margin-top: 13px !important;
-    }
-    
-    input.dtsp-search {
-        min-width: 0px !important;
-        padding-left: 0px !important;
-        margin: 0px !important;
-    }
-    
-    div.dtsp-verticalContainer div.dtsp-verticalPanes div.dtsp-searchPanes{
-        flex-direction: column;
-        flex-basis: 0px;
-    }
-    
-    div.dtsp-verticalContainer div.dtsp-verticalPanes div.dtsp-searchPanes div.dtsp-searchPane{
-        flex-basis: 0px;
-    }
-    
-    div.dtsp-verticalContainer div.container{
-        flex-grow: 1;
-        flex-shrink: 0;
-        flex-basis: 80%;
-    }
-    
-    div.dtsp-panesContainer {
-        border: 1px solid #ccc;
-        border-radius: 20px;
-        padding: 5px;
-    }
+        div.dtsp-panesContainer {
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            padding: 5px;
+        }
+
+        #Sidebar {
+                height: 100%;
+                position: fixed;
+                z-index: 1;
+                top: 0;
+                left: 0;
+                overflow-x: hidden;
+            }
+
+        #wrapper #content-wrapper{
+            margin-left: 15%;
+
+        }
+
+        .custom-select.custom-select-sm.form-control.form-control-sm {
+            padding-right: 20px;
+        }
+
+        .dt-buttons {
+            margin-bottom: 30px;
+            margin-right: 50px;
+        }
+
+        .btn-success:hover .btn-success {
+            color: #68a735 !important;
+        }
+
+        .btn-danger:hover .btn-danger {
+            color: #af2a2a !important;
+        }
+
+        .btn-info:hover .btn-info {
+            color: #2a8af2 !important;
+        }
+
+
+
     </style>
+
+     <!--- CDN Datatables -->
+
+     <script src="https://code.jquery.com/jquery-3.5.1.js" ></script>
+     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+     <script src="https://cdn.datatables.net/buttons/2.1.0/js/dataTables.buttons.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+     <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.html5.min.js"></script>
+     <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.print.min.js"></script>
+ 
 
 
     <!-- Bootstrap core JavaScript-->
-    <script src="{% static 'lerny/vendor/jquery/jquery.min.js' %}"></script>
+    <!-- <script src="{% static 'lerny/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'lerny/vendor/jquery/jquery.js' %}"></script> -->
+
     <script src="{% static 'lerny/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
     <!-- Core plugin JavaScript-->
@@ -102,14 +168,15 @@
     <!-- Custom scripts for all pages-->
     <script src="{% static 'lerny/js/admin-lerny.js' %}"></script>
 
-    <!-- Page level plugins -->
-    <script src="{% static 'lerny/vendor/datatables/jquery.dataTables.min.js' %}"></script>
-    <script src="{% static 'lerny/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
-
     <!-- searchPanes   -->
     <script src="https://cdn.datatables.net/searchpanes/1.3.0/js/dataTables.searchPanes.min.js"></script>
+
     <!-- select -->
     <script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script> 
+
+    <!-- fixed header-->
+    <script src="https://cdn.datatables.net/fixedheader/3.1.5/js/dataTables.fixedHeader.min.js"></script>
+
 
 </head>
 
@@ -119,42 +186,42 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion py-4" id="accordionSidebar">
 
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center mb-4" href="">
-                <img class="logo" src="{% static 'lerny/img/logo.svg' %}" alt="logo">
-            </a>
+        <div id="Sidebar">
 
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'detail' %}">
-                    <i class="fas fa-fw fa-home"></i>
-                    <span>Entregables</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'charts' %}">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Progreso</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
-
-        </ul>
+            <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion py-4" id="accordionSidebar">
+    
+                <!-- Sidebar - Brand -->
+                <a class="sidebar-brand d-flex align-items-center justify-content-center mb-4" href="">
+                    <img class="logo" src="{% static 'lerny/img/logo.svg' %}" alt="logo">
+                </a>
+    
+                <!-- Divider -->
+                <hr class="sidebar-divider my-0">
+    
+                <!-- Nav Item - Dashboard -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'detail' %}">
+                        <i class="fas fa-tasks"></i>
+                        <span>Entregables</span></a>
+                </li>
+    
+                <!-- Divider -->
+                <hr class="sidebar-divider">
+    
+                <!-- Nav Item - Charts -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'charts' %}">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Progreso</span></a>
+                </li>
+    
+                <!-- Divider -->
+                <hr class="sidebar-divider d-none d-md-block">
+    
+    
+            </ul>
+        </div>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -229,7 +296,7 @@
 
 
             <!-- Begin Page Content -->
-            <div class="container-fluid my-5 px-5">
+            <div class="my-3 mx-2 pl-4">
                 
                 {% if not have_company %}
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -240,14 +307,12 @@
                 </div>
                 {% endif %}
 
-                    <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Tabla general de Usuarios</h1>
-                    
+                   
 
                     <!-- DataTales -->
                     <div class="card shadow mb-4 table-admin">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-white">Usuarios</h6>
+                            <h6 class="m-0 font-weight-bold text-white text-center">Entregables</h6>
                         </div>
                     </div>
 
@@ -256,18 +321,19 @@
                         <div class="dtsp-verticalContainer">
                             <div class="dtsp-verticalPanes col-3"></div>
                             <div class="container">
-                                <table id="dataTable" class="display" width="100%">
+                                <table id="dataTable" class="display table table-striped table-bordered" width="100%">
                                     <thead>
                                         <tr>
                                             <th>Lerny</th>
                                             <th>Microlerny</th>
                                             <th>Recurso</th>
                                             <th>Identificacion</th>
-                                            <th>Ususario</th>
-                                            <th>Respuesta</th>
+                                            <th>Usuario</th>
+                                            <th>Entregables</th>
                                             <th>Grupo</th>
                                             <th>Puntos</th>
                                             <th>Acción</th>
+                                            <th>Enlaces</th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -380,11 +446,8 @@
         </div>
     </div>
 
-    
-
+    <!-- SCRIPT FOR DATATABLES-->
     <script type="text/javascript">
-
-        var table = ""
 
         function editRow(pk) {
             document.getElementById("pk_edit").value = pk
@@ -415,10 +478,55 @@
             })
         }
 
+
+
         $(document).ready(function() {
+
+            // Function ignore column for export data
+            var buttonCommon = {
+                exportOptions: {
+                    columns: function(column, data, node) {
+                        if (column === 0 || column ===5 || column === 8) {
+                            return false;
+                        }
+                        return true;
+                    }
+                }
+    };
             var table = $('#dataTable').DataTable( {
-                "scrollX": true,
-                "fixedHeader": true,
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+                },
+                dom: 'Blfrtip',
+                buttons:[
+                    $.extend (true, {}, buttonCommon,
+                    {
+                        extend: 'excelHtml5',
+                        text: '<i class="fas fa-file-excel"></i>',
+                        titleAttr: 'Exportar a Excel',
+                        className: 'btn btn-success',
+                        color:  'green',
+                    }),
+                    $.extend (true, {}, buttonCommon,
+                    {
+                        extend: 'pdfHtml5',
+                        text: '<i class="fas fa-file-pdf"></i>',
+                        titleAttr: 'Exportar a PDF',
+                        className: 'btn btn-danger',
+                        color:  'red',
+                    }),
+                    $.extend (true, {}, buttonCommon,
+                    {
+                        extend: 'copy',
+                        text: '<i class="far fa-copy"></i>',
+                        titleAttr: 'Copiar',
+                        className: 'btn btn-info',
+                        color:  'blue',
+                    },
+                    )
+             
+                ],
+                "orderCellsTop":true,
                 ajax: {
                     url: '/api_lerny/apiresources/',
                     type: 'GET',
@@ -434,19 +542,52 @@
                     {data: 'Grupo'},
                     {data: 'points'},
                     {data: 'pk'},
+                    {data: 'http'},
 
                 ],
-                searchPanes: {
-                    layout: 'columns-1',
-                    columns: [0,1]
-                },
-                dom: '<"dtsp-dataTable"frtip>',
-                pageLength: 20
+                pageLength: 20,
+                responsive: true,
+                "columnDefs": [
+                    {
+                        "targets": [9],
+                        "visible": false,
+                    }
+                ],
+            });
+
+            $.ajax({
+                url: '/api_lerny/apiresources/',
+                success: function(data){
+                    console.log('LERNY',data,)
+                }
             })
-            table.searchPanes();
-            $("div.dtsp-verticalPanes").append(table.searchPanes.container());
+        
+            // Filters for the table
+            // Create a row in the head 
+            $('#dataTable thead tr').clone(true).appendTo( '#dataTable thead' );
+
+            // exclude columns
+            $('#dataTable thead tr:eq(1) th').each( function (i) {
+                var title = $(this).text();
+                if (title == "Lerny" || title == "Microlerny" ||  title == "Recurso" || title == "Identificacion"|| title == "Usuario" || title == "Grupo") {
+                    $(this).html( '<input type="text" class="form-control form-control-sm" placeholder="Buscar..." />' );
+                }
+                else {
+                    $(this).html( '<input type="text" class="form-control form-control-sm" placeholder="Buscar..." disabled/>' );
+                }
+   
+                $( 'input', this ).on( 'keyup change', function () {
+                    if ( table.column(i).search() !== this.value ) {
+                        table
+                        .column(i)
+                        .search( this.value )
+                        .draw();
+                    }
+                } );
+            } );
         });
     </script>
+
 
 </body>
 

@@ -3,6 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import serializers
+
+from user.serializers import UserSerializer
 from .serializers import *
 from .models import *
 from django.http import JsonResponse
@@ -83,16 +85,20 @@ def ApiStateResource(request):
 		if company:
 			#filtro todos los lernys que pertenecen a la empresa que se encuentra asignado el colaborador
 			lernys = Lerny.objects.filter(lerny_company__company_id=company.pk).values_list("pk", flat=True)
-			user_resources = User_Resource.objects.filter(resource_id__microlerny__lerny__in=lernys).order_by("resource_id__microlerny__lerny__lerny_name")
-			print(user_resources)
+			user_resources = User_Resource.objects.filter(resource_id__microlerny__lerny__in=lernys).order_by("resource_id__microlerny__lerny__lerny_name") #user_resource son los entregables 
+			# print(user_resources)
 			for i in user_resources:
 				data = {}
 				try:
-					group_id=UserGroupSerializer(User_Group.objects.get(User_id=i.user_id)).data["Group_id"]
-					data['Grupo'] = GroupSerializer(Group.objects.get(pk=group_id,lerny_id=i.resource_id.microlerny.lerny.pk)).data["Group_name"]
+					group_id=UserGroupSerializer(User_Group.objects.filter(User_id=i.user_id, Group_id__lerny_id__pk=i.resource_id.microlerny.lerny.pk).first()).data["Group_id"] #grupo del usuario
+					if (group_id != None):
+						data['Grupo'] = GroupSerializer(Group.objects.get(pk=group_id)).data["Group_name"]
+					else:
+						data['Grupo'] = ""
 				except:
 					data['Grupo'] = ""
 				
+				print(data['Grupo'])
 				data['pk'] = '<div align="center"><button type="button" class="btn btn-primary" data-dismiss="modal" onclick="editRow('+str(i.pk)+')">Calificar</button></div>'
 				data['lerny'] = i.resource_id.microlerny.lerny.lerny_name
 				data['microlerny'] = i.resource_id.microlerny.micro_lerny_title
@@ -102,7 +108,7 @@ def ApiStateResource(request):
 				
 				#Create tag hiperlink for user responses
 				etiqueta = '<a href="{}" target="_blank" > Recurso </a>'
-				list_answers = i.user_response.split()
+				list_answers = i.user_response.split(";")
 
 				deliverable , txt_response = [], []
 
@@ -115,14 +121,14 @@ def ApiStateResource(request):
 
 				#joins words from the text response
 				if len(txt_response) > 0: 
-					answers = " ".join(txt_response)
+					answers = ";".join(txt_response)
 					#Final list of deliverables
 					deliverable.append(answers)
 
 				data['response'] = deliverable
+				data['http'] =i.user_response
 				data['points'] = i.points
 				list_data.append(data)
-				print("ENTREGABLES", data['response'])
 			context = list_data
 			return JsonResponse({"data":context}, safe = False)
 		else:
@@ -138,7 +144,6 @@ def charts(request):
 	except:
 		company = None
 	context = {"username": user.user_name, 'have_company': True if company != None else False}
-	print('GRAFICAS',context)
 	return render(request, 'lerny/charts.html', context);
 
 @csrf_exempt
@@ -188,9 +193,11 @@ class lernyDetail(APIView):
 				if lerny_id != -1:
 					#filtro por el lerny
 					lerny = Lerny.objects.get(pk=lerny_id)
+					print("ENTRO_SELECIONADO",lerny)
 				else:
 					#Muestro el primer lerny asociado a la compañia
 					lerny = Lerny.objects.filter(lerny_company__company_id=company).first()
+					print("ENTRO",lerny)
 
 				#selecciono todos los usuarios inscritos en el lerny
 				user_lerny = User_Lerny.objects.filter(lerny_id=lerny.pk)
@@ -201,32 +208,42 @@ class lernyDetail(APIView):
 					resource_lerny = resource_lerny.filter(microlerny__pk=microlerny_id)
 				#cuento la cantidad de recursos obligatorios que se requieren para aprobar el lerny
 				cont_resource_lerny = resource_lerny.count()
-				print("cont_resource_lerny="+str(cont_resource_lerny))
+			
 				#selecciono todos los registros de recursos obligatorios aprobados por usuarios
 				user_resource = User_State_Logs.objects.filter(micro_lerny_id__lerny__pk=lerny.pk)
 				for i in user_lerny:
 					data = {}
-					data['user'] = i.user_id.user_name
-					data['identification'] = i.user_id.identification
-					cont = user_resource.filter(user_id__pk=i.user_id.pk).count()
-					if cont_resource_lerny != 0:
-						if cont == cont_resource_lerny:
-							data['done'] = "Aprobado"
-							data['progress'] = 100
-							approved = approved + 1
-						elif cont == 0:
-							data['done'] = "No aprobado"
-							data['progress'] = 0
+					# print("GROUP NAME= "+str(i.user_id.group.name))
+					if(i.user_id.group.name == "Usuarios"): 
+						try:
+							group_id=UserGroupSerializer(User_Group.objects.filter(User_id=i.user_id, Group_id__lerny_id__pk=i.lerny_id.pk).first()).data["Group_id"] #grupo del usuario
+							if (group_id != None):
+								data['Grupo'] = GroupSerializer(Group.objects.get(pk=group_id)).data["Group_name"]
+							else:
+								data['Grupo'] = ""
+						except:
+							data['Grupo'] = ""
+						data['user'] = i.user_id.user_name
+						data['identification'] = i.user_id.identification
+						cont = user_resource.filter(user_id__pk=i.user_id.pk).count()
+						if cont_resource_lerny != 0:
+							if cont == cont_resource_lerny:
+								data['done'] = "Aprobado"
+								data['progress'] = 100
+								approved = approved + 1
+							elif cont == 0:
+								data['done'] = "No aprobado"
+								data['progress'] = 0
+							else:
+								data['done'] = "No aprobado"
+								data['progress'] = round(((cont*100)/cont_resource_lerny), 2)
 						else:
-							data['done'] = "No aprobado"
+							data['done'] = "Aprobado"
+							#resource_lerny = Resource.objects.filter(microlerny__lerny__pk=lerny.pk)
 							data['progress'] = round(((cont*100)/cont_resource_lerny), 2)
-					else:
-						data['done'] = "Aprobado"
-						#resource_lerny = Resource.objects.filter(microlerny__lerny__pk=lerny.pk)
-						data['progress'] = round(((cont*100)/cont_resource_lerny), 2)
-						approved = approved + 1
-					list_data.append(data)
-					cont = 0
+							approved = approved + 1
+						list_data.append(data)
+						cont = 0
 				if user_lerny.count() != 0:
 					data_approved = [round(((approved*100)/user_lerny.count()), 2), round((((user_lerny.count()-approved)*100)/user_lerny.count()), 2)]
 				else:
@@ -239,8 +256,6 @@ class lernyDetail(APIView):
 					cant = user_resource.filter(micro_lerny_id__pk=i.pk).order_by('user_id').distinct('user_id').count()
 					data['microlerny'] = i.micro_lerny_subtitle
 					data['cant'] = cant
-					print('CUENTA DE RECURSOS VISTOS ',cant)
-					print('CUENTA RECURSOS ',user_lerny.count())
 					if user_lerny.count()!= 0:
 						data['progress'] = round(((cant*100)/user_lerny.count()), 2)
 					else:
@@ -262,6 +277,7 @@ class lernyDetail(APIView):
 							'progress_micro': list_progress_micro,
 							'average_micro': list_average_micro,
 						}
+				print(context)
 				return Response (context)
 		
 				context = {'data': "No tiene una compañia asignada"}

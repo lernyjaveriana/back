@@ -98,7 +98,7 @@ def ApiStateResource(request):
 				except:
 					data['Grupo'] = ""
 				
-				print(data['Grupo'])
+				
 				data['pk'] = '<div align="center"><button type="button" class="btn btn-primary" data-dismiss="modal" onclick="editRow('+str(i.pk)+')">Calificar</button></div>'
 				data['lerny'] = i.resource_id.microlerny.lerny.lerny_name
 				data['microlerny'] = i.resource_id.microlerny.micro_lerny_title
@@ -193,11 +193,10 @@ class lernyDetail(APIView):
 				if lerny_id != -1:
 					#filtro por el lerny
 					lerny = Lerny.objects.get(pk=lerny_id)
-					print("ENTRO_SELECIONADO",lerny)
+
 				else:
 					#Muestro el primer lerny asociado a la compañia
 					lerny = Lerny.objects.filter(lerny_company__company_id=company).first()
-					print("ENTRO",lerny)
 
 				#selecciono todos los usuarios inscritos en el lerny
 				user_lerny = User_Lerny.objects.filter(lerny_id=lerny.pk)
@@ -277,7 +276,6 @@ class lernyDetail(APIView):
 							'progress_micro': list_progress_micro,
 							'average_micro': list_average_micro,
 						}
-				print(context)
 				return Response (context)
 		
 				context = {'data': "No tiene una compañia asignada"}

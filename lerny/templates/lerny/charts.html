@@ -644,15 +644,7 @@
             });
 
             var ctx = document.getElementById("myBarChartAvg");
-            if (nulls){
-                var centerX = canvas.width/2;
-                ctx.font="25pt Verdana";
-				ctx.strokeStyle="blue";
-				ctx.lineWidth = 2;
-			    ctx.strokeText("strokeText",centerX,120);
-            }
             myBarChartAvg = new Chart(ctx, {
-
                 type: 'bar',
                 data: {
                     labels: name_micro,
@@ -712,6 +704,16 @@
                     },
                 },
             });
+
+            console.log(nulls);
+
+            if (nulls){
+                var centerX = canvas.width/2;
+                ctx.font="25pt Verdana";
+				ctx.strokeStyle="blue";
+				ctx.lineWidth = 2;
+			    ctx.strokeText("strokeText",centerX,120);
+            }
             
 
            },

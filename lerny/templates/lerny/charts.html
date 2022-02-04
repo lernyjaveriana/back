@@ -651,69 +651,68 @@
 				ctx.lineWidth = 2;
 			    ctx.strokeText("strokeText",centerX,120);
             }
-            else{
-                myBarChartAvg = new Chart(ctx, {
+            myBarChartAvg = new Chart(ctx, {
 
-                    type: 'bar',
-                    data: {
-                        labels: name_micro,
-                        datasets: [{
-                        label: "Promedio",
-                        data: average,
-                        backgroundColor: ['#001844', '#001844', '#001844', '#001844','#001844', '#001844', '#001844','#001844', '#001844'],
-                        hoverBackgroundColor: ['#001844', '#001844','#001844', '#001844','#001844', '#001844','#001844','#001844', '#001844'],
-                        borderColor: "#4e73df",
-                        }],
+                type: 'bar',
+                data: {
+                    labels: name_micro,
+                    datasets: [{
+                    label: "Promedio",
+                    data: average,
+                    backgroundColor: ['#001844', '#001844', '#001844', '#001844','#001844', '#001844', '#001844','#001844', '#001844'],
+                    hoverBackgroundColor: ['#001844', '#001844','#001844', '#001844','#001844', '#001844','#001844','#001844', '#001844'],
+                    borderColor: "#4e73df",
+                    }],
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    tooltips: {
+                    backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: true,
+                    caretPadding: 10,
                     },
-                    options: {
-                        maintainAspectRatio: false,
-                        tooltips: {
-                        backgroundColor: "rgb(255,255,255)",
-                        bodyFontColor: "#858796",
-                        borderColor: '#dddfeb',
-                        borderWidth: 1,
-                        xPadding: 15,
-                        yPadding: 15,
-                        displayColors: true,
-                        caretPadding: 10,
-                        },
-                        legend: {
-                        display: false
-                        },
-                        scales: {
-                        xAxes: [{
-                            gridLines: {
-                            display: false,
-                            drawBorder: false
-                            },
-                            ticks: {
-                            maxTicksLimit: 20,
-                            maxRotation: 90,
-                            minRotation: 90,
-                            },
-                            maxBarThickness: 25,
-                        }],
-                        y: {
-                            beginAtZero: true
-                        },
-                        yAxes: [{
-                            ticks: {
-                            min: 0,
-                            maxTicksLimit: 5,
-                            padding: 10,
-                            },
-                            gridLines: {
-                            color: "rgb(234, 236, 244)",
-                            zeroLineColor: "rgb(234, 236, 244)",
-                            drawBorder: false,
-                            borderDash: [2],
-                            zeroLineBorderDash: [2]
-                            }
-                        }],
-                        },
+                    legend: {
+                    display: false
                     },
-                });
-            }
+                    scales: {
+                    xAxes: [{
+                        gridLines: {
+                        display: false,
+                        drawBorder: false
+                        },
+                        ticks: {
+                        maxTicksLimit: 20,
+                        maxRotation: 90,
+                        minRotation: 90,
+                        },
+                        maxBarThickness: 25,
+                    }],
+                    y: {
+                        beginAtZero: true
+                    },
+                    yAxes: [{
+                        ticks: {
+                        min: 0,
+                        maxTicksLimit: 5,
+                        padding: 10,
+                        },
+                        gridLines: {
+                        color: "rgb(234, 236, 244)",
+                        zeroLineColor: "rgb(234, 236, 244)",
+                        drawBorder: false,
+                        borderDash: [2],
+                        zeroLineBorderDash: [2]
+                        }
+                    }],
+                    },
+                },
+            });
+            
 
            },
         

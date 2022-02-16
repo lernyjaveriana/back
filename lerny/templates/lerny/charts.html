@@ -301,7 +301,7 @@
                 <select class="form-select" id="lerny_select" aria-label="Default select example">
                     <option selected value="-1">Seleccionar</option>
                 </select>
-                <button class="btn btn-dark" type="button" onclick="update_table();filter_chart()">Filtrar</button>
+                <button class="btn btn-dark" type="button" onclick="filter_chart()">Filtrar</button>
             </div>
 
             <div class="dtsp-verticalContainer pb-5">
@@ -318,95 +318,92 @@
                         </thead>
                     </table>
                 </div>
-             
             </div>
-
 
             <!-- Content Row -->
             <div align="center">
-        
-              <div class="row" style="padding: 20px">
+                
+                <div class="row" style="padding: 20px">
 
 
-                <!-- student progress-->
-                <div class="col-xl-6 col-lg-4">
-              
-                  <!-- Donut Chart -->
-                  <div class="card shadow mb-4">
-                      <!-- Card Header - Dropdown -->
-                      <div class="card-header py-3">
-                          <h6 class="m-0 font-weight-bold text-primary">Progeso estudiantes</h6>
-                      </div>
-                      <!-- Card Body -->
-                      <div class="card-body">
-                          <div class="chart-bar">
-                              <canvas id="myBarChartCant"></canvas>
-                          </div>
-                      </div>
-                  </div>
-                </div>
-
-                <!--Students per module -->
-                <div class="col-xl-6 col-lg-4">
-                  <!-- Donut Chart -->
-                  <div class="card shadow mb-4">
-                      <!-- Card Header - Dropdown -->
-                      <div class="card-header py-3">
-                          <h6 class="m-0 font-weight-bold text-primary">% Estudiantes por módulo</h6>
-                      </div>
-                      <!-- Card Body -->
-                      <div class="card-body">
-                          <div class="chart-bar">
-                              <canvas id="myBarChartProgress"></canvas>
-                          </div>
-                      </div>
-                  </div>
-              
-              </div>
-
-              </div>
-
-              <div class="row">
-
-                <!-- Average score-->
-                <div class="col-xl-6 col-lg-4">
+                    <!-- student progress-->
+                    <div class="col-xl-6 col-lg-4">
+                
                     <!-- Donut Chart -->
                     <div class="card shadow mb-4">
                         <!-- Card Header - Dropdown -->
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Puntaje Promedio Módulo</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Progeso estudiantes</h6>
                         </div>
                         <!-- Card Body -->
                         <div class="card-body">
                             <div class="chart-bar">
-                                <canvas id="myBarChartAvg"></canvas>
+                                <canvas id="myBarChartCant"></canvas>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- Approved Students -->
-                <div class="col-xl-6 col-lg-4">
-
-                  <!-- Donut Chart -->
-                  <div class="card shadow mb-4">
-
-                    <!-- Card Header - Dropdown -->
-                    <div class="card-header py-3">
-                          <h6 class="m-0 font-weight-bold text-primary">Ususario Aprobados y No Aprobados</h6>
                     </div>
 
-                    <!-- Card Body -->
-                    <div class="card-body">
-                          <div class="chart-bar"><canvas id="myBarChart"></canvas></div>
+                    <!--Students per module -->
+                    <div class="col-xl-6 col-lg-4">
+                    <!-- Donut Chart -->
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Dropdown -->
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">% Estudiantes por módulo</h6>
+                        </div>
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <div class="chart-bar">
+                                <canvas id="myBarChartProgress"></canvas>
+                            </div>
+                        </div>
                     </div>
-
-                  </div>
+                
+                    </div>
 
                 </div>
 
-              </div>
+                <div class="row">
 
+                    <!-- Average score-->
+                    <div class="col-xl-6 col-lg-4">
+                        <!-- Donut Chart -->
+                        <div class="card shadow mb-4">
+                            <!-- Card Header - Dropdown -->
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Puntaje Promedio Módulo</h6>
+                            </div>
+                            <!-- Card Body -->
+                            <div class="card-body">
+                                <div class="chart-bar">
+                                    <canvas id="myBarChartAvg"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Approved Students -->
+                    <div class="col-xl-6 col-lg-4">
+
+                    <!-- Donut Chart -->
+                    <div class="card shadow mb-4">
+
+                        <!-- Card Header - Dropdown -->
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Ususario Aprobados y No Aprobados</h6>
+                        </div>
+
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <div class="chart-bar"><canvas id="myBarChart"></canvas></div>
+                        </div>
+
+                    </div>
+
+                    </div>
+
+                </div>
 
             </div>
 
@@ -524,99 +521,68 @@
             var progress_micro = respuesta.progress_micro; //progress of microlernies
             var average = respuesta.average_micro; //average of microlernies
            
-            var tam = array.length;
-            var cant_null = 0;
-            var nulls = false;
 
-            average.forEach(element => {
-                if(element == null){
-                    cant_null++;
-                }
+            var ctx = document.getElementById("myBarChartAvg");
+            myBarChartAvg = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: name_micro,
+                    datasets: [{
+                    label: "Promedio",
+                    data: average,
+                    backgroundColor: ['#001844', '#001844', '#001844', '#001844','#001844', '#001844', '#001844','#001844', '#001844'],
+                    hoverBackgroundColor: ['#001844', '#001844','#001844', '#001844','#001844', '#001844','#001844','#001844', '#001844'],
+                    borderColor: "#4e73df",
+                    }],
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    tooltips: {
+                    backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: true,
+                    caretPadding: 10,
+                    },
+                    legend: {
+                    display: false
+                    },
+                    scales: {
+                    xAxes: [{
+                        gridLines: {
+                        display: false,
+                        drawBorder: false
+                        },
+                        ticks: {
+                        maxTicksLimit: 20,
+                        maxRotation: 90,
+                        minRotation: 90,
+                        },
+                        maxBarThickness: 25,
+                    }],
+                    y: {
+                        beginAtZero: true
+                    },
+                    yAxes: [{
+                        ticks: {
+                        min: 0,
+                        maxTicksLimit: 5,
+                        padding: 10,
+                        },
+                        gridLines: {
+                        color: "rgb(234, 236, 244)",
+                        zeroLineColor: "rgb(234, 236, 244)",
+                        drawBorder: false,
+                        borderDash: [2],
+                        zeroLineBorderDash: [2]
+                        }
+                    }],
+                    },
+                },
             });
-
-            if (cant_null == tam){
-                nulls = true;
-            }
-
-            
-
-            
-            var canvas = document.getElementById("myBarChartAvg");
-            if (canvas && canvas.getContext){
-                var ctx = canvas.getContext('2d');
-                if(ctx){
-                    if(nulls){
-                        var centerX = canvas.width/2;
-                        ctx.font="30pt Verdana";
-				        ctx.fillStyle = "blue";
-                        ctx.fillText("No hay progreso ",centerX,60);
-                    }
-                    else {
-
-                        myBarChartAvg = new Chart(ctx, {
-                            type: 'bar',
-                            data: {
-                                labels: name_micro,
-                                datasets: [{
-                                label: "Promedio",
-                                data: average,
-                                backgroundColor: ['#001844', '#001844', '#001844', '#001844','#001844', '#001844', '#001844','#001844', '#001844'],
-                                hoverBackgroundColor: ['#001844', '#001844','#001844', '#001844','#001844', '#001844','#001844','#001844', '#001844'],
-                                borderColor: "#4e73df",
-                                }],
-                            },
-                            options: {
-                                maintainAspectRatio: false,
-                                tooltips: {
-                                backgroundColor: "rgb(255,255,255)",
-                                bodyFontColor: "#858796",
-                                borderColor: '#dddfeb',
-                                borderWidth: 1,
-                                xPadding: 15,
-                                yPadding: 15,
-                                displayColors: true,
-                                caretPadding: 10,
-                                },
-                                legend: {
-                                display: false
-                                },
-                                scales: {
-                                xAxes: [{
-                                    gridLines: {
-                                    display: false,
-                                    drawBorder: false
-                                    },
-                                    ticks: {
-                                    maxTicksLimit: 20,
-                                    maxRotation: 90,
-                                    minRotation: 90,
-                                    },
-                                    maxBarThickness: 25,
-                                }],
-                                y: {
-                                    beginAtZero: true
-                                },
-                                yAxes: [{
-                                    ticks: {
-                                    min: 0,
-                                    maxTicksLimit: 5,
-                                    padding: 10,
-                                    },
-                                    gridLines: {
-                                    color: "rgb(234, 236, 244)",
-                                    zeroLineColor: "rgb(234, 236, 244)",
-                                    drawBorder: false,
-                                    borderDash: [2],
-                                    zeroLineBorderDash: [2]
-                                    }
-                                }],
-                                },
-                            },
-                        });
-
-                    }
-                }
-            }
 
             var ctx = document.getElementById("myBarChartCant"); 
             myBarChartCant = new Chart(ctx, {
@@ -707,16 +673,6 @@
             },
             });
 
-
-            console.log(nulls);
-
-            if (nulls){
-                var centerX = canvas.width/2;
-                ctx.font="25pt Verdana";
-				ctx.strokeStyle="blue";
-				ctx.lineWidth = 2;
-			    ctx.strokeText("strokeText",centerX,120);
-            }
             
 
            },
@@ -747,8 +703,6 @@
         
         function filter_chart(){
             var lerny_select = $( "#lerny_select" ).children("option:selected").val();
-            console.log("LERNY_SELECT",lerny_select);
-            
             $.ajax({
             
                 url: '/api_lerny/lernyapi/',
@@ -759,9 +713,7 @@
                 var fil = lerny.filter( function (l) {
                     return l.pk == lerny_select;
                 })
-                console.log("FILTRADO",fil);
                 lerny_id = fil[0].pk;
-                console.log("ID LERNY_SELECT",lerny_id);
                 $( "#lerny_name" ).text(fil[0].name)
                 
                 $.ajax({
@@ -769,6 +721,22 @@
                 success: function(lerny) {
 
                     console.log("LERNY_ACTUAL",lerny);
+
+                    var tam = lerny.average_micro.length;
+                    var cant_null = 0;
+                    var nulls = false;
+
+                    lerny.average_micro.forEach(element => {
+                        if(element == null){
+                            cant_null++;
+                        }
+                    });
+
+                    if (cant_null == tam){
+                        nulls = true;
+                    }
+
+                    console.log(nulls);
 
                     myBarChartCant.data.datasets[0].data = lerny.cont_micro;
                     myBarChartCant.data.labels = lerny.name_micro;
@@ -781,9 +749,24 @@
                     myBarChart.data.datasets[0].data = lerny.approved;      
                     myBarChart.update();
 
-                    myBarChartAvg.data.datasets[0].data = lerny.average_micro;
-                    myBarChartAvg.data.labels = lerny.name_micro;
-                    myBarChartAvg.update();
+                    var canvas = document.getElementById("myBarChartAvg");
+
+                    if (!nulls){
+
+                        myBarChartAvg.data.datasets[0].data = lerny.average;
+                        myBarChartAvg.data.labels = lerny.name_micro;
+                        myBarChartAvg.update();
+
+                    }
+                    else{
+                        myBarChartAvg.destroy()
+                        var ctx = canvas.getContext("2d");
+                        
+                        ctx.font="18pt Verdana";
+                        ctx.fillStyle = "black";
+                        ctx.fillText("No hay progreso",20,120);
+                    }
+
                     }
                 })
                 } 

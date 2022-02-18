@@ -13,6 +13,7 @@ from django.contrib.auth.decorators import login_required
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from django.db.models import Avg
 
+from datetime import datetime
 class CsrfExemptSessionAuthentication(SessionAuthentication):
 
     def enforce_csrf(self, request):
@@ -86,7 +87,6 @@ def ApiStateResource(request):
 			#filtro todos los lernys que pertenecen a la empresa que se encuentra asignado el colaborador
 			lernys = Lerny.objects.filter(lerny_company__company_id=company.pk).values_list("pk", flat=True)
 			user_resources = User_Resource.objects.filter(resource_id__microlerny__lerny__in=lernys).order_by("resource_id__microlerny__lerny__lerny_name") #user_resource son los entregables 
-			# print(user_resources)
 			for i in user_resources:
 				data = {}
 				try:
@@ -99,13 +99,16 @@ def ApiStateResource(request):
 					data['Grupo'] = ""
 				
 				
+				data['date'] = UserResourceSerializer(i).data["response_date"]
+				fecha = datetime.strptime(data['date'], "%Y-%m-%dT%H:%M:%S.%fZ")
+				data['date'] = fecha.strftime("%A, %w de %B a las %I:%M %p")
 				data['pk'] = '<div align="center"><button type="button" class="btn btn-primary" data-dismiss="modal" onclick="editRow('+str(i.pk)+')">Calificar</button></div>'
 				data['lerny'] = i.resource_id.microlerny.lerny.lerny_name
 				data['microlerny'] = i.resource_id.microlerny.micro_lerny_title
 				data['resource'] = i.resource_id.title
 				data['user'] = i.user_id.user_name
 				data['identification'] = i.user_id.identification
-				
+
 				#Create tag hiperlink for user responses
 				etiqueta = '<a href="{}" target="_blank" > Recurso </a>'
 				list_answers = i.user_response.split(";")
@@ -115,8 +118,8 @@ def ApiStateResource(request):
 				#separates links from text 
 				for link in range(len(list_answers)):
 					if is_https(list_answers[link]):
-  						hiperlink = etiqueta.format(list_answers[link])
-  						deliverable.append(hiperlink)
+						hiperlink = etiqueta.format(list_answers[link])
+						deliverable.append(hiperlink)
 					else: txt_response.append(list_answers[link])
 
 				#joins words from the text response

@@ -196,7 +196,6 @@ class lernyDetail(APIView):
 				if lerny_id != -1:
 					#filtro por el lerny
 					lerny = Lerny.objects.get(pk=lerny_id)
-
 				else:
 					#Muestro el primer lerny asociado a la compañia
 					lerny = Lerny.objects.filter(lerny_company__company_id=company).first()

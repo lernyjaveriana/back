@@ -143,10 +143,21 @@ class User_State_Logs(models.Model):
 
 
 class PQR(models.Model):
+	PQR_CHOICES = [
+		('I', 'Incidente'),
+		('P', 'Problema'),
+		('C', 'Consulta'),
+		('CA', 'Cambio'),
+	]
+	type = models.CharField(max_length=50, choices=PQR_CHOICES,null=True, default='I')
 	user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
 	user_state = models.ForeignKey(User_State,on_delete=models.CASCADE, null=True)
 	pqr = models.TextField('user response', null=False)
-	type = models.TextField('type', null=True)
+	priority = models.IntegerField('priority', null=False, default=1)
+	ticket = models.CharField('ticket', max_length=200, null=False, default='ninguno')
+	state = models.BooleanField('state', default=False)
+
+
 	def __str__(self):
 		return f'{self.lerny_id},{self.micro_lerny_id},{self.user_id},{self.pqr}'
 

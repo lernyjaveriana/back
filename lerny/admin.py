@@ -56,7 +56,7 @@ class Score_ResourceAdmin(admin.ModelAdmin):
 
 class pqr_ResourceAdmin(admin.ModelAdmin):
     list_filter=("user_id",)
-    list_display = ("user_state","user_id","pqr","type")
+    list_display = ("user_state","user_id","pqr","type","priority","ticket","state")
 
 
 

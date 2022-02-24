@@ -125,7 +125,7 @@ class User_State(models.Model):
 	last_view_date = models.DateTimeField('last view date', null=True)
 
 	def __str__(self):
-		return f'{self.lerny_id},{self.micro_lerny_id},{self.user_id},{self.resource_id}'
+		return f'{self.user_id},{self.resource_id}'
 
 
 class User_State_Logs(models.Model):

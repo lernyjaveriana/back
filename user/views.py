@@ -738,7 +738,8 @@ class ApiManager(APIView):
 				user_pqr = text
 				print(user_pqr)
 				data = pqr(user_id_obj,user_state,user_pqr)
-
+		elif(key == "QUIZ_RESPONSE"):
+			quiz_response = ""
 		else:
 			data = {}
 		print(data)

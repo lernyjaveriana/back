@@ -148,7 +148,7 @@ class PQR(models.Model):
 	pqr = models.TextField('user response', null=False)
 	type = models.TextField('type', null=True)
 	def __str__(self):
-		return f'{self.lerny_id},{self.micro_lerny_id},{self.user_id},{self.pqr}'
+		return f'{self.user_id},{self.pqr}'
 
 
 class Faqs_Lerny(models.Model):

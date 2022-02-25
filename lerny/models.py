@@ -102,7 +102,11 @@ class User_Resource(models.Model):
 	def __str__(self):
 		return f'{self.resource_id},{self.user_id}'
 
-
+class Interface(models.Model):
+	interface_name =  models.CharField('interface name', max_length=100, blank=True)
+	
+	def __str__(self):
+		return f'{self.interface_name}'
 class User_Micro_Lerny(models.Model):
 	micro_lerny_id = models.ForeignKey(
 		MicroLerny, on_delete=models.CASCADE, null=False)
@@ -244,6 +248,13 @@ class Support_Resource_Microlerny_Lerny(models.Model):
 
 	def __str__(self):
 		return f'{self.Support_Resource_id,self.Microlerny_id}'
+
+class Interface_Company(models.Model):
+	interface_id = models.ForeignKey(Interface, on_delete=models.CASCADE, null=False)
+	company_id = models.ForeignKey(Company, on_delete=models.CASCADE, null=False)
+	
+	def __str__(self):
+		return f'{self.interface_name}'
 
 
 class Score(models.Model):

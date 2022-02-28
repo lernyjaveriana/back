@@ -111,11 +111,17 @@
                 top: 0;
                 left: 0;
                 overflow-x: hidden;
+                width: 10rem !important;
             }
 
         #wrapper #content-wrapper{
-            margin-left: 15%;
+            margin-left: 6%;
 
+        }
+
+        .logo{
+            margin-right: 40px;
+            justify-content: center;
         }
 
         .custom-select.custom-select-sm.form-control.form-control-sm {
@@ -547,12 +553,12 @@
                 ],
                 pageLength: 20,
                 responsive: true,
-                "columnDefs": [
-                    {
-                        "targets": [9],
-                        "visible": false,
-                    }
-                ],
+                // "columnDefs": [
+                //     {
+                //         "targets": [10],
+                //         "visible": false,
+                //     }
+                // ],
             });
 
             $.ajax({

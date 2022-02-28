@@ -26,6 +26,7 @@ class MicroLerny(models.Model):
 	update_date = models.DateTimeField('update date', auto_now=True)
 	creation_date = models.DateTimeField('creation date', auto_now_add=True)
 	lerny = models.ForeignKey(Lerny, on_delete=models.CASCADE, null=False)
+	single_use = models.BooleanField(default=False)
 
 	def __str__(self):
 		return f'{self.micro_lerny_subtitle},{self.micro_lerny_title}'
@@ -62,6 +63,7 @@ class Resource(models.Model):
 	wrong_answer = models.CharField('Wrong answer', max_length=200, blank=True)
 	correct_answer_button = models.IntegerField(
 		'Correct answer button', default=1, blank=True)
+	single_use = models.BooleanField(default=False)		
 
 	def __str__(self):
 		return f'{self.title,self.phase,self.microlerny}'
@@ -266,3 +268,12 @@ class Score(models.Model):
 
 	def __str__(self):
 		return f'{self.Support_Resource_Microlerny_Lerny,self.Response}'
+
+class User_quiz_logs(models.Model):
+	user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+	user_quiz_id = models.IntegerField( null=False, primary_key=True)
+	response = models.CharField('response ', max_length=300, null=False)
+	points = models.IntegerField('points', null=True)
+	state_quiz = models.BooleanField('state', default=False)
+	def __str__(self):
+		return f'{self.user_id}'

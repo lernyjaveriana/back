@@ -16,3 +16,4 @@ class Migration(migrations.Migration):
             field=models.CharField(choices=[('I', 'Incidente'), ('P', 'Problema'), ('C', 'Consulta'), ('CA', 'Cambio')], max_length=50),
         ),
     ]
+    

@@ -474,36 +474,64 @@ class ApiManager(APIView):
 						}})
 		elif(key == "LernyDefaultFallback"):
 			if(text):
-				data = {
-					"fulfillmentMessages": [
-						{
-							"payload": {
-								"facebook": {
-									"attachment": {
-										"type": "template",
-										"payload": {
-											"template_type": "button",
-											"buttons": [
-											{
-												"type": "web_url",
-												"title": "Enviar email",
-												"url": "https://mail.google.com/mail/u/0/?fs=1&tf=cm&source=mailto&to=lernyjaveriana@gmail.com"
-											},
-											{
-												"type": "postback",
-												"payload": "hola lerny",
-												"title": "Ver menú inicial"
+				if(user_id is None):
+					data=bienvenidaLerny(user_id)
+				else:
+					if(text[0:5] == "http:" or text[0:5] == "https"):
+						
+						user_id_obj = User.objects.get(
+							identification=user_id)
+						lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()
+						user_state = User_State.objects.filter(user_id=user_id_obj,lerny_id=lerny_active.lerny_id).first()
+						u_resource = User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).first()
+						response=text						
+						
+						if(u_resource):
+							data = UserResourceSerializer(u_resource).data
+							User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).update(user_response=data['user_response']+';'+response)
+							u_resource = User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).first()
+						else:
+							print("GUARDAR ARCHIVO")
+							u_resource = User_Resource()
+							u_resource.resource_id = user_state.resource_id
+							u_resource.user_id = user_state.user_id
+							u_resource.user_response = response
+							u_resource.done = True
+							u_resource.response_date = datetime.now()
+							u_resource.last_view_date = datetime.now()
+							u_resource.save()
+						data = cargarActividadFallbackIntent(user_id)
+					else:
+						data = {
+							"fulfillmentMessages": [
+								{
+									"payload": {
+										"facebook": {
+											"attachment": {
+												"type": "template",
+												"payload": {
+													"template_type": "button",
+													"buttons": [
+													{
+														"type": "web_url",
+														"title": "Enviar email",
+														"url": "https://mail.google.com/mail/u/0/?fs=1&tf=cm&source=mailto&to=lernyjaveriana@gmail.com"
+													},
+													{
+														"type": "postback",
+														"payload": "hola lerny",
+														"title": "Ver menú inicial"
+													}
+													],
+													"text": "Hola, no hemos podido interpretar tu petición, si tienes una consulta importante, por favor escríbenos al correo: *lernyjaveriana@gmail.com*"
+												}
 											}
-											],
-											"text": "Hola, no hemos podido interpretar tu petición, si tienes una consulta importante, por favor escríbenos al correo: *lernyjaveriana@gmail.com*"
 										}
 									}
 								}
-							}
+							
+							]
 						}
-					
-					]
-				}
 			else:
 				if(user_id is None):
 					data=bienvenidaLerny(user_id)

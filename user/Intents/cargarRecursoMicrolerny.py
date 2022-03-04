@@ -2,7 +2,7 @@ from ..models import User
 from lerny.models import *
 from lerny.serializers import *
 from user.Intents.continueLerny import mediaResponseFormat,saveStateLogs,saveState,mediaResponseUrlList
-
+from TemplateUtilities.interfaceTemplates import *
 
 def cargarRecursoMicrolerny(user_id,microlerny,user_id_obj,lerny_active,user_state):
 
@@ -32,70 +32,4 @@ def cargarRecursoMicrolerny(user_id,microlerny,user_id_obj,lerny_active,user_sta
         dataDB = ResourceSerializer(resourse).data
     print("Data, description: "+dataDB["description"])
     templates=mediaResponseFormat(resourse)
-    previous_text = dataDB["previous_text"]
-    if(previous_text==None or previous_text==''):
-        previous_text="Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"
-    data = {
-        "fulfillmentMessages": [
-            {
-                "text": {
-                    "text": [
-                        previous_text
-                    ]
-                }
-            },
-            {
-                "text": {
-                    "text": [
-                        "si tiene problemas cargando el contenido del recurso, puede visualizarlo en el siguien enlace: ",
-                    ]
-
-                }
-            },
-        ]
-    }
-    for x in mediaResponseUrlList(resourse):
-        data["fulfillmentMessages"].append(
-            {
-                "text": {
-                    "text": [
-                        x,
-                    ]
-
-                }
-            },
-        )
-    for x in templates:
-        data["fulfillmentMessages"].append(x)
-    data["fulfillmentMessages"].append({
-        "payload": {
-            "facebook": {
-                "attachment": {
-                    "type": "template",
-                    "payload": {
-                        "template_type": "generic",
-                        "elements": [
-                            {
-                                "title": dataDB["title"],
-                                "image_url": dataDB["image_url"],
-                                "subtitle": dataDB["description"],
-                                "buttons": [
-                                    {
-                                        "type": "postback",
-                                        "title": "Siguiente recurso",
-                                        "payload": "CONTINUAR_CURSO"
-                                    },
-                                    {
-                                        "type": "postback",
-                                        "title": "Salir",
-                                        "payload": "lerny_farewell"
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                }
-            }
-        }
-    })
-    return data
+    return cargarRecursoMicrolernyTemplate ("fbMessenger",dataDB,templates,resourse)

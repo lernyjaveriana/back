@@ -20,7 +20,7 @@ class MicroLernyAdmin(admin.ModelAdmin):
     list_display = ("micro_lerny_title","micro_lerny_subtitle","lerny")
 
 class ResourceAdmin(admin.ModelAdmin):
-    list_filter=("phase", "microlerny")
+    list_filter=("resource_type","phase", "microlerny")
     list_display = ("title","phase", "microlerny")
 
 class User_ResourceAdmin(admin.ModelAdmin):

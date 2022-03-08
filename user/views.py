@@ -287,7 +287,7 @@ class ApiManager(APIView):
 			if(user_id is None):
 				data=bienvenidaLerny(user_id)
 			else:
-				response = request["queryText"]
+				response = request["parameters"]['file_url']
 				user_id_obj = User.objects.get(
 					identification=user_id)
 				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()

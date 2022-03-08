@@ -287,15 +287,15 @@ class ApiManager(APIView):
 			if(user_id is None):
 				data=bienvenidaLerny(user_id)
 			else:
-				response = request["response"]
+				response = request["queryText"]
 				user_id_obj = User.objects.get(
 					identification=user_id)
 				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()
 				user_state = User_State.objects.filter(user_id=user_id_obj,lerny_id=lerny_active.lerny_id).first()
 				u_resource = User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).first()
 				
-				if (response.split(':')[0] == 'https'):
-					response=upload_to_s3(response)
+				# if (response.split(':')[0] == 'https'):
+				# 	response=upload_to_s3(response)
 				
 				if(u_resource):
 					data = UserResourceSerializer(u_resource).data

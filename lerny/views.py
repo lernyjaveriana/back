@@ -215,6 +215,7 @@ class lernyDetail(APIView):
 				for i in user_lerny:
 					data = {}
 					# print("GROUP NAME= "+str(i.user_id.group.name))
+					print(i.user_id)
 					if(i.user_id.group.name == "Usuarios"): 
 						try:
 							group_id=UserGroupSerializer(User_Group.objects.filter(User_id=i.user_id, Group_id__lerny_id__pk=i.lerny_id.pk).first()).data["Group_id"] #grupo del usuario

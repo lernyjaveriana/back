@@ -641,6 +641,8 @@ class ApiManager(APIView):
 						]
 					}
 				}
+
+				print (data)
 				data.fulfillmentMessages.append(data_feedback)
 		# NPS_METRIC1
 		elif(key == "NPS_METRIC1"):			

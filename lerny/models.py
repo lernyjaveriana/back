@@ -266,6 +266,7 @@ class Score(models.Model):
 	Response = models.CharField('response ', max_length=300, null=False)
 	Response_Int = models.FloatField('points', null=True)
 
+
 	def __str__(self):
 		return f'{self.Support_Resource_Microlerny_Lerny,self.Response}'
 

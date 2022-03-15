@@ -13,11 +13,5 @@ class Migration(migrations.Migration):
         migrations.RemoveField(
             model_name='user_quiz_logs',
             name='user_quiz_id',
-        ),
-        migrations.AddField(
-            model_name='user_quiz_logs',
-            name='id',
-            field=models.AutoField(auto_created=True, default=1, primary_key=True, serialize=False, verbose_name='ID'),
-            preserve_default=False,
-        ),
+        )
     ]

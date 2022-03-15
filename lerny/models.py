@@ -266,7 +266,14 @@ class Score(models.Model):
 	Response = models.CharField('response ', max_length=300, null=False)
 	Response_Int = models.FloatField('points', null=True)
 
-
 	def __str__(self):
 		return f'{self.Support_Resource_Microlerny_Lerny,self.Response}'
 
+class User_quiz_logs(models.Model):
+	user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+	user_quiz_id = models.AutoField(primary_key=True)
+	response = models.CharField('response ', max_length=300, null=False)
+	points = models.IntegerField('points', null=True)
+	state_quiz = models.BooleanField('state', default=False)
+	def __str__(self):
+		return f'{self.user_id}'

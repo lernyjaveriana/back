@@ -643,7 +643,7 @@ class ApiManager(APIView):
 				}
 
 				print (data)
-				data.fulfillmentMessages.append(data_feedback)
+				data["fulfillmentMessages"].append(data_feedback)
 		# NPS_METRIC1
 		elif(key == "NPS_METRIC1"):			
 			if(user_id is None):

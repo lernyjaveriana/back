@@ -598,7 +598,7 @@ class ApiManager(APIView):
 				retro = "Vuelve a intentarlo" 
 				quiz = User_quiz_logs()
 				quiz.user_id = user_id_obj
-				points = points + 5 if feedback == 1 else points + 1	 #asigna puntos segun la respuesta correcta
+				points = points + 5 if feedback == 1 else points + 1 #asigna puntos segun la respuesta correcta
 				quiz.points = points
 				quiz.response = response
 				quiz.state_quiz = True
@@ -636,7 +636,7 @@ class ApiManager(APIView):
 				data_feedback =	{
 					"text": {
 						"text": [
-							feedback
+							retro
 						]
 					}
 				}

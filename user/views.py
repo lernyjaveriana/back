@@ -595,12 +595,25 @@ class ApiManager(APIView):
 				user_state = User_State.objects.filter(user_id=user_id_obj,lerny_id=lerny_active.lerny_id).first()
 				u_resource = User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).first()
 				feedback = user_state.resource_id.wrong_answer
+				retro = "Vuelve a intentarlo" 
+				quiz = User_quiz_logs()
+				quiz.user_id = user_id_obj
+				points = points + 5 if feedback == 1 else points + 1	 #asigna puntos segun la respuesta correcta
+				quiz.points = points
+				quiz.response = response
+				quiz.state_quiz = True
+				quiz.save() #Guardamos la info del quiz
 				if(user_state.resource_id.first_button==response and user_state.resource_id.correct_answer == 1):
 					feedback = user_state.resource_id.correct_answer
+					retro = "Tu respuesta ha sido " + feedback +"has ganado", points,"puntos"
 				if(user_state.resource_id.second_button==response and user_state.resource_id.correct_answer == 2):
 					feedback = user_state.resource_id.correct_answer
+					retro = "Tu respuesta ha sido " + feedback +"has ganado", points,"puntos"
 				if(user_state.resource_id.third_button==response and user_state.resource_id.correct_answer == 3):
 					feedback = user_state.resource_id.correct_answer
+					retro = "Tu respuesta ha sido " + feedback +"has ganado", points,"puntos"
+
+				
 
 				if(u_resource):
 					data = UserResourceSerializer(u_resource).data

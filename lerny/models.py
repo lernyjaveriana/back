@@ -50,7 +50,8 @@ class Resource(models.Model):
 	previous_text = models.CharField('previous text', max_length=600, blank=True)
 	phase = models.CharField('phase', max_length=3, null=False)
 	creation_date = models.DateTimeField('creation date', auto_now_add=True)
-	points = models.FloatField('points', default=1, blank=True)
+	points_correct_answer = models.FloatField('points correct answer', default=1, blank=True)
+	points_wrong_answer = models.FloatField('points wrong answer', default=1, blank=True)
 	microlerny = models.ForeignKey(
 		MicroLerny, on_delete=models.CASCADE, null=False)
 	image_url = models.CharField('image url', max_length=200, null=False)

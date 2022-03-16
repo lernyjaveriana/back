@@ -14,6 +14,7 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from django.db.models import Avg
 
 from datetime import datetime
+from dateutil.parser import parse
 class CsrfExemptSessionAuthentication(SessionAuthentication):
 
     def enforce_csrf(self, request):
@@ -100,8 +101,8 @@ def ApiStateResource(request):
 				
 				
 				data['date'] = UserResourceSerializer(i).data["response_date"]
-				fecha = datetime.strptime(data['date'], "%Y-%m-%dT%H:%M:%S.%fZ")
-				data['date'] = fecha.strftime("%A, %w de %B a las %I:%M %p")
+				fecha = parse(data['date'])
+				data['date'] = fecha.date()
 				data['pk'] = '<div align="center"><button type="button" class="btn btn-primary" data-dismiss="modal" onclick="editRow('+str(i.pk)+')">Califica</button></div>'
 				data['lerny'] = i.resource_id.microlerny.lerny.lerny_name
 				data['microlerny'] = i.resource_id.microlerny.micro_lerny_title

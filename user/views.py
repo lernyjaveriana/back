@@ -594,11 +594,12 @@ class ApiManager(APIView):
 				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()
 				user_state = User_State.objects.filter(user_id=user_id_obj,lerny_id=lerny_active.lerny_id).first()
 				u_resource = User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).first()
+				resource = Resource.objects.filter(id=user_state.resource_id).first()
+				print(resource.single_use)
 				feedback = user_state.resource_id.wrong_answer
 				retro = "Vuelve a intentarlo" 
 				quiz = User_quiz_logs()
 				quiz.user_id = user_id_obj
-				points = 0
 				points = points + 5 if feedback == 1 else points + 1 #asigna puntos segun la respuesta correcta
 				quiz.points = points
 				quiz.response = response

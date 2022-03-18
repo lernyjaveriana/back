@@ -86,7 +86,7 @@ def ApiStateResource(request):
 		if company:
 			#filtro todos los lernys que pertenecen a la empresa que se encuentra asignado el colaborador
 			lernys = Lerny.objects.filter(lerny_company__company_id=company.pk).values_list("pk", flat=True)
-			user_resources = User_Resource.objects.filter(resource_id__microlerny__lerny__in=lernys).order_by("resource_id__microlerny__lerny__lerny_name") #user_resource son los entregables 
+			user_resources = User_Resource.objects.filter(resource_id__microlerny__lerny__in=lernys).filter(user_id__company__pk = company.pk).order_by("resource_id__microlerny__lerny__lerny_name") #user_resource son los entregables 
 			for i in user_resources:
 				data = {}
 				try:
@@ -102,7 +102,7 @@ def ApiStateResource(request):
 				data['date'] = UserResourceSerializer(i).data["response_date"]
 				fecha = datetime.strptime(data['date'], "%Y-%m-%dT%H:%M:%S.%fZ")
 				data['date'] = fecha.strftime("%A, %w de %B a las %I:%M %p")
-				data['pk'] = '<div align="center"><button type="button" class="btn btn-primary" data-dismiss="modal" onclick="editRow('+str(i.pk)+')">Calificar</button></div>'
+				data['pk'] = '<div align="center"><button type="button" class="btn btn-primary" data-dismiss="modal" onclick="editRow('+str(i.pk)+')">Califica</button></div>'
 				data['lerny'] = i.resource_id.microlerny.lerny.lerny_name
 				data['microlerny'] = i.resource_id.microlerny.micro_lerny_title
 				data['resource'] = i.resource_id.title
@@ -201,7 +201,7 @@ class lernyDetail(APIView):
 					lerny = Lerny.objects.filter(lerny_company__company_id=company).first()
 
 				#selecciono todos los usuarios inscritos en el lerny
-				user_lerny = User_Lerny.objects.filter(lerny_id=lerny.pk)
+				user_lerny = User_Lerny.objects.filter(lerny_id=lerny.pk).filter(user_id__company__pk = company)
 				#selecciono todos los recursos del lerny
 				resource_lerny = Resource.objects.filter(microlerny__lerny__pk=lerny.pk)
 				if microlerny_id != -1:
@@ -212,9 +212,11 @@ class lernyDetail(APIView):
 			
 				#selecciono todos los registros de recursos obligatorios aprobados por usuarios
 				user_resource = User_State_Logs.objects.filter(micro_lerny_id__lerny__pk=lerny.pk)
+				
 				for i in user_lerny:
 					data = {}
 					# print("GROUP NAME= "+str(i.user_id.group.name))
+					print(i.user_id)
 					if(i.user_id.group.name == "Usuarios"): 
 						try:
 							group_id=UserGroupSerializer(User_Group.objects.filter(User_id=i.user_id, Group_id__lerny_id__pk=i.lerny_id.pk).first()).data["Group_id"] #grupo del usuario

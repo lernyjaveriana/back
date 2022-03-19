@@ -595,7 +595,7 @@ class ApiManager(APIView):
 				user_state = User_State.objects.filter(user_id=user_id_obj,lerny_id=lerny_active.lerny_id).first()
 				u_resource = User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).first()
 				resource = Resource.objects.filter(id=user_state.resource_id.pk).first()
-				u_quiz = User_quiz_logs.objects.filter(user_id=user_id_obj, quiz_id=user_state.quiz_id).first()
+				u_quiz = User_quiz_logs.objects.filter(user_id=user_id_obj).first()
 									
 				feedback = user_state.resource_id.wrong_answer
 				points = resource.points_wrong_answer

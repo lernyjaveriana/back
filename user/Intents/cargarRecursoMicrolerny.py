@@ -2,7 +2,7 @@ from ..models import User
 from lerny.models import *
 from lerny.serializers import *
 from user.Intents.continueLerny import mediaResponseFormat,saveStateLogs,saveState,mediaResponseUrlList
-from TemplateUtilities.interfaceTemplates import *
+from user.Intents.TemplateUtilities.interfaceTemplates import *
 
 def cargarRecursoMicrolerny(user_id,microlerny,user_id_obj,lerny_active,user_state):
 

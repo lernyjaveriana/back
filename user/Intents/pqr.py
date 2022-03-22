@@ -1,7 +1,7 @@
 from ..models import User
 from lerny.models import *
 from lerny.serializers import *
-from TemplateUtilities.interfaceTemplates import *
+from user.Intents.TemplateUtilities.interfaceTemplates import *
 
 
 def pqr(user_id_obj, user_state, user_pqr):

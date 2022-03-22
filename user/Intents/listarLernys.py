@@ -1,7 +1,7 @@
 from ..models import User
 from lerny.models import *
 from lerny.serializers import *
-from TemplateUtilities.interfaceTemplates import *
+from user.Intents.TemplateUtilities.interfaceTemplates import *
 
 
 def listarLernys(user_id):

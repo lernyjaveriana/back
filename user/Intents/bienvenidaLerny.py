@@ -4,7 +4,7 @@ from rest_framework.decorators import action
 from ..models import User
 from lerny.models import *
 from lerny.serializers import *
-from user.Intents.TemplateUtilities.interfaceTemplates import *
+from .TemplateUtilities.interfaceTemplates import *
 
 def bienvenidaLerny(user_id,interface="fbMessenger"):
 	if(user_id):

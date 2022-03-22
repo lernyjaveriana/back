@@ -1,7 +1,7 @@
 from lerny.models import *
 from lerny.serializers import *
 from datetime import datetime
-from user.Intents.TemplateUtilities.interfaceTemplates import *
+from .TemplateUtilities.interfaceTemplates import *
 
 # After upload activities trggered into fallback intent, it should shows you a menu
 def cargarActividadFallbackIntent(user_id):

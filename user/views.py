@@ -8,7 +8,7 @@ from .models import User
 from lerny.models import *
 from lerny.serializers import *
 from user.Intents.bucketHelper import upload_to_s3
-from user.Intents.cargarActividadFallbackIntent import cargarActividadFallbackIntent
+from user.Intents.cargarActividadFallbackIntent import cargarActividadFallback
 from user.Intents.bienvenidaLerny import bienvenidaLerny
 from user.Intents.listarLernys import listarLernys
 from user.Intents.continueLerny import continueLerny
@@ -500,7 +500,7 @@ class ApiManager(APIView):
 							u_resource.response_date = datetime.now()
 							u_resource.last_view_date = datetime.now()
 							u_resource.save()
-						data = cargarActividadFallbackIntent(user_id)
+						data = cargarActividadFallback(user_id)
 					else:
 						data = {
 							"fulfillmentMessages": [
@@ -559,7 +559,7 @@ class ApiManager(APIView):
 								u_resource.response_date = datetime.now()
 								u_resource.last_view_date = datetime.now()
 								u_resource.save()
-						data = cargarActividadFallbackIntent(user_id)
+						data = cargarActividadFallback(user_id)
 		# CARGAR_REQ_MICROLERNY
 		elif(key == "PREGUNTA_GENERAL"):
 			question = request['QUESTION']

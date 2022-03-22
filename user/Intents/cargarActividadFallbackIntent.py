@@ -4,7 +4,7 @@ from datetime import datetime
 from .TemplateUtilities.interfaceTemplates import *
 
 # After upload activities trggered into fallback intent, it should shows you a menu
-def cargarActividadFallbackIntent(user_id):
+def cargarActividadFallback(user_id):
 
 	user_id_obj = User.objects.get(identification=user_id)
 	user_lerny = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()

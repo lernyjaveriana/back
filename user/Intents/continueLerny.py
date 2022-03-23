@@ -7,6 +7,7 @@ from datetime import datetime
 
 ##return a template with all the files available for that resource
 def mediaResponseFormat(resourse):
+	
 	medias = Media.objects.filter(resource_id=resourse).order_by('position')
 	template=[]
 	for file in medias:

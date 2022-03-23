@@ -1,38 +1,48 @@
 {% load static %}
- <!-- Sidebar -->
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion py-4" id="accordionSidebar">
+        <!-- Sidebar -->
+        <div id="Sidebar" >
 
-    <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center mb-4" href="">
-        <img class="logo" src="{% static 'lerny/img/logo.svg' %}" alt="logo">
-    </a>
+            <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion py-4" >
 
-    <!-- Divider -->
-    <hr class="sidebar-divider my-0">
+                <!-- Sidebar - Brand -->
+                <a class="sidebar-brand d-flex align-items-center justify-content-center mb-4" href="">
+                    <img class="logo" src="{% static 'lerny/img/logo.svg' %}" alt="logo">
+                </a>
 
-    <!-- Nav Item - Dashboard -->
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'detail' %}">
-            <i class="fas fa-fw fa-home"></i>
-            <span>Entregables</span></a>
-    </li>
+                <!-- Divider -->
+                <hr class="sidebar-divider my-0">
 
-    <!-- Divider -->
-    <hr class="sidebar-divider">
+                <!-- Nav Item - Dashboard -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'detail' %}">
+                        <i class="fas fa-tasks"></i>
+                        <span>Entregables</span></a>
+                    </li>
 
-    <!-- Nav Item - Charts -->
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'charts' %}">
-            <i class="fas fa-fw fa-chart-area"></i>
-            <span>Progreso</span></a>
-    </li>
 
-    <!-- Divider -->
-    <hr class="sidebar-divider d-none d-md-block">
+                <!-- Divider -->
+                <hr class="sidebar-divider">
 
-    <!-- Sidebar Toggler (Sidebar) -->
-    <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
-    </div>
-</ul>
-<!-- End of Sidebar -->
+                <!-- Nav Item - Charts -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'charts' %}">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Progreso</span></a>
+                </li>
+
+                <hr class="sidebar-divider">
+
+                <!-- Nav Item - Quices -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'quices' %}">
+                        <i class="fas fa-fw fa-question-circle"></i>
+                        <span>Quices</span>
+                    </a>
+                </li>
+
+                <!-- Divider -->
+                <hr class="sidebar-divider d-none d-md-block">
+
+            </ul>
+        </div>
+        <!-- End of Sidebar -->

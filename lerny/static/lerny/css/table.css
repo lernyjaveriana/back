@@ -101,3 +101,14 @@ div.dt-buttons {
         width: 12rem !important;
     }
 }
+
+@media (min-width: 768px)
+{
+    #sidebar {
+        width: 12rem !important;
+    }
+
+    .sidebar {
+        width: 12rem !important;
+    }
+}

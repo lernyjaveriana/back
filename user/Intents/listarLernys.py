@@ -13,5 +13,5 @@ def listarLernys(user_id):
         pk__in=lernys_ids)
 
     data = LernySerializer(lernys, many=True).data
-    listarLernysTemplate("fbMessenger",data)
+    data = listarLernysTemplate("fbMessenger",data)
     return data

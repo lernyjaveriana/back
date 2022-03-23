@@ -8,7 +8,6 @@ from .models import User
 from lerny.models import *
 from lerny.serializers import *
 from user.Intents.bucketHelper import upload_to_s3
-from user.Intents.cargarActividadFallbackIntent import cargarActividadFallback
 from user.Intents.bienvenidaLerny import bienvenidaLerny
 from user.Intents.listarLernys import listarLernys
 from user.Intents.continueLerny import continueLerny

@@ -39,13 +39,14 @@
     </div>
 </div>
 
-<span></span>
-<h4>Puntos totales por usuario:</h4>
-<ul>
-    {% for key, value in puntos.items %}
-    <li>{{ key }}: {{ value }}</li>
-    {% endfor %}
-</ul>
+<div class="puntos">
+    <h4>Puntos totales por usuario:</h4>
+    <ul>
+        {% for key, value in puntos.items %}
+        <li>{{ key }}: {{ value }}</li>
+        {% endfor %}
+    </ul>
+</div>
 
 <!-- <script type="text/javascript">
     var table = $('#quices_table').DataTable( {

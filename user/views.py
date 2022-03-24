@@ -614,20 +614,20 @@ class ApiManager(APIView):
 					points = resource.points_correct_answer
 					retro = "Tu respuesta ha sido " + str(feedback) + " y has obtenido " + str(points) + " puntos en el quiz; tienes "+ str(points+points_user) +" de puntos totales"
 
-				if (resource.single_use):
-					if (u_quiz):
-						User_quiz_logs.objects.filter(user_id=user_id_obj, quiz_id=user_state.quiz_id).update(
-							response=feedback,
-							points = points,
-						)
+				# if (resource.single_use):
+				# 	if (u_quiz):
+				# 		User_quiz_logs.objects.filter(user_id=user_id_obj, quiz_id=user_state.quiz_id).update(
+				# 			response=feedback,
+				# 			points = points,
+				# 		)
 
-				else:
-					quiz = User_quiz_logs()
-					quiz.user_id = user_id_obj
-					quiz.points = points
-					quiz.response = response
-					quiz.state_quiz = True
-					quiz.save() #Guardamos la info del quiz
+				# else:
+				# 	quiz = User_quiz_logs()
+				# 	quiz.user_id = user_id_obj
+				# 	quiz.points = points
+				# 	quiz.response = response
+				# 	quiz.state_quiz = True
+				# 	quiz.save() #Guardamos la info del quiz
 
 				
 

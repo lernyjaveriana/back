@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 id="lerny_name"  class="h3 mb-2 py-3 text-gray-800" align="center">Lerny: PONER NOMBRE DEL LERNY ACA </h1>
+
+{% if not have_company %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+
+    <strong>Compañia no encontrada!</strong> Al parecer no tienes una compañia asignada.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endif %}
+
+<!-- Columns Table-->
+<div class="demo-html">
+    <div>
+        <table id="quices_table" class="display table table-hover table-striped table-bordered" width="100%">
+            <thead>
+                <tr class="table-primary">
+                    <th>Usuario</th>
+                    <th>Respuesta</th>
+                    <th>Puntos</th>
+                </tr>
+                
+            </thead>
+                {% for quice in quices %}
+                <tr>
+                    <td>{{ quice.user_id.user_name }}</td>
+                    <td>{{ quice.response}}</td>
+                    <td>{{ quice.points}}</td>
+                    
+                </tr>
+                {% endfor %}
+
+        </table>
+    </div>
+</div>
+
+<span></span>
+<h4>Puntos totales por usuario:</h4>
+<ul>
+    {% for key, value in puntos.items %}
+    <li>{{ key }}: {{ value }}</li>
+    {% endfor %}
+</ul>
+
+<!-- <script type="text/javascript">
+    var table = $('#quices_table').DataTable( {
+    "language": {
+        "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+    },
+    dom: 'Blfrtip',
+    ajax: {
+
+        url: '/api_lerny/quices/',
+        type: 'GET',
+        dataType: 'json'
+    },
+    columns: [
+        { data: 'user' },
+        { data: 'answer' },
+        { data: 'points' },
+    ],
+});
+   
+</script> -->
+
+
+{% endblock %}

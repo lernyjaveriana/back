@@ -272,7 +272,7 @@ class Score(models.Model):
 
 class User_quiz_logs(models.Model):
 	user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
-	resource = models.ForeignKey(Resource, on_delete=models.CASCADE, null=False)
+	resource_id = models.ForeignKey(Resource, on_delete=models.CASCADE, null=False, default=1)
 	user_quiz_id = models.AutoField(primary_key=True)
 	response = models.CharField('response ', max_length=300, null=False)
 	points = models.IntegerField('points', null=True)

@@ -2,7 +2,7 @@ from django.urls import path
 from lerny import views
 
 urlpatterns = [
-    path('lerny/<int:cellphone_number>', views.LernyManageGet.as_view()),
+    # path('lerny/<int:cellphone_number>', views.LernyManageGet.as_view()),
     path('microlerny/<int:microlerny_id>', views.MicroLernyDadAndSon.as_view()),
     path('detail/', views.UserStateResource, name='detail'),
     path('apiresources/', views.ApiStateResource, name='apiresources'),
@@ -11,4 +11,5 @@ urlpatterns = [
     path('charts/', views.charts, name = 'charts'),
     path('lernyapi/', views.getLernyList, name = 'lernyapi'),
     path('microlernyapi/', views.getMicrolernyList, name = 'microlernyapi'),
+    path('quices/', views.quices, name = 'quices')
 ]

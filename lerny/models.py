@@ -277,4 +277,4 @@ class User_quiz_logs(models.Model):
 	points = models.IntegerField('points', null=True)
 	state_quiz = models.BooleanField('state', default=False)
 	def __str__(self):
-		return f'{self.user_id}'
+		return f'{self.user_id,self.user_quiz_id,self.response,self.points,self.state_quiz}'

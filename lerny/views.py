@@ -1,3 +1,4 @@
+from contextlib import ContextDecorator
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -11,10 +12,10 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-from django.db.models import Avg
+from django.db.models import Avg, Sum, Q
 
 from datetime import datetime
-class CsrfExemptSessionAuthentication(SessionAuthentication):
+class CsrfExemptSessionAuthenticachartstion(SessionAuthentication):
 
     def enforce_csrf(self, request):
         return
@@ -149,6 +150,31 @@ def charts(request):
 	context = {"username": user.user_name, 'have_company': True if company != None else False}
 	return render(request, 'lerny/charts.html', context);
 
+@login_required(login_url='/accounts/login/')
+def quices(request):
+	user = request.user
+	try:
+		company = user.company.pk
+	except:
+		company = None
+
+	quices = User_quiz_logs.objects.all()
+	puntos = []
+	points_user = {}
+	for i in quices:
+		puntos.append([i.points, i.user_id.user_name])
+	
+	for point, user in puntos:
+		if user in points_user:
+			points_user[user] += point
+		else:
+			points_user[user] = point
+
+
+	context = {'have_company': True if company != None else False, 'quices': quices, 'puntos': points_user}
+	print(context['puntos'])
+	return render(request, 'lerny/quices.html', context)
+
 @csrf_exempt
 def editStateResource(request):
 
@@ -164,8 +190,6 @@ def editStateResource(request):
 
 
 class lernyDetail(APIView):
-
-	authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
 
 	def get(self, request, format=None):
 		user = request.user

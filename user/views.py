@@ -596,8 +596,9 @@ class ApiManager(APIView):
 				resource = Resource.objects.filter(id=user_state.resource_id.pk).first()
 				u_quiz = User_quiz_logs.objects.filter(user_id=user_id_obj).first()
 									
-				feedback = user_state.resource_id.wrong_answer
-				points = resource.points_wrong_answer
+				feedback = response
+				points_wrong = resource.points_wrong_answer
+				points_correct = resource.points_correct_answer
 				points_user =User_quiz_logs.objects.filter(user_id=user_id_obj).count() 
 				retro = "Tu respuesta ha sido incorrecta " + str(feedback) + "has obtenido" + str(points) + "puntos, tu total es de " + str(points_user) + "puntos"
 

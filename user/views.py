@@ -596,24 +596,26 @@ class ApiManager(APIView):
 				resource = Resource.objects.filter(id=user_state.resource_id.pk).first()
 				u_quiz = User_quiz_logs.objects.filter(user_id=user_id_obj).first()
 									
-				feedback = response
-				points_wrong = resource.points_wrong_answer
-				points_correct = resource.points_correct_answer
-				points_user =User_quiz_logs.objects.filter(user_id=user_id_obj).count() 
-				retro = "Tu respuesta ha sido incorrecta " + str(feedback) + "has obtenido" + str(points_wrong) + "puntos, tu total es de " + str(points_user) + "puntos"
+				points_wrong = resource.points_wrong_answer #puntos por respuesta incorrecta
+				points_correct = resource.points_correct_answer #puntos por respuesta correcta
+				points_user =User_quiz_logs.objects.filter(user_id=user_id_obj).count() #puntos acumulados del usuario
+				retro = "Tu respuesta ha sido incorrecta " + str(response) + "has obtenido" + str(points_wrong) + "puntos, tu total es de " + str(points_false) + "puntos"
+				points_true = points_correct + points_user #puntos acumulados respuesta correcta
+				points_false = points_wrong + points_user #puntos acumulados respuesta incorrecta
+				correct = False
 
-				if(user_state.resource_id.first_button==response and user_state.resource_id.correct_answer == 1):
-					feedback = user_state.resource_id.correct_answer
-					points = resource.points_correct_answer
-					retro = "Tu respuesta ha sido correcta " + str(feedback) + " y has obtenido " + str(points) + " puntos en el quiz; tienes "+ str(points+points_user) +" de puntos totales"
-				if(user_state.resource_id.second_button==response and user_state.resource_id.correct_answer == 2):
-					feedback = user_state.resource_id.correct_answer
-					points = resource.points_correct_answer
-					retro = "Tu respuesta ha sido " + str(feedback) + " y has obtenido " + str(points) + " puntos en el quiz; tienes "+ str(points+points_user) +" de puntos totales"
-				if(user_state.resource_id.third_button==response and user_state.resource_id.correct_answer == 3):
-					feedback = user_state.resource_id.correct_answer
-					points = resource.points_correct_answer
-					retro = "Tu respuesta ha sido " + str(feedback) + " y has obtenido " + str(points) + " puntos en el quiz; tienes "+ str(points+points_user) +" de puntos totales"
+				if(user_state.resource_id.first_button==response):
+					points_user = points_true
+					retro = "Tu respuesta ha sido correcta " + str(response) + " y has obtenido " + str(points_correct) + " puntos en el quiz; tienes "+ str(points_true) +" de puntos totales"
+					correct = True
+				if(user_state.resource_id.second_button==response ):
+					points_user = points_true
+					retro = "Tu respuesta ha sido " + str(response) + " y has obtenido " + str(points_correct) + " puntos en el quiz; tienes "+ str(points_true) +" de puntos totales"
+					correct = True
+				if(user_state.resource_id.third_button==response):
+					points_user = points_true
+					retro = "Tu respuesta ha sido " + str(response) + " y has obtenido " + str(points_correct) + " puntos en el quiz; tienes "+ str(points_true) +" de puntos totales"
+					correct = True
 
 				if (resource.single_use):
 					if (u_quiz):
@@ -623,23 +625,24 @@ class ApiManager(APIView):
 					else:
 						quiz = User_quiz_logs()
 						quiz.user_id = user_id_obj
-						quiz.points = points
+						quiz.resource_id = user_state.resource_id
+						quiz.points = points_user
 						quiz.response = response
-						quiz.state_quiz = True
+						quiz.state_quiz = correct
 						#añadir recurso id
 						quiz.save() #Guardamos la info del quiz
 				else:
 					if (u_quiz):
 						User_quiz_logs.objects.filter(user_id=user_id_obj, quiz_id=user_state.quiz_id).update(
-							response=feedback,
-							points = points,
+							response=response,
+							points = points_user,
 						)
 					else:
 						quiz = User_quiz_logs()
 						quiz.user_id = user_id_obj
-						quiz.points = points
+						quiz.points = points_user
 						quiz.response = response
-						quiz.state_quiz = True
+						quiz.state_quiz = correct
 						#añadir recurso id
 						quiz.save() #Guardamos la info del quiz
 

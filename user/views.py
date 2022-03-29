@@ -599,10 +599,11 @@ class ApiManager(APIView):
 				points_wrong = resource.points_wrong_answer #puntos por respuesta incorrecta
 				points_correct = resource.points_correct_answer #puntos por respuesta correcta
 				points_user =User_quiz_logs.objects.filter(user_id=user_id_obj).count() #puntos acumulados del usuario
-				retro = "Tu respuesta ha sido incorrecta " + str(response) + "has obtenido" + str(points_wrong) + "puntos, tu total es de " + str(points_false) + "puntos"
 				points_true = points_correct + points_user #puntos acumulados respuesta correcta
 				points_false = points_wrong + points_user #puntos acumulados respuesta incorrecta
 				correct = False
+
+				retro = "Tu respuesta ha sido incorrecta " + str(response) + "has obtenido" + str(points_wrong) + "puntos, tu total es de " + str(points_false) + "puntos"
 
 				if(user_state.resource_id.first_button==response):
 					points_user = points_true

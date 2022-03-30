@@ -634,7 +634,7 @@ class ApiManager(APIView):
 						quiz.save() #Guardamos la info del quiz
 				else:
 					if (u_quiz):
-						User_quiz_logs.objects.filter(user_id=user_id_obj, quiz_id=user_state.quiz_id).update(
+						User_quiz_logs.objects.filter( quiz_id=u_quiz.quiz_id).update(
 							response=response,
 							points = points_user,
 						)

@@ -31,8 +31,8 @@
                 {% for quice in quices %}
                 <tr>
                     <td>{{ quice.user_id.user_name }}</td>
-                    <td>{{ quice.response }}</td>
                     <td>{{ quice.resource_id.title}}</td>
+                    <td>{{ quice.response }}</td>
                     {% if quice.correct %}
                     <td>Si</td>
                     {% else %}

@@ -626,7 +626,7 @@ class ApiManager(APIView):
 					else:
 						quiz = User_quiz_logs()
 						quiz.user_id = user_id_obj
-						quiz.resource_id = resource.resource_id
+						quiz.resource_id = resource.id
 						quiz.points = points_user
 						quiz.response = response
 						quiz.state_quiz = correct

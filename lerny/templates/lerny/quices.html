@@ -21,6 +21,7 @@
             <thead>
                 <tr class="table-primary">
                     <th>Usuario</th>
+                    <th>Pregunta</th>
                     <th>Respuesta</th>
                     <th>Correcta</th>
                     <th>Puntos</th>
@@ -30,6 +31,7 @@
                 {% for quice in quices %}
                 <tr>
                     <td>{{ quice.user_id.user_name }}</td>
+                    <td>{{ quice.response }}</td>
                     <td>{{ quice.resource_id.title}}</td>
                     {% if quice.correct %}
                     <td>Si</td>

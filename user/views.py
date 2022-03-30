@@ -605,15 +605,15 @@ class ApiManager(APIView):
 
 				retro = "Tu respuesta ha sido incorrecta " + str(response) + "has obtenido" + str(points_wrong) + "puntos, tu total es de " + str(points_false) + "puntos"
 
-				if(user_state.resource_id.first_button==response):
+				if(user_state.resource_id.first_button==response and resource.correct_answer_button==1):
 					points_user = points_true
 					retro = "Tu respuesta ha sido correcta " + str(response) + " y has obtenido " + str(points_correct) + " puntos en el quiz; tienes "+ str(points_true) +" de puntos totales"
 					correct = True
-				if(user_state.resource_id.second_button==response ):
+				if(user_state.resource_id.second_button==response and resource.correct_answer_button==2 ):
 					points_user = points_true
 					retro = "Tu respuesta ha sido " + str(response) + " y has obtenido " + str(points_correct) + " puntos en el quiz; tienes "+ str(points_true) +" de puntos totales"
 					correct = True
-				if(user_state.resource_id.third_button==response):
+				if(user_state.resource_id.third_button==response and resource.correct_answer_button==3):
 					points_user = points_true
 					retro = "Tu respuesta ha sido " + str(response) + " y has obtenido " + str(points_correct) + " puntos en el quiz; tienes "+ str(points_true) +" de puntos totales"
 					correct = True

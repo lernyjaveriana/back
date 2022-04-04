@@ -1,282 +1,7 @@
-<!DOCTYPE html>
-<html lang="es">
-{% load static %}
-<head>
+{% extends 'base.html' %}
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Lerny</title>
-
-    <!-- Custom fonts for this template-->
-    <link href="{% static 'lerny/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
-    <link
-    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-    rel="stylesheet">
-
-    <!-- Custom styles for this template-->
-    <link href="{% static 'lerny/css/lerny-admin.css' %}" rel="stylesheet">
-
-    <!-- Custom styles for this page -->
-    <link href="{% static 'lerny/vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
-
-    <!-- searchPanes -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/searchpanes/1.0.1/css/searchPanes.dataTables.min.css">
-    
-    <!-- select -->
-    <link href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css">
-
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.1.0/css/buttons.dataTables.min.css">
-
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
-
-
-    <!--- CDN Datatables -->
-
-    <script src="https://code.jquery.com/jquery-3.5.1.js" ></script>
-    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.1.0/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.print.min.js"></script>
-
-
-
-    <!-- Page level plugins -->
-    <script src="{% static 'lerny/vendor/chart.js/Chart.min.js' %}"></script>
-
-    <!-- Page level custom scripts -->
-    <!-- <script src="{% static 'lerny/js/demo/chart-pie-demo.js' %}"></script> -->
-
-    <!-- Style CSS-->
-    <style type="text/css">
-        div.dtsp-verticalContainer{
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            justify-content: flex-start;
-            align-content: flex-start;
-            align-items: flex-start;
-        }
-
-        div.dtsp-verticalContainer div.dtsp-verticalPanes,
-        div.dtsp-verticalContainer div.container{
-            width: 5%;
-            flex-grow: 0;
-            flex-shrink: 0;
-            flex-basis: 0;
-        }
-
-        div.dtsp-verticalContainer div.dtsp-verticalPanes{
-            flex-grow: 1;
-            flex-shrink: 0;
-            flex-basis: 26%;
-        }
-
-        div.dtsp-verticalPanes {
-            margin-right: 20px;
-        }
-
-        div.dtsp-title {
-            margin-right: 0px !important;
-            margin-top: 13px !important;
-        }
-
-        input.dtsp-search {
-            min-width: 0px !important;
-            padding-left: 0px !important;
-            margin: 0px !important;
-        }
-
-        div.dtsp-verticalContainer div.dtsp-verticalPanes div.dtsp-searchPanes{
-            flex-direction: column;
-            flex-basis: 0px;
-        }
-
-        div.dtsp-verticalContainer div.dtsp-verticalPanes div.dtsp-searchPanes div.dtsp-searchPane{
-            flex-basis: 0px;
-        }
-
-        div.dtsp-verticalContainer div.container{
-            flex-grow: 1;
-            flex-shrink: 0;
-            flex-basis: 60%;
-        }
-
-        div.dtsp-panesContainer {
-            border: 1px solid #ccc;
-            border-radius: 20px;
-            padding: 5px;
-        }
-
-        .dataTables_wrapper .dataTables_length select {
-            padding-right: 10px;
-        }
-
-        #wrapper {
-            width: 100%;
-            margin: 0 auto;
-        }
-
-        #Sidebar {
-            height: 100%;
-            position: fixed;
-            z-index: 1;
-            top: 0;
-            left: 0;
-            overflow-x: hidden;
-        }
-
-        #wrapper #content-wrapper{
-            margin-left: 18%;
-        }
-
-        #dataTable_length {
-            position: absolute;
-            margin-top: 30px;
-            margin-left: 180px;
-        }
-
-        #dataTable_filter {
-            margin: 20px;
-        }
-
-        div.dt-buttons {
-            position: relative;
-            float: left;
-            margin-top: 25px;
-        }
-
-    </style>
-
-</head>
-
-<body id="page-top">
-    <!-- Page Wrapper -->
-    <div id="wrapper">
-
-        <!-- Sidebar -->
-        <div id="Sidebar" >
-
-            <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion py-4" >
-
-                <!-- Sidebar - Brand -->
-                <a class="sidebar-brand d-flex align-items-center justify-content-center mb-4" href="">
-                    <img class="logo" src="{% static 'lerny/img/logo.svg' %}" alt="logo">
-                </a>
-
-                <!-- Divider -->
-                <hr class="sidebar-divider my-0">
-
-                <!-- Nav Item - Dashboard -->
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'detail' %}">
-                        <i class="fas fa-tasks"></i>
-                        <span>Entregables</span></a>
-                    </li>
-
-
-                <!-- Divider -->
-                <hr class="sidebar-divider">
-
-                <!-- Nav Item - Charts -->
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'charts' %}">
-                        <i class="fas fa-fw fa-chart-area"></i>
-                        <span>Progreso</span></a>
-                </li>
-
-                <!-- Divider -->
-                <hr class="sidebar-divider d-none d-md-block">
-
-                <!-- Sidebar Toggler (Sidebar) -->
-                <!-- <div class="text-center d-none d-md-inline">
-                    <button class="rounded-circle border-0" id="sidebarToggle"></button>
-                </div> -->
-
-            </ul>
-        </div>
-        <!-- End of Sidebar -->
-
-
-
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
-
-          <!-- Main Content -->
-          <div id="content">
-
-            <!-- Topbar -->
-            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-    
-                <!-- Sidebar Toggle (Topbar) -->
-                <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                    <i class="fa fa-bars"></i>
-                </button>
-    
-                <!-- Topbar Navbar -->
-                <ul class="navbar-nav ml-auto">
-    
-                    <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                    <li class="nav-item dropdown no-arrow d-sm-none">
-                        <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-search fa-fw"></i>
-                        </a>
-                    <!-- Dropdown - Messages -->
-                        <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                        aria-labelledby="searchDropdown">
-                          <form class="form-inline mr-auto w-100 navbar-search">
-                            <div class="input-group">
-                                <input type="text" class="form-control bg-light border-0 small"
-                                placeholder="Search for..." aria-label="Search"
-                                aria-describedby="basic-addon2">
-                                <div class="input-group-append">
-                                  <button class="btn btn-primary" type="button">
-                                      <i class="fas fa-search fa-sm"></i>
-                                  </button>
-                                </div>
-                            </div>
-                          </form>
-                        </div>
-                    </li>
-    
-    
-    
-                  <!-- Nav Item - User Information -->
-                  <li class="nav-item dropdown no-arrow">
-                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ username }}</span>
-                    <img class="img-profile rounded-circle"
-                    src="{% static 'lerny/img/undraw_profile.svg' %}">
-                    </a>
-                  
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                      <a class="dropdown-item" href="{% url 'logout' %}">
-                      <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                      Salir
-                      </a>
-                    </div>
-                  </li>
-    
-                </ul>
-    
-            </nav>
-            <!-- End of Topbar -->
-
-          </div>
-          <!-- End of Main Content -->
-
-          <!-- Begin Page Content -->
-          <div class="container-fluid">
-
-            <h1 id="lerny_name"  class="h3 mb-2 py-3 text-gray-800" align="center">Lerny: PONER NOMBRE DEL LERNY ACA </h1>
+{% block content %}
+<h1 id="lerny_name"  class="h3 mb-2 py-3 text-gray-800" align="center">Lerny: PONER NOMBRE DEL LERNY ACA </h1>
 
             <!-- Page Heading -->
             {% if not have_company %}
@@ -407,192 +132,104 @@
 
             </div>
 
-          
-          </div> 
-          <!-- End Page content -->
-      
 
-          <!-- Footer -->
-          <footer class="sticky-footer bg-white">
-              <div class="container my-auto">
-                  <div class="copyright text-center my-auto">
-                      <span>Copyright &copy; Lerny 2021</span>
-                  </div>
-              </div>
-          </footer>
-          <!-- End of Footer -->
-      
-        </div>
-        <!-- End of Content Wrapper -->
+<script type="text/javascript">
 
-    </div>
-    <!-- End of Page Wrapper -->
+    var table = null
 
+    //TABLE USERS
+    $(document).ready(function() {
+        table = $('#dataTable').DataTable( {
+            dom: 'Blfrtip',
+            buttons:[
+                {
+                    extend: 'excelHtml5',
+                    text: '<i class="fas fa-file-excel"></i>',
+                    titleAttr: 'Exportar a Excel',
+                    className: 'btn btn-success',
+                    color:  'green',
+                    customize: function (xlsx){
+                        var sheet = xlsx.worksheets['sheet1.xml'];
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-    </a>
+                        $('row f[r^="C"]', sheet).attr( 's', '2' );
+                    }
+                },
 
-    <script type="text/javascript">
-
-        var table = null
-
-        //TABLE USERS
-        $(document).ready(function() {
-            table = $('#dataTable').DataTable( {
-                dom: 'Blfrtip',
-                buttons:[
-                    {
-                        extend: 'excelHtml5',
-                        text: '<i class="fas fa-file-excel"></i>',
-                        titleAttr: 'Exportar a Excel',
-                        className: 'btn btn-success',
-                        color:  'green',
-                        customize: function (xlsx){
-                            var sheet = xlsx.worksheets['sheet1.xml'];
-
-                            $('row f[r^="C"]', sheet).attr( 's', '2' );
-                        }
-                    },
-
-                    {
-                        extend: 'pdfHtml5',
-                        text: '<i class="fas fa-file-pdf"></i>',
-                        titleAttr: 'Exportar a PDF',
-                        className: 'btn btn-danger',
-                        color:  'red',
-                    },
-                        
-                    {
-                        extend: 'copy',
-                        text: '<i class="far fa-copy"></i>',
-                        titleAttr: 'Copiar',
-                        className: 'btn btn-info',
-                        color:  'blue',
-                    },
-             
-                ],
-              
-                ajax: {
-                    url: '/api_lerny/lernydetail/?lerny_id=-1&microlerny_id=-1',
-                    type: 'GET',
-                    dataType: 'json',
-                    },
-                columns :[
-                {data: 'identification'},
-                {data: 'user'},
-                {data: 'done'},
-                {data: 'progress'},
-                {data: 'Grupo'},
-                ],
-                pageLength: 20
-            })
-
+                {
+                    extend: 'pdfHtml5',
+                    text: '<i class="fas fa-file-pdf"></i>',
+                    titleAttr: 'Exportar a PDF',
+                    className: 'btn btn-danger',
+                    color:  'red',
+                },
+                    
+                {
+                    extend: 'copy',
+                    text: '<i class="far fa-copy"></i>',
+                    titleAttr: 'Copiar',
+                    className: 'btn btn-info',
+                    color:  'blue',
+                },
+            
+            ],
+            
+            ajax: {
+                url: '/api_lerny/lernydetail/?lerny_id=-1&microlerny_id=-1',
+                type: 'GET',
+                dataType: 'json',
+                },
+            columns :[
+            {data: 'identification'},
+            {data: 'user'},
+            {data: 'done'},
+            {data: 'progress'},
+            {data: 'Grupo'},
+            ],
+            pageLength: 20
         })
 
+    })
 
-        function update_table(){
-            var lerny_id = $('#lerny_select').val();
-            table.ajax.url('/api_lerny/lernydetail/?lerny_id='+lerny_id+'&microlerny_id=-1').load();
+
+    function update_table(){
+        var lerny_id = $('#lerny_select').val();
+        table.ajax.url('/api_lerny/lernydetail/?lerny_id='+lerny_id+'&microlerny_id=-1').load();
+    }
+
+    $.ajax({
+        url: '/api_lerny/lernyapi/',
+        success: function(data) {
+            const lerny_id = data[1].pk;  
         }
+    })
 
-        $.ajax({
-            url: '/api_lerny/lernyapi/',
-            success: function(data) {
-               const lerny_id = data[1].pk;  
-            }
-        })
+    
+    // // Set new default font family and font color to mimic Bootstrap's default styling
+    Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+    Chart.defaults.global.defaultFontColor = '#858796';
 
-       
-        // // Set new default font family and font color to mimic Bootstrap's default styling
-        Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
-        Chart.defaults.global.defaultFontColor = '#858796';
+    $.ajax({
+    method: 'GET',
+    url: '/api_lerny/lernydetail/?lerny_id=-1&microlerny_id=-1',
+    success: function(respuesta) {
 
-        $.ajax({
-        method: 'GET',
-        url: '/api_lerny/lernydetail/?lerny_id=-1&microlerny_id=-1',
-        success: function(respuesta) {
+        var data_pie = respuesta.approved; //Students approved
+        var data_micro = respuesta.info_micro; //Array of microlernies
+        var name_micro = respuesta.name_micro; //name of microlernies
+        var cont_micro = respuesta.cont_micro; //number students of microlernies
+        var progress_micro = respuesta.progress_micro; //progress of microlernies
+        var average = respuesta.average_micro; //average of microlernies
+        
 
-            var data_pie = respuesta.approved; //Students approved
-            var data_micro = respuesta.info_micro; //Array of microlernies
-            var name_micro = respuesta.name_micro; //name of microlernies
-            var cont_micro = respuesta.cont_micro; //number students of microlernies
-            var progress_micro = respuesta.progress_micro; //progress of microlernies
-            var average = respuesta.average_micro; //average of microlernies
-           
-
-            var ctx = document.getElementById("myBarChartAvg");
-            myBarChartAvg = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: name_micro,
-                    datasets: [{
-                    label: "Promedio",
-                    data: average,
-                    backgroundColor: ['#001844', '#001844', '#001844', '#001844','#001844', '#001844', '#001844','#001844', '#001844'],
-                    hoverBackgroundColor: ['#001844', '#001844','#001844', '#001844','#001844', '#001844','#001844','#001844', '#001844'],
-                    borderColor: "#4e73df",
-                    }],
-                },
-                options: {
-                    maintainAspectRatio: false,
-                    tooltips: {
-                    backgroundColor: "rgb(255,255,255)",
-                    bodyFontColor: "#858796",
-                    borderColor: '#dddfeb',
-                    borderWidth: 1,
-                    xPadding: 15,
-                    yPadding: 15,
-                    displayColors: true,
-                    caretPadding: 10,
-                    },
-                    legend: {
-                    display: false
-                    },
-                    scales: {
-                    xAxes: [{
-                        gridLines: {
-                        display: false,
-                        drawBorder: false
-                        },
-                        ticks: {
-                        maxTicksLimit: 20,
-                        maxRotation: 90,
-                        minRotation: 90,
-                        },
-                        maxBarThickness: 25,
-                    }],
-                    y: {
-                        beginAtZero: true
-                    },
-                    yAxes: [{
-                        ticks: {
-                        min: 0,
-                        maxTicksLimit: 5,
-                        padding: 10,
-                        },
-                        gridLines: {
-                        color: "rgb(234, 236, 244)",
-                        zeroLineColor: "rgb(234, 236, 244)",
-                        drawBorder: false,
-                        borderDash: [2],
-                        zeroLineBorderDash: [2]
-                        }
-                    }],
-                    },
-                },
-            });
-
-            var ctx = document.getElementById("myBarChartCant"); 
-            myBarChartCant = new Chart(ctx, {
+        var ctx = document.getElementById("myBarChartAvg");
+        myBarChartAvg = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: name_micro,
                 datasets: [{
-                label: "# Estudiantes",
-                data: cont_micro,
-                backgroundColor: ['#001844', '#001844', '#001844', '#001844','#001844', '#001844','#001844','#001844', '#001844'],
+                label: "Promedio",
+                data: average,
+                backgroundColor: ['#001844', '#001844', '#001844', '#001844','#001844', '#001844', '#001844','#001844', '#001844'],
                 hoverBackgroundColor: ['#001844', '#001844','#001844', '#001844','#001844', '#001844','#001844','#001844', '#001844'],
                 borderColor: "#4e73df",
                 }],
@@ -630,6 +267,7 @@
                 },
                 yAxes: [{
                     ticks: {
+                    min: 0,
                     maxTicksLimit: 5,
                     padding: 10,
                     },
@@ -643,138 +281,198 @@
                 }],
                 },
             },
-            });
+        });
 
-            var ctx = document.getElementById("myBarChart");  
-            myBarChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: ["Aprobado", "No Aprobado"],
-                datasets: [{
-                label: "Porcentaje",
-                data: data_pie,
-                backgroundColor: ['#BB86FC', '#001844', ],
-                hoverOffset: 4,
-                }],
+        var ctx = document.getElementById("myBarChartCant"); 
+        myBarChartCant = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: name_micro,
+            datasets: [{
+            label: "# Estudiantes",
+            data: cont_micro,
+            backgroundColor: ['#001844', '#001844', '#001844', '#001844','#001844', '#001844','#001844','#001844', '#001844'],
+            hoverBackgroundColor: ['#001844', '#001844','#001844', '#001844','#001844', '#001844','#001844','#001844', '#001844'],
+            borderColor: "#4e73df",
+            }],
+        },
+        options: {
+            maintainAspectRatio: false,
+            tooltips: {
+            backgroundColor: "rgb(255,255,255)",
+            bodyFontColor: "#858796",
+            borderColor: '#dddfeb',
+            borderWidth: 1,
+            xPadding: 15,
+            yPadding: 15,
+            displayColors: true,
+            caretPadding: 10,
             },
-            });
-
-            var ctx = document.getElementById("myBarChartProgress");
-            myBarChartProgress = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: name_micro,
-                datasets: [{
-                label: "Progreso",
-                data: progress_micro,
-                backgroundColor: ['#001844', '#0039A3', '#0047CC ', '#0056F5','#1F6DFF', '#4788FF','#70A2FF','#99BDFF', '#C1D9FF'],
-                hoverOffset: 4,
-                }],
+            legend: {
+            display: false
             },
-            });
+            scales: {
+            xAxes: [{
+                gridLines: {
+                display: false,
+                drawBorder: false
+                },
+                ticks: {
+                maxTicksLimit: 20,
+                maxRotation: 90,
+                minRotation: 90,
+                },
+                maxBarThickness: 25,
+            }],
+            y: {
+                beginAtZero: true
+            },
+            yAxes: [{
+                ticks: {
+                maxTicksLimit: 5,
+                padding: 10,
+                },
+                gridLines: {
+                color: "rgb(234, 236, 244)",
+                zeroLineColor: "rgb(234, 236, 244)",
+                drawBorder: false,
+                borderDash: [2],
+                zeroLineBorderDash: [2]
+                }
+            }],
+            },
+        },
+        });
 
-            
+        var ctx = document.getElementById("myBarChart");  
+        myBarChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ["Aprobado", "No Aprobado"],
+            datasets: [{
+            label: "Porcentaje",
+            data: data_pie,
+            backgroundColor: ['#BB86FC', '#001844', ],
+            hoverOffset: 4,
+            }],
+        },
+        });
 
-           },
+        var ctx = document.getElementById("myBarChartProgress");
+        myBarChartProgress = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: name_micro,
+            datasets: [{
+            label: "Progreso",
+            data: progress_micro,
+            backgroundColor: ['#001844', '#0039A3', '#0047CC ', '#0056F5','#1F6DFF', '#4788FF','#70A2FF','#99BDFF', '#C1D9FF'],
+            hoverOffset: 4,
+            }],
+        },
+        });
+
         
-        error: function() {
+
+        },
+    
+    error: function() {
+            console.log("No se ha podido obtener la información");
+        }
+    });
+
+    //Select Lerny
+    $.ajax({
+            url: '/api_lerny/lernyapi/',
+            success: function(data) {
+                console.log("DATA LERNY",data);
+                for(var i = 0; i < Object.keys(data).length; i++) {
+                    document.getElementById("lerny_select").innerHTML += "<option value='"+data[i].pk+"'>"+data[i].name+"</option>";
+                }
+
+                $( "#lerny_name" ).text(data[0].name)
+            },
+            error: function() {
                 console.log("No se ha podido obtener la información");
             }
         });
+    
 
-        //Select Lerny
+
+    
+    function filter_chart(){
+        var lerny_select = $( "#lerny_select" ).children("option:selected").val();
         $.ajax({
-                url: '/api_lerny/lernyapi/',
-                success: function(data) {
-                    console.log("DATA LERNY",data);
-                    for(var i = 0; i < Object.keys(data).length; i++) {
-                        document.getElementById("lerny_select").innerHTML += "<option value='"+data[i].pk+"'>"+data[i].name+"</option>";
-                    }
-
-                    $( "#lerny_name" ).text(data[0].name)
-                },
-                error: function() {
-                    console.log("No se ha podido obtener la información");
-                }
-            });
         
+            url: '/api_lerny/lernyapi/',
+            success: function(data) {
 
-
-        
-        function filter_chart(){
-            var lerny_select = $( "#lerny_select" ).children("option:selected").val();
-            $.ajax({
+            const lerny = data;
             
-                url: '/api_lerny/lernyapi/',
-                success: function(data) {
-
-                const lerny = data;
-                
-                var fil = lerny.filter( function (l) {
-                    return l.pk == lerny_select;
-                })
-                lerny_id = fil[0].pk;
-                $( "#lerny_name" ).text(fil[0].name)
-                
-                $.ajax({
-                url: '/api_lerny/lernydetail/?lerny_id='+lerny_id+'&microlerny_id=-1',
-                success: function(lerny) {
-
-                    console.log("LERNY_ACTUAL",lerny);
-
-                    var tam = lerny.average_micro.length;
-                    var cant_null = 0;
-                    var nulls = false;
-
-                    lerny.average_micro.forEach(element => {
-                        if(element == null){
-                            cant_null++;
-                        }
-                    });
-
-                    if (cant_null == tam){
-                        nulls = true;
-                    }
-
-                    console.log(nulls);
-
-                    myBarChartCant.data.datasets[0].data = lerny.cont_micro;
-                    myBarChartCant.data.labels = lerny.name_micro;
-                    myBarChartCant.update();
-
-                    myBarChartProgress.data.datasets[0].data = lerny.progress_micro;
-                    myBarChartProgress.data.labels = lerny.name_micro;
-                    myBarChartProgress.update();
-
-                    myBarChart.data.datasets[0].data = lerny.approved;      
-                    myBarChart.update();
-
-                    var canvas = document.getElementById("myBarChartAvg");
-
-                    if (!nulls){
-
-                        myBarChartAvg.data.datasets[0].data = lerny.average;
-                        myBarChartAvg.data.labels = lerny.name_micro;
-                        myBarChartAvg.update();
-
-                    }
-                    else{
-                        myBarChartAvg.destroy()
-                        var ctx = canvas.getContext("2d");
-                        
-                        ctx.font="18pt Verdana";
-                        ctx.fillStyle = "black";
-                        ctx.fillText("No hay progreso",20,120);
-                    }
-
-                    }
-                })
-                } 
+            var fil = lerny.filter( function (l) {
+                return l.pk == lerny_select;
             })
-        }
-        
-    </script>
+            lerny_id = fil[0].pk;
+            $( "#lerny_name" ).text(fil[0].name)
+            
+            $.ajax({
+            url: '/api_lerny/lernydetail/?lerny_id='+lerny_id+'&microlerny_id=-1',
+            success: function(lerny) {
 
-</body>
+                console.log("LERNY_ACTUAL",lerny);
 
-</html>
+                var tam = lerny.average_micro.length;
+                var cant_null = 0;
+                var nulls = false;
+
+                lerny.average_micro.forEach(element => {
+                    if(element == null){
+                        cant_null++;
+                    }
+                });
+
+                if (cant_null == tam){
+                    nulls = true;
+                }
+
+                console.log(nulls);
+
+                myBarChartCant.data.datasets[0].data = lerny.cont_micro;
+                myBarChartCant.data.labels = lerny.name_micro;
+                myBarChartCant.update();
+
+                myBarChartProgress.data.datasets[0].data = lerny.progress_micro;
+                myBarChartProgress.data.labels = lerny.name_micro;
+                myBarChartProgress.update();
+
+                myBarChart.data.datasets[0].data = lerny.approved;      
+                myBarChart.update();
+
+                var canvas = document.getElementById("myBarChartAvg");
+
+                if (!nulls){
+
+                    myBarChartAvg.data.datasets[0].data = lerny.average;
+                    myBarChartAvg.data.labels = lerny.name_micro;
+                    myBarChartAvg.update();
+
+                }
+                else{
+                    myBarChartAvg.destroy()
+                    var ctx = canvas.getContext("2d");
+                    
+                    ctx.font="18pt Verdana";
+                    ctx.fillStyle = "black";
+                    ctx.fillText("No hay progreso",20,120);
+                }
+
+                }
+            })
+            } 
+        })
+    }
+    
+</script>
+            
+{% endblock %}
+

@@ -1,6 +1,7 @@
 from ..models import User
 from lerny.models import *
 from lerny.serializers import *
+from .TemplateUtilities.interfaceTemplates import *
 
 
 def listarLernys(user_id):
@@ -12,39 +13,5 @@ def listarLernys(user_id):
         pk__in=lernys_ids)
 
     data = LernySerializer(lernys, many=True).data
-    i = 0
-    temp = []
-    while(i < len(data)):
-        print("IMPRESION LISTAR LERNY: "+ str(data[i]['id'])+") " + data[i]['lerny_name'])
-        temp.append(
-            {
-                "subtitle": data[i]['description'],
-                "image_url": data[i]['url_image'],
-                "title": data[i]['lerny_name'],
-                "buttons": [
-                {
-                    "payload": "cargar lerny "+str(data[i]['id']),
-                    "title": "Continuar Lerny",
-                    "type": "postback"
-                }
-                ]
-            },)
-        i += 1
-
-    data = {
-        "fulfillmentMessages": [
-        {
-            "payload": {
-                "facebook": {
-                    "attachment": {
-                        "type": "template",
-                        "payload": {
-                            "template_type": "generic",
-                            "elements": temp
-                        }
-                    }
-                }
-            }
-        }]
-    }
+    data = listarLernysTemplate("fbMessenger",data)
     return data

@@ -60,7 +60,7 @@ class pqr_ResourceAdmin(admin.ModelAdmin):
 
 class User_quiz_logsAdmin(admin.ModelAdmin):
     list_filter=("user_id",)
-    list_display = ("user_id","response","points","state_quiz")
+    list_display = ("user_id","response","points") 
 
 admin.site.register(Group,Group_ResourceAdmin)
 admin.site.register(User_Group,User_Group_ResourceAdmin)

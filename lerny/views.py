@@ -1,4 +1,5 @@
 from contextlib import ContextDecorator
+import xxlimited
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -13,6 +14,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from django.db.models import Avg, Sum, Q
+from dateutil.parser import parse
 
 from datetime import datetime
 class CsrfExemptSessionAuthenticachartstion(SessionAuthentication):
@@ -101,8 +103,9 @@ def ApiStateResource(request):
 				
 				
 				data['date'] = UserResourceSerializer(i).data["response_date"]
-				fecha = datetime.strptime(data['date'], "%Y-%m-%dT%H:%M:%S.%fZ")
-				data['date'] = fecha.strftime("%A, %w de %B a las %I:%M %p")
+				print(data['date'])
+				fecha = parse(data['date'])
+				data['date'] = fecha.date()
 				data['pk'] = '<div align="center"><button type="button" class="btn btn-primary" data-dismiss="modal" onclick="editRow('+str(i.pk)+')">Califica</button></div>'
 				data['lerny'] = i.resource_id.microlerny.lerny.lerny_name
 				data['microlerny'] = i.resource_id.microlerny.micro_lerny_title

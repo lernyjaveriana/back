@@ -265,6 +265,7 @@ def listarLernysTemplate (interface,info):
                 }
             }]
         }
+        print("data: "+data)
     return data
 
 def listarMicrolernysTemplate (interface,info):
@@ -272,7 +273,7 @@ def listarMicrolernysTemplate (interface,info):
         i = 0
         temp = []
         while(i < len(info)):
-            print("IMPRESION LISTAR LERNY: "+ str(info[i]['id'])+") " + info[i]['micro_lerny_title'])
+            print("IMPRESION LISTAR MICROLERNY: "+ str(info[i]['id'])+") " + info[i]['micro_lerny_title'])
             temp.append(
                 {
                     "subtitle": info[i]['micro_lerny_subtitle'],

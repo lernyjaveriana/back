@@ -8,7 +8,6 @@ from .models import User
 from lerny.models import *
 from lerny.serializers import *
 from user.Intents.bucketHelper import upload_to_s3
-from user.Intents.cargarActividadFallbackIntent import cargarActividadFallbackIntent
 from user.Intents.bienvenidaLerny import bienvenidaLerny
 from user.Intents.listarLernys import listarLernys
 from user.Intents.continueLerny import continueLerny
@@ -318,6 +317,7 @@ class ApiManager(APIView):
 			if(user_id is None):
 				data=bienvenidaLerny(user_id)
 			else:
+				print("listarLernys: "+user_id)
 				data=listarLernys(user_id)
 		# CARGAR_REQ_MICROLERNY
 		elif(key == "CARGAR_REQ_MICROLERNY"):
@@ -500,7 +500,7 @@ class ApiManager(APIView):
 							u_resource.response_date = datetime.now()
 							u_resource.last_view_date = datetime.now()
 							u_resource.save()
-						data = cargarActividadFallbackIntent(user_id)
+						data = cargarActividadFallback(user_id)
 					else:
 						data = {
 							"fulfillmentMessages": [
@@ -559,7 +559,7 @@ class ApiManager(APIView):
 								u_resource.response_date = datetime.now()
 								u_resource.last_view_date = datetime.now()
 								u_resource.save()
-						data = cargarActividadFallbackIntent(user_id)
+						data = cargarActividadFallback(user_id)
 		# CARGAR_REQ_MICROLERNY
 		elif(key == "PREGUNTA_GENERAL"):
 			question = request['QUESTION']
@@ -594,13 +594,69 @@ class ApiManager(APIView):
 				lerny_active = User_Lerny.objects.filter(active=True,user_id=user_id_obj).first()
 				user_state = User_State.objects.filter(user_id=user_id_obj,lerny_id=lerny_active.lerny_id).first()
 				u_resource = User_Resource.objects.filter(user_id=user_id_obj, resource_id=user_state.resource_id).first()
-				feedback = user_state.resource_id.wrong_answer
-				if(user_state.resource_id.first_button==response and user_state.resource_id.correct_answer == 1):
-					feedback = user_state.resource_id.correct_answer
-				if(user_state.resource_id.second_button==response and user_state.resource_id.correct_answer == 2):
-					feedback = user_state.resource_id.correct_answer
-				if(user_state.resource_id.third_button==response and user_state.resource_id.correct_answer == 3):
-					feedback = user_state.resource_id.correct_answer
+				resource = Resource.objects.filter(id=user_state.resource_id.pk).first()
+				u_quiz = User_quiz_logs.objects.filter(user_id=user_id_obj).first()
+									
+				points_wrong = resource.points_wrong_answer #puntos por respuesta incorrecta
+				points_correct = resource.points_correct_answer #puntos por respuesta correcta
+				points_user =User_quiz_logs.objects.filter(user_id=user_id_obj).count() #puntos acumulados del usuario
+				points_true = points_correct + points_user #puntos acumulados respuesta correcta
+				points_false = points_wrong + points_user #puntos acumulados respuesta incorrecta
+				correct = 0
+
+				retro = "Tu respuesta ha sido incorrecta " + str(response) + "has obtenido" + str(points_wrong) + "puntos, tu total es de " + str(points_false) + "puntos"
+
+				if(user_state.resource_id.first_button==response and resource.correct_answer_button==1):
+					points_user = points_true
+					retro = "Tu respuesta ha sido correcta " + str(response) + " y has obtenido " + str(points_correct) + " puntos en el quiz; tienes "+ str(points_true) +" de puntos totales"
+					correct = 1
+				if(user_state.resource_id.second_button==response and resource.correct_answer_button==2 ):
+					points_user = points_true
+					retro = "Tu respuesta ha sido correcta " + str(response) + " y has obtenido " + str(points_correct) + " puntos en el quiz; tienes "+ str(points_true) +" de puntos totales"
+					correct = 1
+				if(user_state.resource_id.third_button==response and resource.correct_answer_button==3):
+					points_user = points_true
+					retro = "Tu respuesta ha sido correcta " + str(response) + " y has obtenido " + str(points_correct) + " puntos en el quiz; tienes "+ str(points_true) +" de puntos totales"
+					correct = 1
+
+				if (resource.single_use):
+					if (u_quiz):
+
+						# Se realiza retro / tabnine()
+						retro = "Ya contesto este quiz, no puedes volver a contestarlo"
+					else:
+						quiz = User_quiz_logs()
+						quiz.user_id = user_id_obj
+						quiz.resource_id = resource
+						quiz.points = points_user
+						quiz.response = response
+						if correct == 1:
+							quiz.correct = True
+						else:
+							quiz.state_quiz = False
+						#añadir recurso id
+						quiz.save() #Guardamos la info del quiz
+				else:
+					if (u_quiz):
+						User_quiz_logs.objects.filter( user_quiz_id=u_quiz.user_quiz_id).update(
+							response=response,
+							points = points_user,
+						)
+					else:
+						quiz = User_quiz_logs()
+						quiz.user_id = user_id_obj
+						quiz.points = points_user
+						quiz.response = response
+						if correct == 1:
+							quiz.correct = True
+						else:
+							quiz.state_quiz = False
+						quiz.resource_id = resource.resource_id
+						quiz.save() #Guardamos la info del quiz
+
+
+
+				
 
 				if(u_resource):
 					data = UserResourceSerializer(u_resource).data
@@ -623,11 +679,13 @@ class ApiManager(APIView):
 				data_feedback =	{
 					"text": {
 						"text": [
-							feedback
+							retro
 						]
 					}
 				}
-				data.fulfillmentMessages.append(data_feedback)
+
+				print (data)
+				data["fulfillmentMessages"].append(data_feedback)
 		# NPS_METRIC1
 		elif(key == "NPS_METRIC1"):			
 			if(user_id is None):

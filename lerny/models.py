@@ -50,7 +50,8 @@ class Resource(models.Model):
 	previous_text = models.CharField('previous text', max_length=600, blank=True)
 	phase = models.CharField('phase', max_length=3, null=False)
 	creation_date = models.DateTimeField('creation date', auto_now_add=True)
-	points = models.FloatField('points', default=1, blank=True)
+	points_correct_answer = models.FloatField('points correct answer', default=1, blank=True)
+	points_wrong_answer = models.FloatField('points wrong answer', default=1, blank=True)
 	microlerny = models.ForeignKey(
 		MicroLerny, on_delete=models.CASCADE, null=False)
 	image_url = models.CharField('image url', max_length=200, null=False)
@@ -271,9 +272,10 @@ class Score(models.Model):
 
 class User_quiz_logs(models.Model):
 	user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
-	user_quiz_id = models.IntegerField( null=False, primary_key=True)
+	resource_id = models.ForeignKey(Resource, on_delete=models.CASCADE, null=False, default=1)
+	user_quiz_id = models.AutoField(primary_key=True)
 	response = models.CharField('response ', max_length=300, null=False)
 	points = models.IntegerField('points', null=True)
-	state_quiz = models.BooleanField('state', default=False)
+	correct = models.BooleanField('state', default=False)
 	def __str__(self):
-		return f'{self.user_id}'
+		return f'{self.user_id,self.user_quiz_id,self.response,self.points,self.state_quiz}'

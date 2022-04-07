@@ -13,6 +13,7 @@ from user.Intents.listarLernys import listarLernys
 from user.Intents.continueLerny import continueLerny
 from user.Intents.cargarRecursoMicrolerny import cargarRecursoMicrolerny
 from user.Intents.listarMicrolernys import listarMicrolernys
+from user.Intents.cargarActividadFallbackIntent import cargarActividadFallback
 from user.Intents.pqr import pqr
 from datetime import datetime
 

@@ -78,11 +78,11 @@ def bienvenidaLernyTemplate (interface,user_name=None):
 								{
 									"image_url": "https://lerny.co/wp-content/uploads/2020/12/marca_lerny.jpg",
 									"buttons": [
-									{
-										"title": "Comprar curso",
-										"payload": "comprar_curso",
-										"type": "postback"
-									},
+									# {
+									# 	"title": "Comprar curso",
+									# 	"payload": "comprar_curso",
+									# 	"type": "postback"
+									# },
 									{
 										"payload": "iniciar_sesion",
 										"title": "Iniciar sesión",
@@ -162,7 +162,7 @@ def cargarRecursoMicrolernyTemplate (interface,dataDB,templates,resourse):
     if interface == "fbMessenger":
         previous_text = dataDB["previous_text"]
         if(previous_text==None or previous_text==''):
-            previous_text="Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"
+            previous_text="Estamos cargando tu contenido, por favor espera. :)"
         data = {
             "fulfillmentMessages": [
                 {
@@ -329,12 +329,12 @@ def pqrTemplate (interface):
                                             [
                                                 {
                                                     "type": "postback",
-                                                    "title": "Continuar lerny",
+                                                    "title": "Continuar curso",
                                                     "payload": "continuar_curso"
                                                 },
                                                 {
                                                     "type": "postback",
-                                                    "title": "ver microlernys",
+                                                    "title": "Ver módulos",
                                                     "payload": "LIST_MICROLERNYS"
                                                 },
                                             ]

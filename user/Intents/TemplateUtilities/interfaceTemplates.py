@@ -242,7 +242,7 @@ def listarLernysTemplate (interface,info):
                     "buttons": [
                     {
                         "payload": "cargar lerny "+str(info[i]['id']),
-                        "title": "Continuar Lerny",
+                        "title": "Continuar curso",
                         "type": "postback"
                     }
                     ]

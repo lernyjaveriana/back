@@ -107,7 +107,7 @@ def bienvenidaLernyTemplate (interface,user_name=None):
             }
     return data
 
-def cargarActividadFallbackTemplate (interface,micro_lernys,previous_text="A cual recurso deseas asociar el entregable que acabas de subir?"):
+def cargarActividadFallbackTemplate (interface,micro_lernys,previous_text="Por favor selecciona  ¿a cuál de las siguientes actividades corresponde el archivo que acabas de enviar? "):
     temp = []
     if interface == "fbMessenger":
         for micro_lerny in micro_lernys:

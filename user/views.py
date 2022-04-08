@@ -187,18 +187,18 @@ class ApiManager(APIView):
 														[
 															{
 																"type": "postback",
-																"title": "Continuar Lerny",
-																"payload": "CONTINUAR_CURSO"
+																"title": "Mis cursos",
+																"payload": "LISTAR_LERNYS"
 															},
 															{
 																"type": "postback",
-																"title": "ver Micro Lernys",
+																"title": "Módulos en progreso",
 																"payload": "LIST_MICROLERNYS"
 															},
 															{
 																"type": "postback",
-																"title": "Listar Lernys",
-																"payload": "LISTAR_LERNYS"
+																"title": "Continuar curso",
+																"payload": "CONTINUAR_CURSO"
 															}
 														]
 													}

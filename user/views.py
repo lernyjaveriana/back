@@ -422,7 +422,7 @@ class ApiManager(APIView):
 					print("actividades re asignadas sin problema")
 					data=datas
 				else:
-					previous_text="Actividades entregadas han sido asignadas al recurso "+str(objetive_resource.title)
+					previous_text="Tu archivo fue guardado en la actividad: "+str(objetive_resource.title)
 					data = {
 						"fulfillmentMessages": [
 							{

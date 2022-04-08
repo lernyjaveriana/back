@@ -61,7 +61,7 @@ def bienvenidaLernyTemplate (interface,user_name=None):
 				{
 					"text": {
 						"text": [
-							"Hola!, te damos la bienvenida a Lerny, una plataforma de educación en facebook messenger, pensada para quienes construimos futuro trabajando."
+							"Hola!, te damos la bienvenida a Lerny, soy un 🤖 con quien podrás aprender de manera sencilla y divertida."
 						]
 					}
 				},

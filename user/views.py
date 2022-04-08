@@ -623,7 +623,7 @@ class ApiManager(APIView):
 					if (u_quiz):
 
 						# Se realiza retro / tabnine()
-						retro = "Ya contesto este quiz, no puedes volver a contestarlo"
+						retro = "El quiz anterior, solo tiene habilitado un intento, tu respuesta no se puede guardar :/, continua aprendiendo con los siguientes recursos"
 					else:
 						quiz = User_quiz_logs()
 						quiz.user_id = user_id_obj

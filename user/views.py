@@ -600,24 +600,26 @@ class ApiManager(APIView):
 									
 				points_wrong = resource.points_wrong_answer #puntos por respuesta incorrecta
 				points_correct = resource.points_correct_answer #puntos por respuesta correcta
+				response_correct = resource.resporesponse_answer_correctnse_correct #respuesta correcta
+				response_wrong = resource.response_wrong_answer #respuesta incorrecta
 				points_user =User_quiz_logs.objects.filter(user_id=user_id_obj).count() #puntos acumulados del usuario
 				points_true = points_correct + points_user #puntos acumulados respuesta correcta
 				points_false = points_wrong + points_user #puntos acumulados respuesta incorrecta
 				correct = 0
 
-				retro = "Tu respuesta ha sido incorrecta " + str(response) + "has obtenido" + str(points_wrong) + "puntos, tu total es de " + str(points_false) + "puntos"
+				retro = "Has seleccionado la respuesta" + str(response) + " y es incorrecta" + str(response_wrong) + " has obtenido: " + str(points_wrong) + " puntos 🎖️ en el quiz; tu suma total de puntos es "+ str(points_false)
 
 				if(user_state.resource_id.first_button==response and resource.correct_answer_button==1):
 					points_user = points_true
-					retro = "Tu respuesta ha sido correcta " + str(response) + " y has obtenido " + str(points_correct) + " puntos en el quiz; tienes "+ str(points_true) +" de puntos totales"
+					retro = "Has seleccionado la respuesta" + str(response) + " y es correcta" + str(response_correct) + " has obtenido: " + str(points_correct) + " puntos 🎖️ en el quiz; tu suma total de puntos es "+ str(points_true) +" manifico 🤩"
 					correct = 1
 				if(user_state.resource_id.second_button==response and resource.correct_answer_button==2 ):
 					points_user = points_true
-					retro = "Tu respuesta ha sido correcta " + str(response) + " y has obtenido " + str(points_correct) + " puntos en el quiz; tienes "+ str(points_true) +" de puntos totales"
+					retro = "Has seleccionado la respuesta" + str(response) + " y es correcta" + str(response_correct) + " has obtenido: " + str(points_correct) + " puntos 🎖️ en el quiz; tu suma total de puntos es "+ str(points_true) +" manifico 🤩"
 					correct = 1
 				if(user_state.resource_id.third_button==response and resource.correct_answer_button==3):
 					points_user = points_true
-					retro = "Tu respuesta ha sido correcta " + str(response) + " y has obtenido " + str(points_correct) + " puntos en el quiz; tienes "+ str(points_true) +" de puntos totales"
+					retro = "Has seleccionado la respuesta" + str(response) + " y es correcta" + str(response_correct) + " has obtenido: " + str(points_correct) + " puntos 🎖️ en el quiz; tu suma total de puntos es "+ str(points_true) +" manifico 🤩"
 					correct = 1
 
 				if (resource.single_use):

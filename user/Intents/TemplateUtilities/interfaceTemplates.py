@@ -281,7 +281,7 @@ def listarMicrolernysTemplate (interface,info):
                     "buttons": [
                     {
                         "payload": "cargar recurso "+str(info[i]['id']) ,
-                        "title": "Seleccionar",
+                        "title": "Ver módulo",
                         "type": "postback"
                     }
                     ]

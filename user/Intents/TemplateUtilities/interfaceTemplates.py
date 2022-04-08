@@ -265,7 +265,6 @@ def listarLernysTemplate (interface,info):
                 }
             }]
         }
-        print("data: "+data)
     return data
 
 def listarMicrolernysTemplate (interface,info):

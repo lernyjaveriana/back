@@ -17,7 +17,8 @@ from django.db.models import Avg, Sum, Q
 from dateutil.parser import parse
 
 from datetime import datetime
-class CsrfExemptSessionAuthenticachartstion(SessionAuthentication):
+from dateutil.parser import parse
+class CsrfExemptSessionAuthentication(SessionAuthentication):
 
     def enforce_csrf(self, request):
         return
@@ -103,7 +104,6 @@ def ApiStateResource(request):
 				
 				
 				data['date'] = UserResourceSerializer(i).data["response_date"]
-				print(data['date'])
 				fecha = parse(data['date'])
 				data['date'] = fecha.date()
 				data['pk'] = '<div align="center"><button type="button" class="btn btn-primary" data-dismiss="modal" onclick="editRow('+str(i.pk)+')">Califica</button></div>'

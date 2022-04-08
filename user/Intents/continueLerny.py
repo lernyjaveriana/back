@@ -194,7 +194,7 @@ def continueLerny(lerny_active,user_id_obj,user_id):
 				{
 					"text": {
 						"text": [
-							"si tiene problemas cargando el contenido del recurso, puede visualizarlo en el siguien enlace: ",
+							"También puedes visualizar el recurso a través de este enlace: ",
 						]
 
 					}
@@ -265,7 +265,7 @@ def continueLerny(lerny_active,user_id_obj,user_id):
 				{
 					"text": {
 						"text": [
-							"si tiene problemas cargando el contenido del recurso, puede visualizarlo en el siguien enlace: ",
+							"También puedes visualizar el recurso a través de este enlace: ",
 						]
 
 					}

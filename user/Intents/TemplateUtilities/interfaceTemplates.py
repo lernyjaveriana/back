@@ -175,7 +175,7 @@ def cargarRecursoMicrolernyTemplate (interface,dataDB,templates,resourse):
                 {
                     "text": {
                         "text": [
-                            "si tiene problemas cargando el contenido del recurso, puede visualizarlo en el siguien enlace: ",
+                            "También puedes visualizar el recurso a través de este enlace: ",
                         ]
 
                     }

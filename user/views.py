@@ -54,7 +54,7 @@ cargarActividad={
 											"elements":
 											[
 												{
-													"title": "Tu respuesta ha sido guardada, deseas hacer algo más?",
+													"title": "¿Deseas hacer algo más?",
 													"image_url": "https://lerny.co/wp-content/uploads/2020/12/marca_lerny.jpg",
 													"subtitle": "Para continuar, por favor selecciona una opción.",
 													"buttons":
@@ -446,7 +446,7 @@ class ApiManager(APIView):
 										"elements":
 										[
 											{
-												"title": "Tu respuesta ha sido guardada, deseas hacer algo más?",
+												"title": "¿Deseas hacer algo más?",
 												"image_url": "https://lerny.co/wp-content/uploads/2020/12/marca_lerny.jpg",
 												"subtitle": "Para continuar, por favor selecciona una opción.",
 												"buttons":

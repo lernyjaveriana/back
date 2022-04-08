@@ -180,7 +180,7 @@ class ApiManager(APIView):
 												"elements":
 												[
 													{
-														"title": "Hola " + UserSerializer(user).data["user_name"] + ", un gusto volver a verte!",
+														"title": "Hola " + UserSerializer(user).data["user_name"] + ", es un gusto verte hoy",
 														"image_url": "https://lerny.co/wp-content/uploads/2020/12/marca_lerny.jpg",
 														"subtitle": "Para comenzar por favor selecciona una opción.",
 														"buttons":

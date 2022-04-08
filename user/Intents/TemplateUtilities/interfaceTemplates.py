@@ -25,7 +25,7 @@ def bienvenidaLernyTemplate (interface,user_name=None):
                                                 "elements":
                                                 [
                                                     {
-                                                        "title": "Hola " + user_name + ", un gusto volver a verte!",
+                                                        "title": "Hola " + user_name + ", es un gusto verte hoy",
                                                         "image_url": "https://lerny.co/wp-content/uploads/2020/12/marca_lerny.jpg",
                                                         "subtitle": "Para comenzar por favor selecciona una opción.",
                                                         "buttons":

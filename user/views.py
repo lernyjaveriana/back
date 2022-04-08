@@ -227,7 +227,7 @@ class ApiManager(APIView):
 					data["fulfillmentMessages"].append({
 						"text": {
 							"text": [
-								"Debes seleccionar un lerny antes de continuar"
+								"Debes seleccionar un curso antes de continuar"
 							]
 						}
 					})
@@ -278,7 +278,7 @@ class ApiManager(APIView):
 					data["fulfillmentMessages"].append({
 						"text": {
 							"text": [
-								"Debes seleccionar un lerny antes de continuar"
+								"Debes seleccionar un curso antes de continuar"
 							]
 						}
 					})
@@ -337,7 +337,7 @@ class ApiManager(APIView):
 					data["fulfillmentMessages"].append({
 						"text": {
 							"text": [
-								"debes seleccionar un lerny antes de continuar"
+								"Debes seleccionar un curso antes de continuar"
 							]
 						}
 					})

@@ -165,7 +165,7 @@ class ApiManager(APIView):
 					{
 						"text": {
 							"text": [
-								"Bienvenido a lerny"
+								"Bienvenido a lerny tu asistente educativo"
 							]
 						}
 					},

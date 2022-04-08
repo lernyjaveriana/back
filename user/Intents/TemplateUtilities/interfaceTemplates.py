@@ -10,7 +10,7 @@ def bienvenidaLernyTemplate (interface,user_name=None):
                     {
                         "text": {
                             "text": [
-                                "Bienvenido a lerny"
+                                "Bienvenido a lerny tu asistente educativo"
                             ]
                         }
                     },

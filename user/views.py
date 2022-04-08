@@ -61,17 +61,17 @@ cargarActividad={
 													[
 														{
 															"type": "postback",
-															"title": "Complementar",
+															"title": "Cargue su archivo",
 															"payload": "CARGAR_ARCHIVO"
 														},
 														{
 															"type": "postback",
-															"title": "Continuar lerny",
+															"title": "Continuar curso",
 															"payload": "continuar_curso"
 														},
 														{
 															"type": "postback",
-															"title": "ver microlernys",
+															"title": "Ver módulos",
 															"payload": "LIST_MICROLERNYS"
 														},
 													]
@@ -453,17 +453,17 @@ class ApiManager(APIView):
 												[
 													{
 														"type": "postback",
-														"title": "Complementar",
+														"title": "Cargue su archivo",
 														"payload": "CARGAR_ARCHIVO"
 													},
 													{
 														"type": "postback",
-														"title": "Continuar lerny",
+														"title": "Continuar curso",
 														"payload": "continuar_curso"
 													},
 													{
 														"type": "postback",
-														"title": "ver microlernys",
+														"title": "Ver módulos",
 														"payload": "LIST_MICROLERNYS"
 													},
 												]

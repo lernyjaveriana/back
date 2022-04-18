@@ -55,7 +55,7 @@ cargarActividad={
 											[
 												{
 													"title": "¿Deseas hacer algo más?",
-													"image_url": "https://lerny.co/wp-content/uploads/2020/12/marca_lerny.jpg",
+													"image_url": "https://lerny.co/wp-content/uploads/2022/Menu_chatbot3.png",
 													"subtitle": "Para continuar, por favor selecciona una opción.",
 													"buttons":
 													[
@@ -181,7 +181,7 @@ class ApiManager(APIView):
 												[
 													{
 														"title": "Hola " + UserSerializer(user).data["user_name"] + ", es un gusto verte hoy",
-														"image_url": "https://lerny.co/wp-content/uploads/2020/12/marca_lerny.jpg",
+														"image_url": "https://lerny.co/wp-content/uploads/2022/Menu_chatbot4.png",
 														"subtitle": "Para comenzar por favor selecciona una opción.",
 														"buttons":
 														[
@@ -447,7 +447,7 @@ class ApiManager(APIView):
 										[
 											{
 												"title": "¿Deseas hacer algo más?",
-												"image_url": "https://lerny.co/wp-content/uploads/2020/12/marca_lerny.jpg",
+												"image_url": "https://lerny.co/wp-content/uploads/2022/Menu_chatbot3.png",
 												"subtitle": "Para continuar, por favor selecciona una opción.",
 												"buttons":
 												[

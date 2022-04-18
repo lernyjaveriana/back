@@ -26,7 +26,7 @@ def bienvenidaLernyTemplate (interface,user_name=None):
                                                 [
                                                     {
                                                         "title": "Hola " + user_name + ", es un gusto verte hoy",
-                                                        "image_url": "https://lerny.co/wp-content/uploads/2020/12/marca_lerny.jpg",
+                                                        "image_url": "https://lerny.co/wp-content/uploads/2022/Menu_chatbot2.png",
                                                         "subtitle": "Para comenzar por favor selecciona una opción.",
                                                         "buttons":
                                                         [
@@ -76,7 +76,7 @@ def bienvenidaLernyTemplate (interface,user_name=None):
 								"template_type": "generic",
 								"elements": [
 								{
-									"image_url": "https://lerny.co/wp-content/uploads/2020/12/marca_lerny.jpg",
+									"image_url": "https://lerny.co/wp-content/uploads/2020/Menu_chatbot1.png",
 									"buttons": [
 									# {
 									# 	"title": "Comprar curso",
@@ -323,7 +323,7 @@ def pqrTemplate (interface):
                                     [
                                         {
                                             "title": "Tu inquietud ha sido guardada",
-                                            "image_url": "https://lerny.co/wp-content/uploads/2020/12/marca_lerny.jpg",
+                                            "image_url": "https://lerny.co/wp-content/uploads/2020/Menu_chatbot4.png",
                                             "subtitle": "Para continuar, por favor selecciona una opción.",
                                             "buttons":
                                             [

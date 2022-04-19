@@ -181,7 +181,7 @@ class ApiManager(APIView):
 												[
 													{
 														"title": "Hola " + UserSerializer(user).data["user_name"] + ", es un gusto verte hoy",
-														"image_url": "https://lerny.co/wp-content/uploads/2022/Menu_chatbot4.png",
+														"image_url": "https://lerny.co/wp-content/uploads/2022/Menu_chatbot1.png",
 														"subtitle": "Para comenzar por favor selecciona una opción.",
 														"buttons":
 														[
@@ -192,7 +192,7 @@ class ApiManager(APIView):
 															},
 															{
 																"type": "postback",
-																"title": "Módulos en progreso",
+																"title": "Módulos actuales", 
 																"payload": "LIST_MICROLERNYS"
 															},
 															{

@@ -1,0 +1,252 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <!-- Begin Page Content -->
+  <div>
+                
+    {% if not have_company %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <strong>Compañia no encontrada!</strong> Al parecer no tienes una compañia asignada.
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endif %}
+
+       
+
+        <!-- DataTales -->
+        <div class="card shadow mb-4 table-admin">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-white text-center">Entregables</h6>
+            </div>
+        </div>
+
+        <!-- Columns Table-->
+        <div class="demo-html">
+            <div>
+                <div>
+                    <table id="dataTable" class="display table table-striped table-bordered" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Lerny</th>
+                                <th>Microlerny</th>
+                                <th>Recurso</th>
+                                <th>Fecha</th>
+                                <th>Identificacion</th>
+                                <th>Usuario</th>
+                                <th>Entregables</th>
+                                <th>Grupo</th>
+                                <th>Puntos</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                
+            </div>
+        </div>
+
+
+        <!-- Edit Modal Points -->
+        <div class="modal fade" id="editRow" tabindex="-1" role="dialog" aria-hidden="true">
+
+            <div class="modal-dialog modal-dialog-centered" role="document">
+
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Editar Puntos</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                            <span class="input-group-text">Puntos</span>
+                        </div>
+                        <input type="number" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="points" id="points_amount">
+                    </div>
+                        <input type="hidden" name="pk" id="pk_edit" value="">
+                    </div>
+
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveRowEdited()">Guardar Cambios</button>
+                    </div>
+                    
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Edit Modal Tasks -->
+        <div class="modal fade" id="viewResponse" tabindex="-1" role="dialog" aria-hidden="true">
+
+            <div class="modal-dialog modal-dialog-centered" role="document">
+
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Entregables</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+
+                    <div class="modal-body">
+                        {{i.user_response}}
+                        <input type="hidden" name="pk" id="response_view" value="">
+                    </div> 
+                    
+                </div>
+
+            </div>
+
+        </div>
+</div>
+
+
+
+
+
+<script type="text/javascript">
+
+    function editRow(pk) {
+        document.getElementById("pk_edit").value = pk
+        $('#editRow').modal('show');
+        console.log(document.getElementById("pk_edit").value)
+    }
+
+    function viewResponse(user_response) {
+        document.getElementById("response_view").value = user_response
+        $('#editRow').modal('show');
+        console.log(document.getElementById("response_view").value)
+    }
+
+    function saveRowEdited(){
+        var pk = document.getElementById("pk_edit").value
+        var points = document.getElementById("points_amount").value
+        $.ajax({
+            type:"POST",
+            url:"/api_lerny/editresource/",
+            data:{pk:pk, points:points},
+            success:function(datos){
+               console.log(datos)
+               document.getElementById("pk_edit").value = ""
+               document.getElementById("points_amount").value = ""
+               $('#editRow').modal('hide');
+               $('#dataTable').DataTable().ajax.reload();
+           }
+        })
+    }
+
+
+
+    $(document).ready(function() {
+
+        // Function ignore column for export data
+        var buttonCommon = {
+            exportOptions: {
+                columns: function(column, data, node) {
+                    if (column === 0 || column ===5 || column === 8) {
+                        return false;
+                    }
+                    return true;
+                }
+            }
+};
+        var table = $('#dataTable').DataTable( {
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+            },
+            dom: 'Blfrtip',
+            buttons:[
+                $.extend (true, {}, buttonCommon,
+                {
+                    extend: 'excelHtml5',
+                    text: '<i class="fas fa-file-excel"></i>',
+                    titleAttr: 'Exportar a Excel',
+                    className: 'btn btn-success',
+                    color:  'green',
+                }),
+                $.extend (true, {}, buttonCommon,
+                {
+                    extend: 'pdfHtml5',
+                    text: '<i class="fas fa-file-pdf"></i>',
+                    titleAttr: 'Exportar a PDF',
+                    className: 'btn btn-danger',
+                    color:  'red',
+                }),
+                $.extend (true, {}, buttonCommon,
+                {
+                    extend: 'copy',
+                    text: '<i class="far fa-copy"></i>',
+                    titleAttr: 'Copiar',
+                    className: 'btn btn-info',
+                    color:  'blue',
+                },
+                )
+         
+            ],
+            "orderCellsTop":true,
+            ajax: {
+                url: '/api_lerny/apiresources/',
+                type: 'GET',
+                dataType: 'json'
+            },
+            columns :[
+                {data: 'lerny'},
+                {data: 'microlerny'},
+                {data: 'resource'},
+                {data: 'date'},
+                {data: 'identification'},
+                {data: 'user'},
+                {data: 'response[,]'},
+                {data: 'Grupo'},
+                {data: 'points'},
+                {data: 'pk'},
+
+            ],
+            pageLength: 20,
+            responsive: true,
+        });
+
+        $.ajax({
+            url: '/api_lerny/apiresources/',
+            success: function(data){
+                console.log('LERNY',data,)
+            }
+        })
+    
+        // Filters for the table
+        // Create a row in the head 
+        $('#dataTable thead tr').clone(true).appendTo( '#dataTable thead' );
+
+        // exclude columns
+        $('#dataTable thead tr:eq(1) th').each( function (i) {
+            var title = $(this).text();
+            if (title == "Lerny" || title == "Microlerny" ||  title == "Recurso" || title == "Identificacion"|| title == "Usuario" || title == "Grupo") {
+                $(this).html( '<input type="text" class="form-control form-control-sm" placeholder="Buscar..." />' );
+            }
+            else {
+                $(this).html( '<input type="text" class="form-control form-control-sm" placeholder="Buscar..." disabled/>' );
+            }
+
+            $( 'input', this ).on( 'keyup change', function () {
+                if ( table.column(i).search() !== this.value ) {
+                    table
+                    .column(i)
+                    .search( this.value )
+                    .draw();
+                }
+            } );
+        } );
+    });
+</script>
+
+{% endblock%}

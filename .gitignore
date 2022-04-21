@@ -1,8 +1,13 @@
 # created by virtualenv automatically
-backend_django
 .vscode
 api
 include
 Lib
 Scripts
-static
+data/db
+*.log
+*.pot
+*.pyc
+local_settings.py
+db.sqlite3
+venv/

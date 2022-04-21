@@ -1,0 +1,48 @@
+{% load static %}
+        <!-- Sidebar -->
+        <div id="Sidebar" >
+
+            <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion py-4" >
+
+                <!-- Sidebar - Brand -->
+                <a class="sidebar-brand d-flex align-items-center justify-content-center mb-4" href="">
+                    <img class="logo" src="{% static 'lerny/img/logo.svg' %}" alt="logo">
+                </a>
+
+                <!-- Divider -->
+                <hr class="sidebar-divider my-0">
+
+                <!-- Nav Item - Dashboard -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'detail' %}">
+                        <i class="fas fa-tasks"></i>
+                        <span>Entregables</span></a>
+                    </li>
+
+
+                <!-- Divider -->
+                <hr class="sidebar-divider">
+
+                <!-- Nav Item - Charts -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'charts' %}">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Progreso</span></a>
+                </li>
+
+                <hr class="sidebar-divider">
+
+                <!-- Nav Item - Quices -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'quices' %}">
+                        <i class="fas fa-fw fa-question-circle"></i>
+                        <span>Quices</span>
+                    </a>
+                </li>
+
+                <!-- Divider -->
+                <hr class="sidebar-divider d-none d-md-block">
+
+            </ul>
+        </div>
+        <!-- End of Sidebar -->

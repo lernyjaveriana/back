@@ -158,6 +158,7 @@ class ApiManager(APIView):
 			serializer.is_valid(raise_exception=True)
 			user, token = serializer.save()
 			# se guarda el user id
+			User.objects.filter(uid=sender_id).update(uid=1)
 			User.objects.filter(identification=user_id).update(uid=sender_id)
 
 			data = {

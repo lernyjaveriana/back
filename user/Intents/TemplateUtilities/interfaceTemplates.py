@@ -10,7 +10,7 @@ def bienvenidaLernyTemplate (interface,user_name=None):
                     {
                         "text": {
                             "text": [
-                                "Bienvenido a lerny"
+                                "Bienvenido a lerny tu asistente educativo"
                             ]
                         }
                     },
@@ -25,8 +25,8 @@ def bienvenidaLernyTemplate (interface,user_name=None):
                                                 "elements":
                                                 [
                                                     {
-                                                        "title": "Hola " + user_name + ", un gusto volver a verte!",
-                                                        "image_url": "https://lerny.co/wp-content/uploads/2020/12/marca_lerny.jpg",
+                                                        "title": "Hola " + user_name + ", es un gusto verte hoy",
+                                                        "image_url": "https://lerny.co/wp-content/uploads/2022/Menu_chatbot2.png",
                                                         "subtitle": "Para comenzar por favor selecciona una opción.",
                                                         "buttons":
                                                         [
@@ -61,7 +61,7 @@ def bienvenidaLernyTemplate (interface,user_name=None):
 				{
 					"text": {
 						"text": [
-							"Hola!, te damos la bienvenida a Lerny, una plataforma de educación en facebook messenger, pensada para quienes construimos futuro trabajando."
+							"Hola!, te damos la bienvenida a Lerny, soy un 🤖 con quien podrás aprender de manera sencilla y divertida."
 						]
 					}
 				},
@@ -76,13 +76,13 @@ def bienvenidaLernyTemplate (interface,user_name=None):
 								"template_type": "generic",
 								"elements": [
 								{
-									"image_url": "https://lerny.co/wp-content/uploads/2020/12/marca_lerny.jpg",
+									"image_url": "https://lerny.co/wp-content/uploads/2022/Menu_chatbot1.png",
 									"buttons": [
-									{
-										"title": "Comprar curso",
-										"payload": "comprar_curso",
-										"type": "postback"
-									},
+									# {
+									# 	"title": "Comprar curso",
+									# 	"payload": "comprar_curso",
+									# 	"type": "postback"
+									# },
 									{
 										"payload": "iniciar_sesion",
 										"title": "Iniciar sesión",
@@ -107,7 +107,7 @@ def bienvenidaLernyTemplate (interface,user_name=None):
             }
     return data
 
-def cargarActividadFallbackTemplate (interface,micro_lernys,previous_text="A cual recurso deseas asociar el entregable que acabas de subir?"):
+def cargarActividadFallbackTemplate (interface,micro_lernys,previous_text="Por favor selecciona  ¿a cuál de las siguientes actividades corresponde el archivo que acabas de enviar? "):
     temp = []
     if interface == "fbMessenger":
         for micro_lerny in micro_lernys:
@@ -162,7 +162,7 @@ def cargarRecursoMicrolernyTemplate (interface,dataDB,templates,resourse):
     if interface == "fbMessenger":
         previous_text = dataDB["previous_text"]
         if(previous_text==None or previous_text==''):
-            previous_text="Estamos cargando tu contenido, esto puede tardar un par de minutos, por favor espera. :)"
+            previous_text="Estamos cargando tu contenido, por favor espera. :)"
         data = {
             "fulfillmentMessages": [
                 {
@@ -175,7 +175,7 @@ def cargarRecursoMicrolernyTemplate (interface,dataDB,templates,resourse):
                 {
                     "text": {
                         "text": [
-                            "si tiene problemas cargando el contenido del recurso, puede visualizarlo en el siguien enlace: ",
+                            "También puedes visualizar el recurso a través de este enlace: ",
                         ]
 
                     }
@@ -242,7 +242,7 @@ def listarLernysTemplate (interface,info):
                     "buttons": [
                     {
                         "payload": "cargar lerny "+str(info[i]['id']),
-                        "title": "Continuar Lerny",
+                        "title": "Continuar curso",
                         "type": "postback"
                     }
                     ]
@@ -281,7 +281,7 @@ def listarMicrolernysTemplate (interface,info):
                     "buttons": [
                     {
                         "payload": "cargar recurso "+str(info[i]['id']) ,
-                        "title": "Seleccionar",
+                        "title": "Ver módulo",
                         "type": "postback"
                     }
                     ]
@@ -323,18 +323,18 @@ def pqrTemplate (interface):
                                     [
                                         {
                                             "title": "Tu inquietud ha sido guardada",
-                                            "image_url": "https://lerny.co/wp-content/uploads/2020/12/marca_lerny.jpg",
+                                            "image_url": "https://lerny.co/wp-content/uploads/2022/Menu_chatbot4.png",
                                             "subtitle": "Para continuar, por favor selecciona una opción.",
                                             "buttons":
                                             [
                                                 {
                                                     "type": "postback",
-                                                    "title": "Continuar lerny",
+                                                    "title": "Continuar curso",
                                                     "payload": "continuar_curso"
                                                 },
                                                 {
                                                     "type": "postback",
-                                                    "title": "ver microlernys",
+                                                    "title": "Ver módulos",
                                                     "payload": "LIST_MICROLERNYS"
                                                 },
                                             ]

@@ -54,24 +54,24 @@ cargarActividad={
 											"elements":
 											[
 												{
-													"title": "Tu respuesta ha sido guardada, deseas hacer algo más?",
-													"image_url": "https://lerny.co/wp-content/uploads/2020/12/marca_lerny.jpg",
+													"title": "¿Deseas hacer algo más?",
+													"image_url": "https://lerny.co/wp-content/uploads/2022/Menu_chatbot3.png",
 													"subtitle": "Para continuar, por favor selecciona una opción.",
 													"buttons":
 													[
 														{
 															"type": "postback",
-															"title": "Complementar",
+															"title": "Cargue su archivo",
 															"payload": "CARGAR_ARCHIVO"
 														},
 														{
 															"type": "postback",
-															"title": "Continuar lerny",
+															"title": "Continuar curso",
 															"payload": "continuar_curso"
 														},
 														{
 															"type": "postback",
-															"title": "ver microlernys",
+															"title": "Ver módulos",
 															"payload": "LIST_MICROLERNYS"
 														},
 													]
@@ -165,7 +165,7 @@ class ApiManager(APIView):
 					{
 						"text": {
 							"text": [
-								"Bienvenido a lerny"
+								"Bienvenido a lerny tu asistente educativo"
 							]
 						}
 					},
@@ -180,25 +180,25 @@ class ApiManager(APIView):
 												"elements":
 												[
 													{
-														"title": "Hola " + UserSerializer(user).data["user_name"] + ", un gusto volver a verte!",
-														"image_url": "https://lerny.co/wp-content/uploads/2020/12/marca_lerny.jpg",
+														"title": "Hola " + UserSerializer(user).data["user_name"] + ", es un gusto verte hoy",
+														"image_url": "https://lerny.co/wp-content/uploads/2022/Menu_chatbot1.png",
 														"subtitle": "Para comenzar por favor selecciona una opción.",
 														"buttons":
 														[
 															{
 																"type": "postback",
-																"title": "Continuar Lerny",
-																"payload": "CONTINUAR_CURSO"
+																"title": "Mis cursos",
+																"payload": "LISTAR_LERNYS"
 															},
 															{
 																"type": "postback",
-																"title": "ver Micro Lernys",
+																"title": "Módulos actuales", 
 																"payload": "LIST_MICROLERNYS"
 															},
 															{
 																"type": "postback",
-																"title": "Listar Lernys",
-																"payload": "LISTAR_LERNYS"
+																"title": "Continuar curso",
+																"payload": "CONTINUAR_CURSO"
 															}
 														]
 													}
@@ -227,7 +227,7 @@ class ApiManager(APIView):
 					data["fulfillmentMessages"].append({
 						"text": {
 							"text": [
-								"Debes seleccionar un lerny antes de continuar"
+								"Debes seleccionar un curso antes de continuar"
 							]
 						}
 					})
@@ -278,7 +278,7 @@ class ApiManager(APIView):
 					data["fulfillmentMessages"].append({
 						"text": {
 							"text": [
-								"Debes seleccionar un lerny antes de continuar"
+								"Debes seleccionar un curso antes de continuar"
 							]
 						}
 					})
@@ -337,7 +337,7 @@ class ApiManager(APIView):
 					data["fulfillmentMessages"].append({
 						"text": {
 							"text": [
-								"debes seleccionar un lerny antes de continuar"
+								"Debes seleccionar un curso antes de continuar"
 							]
 						}
 					})
@@ -422,7 +422,7 @@ class ApiManager(APIView):
 					print("actividades re asignadas sin problema")
 					data=datas
 				else:
-					previous_text="Actividades entregadas han sido asignadas al recurso "+str(objetive_resource.title)
+					previous_text="Tu archivo fue guardado en la actividad: "+str(objetive_resource.title)
 					data = {
 						"fulfillmentMessages": [
 							{
@@ -446,24 +446,24 @@ class ApiManager(APIView):
 										"elements":
 										[
 											{
-												"title": "Tu respuesta ha sido guardada, deseas hacer algo más?",
-												"image_url": "https://lerny.co/wp-content/uploads/2020/12/marca_lerny.jpg",
+												"title": "¿Deseas hacer algo más?",
+												"image_url": "https://lerny.co/wp-content/uploads/2022/Menu_chatbot3.png",
 												"subtitle": "Para continuar, por favor selecciona una opción.",
 												"buttons":
 												[
 													{
 														"type": "postback",
-														"title": "Complementar",
+														"title": "Cargue su archivo",
 														"payload": "CARGAR_ARCHIVO"
 													},
 													{
 														"type": "postback",
-														"title": "Continuar lerny",
+														"title": "Continuar curso",
 														"payload": "continuar_curso"
 													},
 													{
 														"type": "postback",
-														"title": "ver microlernys",
+														"title": "Ver módulos",
 														"payload": "LIST_MICROLERNYS"
 													},
 												]
@@ -600,31 +600,33 @@ class ApiManager(APIView):
 									
 				points_wrong = resource.points_wrong_answer #puntos por respuesta incorrecta
 				points_correct = resource.points_correct_answer #puntos por respuesta correcta
+				response_correct = resource.resporesponse_answer_correctnse_correct #respuesta correcta
+				response_wrong = resource.response_wrong_answer #respuesta incorrecta
 				points_user =User_quiz_logs.objects.filter(user_id=user_id_obj).count() #puntos acumulados del usuario
 				points_true = points_correct + points_user #puntos acumulados respuesta correcta
 				points_false = points_wrong + points_user #puntos acumulados respuesta incorrecta
 				correct = 0
 
-				retro = "Tu respuesta ha sido incorrecta " + str(response) + "has obtenido" + str(points_wrong) + "puntos, tu total es de " + str(points_false) + "puntos"
+				retro = "Has seleccionado la respuesta" + str(response) + " y es incorrecta" + str(response_wrong) + " has obtenido: " + str(points_wrong) + " puntos 🎖️ en el quiz; tu suma total de puntos es "+ str(points_false)
 
 				if(user_state.resource_id.first_button==response and resource.correct_answer_button==1):
 					points_user = points_true
-					retro = "Tu respuesta ha sido correcta " + str(response) + " y has obtenido " + str(points_correct) + " puntos en el quiz; tienes "+ str(points_true) +" de puntos totales"
+					retro = "Has seleccionado la respuesta" + str(response) + " y es correcta" + str(response_correct) + " has obtenido: " + str(points_correct) + " puntos 🎖️ en el quiz; tu suma total de puntos es "+ str(points_true) +" manifico 🤩"
 					correct = 1
 				if(user_state.resource_id.second_button==response and resource.correct_answer_button==2 ):
 					points_user = points_true
-					retro = "Tu respuesta ha sido correcta " + str(response) + " y has obtenido " + str(points_correct) + " puntos en el quiz; tienes "+ str(points_true) +" de puntos totales"
+					retro = "Has seleccionado la respuesta" + str(response) + " y es correcta" + str(response_correct) + " has obtenido: " + str(points_correct) + " puntos 🎖️ en el quiz; tu suma total de puntos es "+ str(points_true) +" manifico 🤩"
 					correct = 1
 				if(user_state.resource_id.third_button==response and resource.correct_answer_button==3):
 					points_user = points_true
-					retro = "Tu respuesta ha sido correcta " + str(response) + " y has obtenido " + str(points_correct) + " puntos en el quiz; tienes "+ str(points_true) +" de puntos totales"
+					retro = "Has seleccionado la respuesta" + str(response) + " y es correcta" + str(response_correct) + " has obtenido: " + str(points_correct) + " puntos 🎖️ en el quiz; tu suma total de puntos es "+ str(points_true) +" manifico 🤩"
 					correct = 1
 
 				if (resource.single_use):
 					if (u_quiz):
 
 						# Se realiza retro / tabnine()
-						retro = "Ya contesto este quiz, no puedes volver a contestarlo"
+						retro = "El quiz anterior, solo tiene habilitado un intento, tu respuesta no se puede guardar :/, continua aprendiendo con los siguientes recursos"
 					else:
 						quiz = User_quiz_logs()
 						quiz.user_id = user_id_obj

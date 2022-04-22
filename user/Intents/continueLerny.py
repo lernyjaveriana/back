@@ -134,7 +134,7 @@ def continueLerny(lerny_active,user_id_obj,user_id):
 		data = LernySerializer(lernys, many=True).data
 		i = 0
 		temp = []
-		previous_text = "Has terminado los microlernys asociados al lerny!"
+		previous_text = "Has terminado los modulos asociados al curso!"
 		while(i < len(data)):
 			print("IMPRESION LISTAR LERNY: "+ str(data[i]['id'])+") " + data[i]['lerny_name'])
 			temp.append(
@@ -145,7 +145,7 @@ def continueLerny(lerny_active,user_id_obj,user_id):
 					"buttons": [
 					{
 						"payload": "cargar lerny "+str(data[i]['id']),
-						"title": "Continuar Lerny",
+						"title": "Continuar curso",
 						"type": "postback"
 					}
 					]
@@ -194,7 +194,7 @@ def continueLerny(lerny_active,user_id_obj,user_id):
 				{
 					"text": {
 						"text": [
-							"si tiene problemas cargando el contenido del recurso, puede visualizarlo en el siguien enlace: ",
+							"También puedes visualizar el recurso a través de este enlace: ",
 						]
 
 					}
@@ -265,7 +265,7 @@ def continueLerny(lerny_active,user_id_obj,user_id):
 				{
 					"text": {
 						"text": [
-							"si tiene problemas cargando el contenido del recurso, puede visualizarlo en el siguien enlace: ",
+							"También puedes visualizar el recurso a través de este enlace: ",
 						]
 
 					}

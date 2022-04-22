@@ -59,9 +59,9 @@ class Resource(models.Model):
 	first_button = models.CharField('first button', max_length=200, blank=True)
 	second_button = models.CharField('second button', max_length=200, blank=True)
 	third_button = models.CharField('third button', max_length=200, blank=True)
-	correct_answer = models.CharField(
+	response_answer_correct = models.CharField(
 		'Correct answer', max_length=200, blank=True)
-	wrong_answer = models.CharField('Wrong answer', max_length=200, blank=True)
+	response_wrong_answer = models.CharField('Wrong answer', max_length=200, blank=True)
 	correct_answer_button = models.IntegerField(
 		'Correct answer button', default=1, blank=True)
 	single_use = models.BooleanField(default=False)		

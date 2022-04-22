@@ -61,7 +61,7 @@ def bienvenidaLernyTemplate (interface,user_name=None):
 				{
 					"text": {
 						"text": [
-							"Hola!, te damos la bienvenida a Lerny, soy un 🤖 con quien podrás aprender de manera sencilla y divertida."
+							"Hola!, te damos la bienvenida a Lerny, soy un 🤖 chatbot con quien podrás aprender de manera rápida y ágil."
 						]
 					}
 				},

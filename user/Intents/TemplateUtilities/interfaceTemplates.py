@@ -76,7 +76,7 @@ def bienvenidaLernyTemplate (interface,user_name=None):
 								"template_type": "generic",
 								"elements": [
 								{
-									"image_url": "https://lerny.co/wp-content/uploads/2022/Menu_chatbot1.png",
+									"image_url": "https://lerny.co/wp-content/uploads/2022/Personaje.png",
 									"buttons": [
 									# {
 									# 	"title": "Comprar curso",

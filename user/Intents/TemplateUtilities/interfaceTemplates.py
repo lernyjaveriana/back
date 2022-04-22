@@ -32,17 +32,17 @@ def bienvenidaLernyTemplate (interface,user_name=None):
                                                         [
                                                             {
                                                                 "type": "postback",
-                                                                "title": "Continuar Lerny",
+                                                                "title": "Continuar curso",
                                                                 "payload": "CONTINUAR_CURSO"
                                                             },
                                                             {
                                                                 "type": "postback",
-                                                                "title": "ver Micro Lernys",
+                                                                "title": "Ver módulos",
                                                                 "payload": "LIST_MICROLERNYS"
                                                             },
                                                             {
                                                                 "type": "postback",
-                                                                "title": "Listar Lernys",
+                                                                "title": "Ver cursos",
                                                                 "payload": "LISTAR_LERNYS"
                                                             }
                                                         ]

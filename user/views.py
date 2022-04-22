@@ -55,7 +55,7 @@ cargarActividad={
 											[
 												{
 													"title": "¿Deseas hacer algo más?",
-													"image_url": "https://lerny.co/wp-content/uploads/2022/Menu_chatbot3.png",
+													"image_url": "https://lerny.co/wp-content/uploads/2022/Menu_chatbot2.png",
 													"subtitle": "Para continuar, por favor selecciona una opción.",
 													"buttons":
 													[

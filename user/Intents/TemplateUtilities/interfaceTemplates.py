@@ -32,17 +32,17 @@ def bienvenidaLernyTemplate (interface,user_name=None):
                                                         [
                                                             {
                                                                 "type": "postback",
-                                                                "title": "Continuar Lerny",
+                                                                "title": "Continuar curso",
                                                                 "payload": "CONTINUAR_CURSO"
                                                             },
                                                             {
                                                                 "type": "postback",
-                                                                "title": "ver Micro Lernys",
+                                                                "title": "Ver módulos",
                                                                 "payload": "LIST_MICROLERNYS"
                                                             },
                                                             {
                                                                 "type": "postback",
-                                                                "title": "Listar Lernys",
+                                                                "title": "Ver cursos",
                                                                 "payload": "LISTAR_LERNYS"
                                                             }
                                                         ]
@@ -61,7 +61,7 @@ def bienvenidaLernyTemplate (interface,user_name=None):
 				{
 					"text": {
 						"text": [
-							"Hola!, te damos la bienvenida a Lerny, soy un 🤖 con quien podrás aprender de manera sencilla y divertida."
+							"Hola! te damos la bienvenida a Lerny, soy un 🤖 chatbot con quien podrás aprender de manera rápida y ágil."
 						]
 					}
 				},
@@ -76,7 +76,7 @@ def bienvenidaLernyTemplate (interface,user_name=None):
 								"template_type": "generic",
 								"elements": [
 								{
-									"image_url": "https://lerny.co/wp-content/uploads/2022/Menu_chatbot1.png",
+									"image_url": "https://lerny.co/wp-content/uploads/2022/Personaje.png",
 									"buttons": [
 									# {
 									# 	"title": "Comprar curso",

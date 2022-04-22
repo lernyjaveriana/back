@@ -55,7 +55,7 @@ cargarActividad={
 											[
 												{
 													"title": "¿Deseas hacer algo más?",
-													"image_url": "https://lerny.co/wp-content/uploads/2022/Menu_chatbot3.png",
+													"image_url": "https://lerny.co/wp-content/uploads/2022/Menu_chatbot2.png",
 													"subtitle": "Para continuar, por favor selecciona una opción.",
 													"buttons":
 													[
@@ -601,7 +601,7 @@ class ApiManager(APIView):
 									
 				points_wrong = resource.points_wrong_answer #puntos por respuesta incorrecta
 				points_correct = resource.points_correct_answer #puntos por respuesta correcta
-				response_correct = resource.resporesponse_answer_correctnse_correct #respuesta correcta
+				response_correct = resource.response_answer_correct #respuesta correcta
 				response_wrong = resource.response_wrong_answer #respuesta incorrecta
 				points_user =User_quiz_logs.objects.filter(user_id=user_id_obj).count() #puntos acumulados del usuario
 				points_true = points_correct + points_user #puntos acumulados respuesta correcta

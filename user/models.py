@@ -15,7 +15,7 @@ class MyUserManager(BaseUserManager):
     def create_user(self, user_name, user_surname, country, city, mail, identification, password):
 
         if not identification:
-            raise ValueError("debe ingresar numero de identificacion")
+            raise ValueError("debe ingresar numero de identificación")
 
         password = make_password(password)
         user = self.model(

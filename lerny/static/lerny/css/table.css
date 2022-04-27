@@ -116,3 +116,7 @@ div.dt-buttons {
 .puntos {
     margin-left: 50px;
 }
+
+ul#dropmenu_profile {
+    margin-right: 50px !important;
+}

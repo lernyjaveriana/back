@@ -47,7 +47,7 @@ class Resource(models.Model):
 	description = models.CharField('description', max_length=300)
 	content_type = models.CharField(
 		'microlerny title', max_length=200, null=False)
-	previous_text = models.CharField('previous text', max_length=600, blank=True)
+	previous_text = models.CharField('previous text', max_length=4000, blank=True)
 	phase = models.CharField('phase', max_length=3, null=False)
 	creation_date = models.DateTimeField('creation date', auto_now_add=True)
 	points_correct_answer = models.FloatField('points correct answer', default=1, blank=True)
